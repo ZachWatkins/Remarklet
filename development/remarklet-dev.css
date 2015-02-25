@@ -1,0 +1,270 @@
+/*! jQuery UI - v1.11.2 - 2015-01-13
+* http://jqueryui.com
+* Includes: core.css, draggable.css, resizable.css
+* Copyright 2015 jQuery Foundation and other contributors; Licensed MIT */
+
+.ui-helper-hidden{display:none}.ui-helper-hidden-accessible{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.ui-helper-reset{margin:0;padding:0;border:0;outline:0;line-height:1.3;text-decoration:none;font-size:100%;list-style:none}.ui-helper-clearfix:before,.ui-helper-clearfix:after{content:"";display:table;border-collapse:collapse}.ui-helper-clearfix:after{clear:both}.ui-helper-clearfix{min-height:0}.ui-helper-zfix{width:100%;height:100%;top:0;left:0;position:absolute;opacity:0;filter:Alpha(Opacity=0)}.ui-front{z-index:100}.ui-state-disabled{cursor:default!important}.ui-icon{display:block;text-indent:-99999px;overflow:hidden;background-repeat:no-repeat}.ui-widget-overlay{position:fixed;top:0;left:0;width:100%;height:100%}.ui-draggable-handle{-ms-touch-action:none;touch-action:none}.ui-resizable{position:relative}.ui-resizable-handle{position:absolute;font-size:0.1px;display:block;-ms-touch-action:none;touch-action:none}.ui-resizable-disabled .ui-resizable-handle,.ui-resizable-autohide .ui-resizable-handle{display:none}.ui-resizable-n{cursor:n-resize;height:7px;width:100%;top:-5px;left:0}.ui-resizable-s{cursor:s-resize;height:7px;width:100%;bottom:-5px;left:0}.ui-resizable-e{cursor:e-resize;width:7px;right:-5px;top:0;height:100%}.ui-resizable-w{cursor:w-resize;width:7px;left:-5px;top:0;height:100%}.ui-resizable-se{cursor:se-resize;width:12px;height:12px;right:1px;bottom:1px}.ui-resizable-sw{cursor:sw-resize;width:9px;height:9px;left:-5px;bottom:-5px}.ui-resizable-nw{cursor:nw-resize;width:9px;height:9px;left:-5px;top:-5px}.ui-resizable-ne{cursor:ne-resize;width:9px;height:9px;right:-5px;top:-5px}
+
+/*! Remarklet - v1 - 2015-1-13
+* by Zach Watkins (zwatkins7@yahoo.com)
+* http://remarklet.com
+* licensed under an MIT license. */
+#remarklet-menu,
+#remarklet-grid,
+#remarklet-ui-usercss,
+#remarklet-prompt,
+#remarklet-prompt-window {
+    position: fixed;
+	z-index: 2147483647;
+}
+#remarklet-menu {
+    display: inline-block;
+	top: 0;
+	left: 0;
+	color: #000;
+	background-color: #fafafa;
+	font-size: 14px;
+    height: 24px;
+	border: 1px solid #eee;
+	border-width: 0 1px 1px 0;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+#remarklet-menu:before {
+	content: "";
+	display: inline-block;
+	vertical-align: top;
+	width: 24px;
+	height: 24px;
+    margin: 0 10px 0 0;
+	background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAAH6ji2bAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABBFJREFUeNpi+M/A8P+/muJ1BhD4zwbk/P/P8N+G4T8Twy+gyKTCCQyv5R8BBBADSNk2ZoZ1TAxeDAyeq7PvMjFcBErvu6cKEECMICkGVSAHhP8A8VUGBiYGZiBDEYizCiYxpGX1MMgyMAAEENiQ/9zcn/9zMPzhZWDghNjJBRQE2vffD4iNGf5nMTIkMPzXAHJSoY6JA9KSIAeBDOcUfMuwLrMX7Li/IO1MIO2Cb/4bQVRzMDCwAgQQxCIQ5gRiWSAGGacNxCpALMbwfzYTw0SQ3RC3g5wmD8TSQMwHxEAjGH4A8XMgfgzED0D+4YBKCgGxstAbhqxV/gyT/jMydD2QYRADigkCMS9IIUjnayB+CsR3gQquHXNiSAZadGa3IwOPww6GFwwM398wfEa4kRGI5YAeuHhWF+zdg3scwDQQi4mJMQAEYJLceRIIoih8ZlxxfYQNEWJI0MLW2Nn4BzQWYEtCSaE9lCQWVBb+CStqawutLWjsbNSEQuMqKgtsiFzPPDa6yZe7d+dkMvfb+Qsajqs9WdbJSw5PTYUG/j1uGMW3dRL5QeYkITGwkECzlcDGN0jZh1e8zC/Yv/IzwFyNoDRW+aHkg1teU4Vs+g2KQEehBSNV9kmDXLW62QByylJ18ichvjUFwd4NUw/PzpG8RfY40dIUgVsLNdbc7UvJ2IRzKdqloQ0O0hATt/Yww32AEZuhO7hxhU9Sp4weze6wsq/NUHMe82SbpNNF2WU9KrzK5cWJPD+Wr4EbdyMz2QF5jwvyEeflYO82G+qu37e5XwHqKJtQiKIwDL8zxiAuY0SsjIWF1GwkYSUbpKTZMaXJSrKwsFKjpMlYWI2a3SglUhZ+0mxslEJiNE00O+R/GGOaX+Y659zvcke59da5p3Oec8/7vffLr4yqQp5xJh5rM1Otkl7hEH+XIAeNOLPrYMOfR6mgGFFRWKJEDfi4CDzainugymbJpCRVmXmxHIfXkcPYL5DbaqJIlBO0TAM1EJAnIEOOc9gHJYIZGIni3pqGVScXMGAF5b2SwCYC8y/tdCyhZXgNOXb0+eoQDn1jAvhO4pV6UxSI4kjHeoEsAFUENBOwpjiB6ctGmOrv8kyKhC1wN1/hJWsUsFcCvirSC1+0+qK2pC9JQqp7xoZjGd7ubcg5BXjksyPOYOpazd5PGSkliRqDhSfqifyahaYogvv9mCiQsTc7hT7XHBptK7iltXHay2zwpLGoF6fGCfDC9ETN5o4SzOfCNOeZWUAHq2PTwBY23ySUWo95Q+L/83wMzskcpg1qGAU0QacW0XV4lm4SJUhZwugaXMfFSSt2D3p+/NwJtGVDoYb23t7Yaew68n+wucysTz0+VP/83kwZt2v8YXTEqZ1T5ff7IUkSvgFVP/ADiWRpywAAAABJRU5ErkJggg==) no-repeat center center;
+}
+#remarklet-menu ol {
+    display: inline-block;
+    vertical-align: top;
+	margin: 0;
+    padding: 0;
+	white-space: nowrap;
+}
+#remarklet-menu ol li {
+    display: block;
+	padding: 0 10px;
+    cursor: pointer;
+}
+#remarklet-menu ol li:hover {
+	background-color: #f0f0f0;
+}
+#remarklet-menu ol li li:active {
+	box-shadow: 0 0 2px #FF3E00 inset;
+	background-color: #e0e0e0;
+}
+#remarklet-menu ol.remarklet-menuitem {
+    position: relative;
+}
+#remarklet-menu ol.remarklet-menuitem > li {
+    line-height: 24px;
+}
+#remarklet-menu .remarklet-submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+#remarklet-menu .remarklet-submenu li {
+    display: none;
+    padding: 2px 10px;
+	background-color: #fafafa;
+}
+#remarklet-grid {
+    visibility: hidden;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+	opacity: 0.2;
+	background-color: transparent;
+	background-image: linear-gradient(#7f7f7f 2px, transparent 2px),
+      linear-gradient(90deg, #7f7f7f 2px, transparent 2px),
+      linear-gradient(rgba(127,127,127,.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,127,127,.3) 1px, transparent 1px);
+	background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+	background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+.remarklet-show-grid #remarklet-grid,
+.remarklet-show-usercss #remarklet-ui-usercss {
+    visibility: visible;
+}
+#remarklet-ui-usercss {
+	border: 1px solid #eee;
+	border-width: 1px 1px 0 0;
+	background-color: #fafafa;
+	bottom: 0;
+	left: 0;
+    visibility: hidden;
+	font: normal 14px Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+#remarklet-ui-usercss:after {
+	content: attr(data-remarklet);
+	opacity: 0.5;
+	position: absolute;
+	top: 20px;
+	right: 16px;
+  padding: 2px 5px;
+}
+#remarklet-usercss-editor {
+	overflow-y: scroll;
+	font: normal 14px Consolas, Courier, serif;
+	white-space: pre;
+	text-align: left;
+	background: #fff;
+	width: 500px;
+	height: 200px;
+	padding: 10px;
+	margin-top: 2px;
+	border-top: 1px solid #eee;
+}
+#remarklet-menu ol.remarklet-menuitem:hover .remarklet-submenu li,
+#remarklet-menu .remarklet-submenu:hover li {
+    display: block;
+}
+.remarklet-target,
+.remarklet-show-outlines .remarklet {
+	box-shadow: 0 0 5px #0000ff!important;
+}
+.remarklet-textmode .remarklet-target {
+	cursor: text;
+}
+.remarklet-dragmode .remarklet-target {
+	cursor: pointer;
+}
+.remarklet-target {
+	cursor: pointer;
+}
+.ui-resizable {
+	box-shadow: 0 0 0 1px #000!important;
+}
+.ui-resizable-handle {
+	outline: 1px solid #000;
+	width: 10px;
+	height: 10px;
+	background-color: rgba(255,255,255,0.75);
+	position: absolute;
+}
+.ui-resizable-s {
+	left: 50%;
+	margin-left: -5px;
+	top: auto;
+	bottom: 0px;
+}
+.ui-resizable-se {
+	right: 0;
+	bottom: 0;
+}
+.ui-resizable-e {
+	right: 0;
+	margin-top: -5px;
+	top: 50%;
+}
+.ui-resizable-sw {
+	left: 0;
+	bottom: 0;
+}
+.ui-resizable-w {
+	left: 0;
+	top: 50%;
+	margin-top: -6px;
+}
+.ui-resizable-nw {
+	left: 0;
+	top: 0;
+}
+.ui-resizable-n {
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+}
+.ui-resizable-ne {
+	top: 0px;
+	right: 0px;
+}
+.remarklet-deleted {
+	display:none!important;
+}
+#remarklet-box {
+	position: absolute;
+	width: 2px;
+	height: 2px;
+	left: 50%;
+	margin-left: -1px;
+	top: 0;
+}
+.remarklet-newimg,
+.remarklet-note {
+	position: absolute;
+	z-index: 2147483647;
+}
+.remarklet-note {
+	background-color: #feff81;
+	padding: 10px;
+	font-family: monospace;
+	box-shadow: 0 3px 5px #000;
+	word-wrap: break-word;
+}
+#remarklet-prompt,
+#remarklet-prompt-window {
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+}
+#remarklet-prompt-content {
+	background-color: #fff;
+	width: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -250px;
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #000;
+}
+#remarklet-prompt-form label {
+	display: block;
+	font: normal 16px Arial, Helvetica, sans-serif;
+}
+#remarklet-prompt-form input{
+	margin: 10px auto;
+	width: 400px;
+}
+.remarklet-hovernote {
+	border-radius: 4px 4px 4px 4px;
+	background-color: #FFFFCC;
+	color: #000;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 18px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	border: 1px solid #E0CD62;
+	cursor: pointer;
+}
+#remarklet-prompt textarea {
+	width: 80%;
+	height: 200px;
+}
+#remarklet-prompt-form input#remarklet-imgdimensions,
+#remarklet-prompt-form input#remarklet-textcolor,
+#remarklet-prompt-form input#remarklet-bgcolor {
+	width: 70px;
+}
+#remarklet-prompt-form input#remarklet-text {
+	width: 160px;
+}
+div.remarklet-newimg {
+    font: normal 16px Arial, Helvetica, sans-serif;
+}
