@@ -62,6 +62,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
+			console.log($target.attr('style'));
 			stylesheet.setRule('.remarklet-' + $target.data('remarklet'), $target.attr('style'));
 			$target.removeAttr('style');
 			usercommand.updateUserCSSUI();
@@ -781,7 +782,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		views.build();
 		duplicate.setSheet(views.usercss.get(0));
 		/* Event delegation for non-app elements. */
-		remarklet.docEvents.toggle('on');
+		docElementEvents.toggle('on');
 	};
 	remarklet.init();
 	/* http://remysharp.com/2009/02/27/analytics-for-bookmarklets-injected-scripts/ */
