@@ -77,6 +77,48 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		}
 	};
 	var _getBlobURL = (window.URL && URL.createObjectURL.bind(URL)) || (window.webkitURL && webkitURL.createObjectURL.bind(webkitURL)) || window.createObjectURL;
+	var settings = preferences;
+	/* Stored Object module. */
+	var storedObject = (function(){
+		var dbname, def, dataset = {};
+		var set = function(name, data){
+			if(data){
+				dataset[name] = data;
+			} else if(typeof name == 'object'){
+				dataset = name;
+			}
+			localStorage[dbname] = JSON.stringify(dataset);
+			return this; 
+		};
+		return {
+			init: function(uniquename, defs){
+				var name, storage;
+				dbname = uniquename;
+			    dataset = Object.create(defs);
+			    def = Object.create(defs);
+			    if(localStorage[dbname] !== undefined){
+				    storage = JSON.parse(localStorage[dbname]);
+				    for(name in storage){
+					    dataset[name] = storage[name];
+				    }
+			    }
+			    return this;
+			},
+			get: function(name){
+			    if(name){
+				    return dataset[name];
+			    } else {
+				    return dataset;
+			    }
+			},
+			set: set,
+			reset: function(){
+			    set(def);
+			    localStorage.removeItem(dbname);
+			    return this;
+			}
+		};
+	}());
 	/* Stylesheet Module */
 	var stylesheet = (function(){
 		var style;
