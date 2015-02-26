@@ -44,7 +44,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 	};
 	var views = {
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
-		csseditor: $('<div id="remarklet-ui-usercss" class="remarklet-do-resize remarklet-dont-edit">CSS Changes<div id="remarklet-usercss-editor" ></div></div>'),
+		csseditor: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"><textarea id="remarklet-usercss-editor" ></textarea></div>'),
 		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),
 		help: $('<div id="remarklet-ui-help" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
 		gridoverlay: $('<div id="remarklet-grid"></div>'),
@@ -53,13 +53,14 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 	};
 	var dragOps = {
 		start: function(event, ui){
+			console.log('startdrag');
 			_dragging = true;
 			_target = $(event.target);
 			$b.off('mousemove', _mouse.update);
 		},
 		stop: function(event, ui){
 			var $target = $(event.target),
-				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,'');
+				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
@@ -68,7 +69,11 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			usercommand.updateUserCSSUI();
 		}
 	};
-	var resizeOps = {};
+	var resizeOps = {
+		start: function(event, ui){
+			console.log('startresize');
+		}
+	};
 	var _mouse = {
 		x: null,
 		y: null,
@@ -402,17 +407,6 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			open: open
 		};
 	}());
-	var getLastEdited = function(){
-		/* Unfortunately, getting the last element doesn't mean it will have the largest edit number. */
-		var last = 0;
-		$('.remarklet').each(function(item){
-			var curint = parseInt(this.className.match(/remarklet-([0-9]+)/)[1]);
-			if(curint > last){
-				last = curint;
-			}
-		});
-		return last;
-	};
 	/* Define commands that the user can execute */
 	var usercommand = {
 		addImage: function(){
@@ -533,18 +527,18 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			}
 		},
 		updateUserCSS: function(e){
-			stylesheet.fromHTML(views.csseditor.find('div').html());
+			stylesheet.fromHTML(views.csseditor.find('textarea').val());
 		},
 		updateUserCSSUI: function(e){
 			var rules = stylesheet.getRules(),
-				html = '',
+				css = '',
 				name;
 			for(name in rules){
-				html += name;
-				html += ' ';
-				html += rules[name].replace(/({|;\s?)/g,'$1<br>    ').replace('    }','}<br>');
+				css += name;
+				css += ' ';
+				css += rules[name].replace(/({|;)\s?/g,'$1\n    ').replace('    }','}\n');
 			}
-			views.csseditor.find('div').html(html);
+			views.csseditor.find('textarea').val(css);
 		},
 		viewgrid: function(){
 			$b.toggleClass('remarklet-show-grid');
@@ -554,10 +548,11 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		},
 		viewusercss: function(){
 			$b.toggleClass('remarklet-show-usercss');
-			views.csseditor.find('div').attr('contenteditable', function(){
-				return this.contentEditable != 'true';
-			});
-			$('.remarklet-show-usercss #remarklet-usercss-editor').focus();
+			if($b.hasClass('remarklet-show-usercss')){
+				views.csseditor.find('textarea').focus();
+			} else {
+				views.csseditor.find('textarea').blur();
+			}
 		},
 		viewPreferences: function(){
 			// Use a prompt window to visualize the remarklet.preferences object, and customizations are saved in localStorage using the localSettings module.
@@ -669,7 +664,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			}
 			selector += '.remarklet-';
 			selector += $this.data('remarklet');
-			views.csseditor.attr('data-remarklet', selector);
+			views.csseditor.attr('data-remarklet-selector', selector);
 			e.stopPropagation();
 		},
 		mouseout: function(e){
@@ -714,7 +709,6 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		}
 	};
 	views.build = function(){
-		/* Build menu */
 		var name, subname, prop, $menu, $submenu;
 		var m = {
 			File: {
@@ -761,23 +755,31 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		views.csseditor.on('stoptyping', usercommand.updateUserCSS);
 		$w.on('keydown', usercommand.keyboardshortcuts);
 		
+		/* Insert app elements into page. */
+		views.box.add(views.usercss).appendTo($b);
+		views.retained = views.gridoverlay.add(views.csseditor).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
+	};
+	remarklet.init = function(){		
+		/* Tag all non-app page elements we may want to interact with. */
+		var last = 0;
+		$('.remarklet').each(function(){
+			var num = parseInt(this.className.match(/remarklet-([0-9]+)/)[1]);
+			if(num > last){
+				last = num;
+			}
+		});
+		$b.find('*:not(:hidden,.remarklet)').each(function(){
+			last++;
+			var num = last;
+			$(this).data('remarklet',num).addClass('remarklet remarklet-' + num);
+		});
+		_stored.editcounter = last;
+		
 		/* Initialize modules. */
 		prompt.init('remarklet');
 		stylesheet.init(views.usercss.get(0), usercommand.updateUserCSSUI);
 		duplicate.init(stylesheet);
 		
-		/* Insert app elements into page. */
-		views.box.add(views.usercss).appendTo($b);
-		views.retained = views.gridoverlay.add(views.csseditor).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
-	};
-	remarklet.init = function(){
-		$.noConflict();
-		/* Tag all non-app page elements we may want to interact with. */
-		$b.find('*:not(:hidden,.remarklet)').each(function(index, item){
-			var num = index + _stored.editcounter;
-			$(item).data('remarklet',num).addClass('remarklet remarklet-' + num);
-		});
-		_stored.editcounter = getLastEdited();
 		/* Add UI Elements to page. */
 		views.build();
 		duplicate.setSheet(views.usercss.get(0));

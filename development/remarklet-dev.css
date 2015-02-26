@@ -101,11 +101,14 @@
 	bottom: 0;
 	left: 0;
     visibility: hidden;
-	font: normal 14px Arial, Helvetica, sans-serif;
 	text-align: center;
 }
-#remarklet-ui-usercss:after {
-	content: attr(data-remarklet);
+#remarklet-ui-usercss::before {
+	content: "CSS Changes";
+	font: normal 14px Arial, Helvetica, sans-serif;
+}
+#remarklet-ui-usercss::after {
+	content: attr(data-remarklet-selector);
 	opacity: 0.5;
 	position: absolute;
 	top: 20px;
@@ -113,6 +116,7 @@
   padding: 2px 5px;
 }
 #remarklet-usercss-editor {
+	display: block;
 	overflow-y: scroll;
 	font: normal 14px Consolas, Courier, serif;
 	white-space: pre;
@@ -123,6 +127,7 @@
 	padding: 10px;
 	margin-top: 2px;
 	border-top: 1px solid #eee;
+	border-width: 1px 0 0 0;
 }
 #remarklet-menu ol.remarklet-menuitem:hover .remarklet-submenu li,
 #remarklet-menu .remarklet-submenu:hover li {
