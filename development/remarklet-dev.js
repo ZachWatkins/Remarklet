@@ -58,12 +58,12 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			$b.off('mousemove', _mouse.update);
 		},
 		stop: function(event, ui){
-			var $target = $(event.target);
+			var $target = $(event.target),
+				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,'');
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
-			console.log($target.attr('style'));
-			stylesheet.setRule('.remarklet-' + $target.data('remarklet'), $target.attr('style'));
+			stylesheet.setRule('.remarklet-' + $target.data('remarklet'), style);
 			$target.removeAttr('style');
 			usercommand.updateUserCSSUI();
 		}
