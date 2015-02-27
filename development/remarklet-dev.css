@@ -204,18 +204,6 @@
 	margin-left: -1px;
 	top: 0;
 }
-.remarklet-newimg,
-.remarklet-note {
-	position: absolute;
-	z-index: 2147483647;
-}
-.remarklet-note {
-	background-color: #feff81;
-	padding: 10px;
-	font-family: monospace;
-	box-shadow: 0 3px 5px #000;
-	word-wrap: break-word;
-}
 #remarklet-prompt,
 #remarklet-prompt-window {
 	display: none;
@@ -269,7 +257,4 @@
 }
 #remarklet-prompt-form input#remarklet-text {
 	width: 160px;
-}
-div.remarklet-newimg {
-    font: normal 16px Arial, Helvetica, sans-serif;
 }
