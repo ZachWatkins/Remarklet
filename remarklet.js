@@ -3,13 +3,16 @@
  https://remarklet.com
  licensed under the MIT License.
 */
-require.config({
+requirejs.config({
 	paths:{
-		jquery:'jquery-2.1.3.min',
-		jqueryui:'jquery-ui.min'
+		'jquery':'jquery-2.1.3.min',
+		'jqueryui':'jquery-ui.min'
+	},
+	shim: {
+		'rangyinputs-jquery': ['jquery']
 	}
 });
-requirejs(['jquery','jqueryui'], function($, $ui){
+requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	/* Stored Object module. */
 	var storedObject = (function(){
 		var dbname, def, dataset = {};
@@ -53,17 +56,40 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 	}());
 	/* Stylesheet Module */
 	var stylesheet = (function(){
-		var style;
-		var rules = {};
+		var style, indent, rules = {},
+			rulesToString = function(){
+				var css = '',
+					name;
+				for(name in rules){
+					css += name;
+					css += ' ';
+					css += rules[name];
+					css += '\n';
+				}
+				css.replace(/\n$/,'');
+				return css;
+			},
+			setString = function(str){
+				if(style.textContent != str){
+					var t, arr = str.split('}').slice(0,-1);
+					rules = {};
+					for(var i=0, len=arr.length; i<len; i++){
+						t = arr[i].split('{');
+						rules[t[0].trim()] = '{' + t[1] + '}';
+					}
+					style.textContent = str;
+				}
+			};
 		return {
-			init: function(obj){
-				style = obj;
+			init: function(args){
+				style = args.element;
+				indent = args.indent;
 			},
 			setRule: function(selector, rule){
 				if(!rule) return;
-				var found = false,
+				var ruletext, found = false,
 					i = style.sheet.cssRules.length-1;
-				rule = '{' + rule + '}';
+				ruletext = '{\n' + indent + rule.replace(/; (\w)/g, ';\n'+indent+'$1') + '\n}';
 				while(i >= 0){
 					if(selector == style.sheet.cssRules[i].selectorText){
 						found = style.sheet.cssRules[i];
@@ -72,41 +98,41 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 					i--;
 				}
 				if(!found){
-					style.sheet.insertRule(selector + rule, style.sheet.cssRules.length);
+					style.sheet.insertRule(selector + ruletext, style.sheet.cssRules.length);
 				} else {
-					found.style.cssText = found.style.cssText.replace(/}.*$/,'') + rule.slice(1);
-					rule = '{'+found.style.cssText+'}';
+					var inline, existing, len, j, a = {};
+					inline = rule.replace(/(:|;)\s/g,'$1').split(';');
+					inline.pop();
+					existing = found.style.cssText.replace(/(:|;)\s/g,'$1').split(';');
+					existing.pop();
+					for(i=0, len = inline.length; i < len; i++){
+						j = inline[i].split(':');
+						a[j[0]] = j[1];
+					}
+					for(i=0, len = existing.length; i < len; i++){
+						j = existing[i].split(':');
+						if(a.hasOwnProperty(j[0])){
+							existing[i] = j[0]+':'+a[j[0]];
+							delete a[j[0]];
+						}
+					}
+					for(i in a){
+						existing.push(i+':'+a[i]);
+					}
+					existing = existing.join(';').replace(/(:|;)/g,'$1 ').replace(/\s$/,'')+';';
+					found.style.cssText = existing;
+					existing = '{\n' + indent + existing.replace(/; /g,';\n' + indent) + '\n}';
+					ruletext = existing;
 				}
-				rules[selector] = rule;
+				rules[selector] = ruletext;
+				style.textContent = rulesToString();
 			},
-			setString: function(html){
-				var t, name;
-				html = html.replace(/<br>/g,' ').replace(/(&nbsp;|\s)+/g,' ').replace(/\s*([{}]+)\s+/g,'$1').split('}').slice(0,-1);
-				rules = {};
-				for(var i=0, len=html.length; i<len; i++){
-					t = html[i].split('{');
-					rules[t[0]] = '{' + t[1] + '}';
-				}
-				t = '';
-				for(name in rules){ 
-					t += name;
-					t += ' ';
-					t += rules[name].replace(/({|;)\s*/g,'$1\n    ').replace('    }','}\n');
-				}
-				style.textContent = t;
-			},
+			setString: setString,
 			getRules: function(){
 				return rules;
 			},
 			getString: function(){
-				var css = '',
-					name;
-				for(name in rules){
-					css += name;
-					css += ' ';
-					css += rules[name].replace(/({|;)\s?/g,'$1\n    ').replace('    }','}\n');
-				}
-				return css;
+				return style.textContent;
 			}
 		};
 	}());
@@ -363,18 +389,18 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		/* Help */
 	};
 	var preferences = {
-		'Grid': {
+		Grid: {
 			'Size': '100px',
 			'Division': 5,
 			'Background': 'transparent',
 			'Lines': '#fff'
 		},
-		'CSS Editor': {
-			'Indentation': '    ',
+		CSS_Editor: {
+			Indentation: '    ',
 			'Font Size': '12pt',
 			'Update': 500
 		},
-		'Export': {
+		Export: {
 			'Disable Javascript': true,
 			'Show Browser Info': false,
 			'Require Absolute URLs': true
@@ -382,7 +408,8 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 	};
 	var views = {
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
-		csseditor: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"><textarea id="remarklet-usercss-editor" ></textarea></div>'),
+		csswindow: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"></div>'),
+		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" ></textarea>'),
 		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),
 		help: $('<div id="remarklet-ui-help" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
 		gridoverlay: $('<div id="remarklet-grid"></div>'),
@@ -390,17 +417,14 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		box: $('#remarklet-box').length === 0 ? $('<div id="remarklet-box"></div>') : $('#remarklet-box')
 	};
 	var controllers = {
-		body: { /* Event delegation for visible, non-app elements. */
+		bodyElements: { /* Event delegation for visible, non-app elements. */
 			mouseover: function(e){
 				if(_dragging) return;
-				_target = $(this).addClass('remarklet-target');
-				var $this = _target;
+				var $this = _target = $(this).addClass('remarklet-target');
 				switch(_mode){
 					case 'drag':
-						if(!$this.hasClass('ui-resizable')){
+						if(this.className.search(/ui-(resizable|wrapper)/) < 0){
 							$this.draggable(dragOps);
-						} else {
-							$this.parent().draggable(dragOps);
 						}
 						break;
 					case 'text':
@@ -416,7 +440,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 				}
 				selector += '.remarklet-';
 				selector += $this.data('remarklet');
-				views.csseditor.attr('data-remarklet-selector', selector);
+				views.csswindow.attr('data-remarklet-selector', selector);
 				e.stopPropagation();
 			},
 			mouseout: function(e){
@@ -445,97 +469,163 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			toggle: function(state){
 				var name;
 				if(state == 'on'){
-					for(name in controllers.body){
+					for(name in controllers.bodyElements){
 						if(name != 'toggle'){
-							$b.on(name, '.remarklet', controllers.body[name]);
+							$b.on(name, '.remarklet', controllers.bodyElements[name]);
 						}
 					}
 				} else {
-					for(name in controllers.body){
+					for(name in controllers.bodyElements){
 						if(name != 'toggle'){
-							$b.off(name, '.remarklet', controllers.body[name]);
+							$b.off(name, '.remarklet', controllers.bodyElements[name]);
 						}
 					}
 				}
 			}
 		},
 		window: function(e){ /* Window keyboard shortcuts */
-			switch(e.keyCode){
-				case 67: /*C*/
-					if(_mode == 'drag' && e.ctrlKey){
-						remarklet.clipboard = _target;
-					}
-					break;
-				case 84: /*T*/
-					if(_mode == 'drag'){
+			if(_mode == 'drag'){
+				switch(e.keyCode){
+					case 67: /*C*/
+						if(e.ctrlKey){
+							remarklet.clipboard = _target;
+						}
+						break;
+					case 84: /*T*/
 						if(!e.ctrlKey){
 							controllers.switchmode('text');
 							e.preventDefault();
 						} else if(e.altKey){
-							_target.resizable(remarklet.resizeOps);
+							// Resolve existing draggable instances.
+							/*$('.ui-draggable').each(function(){
+								$(this).trigger('dragstop').draggable('destroy');
+							});*/
+							$('.ui-resizable,.ui-wrapper').each(function(){
+								var $this = $(this);
+								if($this.resizable('instance') != undefined){
+									$this.trigger('resizestop').resizable('destroy');
+								}
+							});
+							_target.resizable(resizeOps);
+							//e.preventDefault();
+						}
+						break;
+					case 86: /*V*/
+						if(e.ctrlKey){
+							_stored.editcounter++;
+							if(remarklet.clipboard.draggable('instance')){
+								remarklet.clipboard.draggable('destroy');
+							}
+							var original = remarklet.clipboard.removeClass('remarklet-target').get(0);
+							var dupe = duplicate.create(original, original, {id: '', class: 'remarklet remarklet-' + _stored.editcounter});
+							$(dupe).data('remarklet', _stored.editcounter);
+						}
+						break;
+					case 13: /*Enter*/
+						if($('.ui-resizable').length > 0){
+							var $target = $('.ui-resizable'),
+								style = $target.attr('style').replace(/(resize|position|right|bottom): (auto|none|static);\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
+							$target.resizable('destroy');
+							controllers.finishChangingElement($target, style, true);
+						}
+						break;
+					case 46: /*Del*/
+							_target.remove();
+						break;
+					case 37: /* Left Arrow */
+						if(!e.ctrlKey){
+							_target.css('left', '-=1');
+						} else {
+							_target.css('left', '-=10');
+						}
+						e.preventDefault();
+						break;
+					case 38: /* Up Arrow */
+						if(!e.ctrlKey){
+							_target.css('top', '-=1');
+						} else {
+							_target.css('top', '-=10');
+						}
+						e.preventDefault();
+						break;
+					case 39: /* Right Arrow */
+						if(!e.ctrlKey){
+							_target.css('left', '+=1');
+						} else {
+							_target.css('left', '+=10');
+						}
+						e.preventDefault();
+						break;
+					case 40: /* Down Arrow */
+						if(!e.ctrlKey){
+							_target.css('top', '+=1');
+						} else {
+							_target.css('top', '+=10');
+						}
+						e.preventDefault();
+						break;
+					default: break;
+				}
+			} else {
+				switch(e.keyCode){
+					case 86: /*V*/
+						if(!_texttarget){
+							controllers.switchmode('drag');
 							e.preventDefault();
 						}
-					}
-					break;
-				case 86: /*V*/
-					if(_mode == 'drag' && e.ctrlKey){
-						_stored.editcounter++;
-						if(remarklet.clipboard.draggable('instance')){
-							remarklet.clipboard.draggable('destroy');
+						break;
+					case 13: /*Enter*/
+						if(e.ctrlKey){
+							controllers.switchmode('drag');
+							e.preventDefault();
+							e.stopPropagation();
 						}
-						var original = remarklet.clipboard.removeClass('remarklet-target').get(0);
-						var dupe = duplicate.create(original, original, {id: '', class: 'remarklet remarklet-' + _stored.editcounter});
-						$(dupe).data('remarklet', _stored.editcounter);
-					} else if(_mode == 'text' && !_texttarget){
-						controllers.switchmode('drag');
-						e.preventDefault();
-					}
-					break;
-				case 13: /*Enter*/
-					if(_mode == 'drag' && $('.ui-resizable').length > 0){
-						var $target = $('.ui-resizable'),
-							style = $target.attr('style').replace(/(resize|position|right|bottom): (auto|none|static);\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
-						$target.resizable('destroy');
-						stylesheet.setRule('.remarklet-' + $target.data('remarklet'), style);
-						controllers.updateUserCSSUI();
-						$target.removeAttr('style');
-					} else if(_mode == 'text' && e.ctrlKey){
-						controllers.switchmode('drag');
-						e.preventDefault();
-						e.stopPropagation();
-					}
-					break;
-				case 46: /*Del*/
-					if(_mode == 'drag'){
-						_target.remove();
-					}
-					break;
-				default: break;
+						break;
+					default: break;
+				}
 			}
 		},
-		userCSSTextEditor: function(e){
+		userCSSEditorKeyHandler: function(e){
 			e.stopPropagation();
+			var selection, val, lastchar;
+			switch(e.keyCode){
+				case 13: /* Enter, Insert indentation when pressing Enter after ; or { */
+					selection = views.csstextarea.getSelection();
+					lastchar = views.csstextarea.val().charAt(selection.start-1);
+					if(selection.length == 0 && (lastchar == ';' || lastchar == '{')){
+						e.preventDefault();
+						views.csstextarea.insertText('\n'+preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+					}
+					break;
+				case 9: /* Tab, Prevent tab key from moving out of the field, insert indentation instead. */
+					selection = views.csstextarea.getSelection();
+					if(selection.length == 0){
+						e.preventDefault();
+						views.csstextarea.insertText(preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+					}
+					break;
+				case 221: /* }, Remove whitespace in front of } on the same line. */
+					selection = views.csstextarea.getSelection();
+					val = views.csstextarea.val();
+					var a = val.slice(0, selection.start),
+						b = val.slice(a.length);
+					a = a.replace(/[ ]+$/g,'');
+					views.csstextarea.val(a+b);
+				default: break;
+			}
 			if(_typingTimer !== false){
 				window.clearTimeout(_typingTimer);
 			}
 			_typingTimer = window.setTimeout(function(){
-				views.csseditor.trigger('stoptyping');
+				views.csstextarea.trigger('stoptyping');
 				_typingTimer = false;
 			}, 500);
 		},
 		updateUserCSS: function(){
-			stylesheet.setString(views.csseditor.find('textarea').val());
+			stylesheet.setString(views.csstextarea.val());
 		},
 		updateUserCSSUI: function(){
-			var rules = stylesheet.getRules(),
-				css = '',
-				name;
-			for(name in rules){
-				css += name;
-				css += ' ';
-				css += rules[name].replace(/({|;)\s?/g,'$1\n    ').replace('    }','}\n');
-			}
-			views.csseditor.find('textarea').val(css);
+			views.csstextarea.val(stylesheet.getString());
 		},
 		switchmode: function(newmode){
 			$b.removeClass('remarklet-'+_mode+'mode').addClass('remarklet-'+newmode+'mode');
@@ -552,6 +642,15 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 				}
 				$('.ui-draggable').draggable('destroy');
 			}
+		},
+		finishChangingElement: function($el, style, remove){
+			// Remove fractional pixel values.
+			style = style.replace(/(-?\d+)\.\d+px/g,'$1px');
+			stylesheet.setRule('.remarklet-' + $el.data('remarklet'), style);
+			controllers.updateUserCSSUI();
+			if(remove){
+				$el.removeAttr('style');
+			}
 		}
 	};
 	var dragOps = {
@@ -562,22 +661,47 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		},
 		stop: function(event, ui){
 			var $target = $(event.target),
-				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px'),
-				num = $target.data('remarklet');
-			if($target.hasClass('ui-wrapper')){
-				style = style.replace(/\s?overflow: hidden;\s?/,' ');
-			}
+				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,''),
+				removeStyle = false;
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
-			stylesheet.setRule('.remarklet-' + num, style);
-			if($target.resizable('instance') == undefined){
-				$target.removeAttr('style');
+			if($target.resizable('instance') != undefined){
+				style = style.replace(/\s?overflow: hidden;\s?/,' ');
+			} else {
+				removeStyle = true;
 			}
-			controllers.updateUserCSSUI();
+			controllers.finishChangingElement($target, style, false);
 		}
 	};
-	var resizeOps = dragOps;
+	var resizeOps = {
+		start: function(event, ui){
+			_target = $(event.target);
+			$b.off('mousemove', _mouse.update);
+			$('.ui-wrapper').each(function(){
+				if(this != event.target){
+					var style = this.style.cssText.replace(/\s?overflow: hidden;\s?/,' '),
+						$target = $(this);
+					controllers.finishChangingElement($target, style, false);
+					$target.resizable('destroy');
+				}
+			});
+		},
+		stop: function(event, ui){
+			var $target = $(event.target),
+				style = $target.attr('style').replace(/(right|bottom): auto;\s?/g,''),
+				removeStyle = false;
+			_dragging = false;
+			_mouse.update(event);
+			$b.on('mousemove', _mouse.update);
+			if($target.resizable('instance') != undefined){
+				style = style.replace(/\s?overflow: hidden;\s?/,' ');
+			} else {
+				removeStyle = true;
+			}
+			controllers.finishChangingElement($target, style, false);
+		}
+	};
 	var _mouse = {
 		x: null,
 		y: null,
@@ -594,6 +718,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 				var data = 'data:text/html;charset=UTF-8,',
 					pathpart = location.pathname.split('/'),
 					html; 
+				views.usercss.html(stylesheet.getString());
 				pathpart.pop();
 				pathpart = pathpart.join('/');
 				if(document.doctype && document.doctype.publicId===''){
@@ -617,10 +742,6 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 				});
 				html = html.replace(/.overflowRulerX > .firebug[^{]+{[^}]+}|.overflowRulerY\s>\s.firebug[^{]+{[^}]+}/gi,'').replace(/(src|href)=("|')\/\//g, '$1=$2'+location.protocol).replace(/(src|href)=("|')(\/|(?=[^:]{6}))/gi, '$1=$2'+location.protocol + '//' + location.hostname + pathpart + '/').replace(/<script/gi,'<!-- script').replace(/<\/script>/gi,'</script -->').replace(/url\(&quot;/gi,'url(').replace(/.(a-z){3}&quot;\)/gi,'$1)').replace(/url\(\//gi,'url('+location.protocol+'//'+location.hostname+pathpart+'/').replace(/\sremarklet-show-(grid|outlines|usercss)\s/g,' ').replace(/\s?remarklet-show-(grid|outlines|usercss)\s?|\s/g,' ');
 				data += encodeURIComponent(html);
-				views.usercss.html(stylesheet.getString());
-				console.log(views.usercss);
-				console.log(views.usercss.html());
-				console.log(stylesheet.getString());
 				window.open(data, 'Exported From Remarklet', '');
 			},
 			Save: function(){
@@ -648,9 +769,9 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 			CSS: function(){
 				$b.toggleClass('remarklet-show-usercss');
 				if($b.hasClass('remarklet-show-usercss')){
-					views.csseditor.find('textarea').focus();
+					views.csstextarea.focus();
 				} else {
-					views.csseditor.find('textarea').blur();
+					views.csstextarea.blur();
 				}
 			},
 			Preferences: function(){
@@ -662,9 +783,10 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		Insert: {
 			Image: function(){
 				prompt.open({
-					form: '<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value=""><br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input style="display:none;" name="file" id="remarklet-file" type="file"/>',
+					form: '<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value=""><!-- br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/ -->',
 					init: function(){
-						prompt.get.window().find('#remarklet-file').on('change', function(){
+						/* File browse button data handler */
+						/* prompt.get.window().find('#remarklet-file').on('change', function(){
 							prompt.get.submit().attr('disabled',true);
 							var f = this.files[0];
 							var fr = new FileReader();
@@ -673,7 +795,7 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 								_stored.fileRead = remarklet.getBlobURL(f);
 							};
 							fr.readAsDataURL(f);
-						});
+						}); */
 						$b.off('mousemove', _mouse.update);
 					},
 					callback: function(data){
@@ -681,14 +803,14 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 						_stored.editcounter++;
 						var str,
 							ednum = _stored.editcounter,
-							dstyles = 'position: absolute; z-index: 2147483647; ';
+							defaultstyles = ['position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;z-index:2147483647;'].join('');
 						if(data.imgurl.length>1){
-							str = ['<img src="',data.imgurl,'" style="'+dstyles+'left:',_mouse.x,'px;top:',_mouse.y,'px" class="remarklet-newimg" />'];
+							str = ['<img src="',data.imgurl,'" class="remarklet-newimg" style="',defaultstyles,'" />'];
 						} else if(_stored.fileRead!==false){
-							str = ['<img src="',_stored.fileRead,'" style="'+dstyles+'left:',_mouse.x,'px;top:',_mouse.y,'px" class="remarklet-newimg" />'];
+							str = ['<img class="remarklet-newimg" src="',_stored.fileRead,'" style="',defaultstyles,'" />'];
 							_stored.fileRead = false;
 						} else {
-							str = ['<div style="'+dstyles+'font: normal 16px Arial, Helvetica, sans-serif; color:',data.textcolor,';background-color:',data.bgcolor,';width:',data.imgdimensions.toLowerCase().split('x')[0],'px;height:',data.imgdimensions.toLowerCase().split('x')[1],'px;left:',_mouse.x,'px;top:',_mouse.y,'px" class="remarklet-newimg">',data.imgtext,'</div>'];
+							str = ['<div class="remarklet-newimg" style="',defaultstyles,'font:normal 16px Arial,Helvetica,sans-serif;color:',data.textcolor,';background-color:',data.bgcolor,';width:',data.imgdimensions.toLowerCase().split('x')[0],'px;height:',data.imgdimensions.toLowerCase().split('x')[1],'px;">',data.imgtext,'</div>'];
 						}
 						str = str.join('');
 						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box);
@@ -771,13 +893,13 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		}
 		
 		/* Add remaining app UI events */
-		views.csseditor.on('keydown', controllers.userCSSTextEditor);
-		views.csseditor.on('stoptyping', controllers.updateUserCSS);
+		views.csstextarea.on('keydown', controllers.userCSSEditorKeyHandler);
+		views.csstextarea.on('stoptyping', controllers.updateUserCSS);
 		$w.on('keydown', controllers.window);
 		
 		/* Insert app elements into page. */
 		views.box.add(views.usercss).appendTo($b);
-		views.retained = views.gridoverlay.add(views.csseditor).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
+		views.retained = views.gridoverlay.add(views.csswindow.append(views.csstextarea)).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
 	};
 	remarklet.init = function(){		
 		/* Tag all non-app page elements we may want to interact with. */
@@ -797,14 +919,14 @@ requirejs(['jquery','jqueryui'], function($, $ui){
 		
 		/* Initialize modules. */
 		prompt.init('remarklet');
-		stylesheet.init(views.usercss.get(0), controllers.updateUserCSSUI);
+		stylesheet.init({element: views.usercss.get(0), indent: preferences.CSS_Editor.Indentation});
 		duplicate.init(stylesheet);
 		
 		/* Add UI Elements to page. */
 		views.build();
 		duplicate.setSheet(views.usercss.get(0));
 		/* Event delegation for non-app elements. */
-		controllers.body.toggle('on');
+		controllers.bodyElements.toggle('on');
 	};
 	remarklet.init();
 	/* http://remysharp.com/2009/02/27/analytics-for-bookmarklets-injected-scripts/ */
