@@ -1,16 +1,39 @@
 /* Stylesheet Module */
 var stylesheet = (function(){
-	var style;
-	var rules = {};
+	var style, indent, rules = {},
+		rulesToString = function(){
+			var css = '',
+				name;
+			for(name in rules){
+				css += name;
+				css += ' ';
+				css += rules[name];
+				css += '\n';
+			}
+			css.replace(/\n$/,'');
+			return css;
+		},
+		setString = function(str){
+			if(style.textContent != str){
+				var t, arr = str.split('}').slice(0,-1);
+				rules = {};
+				for(var i=0, len=arr.length; i<len; i++){
+					t = arr[i].split('{');
+					rules[t[0].trim()] = '{' + t[1] + '}';
+				}
+				style.textContent = str;
+			}
+		};
 	return {
-		init: function(obj){
-			style = obj;
+		init: function(args){
+			style = args.element;
+			indent = args.indent;
 		},
 		setRule: function(selector, rule){
 			if(!rule) return;
-			var found = false,
+			var ruletext, found = false,
 				i = style.sheet.cssRules.length-1;
-			rule = '{' + rule + '}';
+			ruletext = '{\n' + indent + rule.replace(/; (\w)/g, ';\n'+indent+'$1') + '\n}';
 			while(i >= 0){
 				if(selector == style.sheet.cssRules[i].selectorText){
 					found = style.sheet.cssRules[i];
@@ -19,31 +42,41 @@ var stylesheet = (function(){
 				i--;
 			}
 			if(!found){
-				style.sheet.insertRule(selector + rule, style.sheet.cssRules.length);
+				style.sheet.insertRule(selector + ruletext, style.sheet.cssRules.length);
 			} else {
-				found.style.cssText = found.style.cssText.replace(/}.*$/,'') + rule.slice(1);
-				rule = '{'+found.style.cssText+'}';
+				var inline, existing, len, j, a = {};
+				inline = rule.replace(/(:|;)\s/g,'$1').split(';');
+				inline.pop();
+				existing = found.style.cssText.replace(/(:|;)\s/g,'$1').split(';');
+				existing.pop();
+				for(i=0, len = inline.length; i < len; i++){
+					j = inline[i].split(':');
+					a[j[0]] = j[1];
+				}
+				for(i=0, len = existing.length; i < len; i++){
+					j = existing[i].split(':');
+					if(a.hasOwnProperty(j[0])){
+						existing[i] = j[0]+':'+a[j[0]];
+						delete a[j[0]];
+					}
+				}
+				for(i in a){
+					existing.push(i+':'+a[i]);
+				}
+				existing = existing.join(';').replace(/(:|;)/g,'$1 ').replace(/\s$/,'')+';';
+				found.style.cssText = existing;
+				existing = '{\n' + indent + existing.replace(/; /g,';\n' + indent) + '\n}';
+				ruletext = existing;
 			}
-			rules[selector] = rule;
+			rules[selector] = ruletext;
+			style.textContent = rulesToString();
 		},
-		fromHTML: function(html){
-			var t, name;
-			html = html.replace(/<br>/g,' ').replace(/(&nbsp;|\s)+/g,' ').replace(/\s*([{}]+)\s+/g,'$1').split('}').slice(0,-1);
-			rules = {};
-			for(var i=0, len=html.length; i<len; i++){
-				t = html[i].split('{');
-				rules[t[0]] = '{' + t[1] + '}';
-			}
-			t = '';
-			for(name in rules){ 
-				t += name;
-				t += ' ';
-				t += rules[name].replace(/({|;)\s*/g,'$1\n    ').replace('    }','}\n');
-			}
-			style.innerHTML = t;
-		},
+		setString: setString,
 		getRules: function(){
 			return rules;
+		},
+		getString: function(){
+			return style.textContent;
 		}
 	};
 }());

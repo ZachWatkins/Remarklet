@@ -214,14 +214,15 @@
 }
 #remarklet-prompt-content {
 	background-color: #fff;
-	width: 500px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-left: -250px;
 	text-align: center;
 	padding: 10px;
 	border: 1px solid #000;
+    min-width: 500px;
+    transform: translate(-50%);
+	-webkit-transform: translate(-50%);
 }
 #remarklet-prompt-form label {
 	display: block;

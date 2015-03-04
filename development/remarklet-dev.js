@@ -4,15 +4,16 @@
  licensed under the MIT License.
 */
 requirejs.config({
-	paths:{
-		'jquery':'jquery-2.1.3.min',
-		'jqueryui':'jquery-ui.min'
+	paths: {
+		'jquery': 'jquery-2.1.3.min',
+		'jqueryui': 'jquery-ui.min',
+		'emmet': 'emmet.min'
 	},
 	shim: {
 		'rangyinputs-jquery': ['jquery']
 	}
 });
-requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
+requirejs(['jquery', 'jqueryui', 'rangyinputs-jquery', 'emmet.min'], function($){
 	/* Stored Object module. */
 	var storedObject = (function(){
 		var dbname, def, dataset = {};
@@ -306,9 +307,14 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	}());
 	/* Prompt Window Module. Dependency: jQuery */
 	var prompt = (function(){
-		var callback = function(){};
+		var callback, formobj;
 		var open = function(args){
-			ui.form.html(args.form).find('*[name]').on('keydown', function(e){e.stopPropagation();});
+			if(typeof args.form == 'string'){
+				ui.form.html(args.form);
+			} else {
+				formobj = args.form;
+				ui.form.append(args.form);
+			}
 			args.init();
 			ui.window.show();
 			ui.content.css({'margin-top':function(){
@@ -323,24 +329,28 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 				data[this.name] = this.value;
 			});
 			callback(data);
-			ui.window.hide();
+			close();
 		};
-		var cancel = function(){
+		var close = function(){
 			ui.window.focus().blur().hide();
+			if(formobj){
+				formobj.remove();
+			}
+			ui.form.html('');
 		};
 		var ui = {
 			window: $('<div></div>').on('keydown', keydown),
 			form: $('<div></div>'),
 			content: $('<div></div>'),
 			submit: $('<button type="button">Submit</button>').on('click', submit),
-			cancel: $('<button type="button">Cancel</button>').on('click', cancel)
+			cancel: $('<button type="button">Cancel</button>').on('click', close)
 		};
 		var keydown = function(e){
 			e.stopPropagation();
 			if(e.keyCode == 27){
 				/* Escape => Cancel form */
 				e.preventDefault();
-				cancel();
+				close();
 			}
 		};
 		return {
@@ -409,7 +419,10 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	var views = {
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
 		csswindow: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"></div>'),
-		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" ></textarea>'),
+		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" class="emmet emmet-syntax-css"></textarea>'),
+		newimageform: $('<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" placeholder="http://placehold.it/">'),
+		newnoteform: $('<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>'),
+		newhtmlform: $('<label>Enter HTML</label><textarea name="remarkletinserthtml" id="remarklet-text" class="emmet emmet-syntax-html" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>'),
 		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),
 		help: $('<div id="remarklet-ui-help" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
 		gridoverlay: $('<div id="remarklet-grid"></div>'),
@@ -484,6 +497,7 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			}
 		},
 		window: function(e){ /* Window keyboard shortcuts */
+			if(e.target.id.indexOf('remarklet') >= 0) return;
 			if(_mode == 'drag'){
 				switch(e.keyCode){
 					case 67: /*C*/
@@ -586,10 +600,10 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			}
 		},
 		userCSSEditorKeyHandler: function(e){
-			e.stopPropagation();
+			//e.stopPropagation();
 			var selection, val, lastchar;
-			switch(e.keyCode){
-				case 13: /* Enter, Insert indentation when pressing Enter after ; or { */
+			/*switch(e.keyCode){
+				case 13: // Enter, Insert indentation when pressing Enter after ; or { 
 					selection = views.csstextarea.getSelection();
 					lastchar = views.csstextarea.val().charAt(selection.start-1);
 					if(selection.length == 0 && (lastchar == ';' || lastchar == '{')){
@@ -597,14 +611,14 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 						views.csstextarea.insertText('\n'+preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
 					}
 					break;
-				case 9: /* Tab, Prevent tab key from moving out of the field, insert indentation instead. */
+				case 9: // Tab, Prevent tab key from moving out of the field, insert indentation instead.
 					selection = views.csstextarea.getSelection();
 					if(selection.length == 0){
 						e.preventDefault();
 						views.csstextarea.insertText(preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
 					}
 					break;
-				case 221: /* }, Remove whitespace in front of } on the same line. */
+				case 221: // }, Remove whitespace in front of } on the same line. 
 					selection = views.csstextarea.getSelection();
 					val = views.csstextarea.val();
 					var a = val.slice(0, selection.start),
@@ -612,7 +626,7 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 					a = a.replace(/[ ]+$/g,'');
 					views.csstextarea.val(a+b);
 				default: break;
-			}
+			}*/
 			if(_typingTimer !== false){
 				window.clearTimeout(_typingTimer);
 			}
@@ -783,10 +797,11 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 		Insert: {
 			Image: function(){
 				prompt.open({
-					form: '<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value=""><!-- br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/ -->',
+					form: views.newimageform,
 					init: function(){
 						/* File browse button data handler */
-						/* prompt.get.window().find('#remarklet-file').on('change', function(){
+						/* <br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/>
+						prompt.get.window().find('#remarklet-file').on('change', function(){
 							prompt.get.submit().attr('disabled',true);
 							var f = this.files[0];
 							var fr = new FileReader();
@@ -820,7 +835,7 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			},
 			Note: function(){
 				prompt.open({
-					form: '<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>',
+					form: views.newnoteform,
 					init: function(){
 						$b.off('mousemove', _mouse.update);
 					},
@@ -841,14 +856,14 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			},
 			HTML: function(){
 				prompt.open({
-					form: '<label>Enter HTML</label><textarea name="codetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>',
+					form: views.newhtmlform,
 					init: function(){
 						$b.off('mousemove', _mouse.update);
 					},
 					callback: function(data){
 						_stored.editcounter++;
 						var str, ednum = _stored.editcounter;
-						str = ['<div class="remarklet-usercode" style="position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;">',data.codetext,'</div>'].join('');
+						str = ['<div class="remarklet-usercode" style="position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;">',data.remarkletinserthtml,'</div>'].join('');
 						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box).css({
 							width: function(){return this.clientWidth + 1;},
 							height: function(){return this.clientHeight + 1;}
@@ -894,12 +909,19 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 		
 		/* Add remaining app UI events */
 		views.csstextarea.on('keydown', controllers.userCSSEditorKeyHandler);
+		
 		views.csstextarea.on('stoptyping', controllers.updateUserCSS);
 		$w.on('keydown', controllers.window);
 		
 		/* Insert app elements into page. */
 		views.box.add(views.usercss).appendTo($b);
 		views.retained = views.gridoverlay.add(views.csswindow.append(views.csstextarea)).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
+		
+		emmet.require('textarea').setup({
+			pretty_break: true, // enable formatted line breaks (when inserting 
+								// between opening and closing tag) 
+			use_tab: true       // expand abbreviations by Tab key
+		});
 	};
 	remarklet.init = function(){		
 		/* Tag all non-app page elements we may want to interact with. */
