@@ -13,7 +13,8 @@
 #remarklet-grid,
 #remarklet-ui-usercss,
 #remarklet-prompt,
-#remarklet-prompt-window {
+#remarklet-prompt-window,
+#remarklet-ui-help {
     position: fixed;
 	z-index: 2147483647;
 }
@@ -119,7 +120,6 @@
 	display: block;
 	overflow-y: scroll;
 	font: normal 14px Consolas, Courier, serif;
-	white-space: pre;
 	text-align: left;
 	background: #fff;
 	width: 500px;
@@ -205,7 +205,8 @@
 	top: 0;
 }
 #remarklet-prompt,
-#remarklet-prompt-window {
+#remarklet-prompt-window,
+#remarklet-ui-help {
 	display: none;
 	top: 0;
 	left: 0;
@@ -213,16 +214,20 @@
 	height: 100%;
 	background-color: rgba(0,0,0,0.5);
 }
-#remarklet-prompt-content {
+#remarklet-prompt-content,
+#remarklet-ui-help > div {
 	background-color: #fff;
-	width: 500px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-left: -250px;
-	text-align: center;
 	padding: 10px;
 	border: 1px solid #000;
+	min-width: 500px;
+}
+#remarklet-prompt-content {
+	text-align: center;
+	transform: translate(-50%);
+	-webkit-transform: translate(-50%);
 }
 #remarklet-prompt-form label {
 	display: block;
@@ -257,4 +262,45 @@
 }
 #remarklet-prompt-form input#remarklet-text {
 	width: 160px;
+}
+.remarklet-show-help #remarklet-ui-help {
+	display: block;
+}
+#remarklet-ui-help {
+	cursor: pointer;
+	font: 400 14px Arial, Helvetica, sans-serif;
+}
+#remarklet-ui-help > div {
+	height: auto;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 16pt;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+}
+#remarklet-ui-help > div > div {
+	overflow: auto;
+	height: 95%;
+	text-align: left;
+	font-size: 14px;
+	border-top: 1px solid #000;
+}
+#remarklet-ui-help > div > div > div {
+	display: inline-block;
+	vertical-align: top;
+	width: 49.5%;
+}
+#remarklet-ui-help .key {
+	display: inline;
+	background: none;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#remarklet-ui-help a,
+#remarklet-ui-help a:visited {
+	color: #00f;
 }

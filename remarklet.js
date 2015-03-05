@@ -4,15 +4,15 @@
  licensed under the MIT License.
 */
 requirejs.config({
-	paths:{
-		'jquery':'jquery-2.1.3.min',
-		'jqueryui':'jquery-ui.min'
+	paths: {
+		'jquery': 'jquery-2.1.3.min',
+		'jqueryui': 'jquery-ui.min'
 	},
 	shim: {
 		'rangyinputs-jquery': ['jquery']
 	}
 });
-requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
+requirejs(['jquery', 'jqueryui', 'rangyinputs-jquery'], function($){
 	/* Stored Object module. */
 	var storedObject = (function(){
 		var dbname, def, dataset = {};
@@ -306,9 +306,17 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	}());
 	/* Prompt Window Module. Dependency: jQuery */
 	var prompt = (function(){
-		var callback = function(){};
+		var callback, formobj;
 		var open = function(args){
-			ui.form.html(args.form).find('*[name]').on('keydown', function(e){e.stopPropagation();});
+			if(ui.window.css('display') === 'block'){
+				close();
+			}
+			if(typeof args.form == 'string'){
+				ui.form.html(args.form);
+			} else {
+				formobj = args.form;
+				ui.form.append(args.form);
+			}
 			args.init();
 			ui.window.show();
 			ui.content.css({'margin-top':function(){
@@ -323,24 +331,28 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 				data[this.name] = this.value;
 			});
 			callback(data);
-			ui.window.hide();
+			close();
 		};
-		var cancel = function(){
+		var close = function(){
 			ui.window.focus().blur().hide();
+			if(formobj){
+				formobj.remove();
+			}
+			ui.form.html('');
 		};
 		var ui = {
 			window: $('<div></div>').on('keydown', keydown),
 			form: $('<div></div>'),
 			content: $('<div></div>'),
 			submit: $('<button type="button">Submit</button>').on('click', submit),
-			cancel: $('<button type="button">Cancel</button>').on('click', cancel)
+			cancel: $('<button type="button">Cancel</button>').on('click', close)
 		};
 		var keydown = function(e){
 			e.stopPropagation();
 			if(e.keyCode == 27){
 				/* Escape => Cancel form */
 				e.preventDefault();
-				cancel();
+				close();
 			}
 		};
 		return {
@@ -384,9 +396,9 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	var menu = {
 		File: {Export: 1, Save: 1, Restore: 1},
 		View: {Grid: 1, Outlines: 1, CSS: 1},
-		Insert: {Image: 1, Note: 1, HTML: 1}
+		Insert: {Image: 1, Note: 1, HTML: 1},
+		Help: 1
 		/* Edit */
-		/* Help */
 	};
 	var preferences = {
 		Grid: {
@@ -409,9 +421,12 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 	var views = {
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
 		csswindow: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"></div>'),
-		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" ></textarea>'),
-		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),
-		help: $('<div id="remarklet-ui-help" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
+		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" class="emmet emmet-syntax-css"></textarea>'),
+		newimageform: $('<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value="http://placehold.it/">'),
+		newnoteform: $('<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>'),
+		newhtmlform: $('<label>Enter HTML</label><textarea name="remarkletinserthtml" id="remarklet-text" class="emmet emmet-syntax-html" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>'),
+		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
+		help: $('<div id="remarklet-ui-help"><div>Helpful Hints For Using <a target="_blank" onclick="event.stopPropagation();" href="https://remarklet.com">Remarklet</a><div><p>Thanks for using this bookmarklet! Here are some tips to help you get the most out of it:</p><p>Drag elements around with your mouse by holding down the left mouse button while your cursor is hovered over an element and then moving it around. The new position of the element is added to the User CSS stylesheet, which you can access directly from the menu under View => CSS. This CSS editor is equipped with some shortcuts of its own, similar to Emmet. Hold the ctrl key and press the up or down arrows while your cursor is near a number to increase or decrease that number by 1. Press the tab key immediately after writing a CSS property to insert ": " and get to writing the value a little quicker.</p><div>Drag Mode Shortcuts<ol><li>Text Mode: <span title="T key" class="key">T</span></li><li>Drag Mode: <span title="V key" class="key">V</span></li><li>Resize Element: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Alt key" class="key">Alt</span> + <span title="T key" class="key">T</span></li><li>Finish Resizing Element: <span title="Enter key" class="key">Enter</span></li><li>Nudge Element: (<span title="Control key" class="key">Ctrl</span>) <span title="Arrow keys" class="key">&larr;</span>,<span title="Arrow keys" class="key">&uarr;</span>,<span title="Arrow keys" class="key">&rarr;</span>,<span title="Arrow keys" class="key">&darr;</span></li><li>Delete Element: <span title="Delete key" class="key">Delete</span></li></ol></div><div>Text Mode Shortcuts<ol><li>Return to Drag Mode: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Enter key" class="key">Enter</span></li></ol></div></div></div></div>'),
 		gridoverlay: $('<div id="remarklet-grid"></div>'),
 		usercss: $('#remarklet-usercss').length === 0 ? $('<style id="remarklet-usercss" type="text/css"></style>') : $('#remarklet-usercss'),
 		box: $('#remarklet-box').length === 0 ? $('<div id="remarklet-box"></div>') : $('#remarklet-box')
@@ -484,6 +499,7 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			}
 		},
 		window: function(e){ /* Window keyboard shortcuts */
+			if(e.target.id.indexOf('remarklet') >= 0) return;
 			if(_mode == 'drag'){
 				switch(e.keyCode){
 					case 67: /*C*/
@@ -587,30 +603,77 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 		},
 		userCSSEditorKeyHandler: function(e){
 			e.stopPropagation();
-			var selection, val, lastchar;
+			var num, index, min, max, selection, val, lastchar, nextchar, addtext;
 			switch(e.keyCode){
+				case 9: /* Tab, insert indentation or css property */
+					selection = views.csstextarea.getSelection();
+					if(selection.length === 0){
+						e.preventDefault();
+						lastchar = views.csstextarea.val().charAt(selection.start-1);
+						if(lastchar.match(/\w/)){
+							views.csstextarea.insertText(': ', selection.start, 'collapseToEnd');
+						} else {
+							views.csstextarea.insertText(preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+						}
+					}
+					break;
 				case 13: /* Enter, Insert indentation when pressing Enter after ; or { */
 					selection = views.csstextarea.getSelection();
 					lastchar = views.csstextarea.val().charAt(selection.start-1);
-					if(selection.length == 0 && (lastchar == ';' || lastchar == '{')){
+					if(selection.length === 0 && lastchar.match(/;|{/)){
+						addtext = '\n'+preferences.CSS_Editor.Indentation;
 						e.preventDefault();
-						views.csstextarea.insertText('\n'+preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+						views.csstextarea.insertText(addtext, selection.start, 'collapseToEnd'); 
+						if(lastchar=='{'){
+							addtext = '\n}';
+							views.csstextarea.insertText(addtext, selection.start+preferences.CSS_Editor.Indentation.length+1, 'collapseToStart');
+						}
 					}
 					break;
-				case 9: /* Tab, Prevent tab key from moving out of the field, insert indentation instead. */
-					selection = views.csstextarea.getSelection();
-					if(selection.length == 0){
-						e.preventDefault();
-						views.csstextarea.insertText(preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+				case 38: /* Up arrow key to increment numbers */
+					if(e.ctrlKey){
+						num = [];
+						selection = views.csstextarea.getSelection();
+						val = views.csstextarea.val();
+						index = selection.start;
+						if(val.charAt(selection.start-1).match(/\d/) || val.charAt(selection.start).match(/\d/)){
+							while(val.charAt(index-1).match(/\d/)){
+								index--;
+							}
+							min = index;
+							while(val.charAt(index).match(/\d/)){
+								num.push(val.charAt(index));
+								index++;
+							}
+							max = index;
+							num = parseInt(num.join('')) + 1;
+							views.csstextarea.setSelection(min, max).replaceSelectedText(num, 'select').setSelection(min, max);
+							e.preventDefault();
+						}
 					}
 					break;
-				case 221: /* }, Remove whitespace in front of } on the same line. */
-					selection = views.csstextarea.getSelection();
-					val = views.csstextarea.val();
-					var a = val.slice(0, selection.start),
-						b = val.slice(a.length);
-					a = a.replace(/[ ]+$/g,'');
-					views.csstextarea.val(a+b);
+				case 40: /* Down arrow key to decrement numbers */
+					if(e.ctrlKey){
+						num = [];
+						selection = views.csstextarea.getSelection();
+						val = views.csstextarea.val();
+						index = selection.start;
+						if(val.charAt(selection.start-1).match(/\d/) || val.charAt(selection.start).match(/\d/)){
+							while(val.charAt(index-1).match(/\d/)){
+								index--;
+							}
+							min = index;
+							while(val.charAt(index).match(/\d/)){
+								num.push(val.charAt(index));
+								index++;
+							}
+							max = index;
+							num = parseInt(num.join('')) - 1;
+							views.csstextarea.setSelection(min, max).replaceSelectedText(num, 'select').setSelection(min, max);
+							e.preventDefault();
+						}
+					}
+					break;
 				default: break;
 			}
 			if(_typingTimer !== false){
@@ -783,10 +846,11 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 		Insert: {
 			Image: function(){
 				prompt.open({
-					form: '<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value=""><!-- br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/ -->',
+					form: views.newimageform,
 					init: function(){
 						/* File browse button data handler */
-						/* prompt.get.window().find('#remarklet-file').on('change', function(){
+						/* <br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/>
+						prompt.get.window().find('#remarklet-file').on('change', function(){
 							prompt.get.submit().attr('disabled',true);
 							var f = this.files[0];
 							var fr = new FileReader();
@@ -820,7 +884,7 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			},
 			Note: function(){
 				prompt.open({
-					form: '<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>',
+					form: views.newnoteform,
 					init: function(){
 						$b.off('mousemove', _mouse.update);
 					},
@@ -841,14 +905,14 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 			},
 			HTML: function(){
 				prompt.open({
-					form: '<label>Enter HTML</label><textarea name="codetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>',
+					form: views.newhtmlform,
 					init: function(){
 						$b.off('mousemove', _mouse.update);
 					},
 					callback: function(data){
 						_stored.editcounter++;
 						var str, ednum = _stored.editcounter;
-						str = ['<div class="remarklet-usercode" style="position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;">',data.codetext,'</div>'].join('');
+						str = ['<div class="remarklet-usercode" style="position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;">',data.remarkletinserthtml,'</div>'].join('');
 						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box).css({
 							width: function(){return this.clientWidth + 1;},
 							height: function(){return this.clientHeight + 1;}
@@ -894,12 +958,13 @@ requirejs(['jquery','jqueryui','rangyinputs-jquery'], function($){
 		
 		/* Add remaining app UI events */
 		views.csstextarea.on('keydown', controllers.userCSSEditorKeyHandler);
+		views.help.on('click', command.Help);
 		views.csstextarea.on('stoptyping', controllers.updateUserCSS);
 		$w.on('keydown', controllers.window);
 		
 		/* Insert app elements into page. */
 		views.box.add(views.usercss).appendTo($b);
-		views.retained = views.gridoverlay.add(views.csswindow.append(views.csstextarea)).add(views.menuwrapper).add(prompt.get.window()).add(views.preferences).add(views.help).appendTo($b);
+		views.retained = views.gridoverlay.add(views.csswindow.append(views.csstextarea)).add(views.help).add(prompt.get.window()).add(views.preferences).add(views.menuwrapper).appendTo($b);
 	};
 	remarklet.init = function(){		
 		/* Tag all non-app page elements we may want to interact with. */
