@@ -5,7 +5,7 @@
 */
 requirejs.config({
 	paths: {
-		'all': 'all.min' /* I finally learned how to automate script minification and concatenation */
+		'all': 'dependencies.min' /* I finally learned how to automate script minification and concatenation */
 	}
 });
 requirejs(['all'], function(){
