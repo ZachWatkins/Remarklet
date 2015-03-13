@@ -1,5 +1,5 @@
-/* Locally Stored Object module. */
-var storedObject = (function(){
+/* Locally Stored Object module */
+define(function(){
 	var dbname, def, dataset = {};
 	var set = function(name, data){
 		if(data){
@@ -38,4 +38,4 @@ var storedObject = (function(){
 			return this;
 		}
 	};
-}());
+});

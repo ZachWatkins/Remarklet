@@ -1,0 +1,1 @@
+define(function(){var t,e,r={},n=function(e,n){return n?r[e]=n:r=e,localStorage[t]=JSON.stringify(r),this};return{init:function(n,i){var o,a;if(t=n,e=i,r=Object.create(i),void 0!==localStorage[t]){a=JSON.parse(localStorage[t]);for(o in a)r[o]=a[o]}return this},get:function(t){return t?r[t]:r},set:n,reset:function(){return n(e),localStorage.removeItem(t),this}}});

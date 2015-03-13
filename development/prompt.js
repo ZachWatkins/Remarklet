@@ -1,7 +1,6 @@
-/* Prompt Window Module. Dependency: jQuery */
-var prompt = (function(){
-	var $ = jQuery,
-		callback, formobj;
+/* Prompt Window module */
+define(['jquery'], function($){
+	var callback, formobj;
 	var open = function(args){
 		if(typeof args.form == 'string'){
 			ui.form.html(args.form);
@@ -69,4 +68,4 @@ var prompt = (function(){
 		},
 		open: open
 	};
-}());
+});

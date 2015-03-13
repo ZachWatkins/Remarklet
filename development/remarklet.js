@@ -4,11 +4,21 @@
  licensed under the MIT License.
 */
 requirejs.config({
-	paths: {
-		'all': 'dependencies' /* I finally learned how to automate script minification and concatenation */
-	}
+  paths: {
+    'jquery': 'jquery-2.1.3',
+    'jqueryui': 'jquery-ui',
+    'stylesheet': 'stylesheet',
+    'storedobject': 'storedobject',
+    'duplicate': 'duplicate',
+    'prompt': 'prompt'
+  },
+  shim: {
+    'rangyinputs': {
+    	deps: ['jquery']
+    }
+  }
 });
-requirejs(['all'], function(){
+require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'duplicate', 'prompt'], function($, $ui, $ri, stylesheet, storedobject, duplicate, prompt) {
 	var $ = jQuery;
 	var _getBlobURL = (window.URL && URL.createObjectURL.bind(URL)) || (window.webkitURL && webkitURL.createObjectURL.bind(webkitURL)) || window.createObjectURL;
 	var $w = $(window);
@@ -622,11 +632,10 @@ requirejs(['all'], function(){
 		/* Initialize modules. */
 		prompt.init('remarklet');
 		stylesheet.init({element: views.usercss.get(0), indent: preferences.CSS_Editor.Indentation});
-		duplicate.init(stylesheet);
+		duplicate.init({element: views.usercss.get(0), indent: preferences.CSS_Editor.Indentation});
 		
 		/* Add UI Elements to page. */
 		views.build();
-		duplicate.setSheet(views.usercss.get(0));
 		/* Event delegation for non-app elements. */
 		controllers.bodyElements.toggle('on');
 	};

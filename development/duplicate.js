@@ -1,8 +1,8 @@
-/* Element Duplication Module. Dependency: stylesheet module */
-var duplicate = (function(){
-	var rules = {},
-		rulelength = 0,
-		stylesheet;
+/* Element Duplication module */
+define(['stylesheet'], function(stylesheet){
+	var addRule,
+		rules = {},
+		rulelength = 0;
 	var getSelector = function(el){
 		var value = el.tagName.toLowerCase();
 		if(el.id !== ''){
@@ -116,14 +116,11 @@ var duplicate = (function(){
 		}
 		return values;
 	};
-	var addRule;
 	return {
-		init: function(stylesheetModule){
-			addRule = stylesheetModule.setRule;
-		},
-		setSheet: function(obj){
-			stylesheet = obj;
-		},
+        init: function(args){
+            stylesheet.init(args);
+			addRule = stylesheet.setRule;
+        },
 		create: function(sel, destination, attrs){
 			var target = typeof sel == 'string' ? document.querySelector(sel) : sel,
 				selectors = [],
@@ -165,4 +162,4 @@ var duplicate = (function(){
 			return clone;
 		}
 	};
-}());
+});

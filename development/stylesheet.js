@@ -1,6 +1,6 @@
-/* Stylesheet Module */
-var stylesheet = (function(){
-	var style, indent, rules = {},
+/* Stylesheet Module for RequireJS */
+define('stylesheet', function(){
+	var styleEl, indent, rules = {},
 		rulesToString = function(){
 			var css = '',
 				name;
@@ -12,37 +12,26 @@ var stylesheet = (function(){
 			}
 			css.replace(/\n$/,'');
 			return css;
-		},
-		setString = function(str){
-			if(style.textContent != str){
-				var t, arr = str.split('}').slice(0,-1);
-				rules = {};
-				for(var i=0, len=arr.length; i<len; i++){
-					t = arr[i].split('{');
-					rules[t[0].trim()] = '{' + t[1] + '}';
-				}
-				style.textContent = str;
-			}
 		};
 	return {
 		init: function(args){
-			style = args.element;
+			styleEl = args.element;
 			indent = args.indent;
 		},
 		setRule: function(selector, rule){
 			if(!rule) return;
 			var ruletext, found = false,
-				i = style.sheet.cssRules.length-1;
+				i = styleEl.sheet.cssRules.length-1;
 			ruletext = '{\n' + indent + rule.replace(/; (\w)/g, ';\n'+indent+'$1') + '\n}';
 			while(i >= 0){
-				if(selector == style.sheet.cssRules[i].selectorText){
-					found = style.sheet.cssRules[i];
+				if(selector == styleEl.sheet.cssRules[i].selectorText){
+					found = styleEl.sheet.cssRules[i];
 					i = 0;
 				}
 				i--;
 			}
 			if(!found){
-				style.sheet.insertRule(selector + ruletext, style.sheet.cssRules.length);
+				styleEl.sheet.insertRule(selector + ruletext, styleEl.sheet.cssRules.length);
 			} else {
 				var inline, existing, len, j, a = {};
 				inline = rule.replace(/(:|;)\s/g,'$1').split(';');
@@ -69,14 +58,27 @@ var stylesheet = (function(){
 				ruletext = existing;
 			}
 			rules[selector] = ruletext;
-			style.textContent = rulesToString();
+			styleEl.textContent = rulesToString();
 		},
-		setString: setString,
+		setString: function(str){
+			if(styleEl.textContent != str){
+				var t, arr = str.split('}').slice(0,-1);
+				rules = {};
+				for(var i=0, len=arr.length; i<len; i++){
+					t = arr[i].split('{');
+					rules[t[0].trim()] = '{' + t[1] + '}';
+				}
+				styleEl.textContent = str;
+			}
+		},
 		getRules: function(){
 			return rules;
 		},
 		getString: function(){
-			return style.textContent;
-		}
+			return styleEl.textContent;
+		},
+        getElement: function(){
+            return styleEl;
+        }
 	};
-}());
+});
