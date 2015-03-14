@@ -24,14 +24,13 @@
 	left: 0;
 	color: #000;
 	background-color: #fafafa;
-	font-size: 14px;
+	font: normal 14px/17px Arial, Helvetica, sans-serif;
+	text-align: left;
     height: 24px;
 	border: 1px solid #eee;
 	border-width: 0 1px 1px 0;
-	font-family: Arial, Helvetica, sans-serif;
-	text-align: left;
 }
-#remarklet-menu:before {
+#remarklet-menu::before {
 	content: "";
 	display: inline-block;
 	vertical-align: top;

@@ -64,7 +64,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
 		csswindow: $('<div id="remarklet-ui-usercss" class="remarklet-dont-edit"></div>'),
 		csstextarea: $('<textarea name="remarklet-usercss-editor" id="remarklet-usercss-editor" class="emmet emmet-syntax-css"></textarea>'),
-		newimageform: $('<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value="http://placehold.it/">'),
+		newimageform: $('<label>Make a placeholder</label><input type="text" value="300x200" id="remarklet-imgdimensions" name="imgdimensions" autofocus="autofocus"> <input type="text" value="#cccccc" id="remarklet-bgcolor" name="bgcolor"> <input type="text" value="#000000" id="remarklet-textcolor" name="textcolor"> <input type="text" value="Image (300x200)" id="remarklet-text" name="imgtext"><br /><label>Enter image url</label><input name="imgurl" id="remarklet-url" type="text" value="http://placehold.it/"><br><label>Add local image <span title="This image will be converted to a Data URI." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/>'),
 		newnoteform: $('<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>'),
 		newhtmlform: $('<label>Enter HTML</label><textarea name="remarkletinserthtml" id="remarklet-text" class="emmet emmet-syntax-html" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>'),
 		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
@@ -496,17 +496,15 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 					form: views.newimageform,
 					init: function(){
 						/* File browse button data handler */
-						/* <br><label>Add local file <span title="This image will expire when you leave the page, and will not be stored if you save the page as an HTML file." class="remarklet-hovernote">?</span></label><input name="file" id="remarklet-file" type="file"/>
 						prompt.get.window().find('#remarklet-file').on('change', function(){
 							prompt.get.submit().attr('disabled',true);
-							var f = this.files[0];
-							var fr = new FileReader();
-							fr.onload = function(){
+							var reader = new FileReader();
+							reader.onloadend = function () {
 								prompt.get.submit().removeAttr('disabled');
-								_stored.fileRead = remarklet.getBlobURL(f);
+								_stored.fileRead = reader.result;
 							};
-							fr.readAsDataURL(f);
-						}); */
+							reader.readAsDataURL(this.files[0]);
+						});
 						$b.off('mousemove', _mouse.update);
 					},
 					callback: function(data){
@@ -515,7 +513,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 						var str,
 							ednum = _stored.editcounter,
 							defaultstyles = ['position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;z-index:2147483647;'].join('');
-						if(data.imgurl.length>1){
+						if(data.imgurl.length>1 && data.imgurl!='http://placehold.it/'){
 							str = ['<img src="',data.imgurl,'" class="remarklet-newimg" style="',defaultstyles,'" />'];
 						} else if(_stored.fileRead!==false){
 							str = ['<img class="remarklet-newimg" src="',_stored.fileRead,'" style="',defaultstyles,'" />'];
