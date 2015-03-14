@@ -32,8 +32,8 @@ This JavaScript bookmarklet is built on Require, jQuery, and jQuery UI and will 
 [Text Mode]
 * Return to Drag Mode: Ctrl + Enter
 
-If you enjoyed using this tool, I would appreciate hearing from you!
+If you enjoyed using this tool, I would appreciate hearing from you! watkinza@gmail.com
 
 JavaScript and CSS code created by jQuery jQuery UI (custom build) are attributed and separated from the author's code by notes in the source files.
 
-A bookmarklet is a bookmark that executes JavaScript when clicked instead of sending you to another web page. Example bookmarklet link: javascript:(function(d){var%20r='remarklet',e='https://'+r+'.com/rm/scripts/',m=d.createElement('link'),a=d.createElement('script');a.src=e+'require.js';a.setAttribute('data-main',e+r+'.js');m.type='text/css';m.rel='stylesheet';m.href=e+r+'.css';d.body.appendChild(a);d.body.appendChild(m);})(document);
+A bookmarklet is a bookmark that executes JavaScript when clicked instead of sending you to another web page. Example bookmarklet link: javascript:(function(d){var%20r='remarklet',e='//'+r+'.com/rm/',m=d.createElement('link'),a=d.createElement('script');a.src=e+'require.js';a.setAttribute('data-main',e+r+'.js');m.type='text/css';m.rel='stylesheet';m.href=e+r+'.css';d.body.appendChild(a);d.body.appendChild(m);})(document);
