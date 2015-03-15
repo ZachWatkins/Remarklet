@@ -23,8 +23,8 @@
 	top: 0;
 	left: 0;
 	color: #000;
-	background-color: #fafafa;
-	font: normal 14px/17px Arial, Helvetica, sans-serif;
+	background: #fafafa;
+	font: 400 14px/17px Arial, Helvetica, sans-serif;
 	text-align: left;
     height: 24px;
 	border: 1px solid #eee;
@@ -52,11 +52,11 @@
     cursor: pointer;
 }
 #remarklet-menu ol li:hover {
-	background-color: #f0f0f0;
+	background: #f0f0f0;
 }
 #remarklet-menu ol li li:active {
 	box-shadow: 0 0 2px #FF3E00 inset;
-	background-color: #e0e0e0;
+	background: #e0e0e0;
 }
 #remarklet-menu ol.remarklet-menuitem {
     position: relative;
@@ -72,7 +72,7 @@
 #remarklet-menu .remarklet-submenu li {
     display: none;
     padding: 2px 10px;
-	background-color: #fafafa;
+	background: #fafafa;
 }
 #remarklet-grid {
     visibility: hidden;
@@ -97,7 +97,7 @@
 #remarklet-ui-usercss {
 	border: 1px solid #eee;
 	border-width: 1px 1px 0 0;
-	background-color: #fafafa;
+	background: #fafafa;
 	bottom: 0;
 	left: 0;
     visibility: hidden;
@@ -105,7 +105,7 @@
 }
 #remarklet-ui-usercss::before {
 	content: "CSS Changes";
-	font: normal 14px Arial, Helvetica, sans-serif;
+	font: 400 14px Arial, Helvetica, sans-serif;
 }
 #remarklet-ui-usercss::after {
 	content: attr(data-remarklet-selector);
@@ -118,7 +118,7 @@
 #remarklet-usercss-editor {
 	display: block;
 	overflow-y: scroll;
-	font: normal 14px Consolas, Courier, serif;
+	font: 400 14px Consolas, Courier, serif;
 	text-align: left;
 	background: #fff;
 	width: 500px;
@@ -139,9 +139,7 @@
 .remarklet-textmode .remarklet-target {
 	cursor: text;
 }
-.remarklet-dragmode .remarklet-target {
-	cursor: pointer;
-}
+.remarklet-dragmode .remarklet-target,
 .remarklet-target {
 	cursor: pointer;
 }
@@ -152,7 +150,7 @@
 	outline: 1px solid #000;
 	width: 10px;
 	height: 10px;
-	background-color: rgba(255,255,255,0.75);
+	background: rgba(255,255,255,0.75);
 	position: absolute;
 }
 .ui-resizable-s {
@@ -211,11 +209,11 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.5);
 }
 #remarklet-prompt-content,
 #remarklet-ui-help > div {
-	background-color: #fff;
+	background: #fff;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -230,7 +228,7 @@
 }
 #remarklet-prompt-form label {
 	display: block;
-	font: normal 16px Arial, Helvetica, sans-serif;
+	font: 400 16px Arial, Helvetica, sans-serif;
 }
 #remarklet-prompt-form input{
 	margin: 10px auto;
@@ -238,7 +236,7 @@
 }
 .remarklet-hovernote {
 	border-radius: 4px 4px 4px 4px;
-	background-color: #FFFFCC;
+	background: #FFFFCC;
 	color: #000;
 	font-weight: bold;
 	font-size: 14px;

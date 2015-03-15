@@ -43,3 +43,4 @@ Temporary Items
 node_modules
 *.log
 *.cache
+package.json
