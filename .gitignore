@@ -44,3 +44,6 @@ node_modules
 *.log
 *.cache
 package.json
+.sass-cache
+*.css.map
+*.json

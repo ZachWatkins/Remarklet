@@ -68,7 +68,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 		newnoteform: $('<label>Enter note text</label><textarea name="notetext" id="remarklet-text" type="text" autofocus="autofocus" cols="48" rows="13">Enter your note\'s text here.</textarea>'),
 		newhtmlform: $('<label>Enter HTML</label><textarea name="remarkletinserthtml" id="remarklet-text" class="emmet emmet-syntax-html" type="text" autofocus="autofocus" cols="48" rows="13">Enter your code here.</textarea>'),
 		/*preferences: $('<div id="remarklet-ui-preferences" class="remarklet-dont-resize remarklet-dont-edit"></div>'),*/
-		help: $('<div id="remarklet-ui-help"><div>Helpful Hints For Using <a target="_blank" onclick="event.stopPropagation();" href="https://remarklet.com">Remarklet</a><div><p>Thanks for using this bookmarklet! Here are some tips to help you get the most out of it:</p><p>Drag elements around with your mouse by holding down the left mouse button while your cursor is hovered over an element and then moving it around. The new position of the element is added to the User CSS stylesheet, which you can access directly from the menu under View => CSS. This CSS editor is equipped with some shortcuts of its own, similar to Emmet. Hold the ctrl key and press the up or down arrows while your cursor is near a number to increase or decrease that number by 1. Press the tab key immediately after writing a CSS property to insert ": " and get to writing the value a little quicker.</p><div>Drag Mode Shortcuts<ol><li>Text Mode: <span title="T key" class="key">T</span></li><li>Drag Mode: <span title="V key" class="key">V</span></li><li>Resize Element: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Alt key" class="key">Alt</span> + <span title="T key" class="key">T</span></li><li>Finish Resizing Element: <span title="Enter key" class="key">Enter</span></li><li>Nudge Element: (<span title="Control key" class="key">Ctrl</span>) <span title="Arrow keys" class="key">&larr;</span>,<span title="Arrow keys" class="key">&uarr;</span>,<span title="Arrow keys" class="key">&rarr;</span>,<span title="Arrow keys" class="key">&darr;</span></li><li>Delete Element: <span title="Delete key" class="key">Delete</span></li></ol></div><div>Text Mode Shortcuts<ol><li>Return to Drag Mode: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Enter key" class="key">Enter</span></li></ol></div></div></div></div>'),
+		help: $('<div id="remarklet-ui-help"><div>Helpful Hints For Using <a target="_blank" onclick="event.stopPropagation();" href="https://remarklet.com">Remarklet</a><div><p>Thanks for using this bookmarklet! Here are some tips to help you get the most out of it:</p><p>Drag elements around with your mouse by holding down the left mouse button while your cursor is hovered over an element and then moving it around. The new position of the element is added to the User CSS stylesheet, which you can access directly from the menu under View => CSS. This CSS editor is equipped with some shortcuts of its own, similar to Emmet. Hold the ctrl key and press the up or down arrows while your cursor is near a number to increase or decrease that number by 1. Press the tab key immediately after writing a CSS property to insert ": " and get to writing the value a little quicker.</p><div>Drag Mode Shortcuts<ol><li>Text Mode: <span title="T key" class="key">T</span></li><li>Drag Mode: <span title="V key" class="key">V</span></li><li>Resize Element: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Alt key" class="key">Alt</span> + <span title="T key" class="key">T</span></li><li>Finish Resizing Element: <span class="key" title="Ctrl key">Ctrl</span> + <span title="Enter key" class="key">Enter</span></li><li>Nudge Element: (<span title="Control key" class="key">Ctrl</span>) <span title="Arrow keys" class="key">&larr;</span>,<span title="Arrow keys" class="key">&uarr;</span>,<span title="Arrow keys" class="key">&rarr;</span>,<span title="Arrow keys" class="key">&darr;</span></li><li>Delete Element: <span title="Delete key" class="key">Delete</span></li></ol></div><div>Text Mode Shortcuts<ol><li>Return to Drag Mode: <span title="Ctrl key" class="key">Ctrl</span> + <span title="Enter key" class="key">Enter</span></li></ol></div></div></div></div>'),
 		gridoverlay: $('<div id="remarklet-grid"></div>'),
 		usercss: $('#remarklet-usercss').length === 0 ? $('<style id="remarklet-usercss" type="text/css"></style>') : $('#remarklet-usercss'),
 		box: $('#remarklet-box').length === 0 ? $('<div id="remarklet-box"></div>') : $('#remarklet-box')
@@ -95,8 +95,8 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 					selector += '#';
 					selector += this.id;
 				}
-				selector += '.remarklet-';
-				selector += $this.data('remarklet');
+				selector += '.';
+				selector += $this.attr('class').replace(/\s?\b(remarklet\s|ui-draggable(-handle)?|remarklet-target)\b\s?/g,' ').trim().replace(/\s+/g,'.');
 				views.csswindow.attr('data-remarklet-selector', selector);
 				e.stopPropagation();
 			},
@@ -180,7 +180,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 						}
 						break;
 					case 13: /*Enter*/
-						if($('.ui-resizable').length > 0){
+						if(e.ctrlKey && $('.ui-resizable').length > 0){
 							var $target = $('.ui-resizable'),
 								style = $target.attr('style').replace(/(resize|position|right|bottom): (auto|none|static);\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
 							$target.resizable('destroy');
