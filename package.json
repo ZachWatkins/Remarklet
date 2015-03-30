@@ -1,4 +1,20 @@
 {
+  "name": "remarklet",
+  "description": "Remarklet - make mockups faster",
+  "main": "./development/remarklet.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ZachWatkins/remarklet.git"
+  },
+  "keywords": [
+    "remarklet",
+    "js",
+    "bookmarklet",
+    "mockup",
+    "drag"
+  ],
+  "author": "Zachary Watkins",
+  "license": "MIT",
   "gulp-jshint": "1.9.0",
   "gulp-concat": "2.4.2",
   "gulp-rename": "1.2.0",
@@ -6,6 +22,7 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
+    "gulp-cssmin": "^0.1.6",
     "gulp-jshint": "^1.9.2",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.1.0"
