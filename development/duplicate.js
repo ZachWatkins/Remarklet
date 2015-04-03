@@ -1,17 +1,25 @@
-/* Element Duplication module */
-define(['stylesheet'], function(stylesheet){
-	var addRule,
-		rules = {},
-		rulelength = 0;
+/*  Element Duplication module.
+	Dependencies: RequireJS, Stylesheet module (http://codepen.io/zw/pen/JompNy.js)
+	Tasks: 
+		# Create <clone> from <original> element and its children.
+		# Add <clone> to page where desired.
+		# Override id and class attributes for <clone> if desired.
+		# Add rules to <stylesheet> that <original> and its children have and <clone> and
+		  its children do not have, using the ID and class from <clone> for the new rule's CSS selector.
+*/
+define('duplicate', ['stylesheet'], function(stylesheet){
+	var addRule;
 	var getSelector = function(el){
-		var value = el.tagName.toLowerCase();
-		if(el.id !== ''){
+		var value = el.tagName.toLowerCase(),
+			id = el.id,
+			className = el.className;
+		if(id !== ''){
 			value += '#';
 			value += el.id;
-		}
-		if(el.className !== ''){
+			}
+		if(className.trim() !== ''){
 			value += '.';
-			value += el.className.replace(/\s+/g,'.');
+			value += className.trim().replace(/\s+/g,'.');
 		}
 		return value;
 	};
@@ -29,111 +37,112 @@ define(['stylesheet'], function(stylesheet){
 		}
 		return value;
 	};
-	var getUniqueStyles = function(sel, destination, clone){
-		sel = sel.split(':');
-		var selector = sel[0],
-			pseudoselector = sel.length > 1 ? ':' + sel[1] : null,
-			el = document.querySelector(selector),
-			elstyle = window.getComputedStyle(el, pseudoselector),
-			parentstyle = window.getComputedStyle(el.parentNode, null),
-			clonestyle = window.getComputedStyle(clone, pseudoselector),
-			values = '',
-			flag, attribute, value;
-		if(pseudoselector){
-			if(elstyle.content == clonestyle.content && elstyle.content == 'none'){
-				return;
-			} else {
-				clonestyle = window.getComputedStyle(el, null);
-				values += 'content: ';
-				values += elstyle.content;
-				values += ';';
-			}
+	var getUniqueStyles = function(original, clone, pseudoelement){
+		/* 
+			# If <pseudoelement>, and its content is not defined, return immediately;
+			# Compare styles of <original> and <clone>, or their <pseudoelement>s;
+			# If <original> has styles that <clone> does not have, validate them;
+			# If unique style is valid, add it to returned values;
+			# Return all unique and valid styles.
+		*/
+		var elStyle = window.getComputedStyle(original, pseudoelement);
+		if(pseudoelement != undefined && elStyle.content == 'none'){
+			return '';
 		}
-		for(var i=0, len=elstyle.length; i<len; i++){
-			flag = false;
-			attribute = elstyle[i];
-			value = elstyle.getPropertyValue(attribute);
-			if(value != clonestyle.getPropertyValue(attribute)){
-				switch(attribute){
+		var cloneStyle = window.getComputedStyle(clone, pseudoelement),
+			values = '', i = 0, len = elStyle.length,
+			ignore, prop, value;
+		for(; i<len; i++){
+			ignore = false;
+			prop = elStyle[i];
+			value = elStyle.getPropertyValue(prop);
+			if(value != cloneStyle.getPropertyValue(prop)){
+				switch(prop){
 					case 'outline-color':
+          case 'text-decoration-color':
 					case '-webkit-text-emphasis-color':
 					case '-webkit-text-fill-color':
 					case '-webkit-text-stroke-color':
 					case '-moz-text-decoration-color':
 					case '-webkit-text-decoration-color':
-						if(value == elstyle.color){
-							flag = true;
+						if(value == elStyle.color){
+							ignore = true;
 						}
 						break;
 					case 'border-bottom-color':
 					case 'border-left-color':
 					case 'border-right-color':
 					case 'border-top-color':
-						if(elstyle.borderWidth === '' || elstyle.borderWidth == '0px'){
-							flag = true;
+						if(elStyle.borderWidth === '' || elStyle.borderWidth == '0px'){
+							ignore = true;
 						}
 						break;
 					case '-moz-column-rule-color':
 					case '-webkit-column-rule-color':
-						if(elstyle.getPropertyValue(attribute.replace('color','width')) == '0px'){
-							flag = true;
+						if(elStyle.getPropertyValue(prop.replace('color','width')) == '0px'){
+							ignore = true;
 						}
 						break;
+          case 'text-decoration-line':
 					case '-moz-text-decoration-line':
 					case '-webkit-text-decoration-line':
-						if(value == elstyle.textDecoration){
-							flag = true;
+						if(value == elStyle.textDecoration){
+							ignore = true;
 						}
 						break;
+          case 'column-gap':
 					case '-moz-column-gap':
 					case '-webkit-column-gap':
-						if(elstyle.getPropertyValue(attribute.replace('gap','count')) == 'auto' && elstyle.getPropertyValue(attribute.replace('gap','width')) == 'auto'){
-							flag = true;
+						if(elStyle.getPropertyValue(prop.replace('gap','count')) == 'auto' && elStyle.getPropertyValue(prop.replace('gap','width')) == 'auto'){
+							ignore = true;
 						}
 						break;
 					case 'transform-origin':
 					case 'perspective-origin':
-						if(elstyle.getPropertyValue(attribute.replace('-origin','')) == 'none'){
-							flag = true;
+						if(elStyle.getPropertyValue(prop.replace('-origin','')) == 'none'){
+							ignore = true;
 						}
 						break;
 					case '-webkit-text-decorations-in-effect':
-						flag = true;
+						ignore = true;
 						break;
 					case 'content':
-						flag = true;
+						if(value == 'none'){
+							ignore = true;
+						}
 						break;
 					default:
 						break;
 				}
-				if(!flag && (parentstyle.getPropertyValue(attribute) != value || clonestyle.getPropertyValue(attribute) != value)){
-					values += attribute;
-					values += ':';
+				if(!ignore){
+					values += prop;
+					values += ': ';
 					values += value;
-					values += ';';
+					values += '; ';
 				}
 			}
 		}
 		return values;
 	};
 	return {
-        init: function(args){
-            stylesheet.init(args);
+		init: function(args){
+			stylesheet.init(args);
 			addRule = stylesheet.setRule;
-        },
-		create: function(sel, destination, attrs){
-			var target = typeof sel == 'string' ? document.querySelector(sel) : sel,
-				selectors = [],
-				children = target.querySelectorAll('*'),
-				clone = target.cloneNode(true),
-				len = children.length,
-				tsel, csel, cloneselector;
-			if(attrs){
-				if(attrs.id) clone.id = attrs.id;
-				if(attrs.class) clone.className = attrs.class;
+		},
+		create: function(original, destination, attrs){
+			if(typeof original === 'string'){
+				original = document.querySelector(original);
 			}
-			cloneselector = getSelector(clone);
-
+			var clone = original.cloneNode(true),
+				originalChildren = original.getElementsByTagName('*'),
+				cloneChildren = clone.getElementsByTagName('*'),
+				rules = stylesheet.getRules(),
+				origEl = original,
+				cloneEl = clone,
+				len = originalChildren.length,
+				i;
+			
+			/* Add cloned element to page. */
 			if(typeof destination == 'string'){
 				document.querySelector(destination).appendChild(clone);
 			} else {
@@ -143,20 +152,36 @@ define(['stylesheet'], function(stylesheet){
 					destination.parentNode.appendChild(clone);
 				}
 			}
-
-			selectors.push(getSelector(target));
-
-			for(var i=0; i<len; i++){
-				selectors.push(getSelectorsBetween(target, children[i]));
+			
+			/* Set up clone with custom attributes if provided. */
+			if(attrs){
+				if(attrs['id']){
+					if(attrs['id'] != ''){
+						clone.id = attrs['id'];
+					} else {
+						clone.removeAttribute('id');
+					}
+				}
+				if(attrs['class']){
+					if(attrs['class'] != ''){
+						clone.className = attrs['class'];
+					} else {
+						clone.removeAttribute('class');
+					}
+				}
 			}
-			len = selectors.length;
-			for(var j=0; j<len; j++){
-				tsel = selectors[j];
-				csel = cloneselector + selectors[j].replace(selectors[0], '');
-				if(rules[csel] === undefined){
-					addRule(csel, getUniqueStyles(tsel, destination, clone));
-					addRule(csel+':before', getUniqueStyles(tsel+':before', destination, clone));
-					addRule(csel+':after', getUniqueStyles(tsel+':after', destination, clone));
+			
+			/* Process each element and add rules if getUniqueStyles returns a value. */
+			for(i=0; i<=len; i++){
+				if(i){
+					origEl = originalChildren[i-1];
+					cloneEl = cloneChildren[i-1];
+				}
+				cloneSelector = getSelectorsBetween(clone, cloneEl);
+				if(!rules.hasOwnProperty(cloneSelector)){
+					addRule(cloneSelector, getUniqueStyles(origEl, cloneEl));
+					addRule(cloneSelector+':before', getUniqueStyles(origEl, cloneEl, ':before'));
+					addRule(cloneSelector+':after', getUniqueStyles(origEl, cloneEl, ':after'));
 				}
 			}
 			return clone;
