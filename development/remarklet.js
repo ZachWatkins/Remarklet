@@ -8,9 +8,9 @@ requirejs.config({
     'jquery': 'jquery-2.1.3',
     'jqueryui': 'jquery-ui',
     'stylesheet': 'stylesheet',
-    'storedobject': 'storedobject',
     'duplicate': 'duplicate',
-    'prompt': 'prompt'
+    'prompt': 'prompt',
+    'storedobject': 'storedobject'
   },
   shim: {
     'rangyinputs': {
@@ -18,7 +18,8 @@ requirejs.config({
     }
   }
 });
-require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'duplicate', 'prompt'], function($, $ui, $ri, stylesheet, storedobject, duplicate, prompt) {
+require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'duplicate', 'prompt', 'storedobject'],
+function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 	var $ = jQuery;
 	var _getBlobURL = (window.URL && URL.createObjectURL.bind(URL)) || (window.webkitURL && webkitURL.createObjectURL.bind(webkitURL)) || window.createObjectURL;
 	var $w = $(window);
@@ -33,7 +34,26 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 		clipboard: null,
 		pageSavedState: '',
 		fileRead: false,
-		editcounter: 0
+		editcounter: 0,
+		userid: $('script[src*="remarklet.js"]').attr('src').match(/key=(\w+)/),
+		preferences: {
+			"Grid":{
+				"Size":"100px",
+				"Division":"5",
+				"Background":"transparent",
+				"Lines":"#fff"
+			},
+			"CSS_Editor":{
+				"Indentation":"    ",
+				"Font Size":"12pt"
+			},
+			"Export":{
+				"Disable Javascript":"1",
+				"Show Browser Info":"0",
+				"Require Absolute URLs":"0"
+			},
+			"Extra_Features":"0"
+		}
 	};
 	var menu = {
 		File: {Export: 1, Save: 1, Restore: 1},
@@ -41,24 +61,6 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 		Insert: {Image: 1, Note: 1, HTML: 1},
 		Help: 1
 		/* Edit */
-	};
-	var preferences = {
-		Grid: {
-			'Size': '100px',
-			'Division': 5,
-			'Background': 'transparent',
-			'Lines': '#fff'
-		},
-		CSS_Editor: {
-			Indentation: '    ',
-			'Font Size': '12pt',
-			'Update': 500
-		},
-		Export: {
-			'Disable Javascript': true,
-			'Show Browser Info': false,
-			'Require Absolute URLs': true
-		}
 	};
 	var views = {
 		menuwrapper: $('<div id="remarklet-menu"></div>'),
@@ -260,18 +262,18 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 							if(lastchar.match(/\w/)){
 								$t.insertText(': ', selection.start, 'collapseToEnd');
 							} else {
-								$t.insertText(preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
+								$t.insertText(_stored.preferences.CSS_Editor.Indentation, selection.start, 'collapseToEnd');
 							}
 						}
 						break;
 					case 13: /* Enter, Insert indentation when pressing Enter after ; or { */
 						if(selection.length === 0 && lastchar.match(/;|{/)){
 							e.preventDefault();
-							addtext = '\n'+preferences.CSS_Editor.Indentation;
+							addtext = '\n'+_stored.preferences.CSS_Editor.Indentation;
 							$t.insertText(addtext, selection.start, 'collapseToEnd'); 
 							if(lastchar == '{' && nextchar == '}'){
 								addtext = '\n';
-								$t.insertText(addtext, selection.start+preferences.CSS_Editor.Indentation.length+1, 'collapseToStart');
+								$t.insertText(addtext, selection.start+_stored.preferences.CSS_Editor.Indentation.length+1, 'collapseToStart');
 							}
 						}
 						break;
@@ -381,7 +383,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 			} else {
 				removeStyle = true;
 			}
-			controllers.finishChangingElement($target, style, false);
+			controllers.finishChangingElement($target, style, true);
 		}
 	};
 	var resizeOps = {
@@ -409,7 +411,7 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 			} else {
 				removeStyle = true;
 			}
-			controllers.finishChangingElement($target, style, false);
+			controllers.finishChangingElement($target, style, true);
 		}
 	};
 	var _mouse = {
@@ -420,7 +422,6 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 			_mouse.y = e.pageY;
 		}
 	};
-	var settings = preferences;
 	/* Define commands that the user can execute */
 	var command = {
 		File: {
@@ -572,18 +573,6 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 			$b.toggleClass('remarklet-show-help');
 		}
 	};
-	var doFormat = function(usercommandName, showDefaultUI, valueArgument) {
-		// FROM https://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla, replace later with WYSIWYG
-		var d;
-		if(valueArgument===undefined) valueArgument = null;
-		if(showDefaultUI===undefined) showDefaultUI = false;
-		if(d.queryusercommandEnabled(usercommandName)){
-			d.execusercommand(usercommandName, showDefaultUI, valueArgument);
-		} else if(usercommandName=='increasefontsize' || usercommandName=='decreasefontsize'){
-			var s = prompt('Enter new font size (between 1 and 7)','');
-			d.execusercommand('fontsize',true,s);
-		}
-	};
 	views.build = function(){
 		var name, subname, prop, $menu, $submenu, m = menu, c = command;
 		for(name in m){
@@ -628,12 +617,33 @@ require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'storedobject', 'dup
 		_stored.editcounter = last;
 		
 		/* Initialize modules. */
+		var cssOptions = {
+			element: views.usercss.get(0),
+			indent: _stored.preferences.CSS_Editor.Indentation
+		};
+		stylesheet.init(cssOptions);
+		duplicate.init(cssOptions);
 		prompt.init('remarklet');
-		stylesheet.init({element: views.usercss.get(0), indent: preferences.CSS_Editor.Indentation});
-		duplicate.init({element: views.usercss.get(0), indent: preferences.CSS_Editor.Indentation});
-		
+		// Handle Preferences Storage
+		// BACKLOG: Preference update functionality.
+		// For now, all we are doing is pulling them from
+		// the server to localStorage if they are not in localStorage already.
+		storedobject.init('remarklet-preferences', _stored.preferences);
+		if(_stored.userid){
+			_stored.userid = _stored.userid[1];
+			$.getJSON('https://remarklet.com/rm/development/preferences.php?key='+_stored.userid, function(data){
+				storedobject.set(data);
+				storedobject.publish('/update/', data);
+				_stored.preferences = data;
+				console.log(_stored.preferences);
+			}).fail(function(){
+				console.log('The server seems to be unavailable :(');
+			});
+		}
+
 		/* Add UI Elements to page. */
 		views.build();
+
 		/* Event delegation for non-app elements. */
 		controllers.bodyElements.toggle('on');
 	};
