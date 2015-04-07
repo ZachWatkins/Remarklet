@@ -32,7 +32,7 @@ define(function(){
 					dataset[name] = storage[name];
 				}
 			} else {
-				localStorage[uniquename] = defaultvalues;
+				localStorage[uniquename] = JSON.stringify(defaultvalues);
 			}
 			return this;
 		},
