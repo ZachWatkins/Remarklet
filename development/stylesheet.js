@@ -18,6 +18,9 @@ define('stylesheet', function(){
 			styleEl = args.element;
 			indent = args.indent;
 		},
+		setSheet: function(stylesheetelement){
+			styleEl = stylesheetelement;
+		},
 		setRule: function(selector, rule){
 			if(!rule) return;
 			var ruletext, found = false,

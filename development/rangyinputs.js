@@ -173,7 +173,7 @@
 
             // Hack to work around incorrect delete command when deleting the last word on a line
             setSelection(el, sel.start, sel.end);
-            if (text == "") {
+            if (text === "") {
                 document.execCommand("delete", false, null);
             } else {
                 document.execCommand("insertText", false, text);

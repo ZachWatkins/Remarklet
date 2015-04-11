@@ -20,7 +20,6 @@ requirejs.config({
 });
 require(['jquery', 'jqueryui', 'rangyinputs', 'stylesheet', 'duplicate', 'prompt', 'storedobject'],
 function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
-	var $ = jQuery;
 	var _getBlobURL = (window.URL && URL.createObjectURL.bind(URL)) || (window.webkitURL && webkitURL.createObjectURL.bind(webkitURL)) || window.createObjectURL;
 	var $w = $(window);
 	var $b = $('body');
@@ -79,7 +78,8 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 		bodyElements: { /* Event delegation for visible, non-app elements. */
 			mouseover: function(e){
 				if(_dragging) return;
-				var $this = _target = $(this).addClass('remarklet-target');
+				var $this = $(this).addClass('remarklet-target');
+				_target = $this;
 				switch(_mode){
 					case 'drag':
 						if(this.className.search(/ui-(resizable|wrapper)/) < 0){
@@ -148,7 +148,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 				switch(e.keyCode){
 					case 67: /*C*/
 						if(e.ctrlKey){
-							remarklet.clipboard = _target;
+							_stored.clipboard = _target;
 						}
 						break;
 					case 84: /*T*/
@@ -162,7 +162,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 							});*/
 							$('.ui-resizable,.ui-wrapper').each(function(){
 								var $this = $(this);
-								if($this.resizable('instance') != undefined){
+								if($this.resizable('instance') !== undefined){
 									$this.trigger('resizestop').resizable('destroy');
 								}
 							});
@@ -173,12 +173,12 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 					case 86: /*V*/
 						if(e.ctrlKey){
 							_stored.editcounter++;
-							if(remarklet.clipboard.draggable('instance')){
-								remarklet.clipboard.draggable('destroy');
+							if(_stored.clipboard.draggable('instance')){
+								_stored.clipboard.draggable('destroy');
 							}
-							var original = remarklet.clipboard.removeClass('remarklet-target').get(0);
+							var original = _stored.clipboard.removeClass('remarklet-target').get(0);
 							var dupe = duplicate.create(original, original, {id: '', class: 'remarklet remarklet-' + _stored.editcounter});
-							$(dupe).data('remarklet', _stored.editcounter);
+							views.csstextarea.val(stylesheet.getString());
 						}
 						break;
 					case 13: /*Enter*/
@@ -358,7 +358,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 		finishChangingElement: function($el, style, remove){
 			// Remove fractional pixel values.
 			style = style.replace(/(-?\d+)\.\d+px/g,'$1px');
-			stylesheet.setRule('.remarklet-' + $el.data('remarklet'), style);
+			stylesheet.setRule('.'+$el.attr('class').match(/remarklet-[0-9]+/), style);
 			controllers.updateUserCSSUI();
 			if(remove){
 				$el.removeAttr('style');
@@ -378,7 +378,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
-			if($target.resizable('instance') != undefined){
+			if($target.resizable('instance') !== undefined){
 				style = style.replace(/\s?overflow: hidden;\s?/,' ');
 			} else {
 				removeStyle = true;
@@ -406,7 +406,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 			_dragging = false;
 			_mouse.update(event);
 			$b.on('mousemove', _mouse.update);
-			if($target.resizable('instance') != undefined){
+			if($target.resizable('instance') !== undefined){
 				style = style.replace(/\s?overflow: hidden;\s?/,' ');
 			} else {
 				removeStyle = true;
@@ -422,6 +422,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 			_mouse.y = e.pageY;
 		}
 	};
+	/* Get remarklet
 	/* Define commands that the user can execute */
 	var command = {
 		File: {
@@ -456,17 +457,24 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 				window.open(data, 'Exported From Remarklet', '');
 			},
 			Save: function(){
-				remarklet.pageSavedState = '';
+				_stored.pageSavedState = '';
 				$b.children().not(views.retained).each(function(){
-					remarklet.pageSavedState += this.outerHTML.replace(/<script/gi,'<!-- script').replace(/<\/script>/gi,'</script -->');
+					_stored.pageSavedState += this.outerHTML.replace(/<script/gi,'<!-- script').replace(/<\/script>/gi,'</script -->');
 				});
 			},
 			Restore: function(){
-				if(remarklet.pageSavedState !== ''){
+				console.log('restore('+_stored.pageSavedState+')');
+				if(_stored.pageSavedState !== ''){
 					$b.children().not(views.retained).remove();
-					$b.prepend(remarklet.pageSavedState);
-					views.usercss = $('#remarklet-usercss');
+					// Prepend page state to body as string.
+					$b.prepend(_stored.pageSavedState);
+					// Rebind views that were in saved state string.
 					views.box = $('#remarklet-box');
+					views.usercss = $('#remarklet-usercss');
+					// Relink stylesheet element to views and modules.
+					stylesheet.setSheet(views.usercss.get(0));
+					duplicate.setSheet(views.usercss.get(0));
+					views.csstextarea.val(stylesheet.getString());
 				}
 			}
 		},
@@ -523,7 +531,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 							str = ['<div class="remarklet-newimg" style="',defaultstyles,'font:normal 16px Arial,Helvetica,sans-serif;color:',data.textcolor,';background-color:',data.bgcolor,';width:',data.imgdimensions.toLowerCase().split('x')[0],'px;height:',data.imgdimensions.toLowerCase().split('x')[1],'px;">',data.imgtext,'</div>'];
 						}
 						str = str.join('');
-						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box);
+						$(str).addClass('remarklet remarklet-' + ednum).appendTo(views.box);
 						$b.on('mousemove', _mouse.update);
 					}
 				});
@@ -544,7 +552,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 							width = 500;
 						}
 						str = ['<div class="remarklet-note" style="position: absolute; z-index: 2147483647; background-color: #feff81; padding: 10px; font-family: monospace; box-shadow: 0 3px 5px #000; word-wrap: break-word; left:',_mouse.x,'px;top:',_mouse.y,'px;width:',width,'px">',data.notetext,'</div>'].join('');
-						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box);
+						$(str).addClass('remarklet remarklet-' + ednum).appendTo(views.box);
 						$b.on('mousemove', _mouse.update);
 					}
 				});
@@ -559,7 +567,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 						_stored.editcounter++;
 						var str, ednum = _stored.editcounter;
 						str = ['<div class="remarklet-usercode" style="position:absolute;left:',_mouse.x,'px;top:',_mouse.y,'px;">',data.remarkletinserthtml,'</div>'].join('');
-						$(str).data('remarklet', ednum).addClass('remarklet remarklet-' + ednum).appendTo(views.box).css({
+						$(str).addClass('remarklet remarklet-' + ednum).appendTo(views.box).css({
 							width: function(){return this.clientWidth + 1;},
 							height: function(){return this.clientHeight + 1;}
 						});
@@ -599,6 +607,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 		/* Insert app elements into page. */
 		views.box.add(views.usercss).appendTo($b);
 		views.retained = views.gridoverlay.add(views.csswindow.append(views.csstextarea)).add(views.help).add(prompt.get.window()).add(views.preferences).add(views.menuwrapper).appendTo($b);
+		views.retained = views.retained.add('link[rel*="//remarklet"]');
 	};
 	remarklet.init = function(){		
 		/* Tag all non-app page elements we may want to interact with. */
@@ -612,7 +621,7 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 		$b.find('*:not(:hidden,.remarklet)').each(function(){
 			last++;
 			var num = last;
-			$(this).data('remarklet',num).addClass('remarklet remarklet-' + num);
+			$(this).addClass('remarklet remarklet-' + num);
 		});
 		_stored.editcounter = last;
 		
@@ -622,12 +631,12 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 			indent: _stored.preferences.CSS_Editor.Indentation
 		};
 		stylesheet.init(cssOptions);
-		duplicate.init(cssOptions);
+		duplicate.init(cssOptions, {tag: false, id: false, classname: '\.remarklet-[0-9]+'});
 		prompt.init('remarklet');
 		// Handle Preferences Storage
 		// BACKLOG: Preference update functionality.
-		// For now, all we are doing is pulling them from
-		// the server to localStorage if they are not in localStorage already.
+		// For now, all we are doing is pulling them from the server
+		// to localStorage if they are not in localStorage already.
 		storedobject.init('remarklet-preferences', _stored.preferences);
 		if(_stored.userid){
 			_stored.userid = _stored.userid[1];

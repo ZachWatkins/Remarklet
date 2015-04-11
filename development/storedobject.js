@@ -69,7 +69,7 @@ define(function(){
 
 			// Cycle through topics queue, fire!
 			topics[topic].forEach(function(item) {
-				item(info != undefined ? info : {});
+				item(info !== undefined ? info : {});
 			});
 		}
 	};

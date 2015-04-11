@@ -8,7 +8,7 @@
 		  its children do not have, using the ID and class from <clone> for the new rule's CSS selector.
 */
 define('duplicate', ['stylesheet'], function(stylesheet){
-	var addRule;
+	var addRule, selectorSettings;
 	var getSelector = function(el){
 		var value = el.tagName.toLowerCase(),
 			id = el.id,
@@ -46,7 +46,7 @@ define('duplicate', ['stylesheet'], function(stylesheet){
 			# Return all unique and valid styles.
 		*/
 		var elStyle = window.getComputedStyle(original, pseudoelement);
-		if(pseudoelement != undefined && elStyle.content == 'none'){
+		if(pseudoelement !== undefined && elStyle.content === 'none'){
 			return '';
 		}
 		var cloneStyle = window.getComputedStyle(clone, pseudoelement),
@@ -125,9 +125,10 @@ define('duplicate', ['stylesheet'], function(stylesheet){
 		return values;
 	};
 	return {
-		init: function(args){
+		init: function(args, selectoroptions){
 			stylesheet.init(args);
 			addRule = stylesheet.setRule;
+			selectorSettings = selectoroptions || {};
 		},
 		create: function(original, destination, attrs){
 			if(typeof original === 'string'){
@@ -155,15 +156,15 @@ define('duplicate', ['stylesheet'], function(stylesheet){
 			
 			/* Set up clone with custom attributes if provided. */
 			if(attrs){
-				if(attrs['id']){
-					if(attrs['id'] != ''){
-						clone.id = attrs['id'];
+				if(attrs.id){
+					if(attrs.id !== ''){
+						clone.id = attrs.id;
 					} else {
 						clone.removeAttribute('id');
 					}
 				}
 				if(attrs['class']){
-					if(attrs['class'] != ''){
+					if(attrs['class'] !== ''){
 						clone.className = attrs['class'];
 					} else {
 						clone.removeAttribute('class');
@@ -178,6 +179,20 @@ define('duplicate', ['stylesheet'], function(stylesheet){
 					cloneEl = cloneChildren[i-1];
 				}
 				cloneSelector = getSelectorsBetween(clone, cloneEl);
+				// This is getting a little messy. We need to only add rules for Remarklet that
+				// select the outermost element using ".remarklet-[0-9]" and nothing else. How
+				// to provide such functionality in a module, which should be useable elsewhere,
+				// is a challenge. How should this module allow selector specificity filtering?
+				if(selectorSettings.id === false){
+					cloneSelector = cloneSelector.replace(/#[a-z0-9\-_]+/gi, '');
+				}
+				if(selectorSettings.tag === false){
+					cloneSelector = cloneSelector.replace(/^[a-z]+/gi, '');
+				}
+				var classname = cloneSelector.match(/\.[a-z0-9\-\._]+/i);
+				if(classname && typeof selectorSettings.classname === 'string'){
+					cloneSelector = cloneSelector.replace(classname[0], classname[0].match(new RegExp(selectorSettings.classname, 'i')));
+				}
 				if(!rules.hasOwnProperty(cloneSelector)){
 					addRule(cloneSelector, getUniqueStyles(origEl, cloneEl));
 					addRule(cloneSelector+':before', getUniqueStyles(origEl, cloneEl, ':before'));
@@ -185,6 +200,9 @@ define('duplicate', ['stylesheet'], function(stylesheet){
 				}
 			}
 			return clone;
+		},
+		setSheet: function(stylesheetelement){
+			stylesheet.setSheet(stylesheetelement);
 		}
 	};
 });
