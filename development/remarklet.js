@@ -182,11 +182,14 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 						}
 						break;
 					case 13: /*Enter*/
-						if(e.ctrlKey && $('.ui-resizable').length > 0){
-							var $target = $('.ui-resizable'),
-								style = $target.attr('style').replace(/(resize|position|right|bottom): (auto|none|static);\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
+						if(e.ctrlKey && $('.remarklet.ui-resizable').length > 0){
+							var $target = $('.remarklet.ui-resizable');
 							$target.resizable('destroy');
-							controllers.finishChangingElement($target, style, true);
+							if($target.attr('style')){
+								var style = $target.attr('style').replace(/(resize|position|right|bottom): (auto|none|static);\s?/g,'').replace(/(-?\d+)\.\d+px/g,'$1px');
+								controllers.finishChangingElement($target, style, true);
+							}
+							controllers.switchmode('drag');
 						}
 						break;
 					case 46: /*Del*/

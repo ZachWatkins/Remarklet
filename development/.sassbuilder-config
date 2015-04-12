@@ -1,0 +1,13 @@
+/* To get the Sass Build package to work in Sublime Text 3, I installed Ruby globally and followed these instructions:
+Try adding ;C:Ruby210bin to you PATH variables at My Computer -> Properties -> Advanced System Settings -> Environment Variables and then System Variables -> Path
+*/
+{
+    "output_path": "",
+    "options": {
+        "cache":         true,
+        "debug":         true,
+        "line-comments": true,
+        "line-numbers":  true,
+        "style":         "nested"
+    }
+}
