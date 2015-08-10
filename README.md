@@ -23,6 +23,7 @@ This JavaScript bookmarklet is built on Require, jQuery, and jQuery UI and will 
 
 # Keyboard Shortcuts:
 Note: Keyboard shortcuts only supported for Windows; Mac support is planned.
+
 [Drag Mode] 
 * Enter Text Mode: T
 * Enter Drag Mode: V
