@@ -40,3 +40,4 @@ JavaScript and CSS code that were created by jQuery and jQuery UI (custom build)
 
 # What is a bookmarklet?
 A bookmarklet is a bookmark that executes JavaScript when clicked instead of sending you to another web page. This is the current bookmarklet link: javascript:(function(d){var%20r='remarklet',e='//'+r+'.com/rm/',m=d.createElement('link'),a=d.createElement('script');a.src=e+'require.js';a.setAttribute('data-main',e+r+'.js');m.type='text/css';m.rel='stylesheet';m.href=e+r+'.css';d.head.appendChild(a);d.head.appendChild(m);})(document);
+ 
