@@ -1,10 +1,18 @@
+/**
+ * Remarklet - Main SCSS file
+ * 
+ * @package     ZachWatkins\Remarklet
+ * @subpackage  Stylesheet
+ * @description The main stylesheet file.
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
 @import 'jquery-ui';
 
 $font-stack: Arial, Helvetica, sans-serif;
-/*! Remarklet - 2015-4-11
-* by Zachary Watkins (watkinza@gmail.com)
-* http://remarklet.com
-* Copyright 2015 Zachary Watkins; Licensed MIT */
+
 #remarklet-menu,
 #remarklet-grid,
 #remarklet-ui-usercss,

@@ -1,5 +1,14 @@
-/* Locally Stored Object module */
-// Store object within module and localStorage, sync changes to both.
+/**
+ * Remarklet - Stored Object module using RequireJS pattern.
+ * 
+ * @package     ZachWatkins\Remarklet
+ * @subpackage  storedobject
+ * @description Store object within module and localStorage, sync changes to both.
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
 define(function(){
 	var dbname, // Name of database in localStorage.
 		defaults, // Default values of "dataset".

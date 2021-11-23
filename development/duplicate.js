@@ -1,5 +1,17 @@
-/*  Element Duplication module.
-	Dependencies: RequireJS, Stylesheet module (http://codepen.io/zw/pen/JompNy.js)
+/**
+ * Remarklet - Element Duplication Module using RequireJS pattern.
+ *
+ * @package     ZachWatkins\Remarklet
+ * @subpackage  Element Duplication
+ * @description Element Duplication Module using RequireJS pattern.
+ * @requires    RequireJS, Stylesheet Module
+ * @see         http://codepen.io/zw/pen/JompNy.js
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
+/*  
 	Tasks: 
 		# Create <clone> from <original> element and its children.
 		# Add <clone> to page where desired.

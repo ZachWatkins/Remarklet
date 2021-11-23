@@ -1,4 +1,14 @@
-/* Prompt Window module */
+/**
+ * Remarklet - Prompt Window Module using RequireJS pattern.
+ *
+ * @package     ZachWatkins\Remarklet
+ * @subpackage  Prompt Window
+ * @description Prompt Window Module using RequireJS pattern.
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
 define(['jquery'], function($){
 	var callback, formobj;
 	var open = function(args){

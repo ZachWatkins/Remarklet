@@ -1,4 +1,14 @@
-/* Stylesheet Module for RequireJS */
+/**
+ * Remarklet - Stylesheet Module using RequireJS pattern.
+ *
+ * @package     ZachWatkins\Remarklet
+ * @subpackage  Stylesheet
+ * @description Stylesheet Module using RequireJS pattern.
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
 define('stylesheet', function(){
 	var styleEl, indent, rules = {},
 		rulesToString = function(){

@@ -1,8 +1,13 @@
-/* Remarklet - v0.9 - 2014-11-21
- by Zach Watkins (zwatkins7@yahoo.com)
- https://remarklet.com
- licensed under the MIT License.
-*/
+/**
+ * Remarklet - A visual editor application that makes modifying and commenting on web pages remarkably easy!
+ * 
+ * @package     ZachWatkins\Remarklet
+ * @description A visual editor application that makes modifying and commenting on web pages remarkably easy!
+ * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+ * @copyright   Zachary Kendall Watkins all versions Copyright (c) 2021 All Rights Reserved.
+ * @link        https://github.com/zachwatkins/remarklet
+ * @license     https://spdx.org/licenses/MIT.html MIT License
+ */
 requirejs.config({
   paths: {
     'jquery': 'jquery-2.1.3',
