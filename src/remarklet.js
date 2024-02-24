@@ -38,9 +38,7 @@ export function createRemarklet() {
         pageSavedState: '',
         fileRead: false,
         editcounter: 0,
-        userid: $('script[src*="remarklet.js"]')
-            .attr('src')
-            .match(/key=(\w+)/),
+        userid: 1,
         preferences: {
             'Grid': {
                 'Size': '100px',
@@ -909,6 +907,7 @@ export function createRemarklet() {
             classname: '.remarklet-[0-9]+',
         });
         prompt = createPrompt('remarklet');
+        // TODO: Preference storage and update functionality.
         // For now, all we are doing is pulling them from the server
         // to localStorage if they are not in localStorage already.
         storedobject = createStoredObject(
@@ -917,18 +916,10 @@ export function createRemarklet() {
         );
         if (_stored.userid) {
             _stored.userid = _stored.userid[1];
-            $.getJSON(
-                'https://remarklet.com/rm/development/preferences.php?key=' +
-                    _stored.userid,
-                function (data) {
-                    storedobject.set(data);
-                    storedobject.publish('/update/', data);
-                    _stored.preferences = data;
-                    console.log(_stored.preferences);
-                },
-            ).fail(function () {
-                console.log('The server seems to be unavailable :(');
-            });
+            var data = {};
+            storedobject.set(data);
+            storedobject.publish('/update/', data);
+            _stored.preferences = data;
         }
 
         /* Add UI Elements to page. */
