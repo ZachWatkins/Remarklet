@@ -47,3 +47,5 @@ node_modules
 remarklet.css.map
 sftp-config.json
 login.php
+
+dist/
