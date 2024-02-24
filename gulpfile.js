@@ -6,12 +6,12 @@ var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 
 gulp.task('default', function(){
-  gulp.src('development/*.js')
+  gulp.src('src/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(uglify())
     .pipe(gulp.dest('production'));
-  gulp.src('development/*.css')
+  gulp.src('src/*.css')
     .pipe(cssmin())
     .pipe(gulp.dest('production'));
 });
