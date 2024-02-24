@@ -1,2 +1,3 @@
-import * as Remarklet from './src/remarklet';
+import { createRemarklet } from './src/remarklet';
 
+createRemarklet();
