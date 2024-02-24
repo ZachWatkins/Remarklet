@@ -6,7 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "vite build --mode production --config vite.config.js"
+    "build": "vite build --mode production --config vite.config.js",
+    "lint": "prettier --check .",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
