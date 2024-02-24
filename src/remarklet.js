@@ -200,10 +200,6 @@ export function createRemarklet() {
                             controllers.switchmode('text');
                             e.preventDefault();
                         } else if (e.altKey) {
-                            // Resolve existing draggable instances.
-                            /*$('.ui-draggable').each(function(){
-								$(this).trigger('dragstop').draggable('destroy');
-							});*/
                             $('.ui-resizable,.ui-wrapper').each(function () {
                                 var $this = $(this);
                                 if ($this.resizable('instance') !== undefined) {
@@ -213,7 +209,6 @@ export function createRemarklet() {
                                 }
                             });
                             _target.resizable(resizeOps);
-                            //e.preventDefault();
                         }
                         break;
                     case 86 /*V*/:
@@ -644,7 +639,6 @@ export function createRemarklet() {
                     });
             },
             Restore: function () {
-                console.log('restore(' + _stored.pageSavedState + ')');
                 if (_stored.pageSavedState !== '') {
                     $b.children().not(views.retained).remove();
                     // Prepend page state to body as string.
