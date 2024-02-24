@@ -9,7 +9,8 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
-define(['jquery'], function ($) {
+export function createPrompt(prefix) {
+    var $ = window.jQuery;
     var callback, formobj;
     var open = function (args) {
         if (typeof args.form == 'string') {
@@ -58,19 +59,15 @@ define(['jquery'], function ($) {
             close();
         }
     };
+
+    ui.content
+        .append(ui.form)
+        .append(ui.submit)
+        .append(ui.cancel)
+        .appendTo(ui.window);
+    ui.window.appendTo('body');
+
     return {
-        init: function (prefix) {
-            var key;
-            for (key in ui) {
-                ui[key].attr('id', prefix + '-prompt-' + key);
-            }
-            ui.content
-                .append(ui.form)
-                .append(ui.submit)
-                .append(ui.cancel)
-                .appendTo(ui.window);
-            ui.window.appendTo('body');
-        },
         get: {
             window: function () {
                 return ui.window;
@@ -84,4 +81,6 @@ define(['jquery'], function ($) {
         },
         open: open,
     };
-});
+}
+
+export default { createPrompt };

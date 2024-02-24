@@ -9,7 +9,7 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
-define(function () {
+export function createStoredObject(uniquename, defaultvalues) {
     var dbname, // Name of database in localStorage.
         defaults, // Default values of "dataset".
         dataset = {},
@@ -28,7 +28,7 @@ define(function () {
         return this;
     };
     return {
-        init: function (uniquename, defaultvalues) {
+        init: function () {
             var name, storage;
             dbname = uniquename;
             dataset = defaults = defaultvalues;
@@ -82,4 +82,6 @@ define(function () {
             });
         },
     };
-});
+}
+
+export default { createStoredObject };

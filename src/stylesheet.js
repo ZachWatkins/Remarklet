@@ -9,9 +9,10 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
-define('stylesheet', function () {
-    var styleEl,
-        indent,
+export function createStylesheet(args) {
+    var indent = args.indent;
+    var styleEl = args.element;
+    var indent,
         rules = {},
         rulesToString = function () {
             var css = '',
@@ -26,10 +27,6 @@ define('stylesheet', function () {
             return css;
         };
     return {
-        init: function (args) {
-            styleEl = args.element;
-            indent = args.indent;
-        },
         setSheet: function (stylesheetelement) {
             styleEl = stylesheetelement;
         },
@@ -119,4 +116,6 @@ define('stylesheet', function () {
             return styleEl;
         },
     };
-});
+}
+
+export default { createStylesheet };
