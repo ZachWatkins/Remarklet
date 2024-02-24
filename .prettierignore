@@ -1,0 +1,23 @@
+## From .gitignore
+# Dependencies
+node_modules/
+
+# Production
+public/
+dist/
+
+# IDE Artifacts
+.vscode
+
+# Misc
+.DS_Store
+.env.local
+.env.*.local
+
+*.log*
+
+# Prettier-only ignores.
+assets/
+dist/
+CHANGELOG.md
+package-lock.json
