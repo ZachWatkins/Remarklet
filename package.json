@@ -25,5 +25,22 @@
   },
   "devDependencies": {
     "prettier": "^3.2.5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 80,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "arrowParens": "always",
+    "jsxSingleQuote": true,
+    "endOfLine": "lf",
+    "quoteProps": "preserve",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "singleAttributePerLine": true,
+    "proseWrap": "never",
+    "htmlWhitespaceSensitivity": "strict"
   }
 }
