@@ -1,6 +1,6 @@
 /**
  * Remarklet - A visual editor application that makes modifying and commenting on web pages remarkably easy!
- * 
+ *
  * @package     ZachWatkins\Remarklet
  * @description A visual editor application that makes modifying and commenting on web pages remarkably easy!
  * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
@@ -8,6 +8,7 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
+import { findElementOffset } from './utils.js';
 requirejs.config({
   paths: {
     'jquery': 'jquery-2.1.3',
@@ -183,6 +184,12 @@ function($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
 							}
 							var original = _stored.clipboard.removeClass('remarklet-target').get(0);
 							var dupe = duplicate.create(original, original, {id: '', class: 'remarklet remarklet-' + _stored.editcounter});
+							var offset = findElementOffset(original);
+							$(dupe).css({
+							  position: 'absolute',
+							  left: offset.left + 10,
+							  top: offset.top + 10,
+							});
 							views.csstextarea.val(stylesheet.getString());
 						}
 						break;
