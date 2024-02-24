@@ -215,7 +215,7 @@ define('duplicate', ['stylesheet'], function (stylesheet) {
                     origEl = originalChildren[i - 1];
                     cloneEl = cloneChildren[i - 1];
                 }
-                cloneSelector = getSelectorsBetween(clone, cloneEl);
+                var cloneSelector = getSelectorsBetween(clone, cloneEl);
                 // This is getting a little messy. We need to only add rules for Remarklet that
                 // select the outermost element using ".remarklet-[0-9]" and nothing else. How
                 // to provide such functionality in a module, which should be useable elsewhere,
