@@ -8,38 +8,26 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
+import * as $jq from './jquery-2.1.3.js';
+import * as $ui from './jquery-ui.js';
+import * as $ri from './rangyinputs.js';
 import { findElementOffset } from './utils.js';
-requirejs.config({
-    paths: {
-        'jquery': 'jquery-2.1.3',
-        'jqueryui': 'jquery-ui',
-        'stylesheet': 'stylesheet',
-        'duplicate': 'duplicate',
-        'prompt': 'prompt',
-        'storedobject': 'storedobject',
-    },
-    shim: {
-        'rangyinputs': {
-            deps: ['jquery'],
-        },
-    },
-});
-require([
-    'jquery',
-    'jqueryui',
-    'rangyinputs',
-    'stylesheet',
-    'duplicate',
-    'prompt',
-    'storedobject',
-], function ($, $ui, $ri, stylesheet, duplicate, prompt, storedobject) {
+import './remarklet.css';
+import { createStylesheet } from './stylesheet.js';
+import { createDuplicate } from './duplicate.js';
+import { createPrompt } from './prompt.js';
+import { createStoredObject } from './storedobject.js';
+
+export function createRemarklet() {
+    var $ = window.jQuery;
+    var stylesheet, duplicate, prompt, storedobject;
+    var remarklet = {};
     var _getBlobURL =
         (window.URL && URL.createObjectURL.bind(URL)) ||
         (window.webkitURL && webkitURL.createObjectURL.bind(webkitURL)) ||
         window.createObjectURL;
     var $w = $(window);
     var $b = $('body');
-    var remarklet = {};
     var _target;
     var _texttarget = false;
     var _mode = 'drag';
@@ -916,18 +904,19 @@ require([
             element: views.usercss.get(0),
             indent: _stored.preferences.CSS_Editor.Indentation,
         };
-        stylesheet.init(cssOptions);
-        duplicate.init(cssOptions, {
+        stylesheet = createStylesheet(cssOptions);
+        duplicate = createDuplicate(stylesheet, cssOptions, {
             tag: false,
             id: false,
             classname: '.remarklet-[0-9]+',
         });
-        prompt.init('remarklet');
-        // Handle Preferences Storage
-        // BACKLOG: Preference update functionality.
+        prompt = createPrompt('remarklet');
         // For now, all we are doing is pulling them from the server
         // to localStorage if they are not in localStorage already.
-        storedobject.init('remarklet-preferences', _stored.preferences);
+        storedobject = createStoredObject(
+            'remarklet-preferences',
+            _stored.preferences,
+        );
         if (_stored.userid) {
             _stored.userid = _stored.userid[1];
             $.getJSON(
@@ -951,4 +940,7 @@ require([
         controllers.bodyElements.toggle('on');
     };
     remarklet.init();
-});
+    return remarklet;
+}
+
+export default { createRemarklet };

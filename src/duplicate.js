@@ -19,8 +19,9 @@
 		# Add rules to <stylesheet> that <original> and its children have and <clone> and
 		  its children do not have, using the ID and class from <clone> for the new rule's CSS selector.
 */
-define('duplicate', ['stylesheet'], function (stylesheet) {
-    var addRule, selectorSettings;
+export function createDuplicate(stylesheet, args, selectoroptions) {
+    var addRule = stylesheet.setRule;
+    var selectorSettings = selectoroptions || {};
     var getSelector = function (el) {
         var value = el.tagName.toLowerCase(),
             id = el.id,
@@ -159,11 +160,6 @@ define('duplicate', ['stylesheet'], function (stylesheet) {
         return values;
     };
     return {
-        init: function (args, selectoroptions) {
-            stylesheet.init(args);
-            addRule = stylesheet.setRule;
-            selectorSettings = selectoroptions || {};
-        },
         create: function (original, destination, attrs) {
             if (typeof original === 'string') {
                 original = document.querySelector(original);
@@ -259,4 +255,6 @@ define('duplicate', ['stylesheet'], function (stylesheet) {
             stylesheet.setSheet(stylesheetelement);
         },
     };
-});
+}
+
+export default { createDuplicate };
