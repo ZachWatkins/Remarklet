@@ -770,7 +770,7 @@ export function createRemarklet() {
                             width = 500;
                         }
                         str = [
-                            '<div class="remarklet-note" style="position: absolute; z-index: 2147483647; background-color: #feff81; padding: 10px; font-family: monospace; box-shadow: 0 3px 5px #000; word-wrap: break-word; left:',
+                            '<div class="remarklet-note" style="position: absolute; z-index: 2147483647; background-color: #feff81; color: #000; padding: 10px; font-family: monospace; box-shadow: 0 3px 5px #000; word-wrap: break-word; left:',
                             _mouse.x,
                             'px;top:',
                             _mouse.y,
