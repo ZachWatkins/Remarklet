@@ -886,11 +886,15 @@ export function createRemarklet() {
                 last = num;
             }
         });
-        $b.find('*:not(:hidden,.remarklet)').each(function () {
-            last++;
-            var num = last;
-            $(this).addClass('remarklet remarklet-' + num);
-        });
+        $b.find('*')
+            .not(':hidden')
+            .not('.remarklet')
+            .each(function (index, item) {
+                last++;
+                var num = last;
+                item.classList.add('remarklet');
+                item.classList.add('remarklet-' + num);
+            });
         _stored.editcounter = last;
 
         /* Initialize modules. */
