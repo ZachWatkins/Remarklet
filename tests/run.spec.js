@@ -3,7 +3,7 @@
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/tests/');
 
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle('My Vite App');
@@ -14,5 +14,5 @@ test('no errors occur during page load', async ({ page }) => {
         console.error(error);
         test.fail();
     });
-    await page.goto('/');
+    await page.goto('/tests/');
 });
