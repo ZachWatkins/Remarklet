@@ -21,3 +21,5 @@ assets/
 dist/
 CHANGELOG.md
 package-lock.json
+src/jquery-ui-*
+src/rangyinputs.js
