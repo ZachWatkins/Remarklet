@@ -9,8 +9,8 @@
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
 import './remarklet.scss';
-import * as $jq from './jquery-2.1.3.js';
-import * as $ui from './jquery-ui-1.13.2.custom/jquery-ui.min.js';
+import * as $jq from './jquery-ui-1.13.2.custom/external/jquery/jquery.js';
+import * as $ui from './jquery-ui-1.13.2.custom/jquery-ui.js';
 import * as $ri from './rangyinputs.js';
 import { findElementOffset } from './utils.js';
 import { createStylesheet } from './stylesheet.js';
