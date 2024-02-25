@@ -6,7 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "vite",
     "build": "vite build --mode production --config vite.config.js",
+    "test": "playwright test",
     "lint": "prettier --check .",
     "format": "prettier --write ."
   },
@@ -26,6 +28,8 @@
     "vite": "^5.1.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.11.20",
     "prettier": "^3.2.5",
     "sass": "^1.71.1"
   },
