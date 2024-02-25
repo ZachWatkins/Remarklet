@@ -6,6 +6,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "vite",
     "build": "vite build --mode production --config vite.config.js",
     "test": "playwright test",
     "lint": "prettier --check .",
