@@ -8,3 +8,11 @@ test('has title', async ({ page }) => {
     // Expect a title "to contain" a substring.
     await expect(page).toHaveTitle('My Vite App');
 });
+
+test('no errors occur during page load', async ({ page }) => {
+    page.on('pageerror', (error) => {
+        console.error(error);
+        test.fail();
+    });
+    await page.goto('/');
+});
