@@ -12,28 +12,30 @@ If you enjoyed using this tool, I would appreciate hearing from you! zwatkins.it
 
 # Features:
 
-* Export
-* Save
-* Restore
-* View Grid
-* View Outlines
-* View CSS Changes
-* Insert Image
-* Insert Note
-* Insert Code
-* Drag Elements
-* Resize Elements
-* Delete Elements
-* Edit Text
+-   Export
+-   Save
+-   Restore
+-   View Grid
+-   View Outlines
+-   View CSS Changes
+-   Insert Image
+-   Insert Note
+-   Insert Code
+-   Drag Elements
+-   Resize Elements
+-   Delete Elements
+-   Edit Text
 
 # Keyboard Shortcuts:
 
-[Drag Mode] 
-* Enter Text Mode: T
-* Enter Drag Mode: V
-* Resize Element: Ctrl + Alt + T
-* Finish Resizing Element: Enter
-* Delete Element: Delete
+[Drag Mode]
+
+-   Enter Text Mode: T
+-   Enter Drag Mode: V
+-   Resize Element: Ctrl + Alt + T
+-   Finish Resizing Element: Enter
+-   Delete Element: Delete
 
 [Text Mode]
-* Return to Drag Mode: Ctrl + Enter
+
+-   Return to Drag Mode: Ctrl + Enter
