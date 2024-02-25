@@ -26,7 +26,8 @@
     "vite": "^5.1.4"
   },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "sass": "^1.71.1"
   },
   "prettier": {
     "singleQuote": true,

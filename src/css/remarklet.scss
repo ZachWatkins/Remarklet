@@ -55,6 +55,7 @@ $font-stack: Arial, Helvetica, sans-serif;
         li {
             display: block;
             padding: 0 10px;
+            margin: 0;
             cursor: pointer;
             li:active {
                 box-shadow: 0 0 2px #ff3e00 inset;
@@ -334,4 +335,19 @@ $font-stack: Arial, Helvetica, sans-serif;
     a:visited {
         color: #00f;
     }
+}
+#remarklet-prompt-submit,
+#remarklet-prompt-cancel {
+    background-color: buttonface;
+    padding: 0.25rem 1rem;
+}
+#remarklet-prompt-cancel {
+    margin-left: 1rem;
+}
+#remarklet-prompt-content label {
+    display: block;
+    color: #000;
+}
+#remarklet-prompt-content textarea {
+    padding: 0.5rem 1rem;
 }

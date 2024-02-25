@@ -12,7 +12,7 @@ import * as $jq from './jquery-2.1.3.js';
 import * as $ui from './jquery-ui.js';
 import * as $ri from './rangyinputs.js';
 import { findElementOffset } from './utils.js';
-import './remarklet.css';
+import './css/remarklet.scss';
 import { createStylesheet } from './stylesheet.js';
 import { createDuplicate } from './duplicate.js';
 import { createPrompt } from './prompt.js';
