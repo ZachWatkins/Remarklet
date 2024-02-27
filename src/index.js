@@ -1,4 +1,3 @@
-import './index.scss';
 // import menu from './menu.js';
 const state = {
     on: false,
