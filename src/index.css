@@ -34,16 +34,19 @@ button:disabled {
 .text-center {
     text-align: center;
 }
+.text-right {
+    text-align: right;
+}
 .row {
     display: flex;
     flex-direction: row;
     margin-bottom: 0.5rem;
 }
-.row .col {
+.row > .col {
     flex: 1;
     margin-right: 0.5rem;
 }
-.row .col:last-child {
+.row > .col:last-child {
     margin-right: 0;
 }
 .justify-center {

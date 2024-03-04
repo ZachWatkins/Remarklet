@@ -13,6 +13,12 @@
       "128": "images/icon-128.png"
     }
   },
+  "content_scripts": [
+      {
+          "matches": ["<all_urls>"],
+          "js": ["content/contentScript.js"]
+      }
+  ],
   "background": {
     "service_worker": "background.js"
   },

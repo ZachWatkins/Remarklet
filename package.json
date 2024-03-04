@@ -1,53 +1,53 @@
 {
-  "name": "remarklet",
-  "description": "Remarklet - make mockups faster",
-  "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com>",
-  "version": "0.9.0",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "build": "vite build --mode production --config vite.config.js",
-    "test": "playwright test",
-    "lint": "prettier --check .",
-    "format": "prettier --write ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/ZachWatkins/remarklet.git"
-  },
-  "keywords": [
-    "remarklet",
-    "js",
-    "bookmarklet",
-    "mockup",
-    "drag"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "vite": "^5.1.4"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.41.2",
-    "@types/node": "^20.11.20",
-    "prettier": "^3.2.5",
-    "sass": "^1.71.1"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "printWidth": 80,
-    "tabWidth": 4,
-    "useTabs": false,
-    "semi": true,
-    "arrowParens": "always",
-    "jsxSingleQuote": true,
-    "endOfLine": "lf",
-    "quoteProps": "preserve",
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "bracketSameLine": false,
-    "singleAttributePerLine": true,
-    "proseWrap": "never",
-    "htmlWhitespaceSensitivity": "strict"
-  }
+    "name": "remarklet",
+    "description": "Remarklet - make mockups faster",
+    "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com>",
+    "version": "0.9.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "vite",
+        "build": "vite build --mode production && vite build --mode production --config vite.content.config.js",
+        "test": "playwright test",
+        "lint": "prettier --check .",
+        "format": "prettier --write ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/ZachWatkins/remarklet.git"
+    },
+    "keywords": [
+        "remarklet",
+        "js",
+        "bookmarklet",
+        "mockup",
+        "drag"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "vite": "^5.1.4"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.41.2",
+        "@types/node": "^20.11.20",
+        "prettier": "^3.2.5",
+        "sass": "^1.71.1"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "printWidth": 80,
+        "tabWidth": 4,
+        "useTabs": false,
+        "semi": true,
+        "arrowParens": "always",
+        "jsxSingleQuote": true,
+        "endOfLine": "lf",
+        "quoteProps": "preserve",
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "bracketSameLine": false,
+        "singleAttributePerLine": true,
+        "proseWrap": "never",
+        "htmlWhitespaceSensitivity": "strict"
+    }
 }
