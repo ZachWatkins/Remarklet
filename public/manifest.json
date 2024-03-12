@@ -20,7 +20,8 @@
       }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
   "icons": {
     "16": "images/icon-16.png",
