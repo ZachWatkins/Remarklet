@@ -1,30 +1,35 @@
-// import menu from './menu.js';
 const state = {
-    on: false,
+    ON: false,
     showGrid: false,
     showOutline: false,
 };
 window['on-button'].addEventListener('click', function () {
-    if (!state.on) {
+    if (!state.ON) {
         window['on-button'].classList.remove('off');
         window['off-button'].classList.add('off');
-        state.on = true;
+        state.ON = true;
+        chrome.storage.local.set({ ON: true });
+        chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'ON' });
+            },
+        );
     }
-    // Send message to the content script.
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'on' });
-    });
 });
 window['off-button'].addEventListener('click', function () {
-    if (state.on) {
+    if (state.ON) {
         window['on-button'].classList.add('off');
         window['off-button'].classList.remove('off');
-        state.on = false;
+        state.ON = false;
+        chrome.storage.local.set({ enabled: false });
+        chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'OFF' });
+            },
+        );
     }
-    // Send message to the content script.
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'off' });
-    });
 });
 window.export.addEventListener('click', function () {
     console.log('export');
