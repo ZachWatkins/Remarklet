@@ -3,7 +3,7 @@
   "name": "Remarklet",
   "description": "Make changes to a web page and share them with others.",
   "version": "1.0",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "index.html",
     "default_icon": {
