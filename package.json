@@ -29,6 +29,7 @@
     },
     "devDependencies": {
         "@playwright/test": "^1.41.2",
+        "@types/chrome": "^0.0.262",
         "@types/node": "^20.11.20",
         "prettier": "^3.2.5",
         "sass": "^1.71.1"
