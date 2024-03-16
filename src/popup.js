@@ -1,34 +1,17 @@
-const state = {
-    ON: false,
-    showGrid: false,
-    showOutline: false,
-};
+import { getState, setState } from './popup/store';
+
 window['on-button'].addEventListener('click', function () {
-    if (!state.ON) {
+    if (!getState('ON')) {
         window['on-button'].classList.remove('off');
         window['off-button'].classList.add('off');
-        state.ON = true;
-        chrome.storage.local.set({ ON: true });
-        chrome.tabs.query(
-            { active: true, currentWindow: true },
-            function (tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, { action: 'ON' });
-            },
-        );
+        setState('ON', true);
     }
 });
 window['off-button'].addEventListener('click', function () {
-    if (state.ON) {
+    if (getState('ON')) {
         window['on-button'].classList.add('off');
         window['off-button'].classList.remove('off');
-        state.ON = false;
-        chrome.storage.local.set({ enabled: false });
-        chrome.tabs.query(
-            { active: true, currentWindow: true },
-            function (tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, { action: 'OFF' });
-            },
-        );
+        setState('ON', false);
     }
 });
 window.export.addEventListener('click', function () {
@@ -41,45 +24,45 @@ window.reset.addEventListener('click', function () {
     console.log('reset');
 });
 window['show-outline'].addEventListener('click', function () {
-    if (!state.showOutline) {
+    if (!getState('showOutline')) {
         window['show-outline'].classList.add('hidden');
         window['hide-outline'].classList.remove('hidden');
-        state.showOutline = true;
+        setState('showOutline', true);
     }
 });
 window['hide-outline'].addEventListener('click', function () {
-    if (state.showOutline) {
+    if (getState('showOutline')) {
         window['show-outline'].classList.remove('hidden');
         window['hide-outline'].classList.add('hidden');
-        state.showOutline = false;
+        setState('showOutline', false);
     }
 });
 window['show-grid'].addEventListener('click', function () {
-    if (!state.showGrid) {
+    if (!getState('showGrid')) {
         window['show-grid'].classList.add('hidden');
         window['hide-grid'].classList.remove('hidden');
-        state.showGrid = true;
+        setState('showGrid', true);
     }
 });
 window['hide-grid'].addEventListener('click', function () {
-    if (state.showGrid) {
+    if (getState('showGrid')) {
         window['show-grid'].classList.remove('hidden');
         window['hide-grid'].classList.add('hidden');
-        state.showGrid = false;
+        setState('showGrid', false);
     }
 });
 window['show-styles'].addEventListener('click', function () {
-    if (!state.showStyles) {
+    if (!getState('showStyles')) {
         window['show-styles'].classList.add('hidden');
         window['hide-styles'].classList.remove('hidden');
-        state.showStyles = true;
+        setState('showStyles', true);
     }
 });
 window['hide-styles'].addEventListener('click', function () {
-    if (state.showStyles) {
+    if (getState('showStyles')) {
         window['show-styles'].classList.remove('hidden');
         window['hide-styles'].classList.add('hidden');
-        state.showStyles = false;
+        setState('showStyles', false);
     }
 });
 window['add-image'].addEventListener('click', function () {
