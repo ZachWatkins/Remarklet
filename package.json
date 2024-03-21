@@ -8,6 +8,7 @@
     "scripts": {
         "start": "vite",
         "build": "vite build --mode production && vite build --mode production --config vite.content.config.js",
+        "build:dev": "vite build --minify=false && vite build --config vite.content.config.js --minify=false",
         "test": "playwright test",
         "lint": "prettier --check .",
         "format": "prettier --write ."
