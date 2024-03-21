@@ -8,7 +8,7 @@ export default {
                 entryFileNames: `[name].js`,
             },
             input: {
-                contentScript: 'src/contentScript.js', // New entry point for contentScript.js
+                content: 'src/content.js', // New entry point for content.js
             },
         },
     },
