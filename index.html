@@ -26,24 +26,24 @@
         <div class="row"
             ><div class="col"
                 ><button
-                    id="on-button"
+                    id="btn_on"
                     value="On"
                     class="w-1/2 off"
                     >On</button
                 ><button
-                    id="off-button"
+                    id="btn_off"
                     value="Off"
                     class="w-1/2"
                     >Off</button
                 > </div
             ><div class="col"
                 ><button
-                    id="save"
+                    id="btn_save"
                     value="Save"
                     class="w-1/2"
                     >Save</button
                 ><button
-                    id="reset"
+                    id="btn_reset"
                     value="Reset"
                     class="w-1/2 off"
                     >Reset</button
@@ -53,13 +53,13 @@
         <div class="row"
             ><div class="col"
                 ><button
-                    id="add-note"
+                    id="btn_add_note"
                     value="Add Note"
                     >Add Note</button
                 ></div
             ><div class="col"
                 ><button
-                    id="export"
+                    id="btn_export"
                     value="Export"
                     >Export</button
                 ></div
@@ -68,17 +68,17 @@
         <div class="row"
             ><div class="col"
                 ><button
-                    id="add-image"
+                    id="btn_add_image"
                     value="Add Image"
                     >Add Image</button
                 ></div
             ><div class="col"
                 ><button
-                    id="show-grid"
+                    id="btn_show_grid"
                     value="Show Grid"
                     >Show Grid</button
                 ><button
-                    id="hide-grid"
+                    id="btn_hide_grid"
                     value="Hide Grid"
                     class="hidden"
                     >Hide Grid</button
@@ -88,17 +88,17 @@
         <div class="row"
             ><div class="col"
                 ><button
-                    id="add-code"
+                    id="btn_add_code"
                     value="Add Code"
                     >Add Code</button
                 ></div
             ><div class="col"
                 ><button
-                    id="show-styles"
+                    id="btn_show_styles"
                     value="Show Styles"
                     >Show Styles</button
                 ><button
-                    id="hide-styles"
+                    id="btn_hide_styles"
                     value="Hide Styles"
                     class="hidden"
                     >Hide Styles</button
@@ -109,11 +109,11 @@
             ><div class="col"></div
             ><div class="col"
                 ><button
-                    id="show-outline"
+                    id="btn_show_outline"
                     value="Show Outline"
                     >Show Outline</button
                 ><button
-                    id="hide-outline"
+                    id="btn_hide_outline"
                     value="Hide Outline"
                     class="hidden"
                     >Hide Outline</button
@@ -135,9 +135,104 @@
                 ></div
             ></div
         >
-        <script
-            src="./src/popup.js"
-            type="module"
-        ></script>
+        <script>
+            const STATE = {
+                on: false,
+                showGrid: false,
+                showOutline: false,
+            };
+
+            function setState(key, value) {
+                Object.assign(STATE, { [key]: value });
+                chrome.storage.local.set({ [key]: value });
+                chrome.tabs.query(
+                    { active: true, currentWindow: true },
+                    function (tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            action: key,
+                            value,
+                        });
+                    },
+                );
+            }
+
+            window.btn_on.addEventListener('click', function () {
+                if (!STATE['on']) {
+                    window.btn_on.classList.remove('off');
+                    window.btn_off.classList.add('off');
+                    setState('on', true);
+                }
+            });
+            window.btn_off.addEventListener('click', function () {
+                if (STATE['on']) {
+                    window.btn_on.classList.add('off');
+                    window.btn_off.classList.remove('off');
+                    setState('on', false);
+                }
+            });
+            window.export.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.save.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.reset.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.btn_show_outline.addEventListener('click', function () {
+                if (!STATE['showOutline']) {
+                    window.btn_show_outline.classList.add('hidden');
+                    window.btn_hide_outline.classList.remove('hidden');
+                    setState('showOutline', true);
+                }
+            });
+            window.btn_hide_outline.addEventListener('click', function () {
+                if (STATE['showOutline']) {
+                    window.btn_show_outline.classList.remove('hidden');
+                    window.btn_hide_outline.classList.add('hidden');
+                    setState('showOutline', false);
+                }
+            });
+            window.btn_show_grid.addEventListener('click', function () {
+                if (!STATE['showGrid']) {
+                    window.btn_show_grid.classList.add('hidden');
+                    window.btn_hide_grid.classList.remove('hidden');
+                    setState('showGrid', true);
+                }
+            });
+            window.btn_hide_grid.addEventListener('click', function () {
+                if (STATE['showGrid']) {
+                    window.btn_show_grid.classList.remove('hidden');
+                    window.btn_hide_grid.classList.add('hidden');
+                    setState('showGrid', false);
+                }
+            });
+            window.btn_show_styles.addEventListener('click', function () {
+                if (!STATE['showStyles']) {
+                    window.btn_show_styles.classList.add('hidden');
+                    window.btn_hide_styles.classList.remove('hidden');
+                    setState('showStyles', true);
+                }
+            });
+            window.btn_hide_styles.addEventListener('click', function () {
+                if (STATE['showStyles']) {
+                    window.btn_show_styles.classList.remove('hidden');
+                    window.btn_hide_styles.classList.add('hidden');
+                    setState('showStyles', false);
+                }
+            });
+            window.btn_add_image.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.btn_add_note.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.btn_add_code.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+            window.btn_show_help.addEventListener('click', function () {
+                window.alert('not implemented');
+            });
+        </script>
     </body>
 </html>
