@@ -16,9 +16,13 @@
   "content_scripts": [
       {
           "matches": ["<all_urls>"],
-          "js": ["content/content.js"]
+          "js": ["content/jquery-ui-1.13.2.custom/external/jquery/jquery.js", "content/jquery-ui-1.13.2.custom/jquery-ui.js"]
       }
   ],
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["your/content_main.js"]
+  }],
   "background": {
     "service_worker": "service-worker.js",
     "type": "module"
