@@ -20,8 +20,9 @@ button {
     border-radius: 0;
     appearance: none;
 }
-button.off,
-button:disabled {
+button:focus,
+button:active,
+button.on {
     background-color: #444;
     color: white;
 }
