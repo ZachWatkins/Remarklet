@@ -41,12 +41,18 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 
 const init = async (tab) => {
+    if (!tab.url) {
+        chrome.action.setIcon({ path: icons.disabled });
+        return;
+    }
     const url = new URL(tab.url);
     if (url.protocol !== 'chrome-extension:') {
         const host = url.host;
         const status = await getExtensionStatus(host);
         const icon = status ? icons.enabled : icons.disabled;
         chrome.action.setIcon({ path: icon });
+    } else {
+        chrome.action.setIcon({ path: icons.disabled });
     }
 };
 
