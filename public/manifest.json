@@ -3,8 +3,9 @@
   "name": "Remarklet",
   "description": "Make changes to a web page and share them with others.",
   "version": "1.0",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
+    "default_popup": "index.html",
     "default_icon": {
       "16": "images/icon-16.png",
       "32": "images/icon-32.png",
@@ -12,8 +13,19 @@
       "128": "images/icon-128.png"
     }
   },
+  "content_scripts": [
+      {
+          "matches": ["<all_urls>"],
+          "js": ["content/jquery-ui-1.13.2.custom/external/jquery/jquery.js", "content/jquery-ui-1.13.2.custom/jquery-ui.js"]
+      }
+  ],
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["your/content_main.js"]
+  }],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
   "icons": {
     "16": "images/icon-16.png",
