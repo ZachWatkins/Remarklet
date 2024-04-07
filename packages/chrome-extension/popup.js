@@ -4,6 +4,7 @@ const init = async function () {
     toggleBtnOff.classList.add('on');
 
     toggleBtnOn.addEventListener('click', async () => {
+        toggleBtnOn.classList.add('running');
         const [tab] = await chrome.tabs.query({
             active: true,
             lastFocusedWindow: true,
@@ -20,11 +21,13 @@ const init = async function () {
             })
             .then(() => {
                 toggleBtnOn.classList.add('on');
+                toggleBtnOn.classList.remove('running');
                 toggleBtnOff.classList.remove('on');
             });
     });
 
     toggleBtnOff.addEventListener('click', async () => {
+        toggleBtnOff.classList.add('running');
         const [tab] = await chrome.tabs.query({
             active: true,
             lastFocusedWindow: true,
@@ -42,6 +45,7 @@ const init = async function () {
             .then(() => {
                 toggleBtnOn.classList.remove('on');
                 toggleBtnOff.classList.add('on');
+                toggleBtnOff.classList.remove('running');
             });
     });
 

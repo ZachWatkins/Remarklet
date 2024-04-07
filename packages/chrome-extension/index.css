@@ -20,8 +20,8 @@ button {
     border-radius: 0;
     appearance: none;
 }
-button:focus,
 button:active,
+button.running,
 button.on {
     background-color: #444;
     color: white;
