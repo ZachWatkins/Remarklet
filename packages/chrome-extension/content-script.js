@@ -1,12 +1,10 @@
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message) {
     switch (message) {
         case 'on':
             activate();
-            sendResponse({ message: 'activated' });
             break;
         default:
             deactivate();
-            sendResponse({ message: 'deactivated' });
             break;
     }
 });
