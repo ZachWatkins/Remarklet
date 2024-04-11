@@ -18,6 +18,7 @@ function deactivate() {
 
 function logMouseMove(e) {
     chrome.runtime.sendMessage({
+        type: 'log',
         name: 'mousemove',
         options: { x: e.clientX, y: e.clientY },
     });
