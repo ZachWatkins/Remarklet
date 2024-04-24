@@ -10,6 +10,8 @@
     },
     "scripts": {
         "start": "vite",
+        "start:demo": "vite --config vite.demo.config.js",
+        "build": "vite build",
         "test": "jest ."
     },
     "repository": {

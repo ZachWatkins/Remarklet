@@ -1,3 +1,5 @@
+import { activate, deactivate } from './content-script-base.js';
+
 chrome.runtime.onMessage.addListener(function (message) {
     switch (message) {
         case 'on':
@@ -8,13 +10,6 @@ chrome.runtime.onMessage.addListener(function (message) {
             break;
     }
 });
-
-function activate() {
-    document.body.addEventListener('mousemove', logMouseMove);
-}
-function deactivate() {
-    document.body.removeEventListener('mousemove', logMouseMove);
-}
 
 function logMouseMove(e) {
     chrome.runtime.sendMessage({
