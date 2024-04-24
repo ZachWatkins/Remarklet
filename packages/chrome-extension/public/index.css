@@ -1,0 +1,73 @@
+body {
+    font-size: 12pt;
+    font-weight: bold;
+    width: 250px;
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1 {
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    margin-left: 0.5rem;
+}
+button {
+    font-size: 12pt;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 0;
+    appearance: none;
+}
+button:focus,
+button.active,
+button.on {
+    background-color: #444;
+    color: white;
+}
+.hidden {
+    display: none;
+}
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+}
+.row > .col {
+    flex: 1;
+    margin-right: 0.5rem;
+}
+.row > .col:last-child {
+    margin-right: 0;
+}
+.justify-center {
+    justify-content: center;
+}
+.w-1\/2 {
+    width: 50%;
+}
+.w-full {
+    width: 100%;
+}
+/* Detect whether the user has dark mode enabled. */
+@media (prefers-color-scheme: dark) {
+    /* If so, apply these styles. */
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    a {
+        color: white;
+    }
+}
