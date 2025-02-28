@@ -1,76 +1,163 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta
-            http-equiv="X-UA-Compatible"
-            content="IE=edge"
-        />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-        />
-        <link
-            rel="stylesheet"
-            href="../index.css"
-        />
-        <script
-            defer
-            type="module"
-            src="./index.js"
-        ></script>
-    </head>
-    <body>
-        <form>
-            <div class="row text-left">
-                <img
-                    src="../icon-32.png"
-                    alt="Remarklet Logo"
-                />
-                <h1>Remarklet</h1>
-            </div>
-            <div class="row"
-                ><div class="col"
-                    ><button
-                        id="btn_on"
-                        value="On"
-                        class="w-1/2"
-                        >On</button
-                    ><button
-                        id="btn_off"
-                        value="Off"
-                        class="w-1/2"
-                        >Off</button
-                    > </div
-                ><div class="col"
-                    ><button
-                        id="btn_save"
-                        value="Save"
-                        class="w-1/2"
-                        >Save</button
-                    ><button
-                        id="btn_reset"
-                        value="Reset"
-                        class="w-1/2 off"
-                        >Reset</button
-                    ></div
-                ></div
-            >
-            <div class="row"
-                ><div class="col text-right"
-                    ><a
-                        href="https://zacharywatkins.com/portfolio/remarklet/"
-                        target="_blank"
-                        >Website</a
-                    ></div
-                ><div class="col text-left"
-                    ><a
-                        href="https://github.com/zachwatkins/remarklet/blob/main/PRIVACY.md"
-                        target="_blank"
-                        >Privacy</a
-                    ></div
-                ></div
-            >
-        </form>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <title>HTML Style Guide</title>
+</head>
+<body>
+  <header>
+    <h1>HTML Style Guide</h1>
+  </header>
+  <main>
+    <div class="grid grid-cols-2 gap-10">
+        <div>
+            <section>
+              <h2>Headings</h2>
+              <h1>Heading 1</h1>
+              <h2>Heading 2</h2>
+              <h3>Heading 3</h3>
+              <h4>Heading 4</h4>
+              <h5>Heading 5</h5>
+              <h6>Heading 6</h6>
+            </section>
+            <section>
+              <h2>Paragraph</h2>
+              <p>This is a paragraph of text. It contains <strong>bold</strong>, <em>italic</em>, and <a href="#">a link</a>.</p>
+            </section>
+            <section>
+              <h2>Lists</h2>
+              <h3>Unordered List</h3>
+              <ul>
+                <li>List item 1</li>
+                <li>List item 2</li>
+                <li>List item 3</li>
+              </ul>
+              <h3>Ordered List</h3>
+              <ol>
+                <li>List item 1</li>
+                <li>List item 2</li>
+                <li>List item 3</li>
+              </ol>
+            </section>
+            <section>
+              <h2>Table</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Header 1</th>
+                    <th>Header 2</th>
+                    <th>Header 3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Data 1</td>
+                    <td>Data 2</td>
+                    <td>Data 3</td>
+                  </tr>
+                  <tr>
+                    <td>Data 4</td>
+                    <td>Data 5</td>
+                    <td>Data 6</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            <section>
+              <h2>Form</h2>
+              <form>
+                <label for="text-input">Text Input:</label>
+                <input type="text" id="text-input" name="text-input"><br>
+                <label for="password-input">Password Input:</label>
+                <input type="password" id="password-input" name="password-input"><br>
+                <label for="textarea">Textarea:</label>
+                <textarea id="textarea" name="textarea"></textarea><br>
+                <label for="select">Select:</label>
+                <select id="select" name="select">
+                  <option value="option1">Option 1</option>
+                  <option value="option2">Option 2</option>
+                  <option value="option3">Option 3</option>
+                </select><br>
+                <label>Radio Buttons:</label>
+                <input type="radio" id="radio1" name="radio" value="1">
+                <label for="radio1">Radio 1</label>
+                <input type="radio" id="radio2" name="radio" value="2">
+                <label for="radio2">Radio 2</label><br>
+                <label>Checkboxes:</label>
+                <input type="checkbox" id="checkbox1" name="checkbox1">
+                <label for="checkbox1">Checkbox 1</label>
+                <input type="checkbox" id="checkbox2" name="checkbox2">
+                <label for="checkbox2">Checkbox 2</label><br>
+                <button type="submit">Submit</button>
+              </form>
+            </section>
+            <section>
+              <h2>Media</h2>
+              <h3>Image</h3>
+              <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+              <h3>Audio</h3>
+              <audio controls>
+                <source src="audio-sample.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <h3>Video</h3>
+              <video controls width="250">
+                <source src="video-sample.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
+            </section>
+        </div>
+        <div>
+            <section>
+              <h2>Blockquote</h2>
+              <blockquote>
+                <p>This is a blockquote. It contains a paragraph of text.</p>
+                <footer>Author</footer>
+              </blockquote>
+            </section>
+            <section>
+              <h2>Code</h2>
+              <p>This is an example of <code>inline code</code>.</p>
+              <pre><code>function example() {
+    console.log('This is an example of a code block.');
+}</code></pre>
+            </section>
+            <section>
+              <h2>Details</h2>
+              <details>
+                <summary>Details</summary>
+                <p>This is a details element. It contains a paragraph of text.</p>
+              </details>
+            </section>
+            <section>
+              <h2>Figure</h2>
+              <figure>
+                <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+                <figcaption>Figure Caption</figcaption>
+              </figure>
+            </section>
+            <section>
+              <h2>Progress</h2>
+              <progress value="50" max="100"></progress>
+            </section>
+            <section>
+              <h2>Time</h2>
+              <time datetime="2023-01-01">January 1, 2023</time>
+            </section>
+            <section>
+              <h2>Address</h2>
+              <address>
+                <p>1234 Address St.</p>
+                <p>City, State 12345</p>
+              </address>
+            </section>
+        </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2023 HTML Style Guide</p>
+  </footer>
+</body>
 </html>
