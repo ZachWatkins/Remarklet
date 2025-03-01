@@ -5,7 +5,7 @@
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjUceyX/8/Og+QBUTkhtXrUw2TJmUr7SGAO/zngtK3XuFBoHHuLU407KQ57+I7LF32sMAfEUUrdXc4OKnAUgUmXlodn8vbegGxBAVzuWQ2gC6DU6kw39B49uGVEF2fLk1+KFQFQrCgVAXieBhK4EJQGnb7YUENKQmVc2M+MJRZHcs8yLryM3jT2fRgfan1N5UJyIF6Qowrj5jxsNhqY9CykzNZlmOZUBGvFlfwddzqmwxboZFIooEu0SQ+hxRWtZfk/pei5bgx+gLJt/zRhD9f4/Kdwdpmh/pkzAW9pAjJ5f8Z7eUbM29JTC756GDz2PuaSQ8OIH/yS1PgF8BCcLIzQIDAQAB",
     "description": "Uses the chrome.scripting API to inject JavaScript into web pages.",
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "service-worker.js"
     },
     "permissions": ["activeTab", "scripting", "storage"],
     "content_scripts": [

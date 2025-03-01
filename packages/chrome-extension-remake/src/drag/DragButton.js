@@ -1,23 +1,10 @@
 // @ts-check
 import { setMode } from "../global.js";
 
-export function init() {
-    const id = "btn_on";
-    let button = document.querySelector(`.remarklet #${id}`);
-    if (!button) {
-        button = createButton({ id });
-    }
-}
-
-/**
- * Create the button element.
- * @param {object?} props
- * @returns {HTMLButtonElement}
- */
-function createButton(props) {
+export default function DragButton() {
     let enabled = false;
     const el = document.createElement('button');
-    el.id = props.id;
+    el.id = "btn_on";
     el.innerHTML = "On";
     el.className = "w-1/2 text-white bg-black";
     const setEnabled = function (value) {

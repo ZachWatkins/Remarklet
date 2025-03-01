@@ -33,8 +33,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             sendResponse({ status });
         });
         return true;
-    } else if (request.type === 'setExtensionStatus') {
-        setExtensionStatus(request.host, request.status);
+    } else if (request.type === 'setExtensionEnabled') {
+        setExtensionEnabled(request.host, request.status);
         const icon = request.status ? icons.enabled : icons.disabled;
         chrome.action.setIcon({ path: icon });
     } else if (request.type === 'log') {
@@ -74,7 +74,7 @@ function getExtensionStatus(host) {
             if (result[host] !== undefined) {
                 resolve(result[host]);
             } else {
-                setExtensionStatus(host, true);
+                setExtensionEnabled(host, true);
             }
         });
     });
@@ -86,7 +86,7 @@ function getExtensionStatus(host) {
  * @param {boolean} toggleBtnStatus The extension status to set.
  * @returns {void}
  */
-function setExtensionStatus(host, toggleBtnStatus) {
+function setExtensionEnabled(host, toggleBtnStatus) {
     const data = { [host]: toggleBtnStatus };
     chrome.storage.sync.set(data, () => {});
 }
