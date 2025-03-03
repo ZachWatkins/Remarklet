@@ -1,12 +1,11 @@
 import { activate, deactivate } from '../src/index.js';
 
 chrome.runtime.onMessage.addListener(function (message) {
-    switch (message) {
-        case 'activate':
+    if (message.type === 'setExtensionStatus') {
+        if (message.status) {
             activate();
-            break;
-        default:
+        } else {
             deactivate();
-            break;
+        }
     }
 });

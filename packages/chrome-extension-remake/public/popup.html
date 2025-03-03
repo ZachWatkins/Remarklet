@@ -12,13 +12,8 @@
         />
         <link
             rel="stylesheet"
-            href="index.css"
+            href="popup.css"
         />
-        <script
-            defer
-            type="module"
-            src="index.js"
-        ></script>
     </head>
     <body>
         <div id="remarklet">
@@ -29,32 +24,10 @@
                 />
                 <h1>Remarklet</h1>
             </div>
-            <div class="row"
-                ><div class="col"
-                    ><button
-                        id="btn_on"
-                        value="On"
-                        class="w-1/2"
-                        >On</button
-                    ><button
-                        id="btn_off"
-                        value="Off"
-                        class="w-1/2"
-                        >Off</button
-                    > </div
-                ><div class="col"
-                    ><button
-                        id="btn_save"
-                        value="Save"
-                        class="w-1/2"
-                        >Save</button
-                    ><button
-                        id="btn_reset"
-                        value="Reset"
-                        class="w-1/2 off"
-                        >Reset</button
-                    ></div
-                ></div
+            <div class="text-center"
+                ><div class="switch inline-block"><span class="label" title="On">On</span> <label for="enabled" class="switch"><input type="checkbox" id="enabled">
+                    <div class="slider round"></div>
+                </label> <span class="label" title="Off">Off</span></div></div
             >
             <div class="row"
                 ><div class="col text-right"
@@ -72,5 +45,9 @@
                 ></div
             >
         </div>
+        <script
+            type="module"
+            src="popup.js"
+        ></script>
     </body>
 </html>

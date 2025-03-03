@@ -13,12 +13,6 @@ const icons = {
     },
 };
 
-chrome.runtime.onInstalled.addListener((details) => {
-    if (details.reason === 'install') {
-        chrome.action.setIcon({ path: icons.enabled });
-    }
-});
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete') init(tab);
 });
@@ -28,17 +22,16 @@ chrome.tabs.onActivated.addListener((info) => {
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    console.log(request);
     if (request.type === 'getExtensionStatus') {
-        getExtensionStatus(request.host).then((status) => {
+        getExtensionStatus(request.tab).then((status) => {
             sendResponse({ status });
         });
-        return true;
-    } else if (request.type === 'setExtensionEnabled') {
-        setExtensionEnabled(request.host, request.status);
+    } else if (request.type === 'setExtensionStatus') {
+        chrome.storage.sync.set({ [request.host || request.url]: request.status }, () => { });
         const icon = request.status ? icons.enabled : icons.disabled;
         chrome.action.setIcon({ path: icon });
-    } else if (request.type === 'log') {
-        console.log(JSON.stringify(request));
+        sendResponse({ status: request.status });
     }
 });
 
@@ -48,45 +41,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
  * @returns {void}
  */
 async function init(tab) {
-    if (!tab.url) {
-        chrome.action.setIcon({ path: icons.disabled });
-        return;
-    }
-    const url = new URL(tab.url);
-    if (url.protocol !== 'chrome-extension:') {
-        const host = url.host;
-        const status = await getExtensionStatus(host);
-        const icon = status ? icons.enabled : icons.disabled;
-        chrome.action.setIcon({ path: icon });
-    } else {
-        chrome.action.setIcon({ path: icons.disabled });
-    }
+    const status = await getExtensionStatus(tab);
+    const icon = status ? icons.enabled : icons.disabled;
+    chrome.action.setIcon({ path: icon });
 }
 
-/**
- * Get the extension status for the given host.
- * @param {string} host The host to get the extension status for.
- * @returns {Promise<boolean>} The extension status for the given host.
- */
-function getExtensionStatus(host) {
+function getExtensionStatus(tab) {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get(host, (result) => {
-            if (result[host] !== undefined) {
-                resolve(result[host]);
-            } else {
-                setExtensionEnabled(host, true);
-            }
+        chrome.storage.sync.get(tab.host || tab.url, (result) => {
+            resolve(result[tab.host || tab.url] || true);
         });
     });
-}
-
-/**
- * Set the extension status for the given host.
- * @param {string} host The host to set the extension status for.
- * @param {boolean} toggleBtnStatus The extension status to set.
- * @returns {void}
- */
-function setExtensionEnabled(host, toggleBtnStatus) {
-    const data = { [host]: toggleBtnStatus };
-    chrome.storage.sync.set(data, () => {});
 }
