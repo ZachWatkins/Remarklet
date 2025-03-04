@@ -4,15 +4,10 @@
     "description": "A Chrome extension for modifying web pages.",
     "main": "popup.js",
     "type": "module",
-    "dependencies": {
-        "jest": "^29.7.0",
-        "puppeteer": "^21.3.6"
-    },
     "scripts": {
-        "start": "vite",
-        "start:demo": "vite --config vite.demo.config.js",
+        "dev": "vite",
         "build": "vite build",
-        "test": "jest ."
+        "preview": "vite preview"
     },
     "repository": {
         "type": "git",
@@ -24,10 +19,7 @@
         "url": "https://github.com/ZachWatkins/remarklet/issues"
     },
     "homepage": "https://github.com/ZachWatkins/remarklet#readme",
-    "devDependencies": {
-        "@jest/globals": "^29.7.0",
-        "canvas": "^2.11.2",
-        "sass": "^1.75.0",
-        "vite": "^5.2.8"
+    "dependencies": {
+        "vite": "^6.2.0"
     }
 }
