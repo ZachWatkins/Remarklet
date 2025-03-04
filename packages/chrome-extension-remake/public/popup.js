@@ -1,41 +1,21 @@
 // @ts-check
-let active = true;
-const toggleButton = document.querySelector('#btn_active') || document.createElement('button');
-const setActive = (enabled) => {
-    active = Boolean(enabled);
-    if (enabled) {
-        toggleButton.classList.add('on');
-        toggleButton.innerHTML = "On";
-    } else {
-        toggleButton.classList.remove('on');
-        toggleButton.innerHTML = "Off";
-    }
-};
+/** @type {HTMLInputElement} */
+const toggle = document.querySelector('#enabled') || document.createElement('input');
 
-toggleButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const status = !active;
-    setActive(status);
-    chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true,
-    }).then(([tab]) => {
+toggle.addEventListener('change', (e) => {
+    if (e.target instanceof HTMLInputElement) {
+        const value = e.target.checked;
+        console.log('setting extension status', 'popup.js');
         chrome.runtime.sendMessage({
             type: 'setExtensionStatus',
-            tab,
-            status,
+            value,
         });
-    });
+    }
 });
 
-chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true,
-}).then(([tab]) => {
-    chrome.runtime.sendMessage({
-        type: 'getExtensionStatus',
-        tab,
-    }).then((response) => {
-        setActive(response.status);
-    });
+chrome.runtime.sendMessage({
+    type: 'getExtensionStatus',
+}).then((response) => {
+    console.log('popup.js', new Date().toISOString(), response.value);
+    toggle.checked = response.value;
 });
