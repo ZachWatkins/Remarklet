@@ -13,9 +13,14 @@ toggle.addEventListener('change', (e) => {
     }
 });
 
+const privacyUrl = chrome.runtime.getURL('privacy.html');
+const privacyLink = document.querySelector('#privacy');
+if (privacyLink instanceof HTMLAnchorElement) {
+    privacyLink.href = privacyUrl;
+}
+
 chrome.runtime.sendMessage({
     type: 'getExtensionStatus',
 }).then((response) => {
-    console.log('popup.js', new Date().toISOString(), response.value);
     toggle.checked = response.value;
 });
