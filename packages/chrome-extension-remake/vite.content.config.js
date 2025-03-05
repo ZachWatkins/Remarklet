@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
     build: {
         lib: {
-            entry: resolve(__dirname, 'lib/content-script.js'),
+            entry: resolve(__dirname, 'lib/index.js'),
             name: 'contentScript',
             fileName: (format) => 'content-script.js',
             formats: ['iife'],
