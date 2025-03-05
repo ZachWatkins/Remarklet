@@ -46,6 +46,16 @@ function handleMessage(message, sender, sendResponse) {
                 status: message.value,
             }, () => {
                 sendResponse({ value: message.value });
+
+                // Forward message to active tab's content script
+                chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                    if (tabs[0] && tabs[0].id) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            type: 'setExtensionStatus',
+                            status: message.value  // Match the property name expected by content script
+                        });
+                    }
+                });
             });
         });
         return true;
