@@ -1,40 +1,41 @@
 import interact from "interactjs";
+import store from "./store.js";
 
 let interactable = null;
 
-export function activate() {
-    if (interactable) {
-        return;
-    }
-    interactable = interact('*')
-        .draggable({
-            inertia: true,
-            modifiers: [
-                interact.modifiers.restrictRect({
-                    restriction: 'parent',
-                    endOnly: true
-                })
-            ],
-            autoScroll: true,
-            listeners: {
-                move: dragMoveListener,
-                end(event) {
-                    setMode("idle");
+store.subscribe('active', (active) => {
+    if (active) {
+        if (interactable) {
+            return;
+        }
+        interactable = interact('*')
+            .draggable({
+                inertia: true,
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        restriction: 'parent',
+                        endOnly: true
+                    })
+                ],
+                autoScroll: true,
+                listeners: {
+                    move: dragMoveListener,
+                    end(event) {
+                        store.set('dragging', false);
+                    }
                 }
-            }
-        });
-}
-
-export function deactivate() {
-    if (!interactable) {
-        return;
+            });
+    } else {
+        if (!interactable) {
+            return;
+        }
+        interactable.unset();
+        interactable = null;
     }
-    interactable.unset();
-    interactable = null;
-}
+});
 
 function dragMoveListener(event) {
-    setMode("dragging");
+    store.set('dragging', true);
     var target = event.target;
     var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
     var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
