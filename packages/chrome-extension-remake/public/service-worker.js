@@ -52,7 +52,7 @@ function handleMessage(message, sender, sendResponse) {
                     if (tabs[0] && tabs[0].id) {
                         chrome.tabs.sendMessage(tabs[0].id, {
                             type: 'setExtensionStatus',
-                            status: message.value  // Match the property name expected by content script
+                            value: message.value  // Match the property name expected by content script
                         });
                     }
                 });

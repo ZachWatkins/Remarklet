@@ -33,7 +33,7 @@ const init = async function () {
             .sendMessage({
                 type: 'setExtensionStatus',
                 host,
-                status: true,
+                value: true,
             })
             .then(() => {
                 toggleBtnOn.classList.add('on');
@@ -55,7 +55,7 @@ const init = async function () {
             .sendMessage({
                 type: 'setExtensionStatus',
                 host,
-                status: false,
+                value: false,
             })
             .then(() => {
                 toggleBtnOn.classList.remove('on');
