@@ -12,5 +12,6 @@ export default defineConfig({
             fileName: (format) => 'content-script.js',
             formats: ['iife'],
         },
+        emptyOutDir: false,
     },
 })
