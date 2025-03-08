@@ -1,6 +1,8 @@
 import store from "./store.js";
 import drag from "./drag.js";
+import highlight from "./highlight.js";
 drag();
+highlight();
 
 chrome.runtime.onMessage.addListener(function (message) {
     console.log('Content script received message:', message);
