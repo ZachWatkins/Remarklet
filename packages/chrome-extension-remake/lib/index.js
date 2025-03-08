@@ -1,6 +1,8 @@
 import store from "./store.js";
 import drag from "./drag.js";
 import highlight from "./highlight.js";
+import styles from "./styles.js";
+styles();
 drag();
 highlight();
 
