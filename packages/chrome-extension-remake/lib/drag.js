@@ -12,24 +12,13 @@ export function main() {
             console.log('making it interactable');
             interactable = interact('*')
                 .draggable({
-                    // inertia: true,
-                    modifiers: [
-                        interact.modifiers.restrictRect({
-                            restriction: 'parent',
-                            endOnly: true
-                        })
-                    ],
                     autoScroll: true,
                     listeners: {
                         start(event) {
-                            // Add outline style when dragging starts
-                            event.target.style.outline = '2px dashed #007bff';
                             store.set('dragging', true);
                         },
                         move: dragMoveListener,
                         end(event) {
-                            // Remove outline style when dragging ends
-                            event.target.style.outline = '';
                             store.set('dragging', false);
                         }
                     }
