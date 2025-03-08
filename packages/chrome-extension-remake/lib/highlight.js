@@ -13,7 +13,7 @@ const outlineStyle = '2px solid #00b3dd';
 /**
  * Adds mouse event handlers to all elements in the document
  */
-export function main() {
+export default function main() {
     store.subscribe('active', (active) => {
         if (active) {
             document.addEventListener('mouseenter', handleMouseEnter, true);
