@@ -4,7 +4,7 @@
 */
 import store from "./store.js";
 
-const highlightClass = 'remarklet-highlight';
+export const highlightClass = 'remarklet-highlight';
 
 /**
  * Adds mouse event handlers to all elements in the document
