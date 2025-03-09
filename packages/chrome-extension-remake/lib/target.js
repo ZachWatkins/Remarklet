@@ -22,6 +22,15 @@ export default function main() {
         }
     });
     store.subscribe('target', (target, oldTarget) => {
+        if (!store.get('active')) {
+            if (target) {
+                target.classList.remove(highlightClass);
+            }
+            if (oldTarget) {
+                oldTarget.classList.remove(highlightClass);
+            }
+            return;
+        }
         target?.classList.add(highlightClass);
         oldTarget?.classList.remove(highlightClass);
     });
