@@ -6,9 +6,9 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "vite",
-        "build": "vite build --mode production && vite build --mode production --config vite.content.config.js",
-        "build:dev": "vite build --minify=false && vite build --config vite.content.config.js --minify=false",
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
         "test": "playwright test",
         "lint": "prettier --check .",
         "format": "prettier --write ."
@@ -26,14 +26,12 @@
     ],
     "license": "MIT",
     "dependencies": {
-        "vite": "^5.1.4"
+        "vite": "^6.0.0"
     },
     "devDependencies": {
         "@playwright/test": "^1.41.2",
-        "@types/chrome": "^0.0.262",
-        "@types/node": "^20.11.20",
-        "prettier": "^3.2.5",
-        "sass": "^1.71.1"
+        "interactjs": "^1.10.27",
+        "prettier": "^3.2.5"
     },
     "prettier": {
         "singleQuote": true,
