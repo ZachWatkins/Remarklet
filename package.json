@@ -1,59 +1,23 @@
 {
-    "name": "remarklet",
-    "description": "Remarklet adds visual editing capabilities to any web page.",
-    "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com>",
+    "name": "@zw/remarklet",
     "version": "1.0.0",
-    "main": "src/index.js",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "test": "playwright test",
-        "lint": "prettier --check .",
-        "format": "prettier --write ."
-    },
+    "description": "Remarklet adds visual editing capabilities to any web page.",
+    "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "git://github.com/ZachWatkins/remarklet.git"
+        "url": "git+https://github.com/zachwatkins/remarklet.git#main"
     },
     "keywords": [
-        "remarklet",
         "mockup",
         "drag"
     ],
+    "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins/remarklet)",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/zachwatkins/remarklet/issues"
+    },
+    "homepage": "https://github.com/zachwatkins/remarklet#readme",
     "dependencies": {
-        "vite": "^6.0.0"
-    },
-    "devDependencies": {
-        "@playwright/test": "^1.41.2",
-        "interactjs": "^1.10.27",
-        "prettier": "^3.2.5"
-    },
-    "prettier": {
-        "singleQuote": true,
-        "printWidth": 80,
-        "tabWidth": 4,
-        "useTabs": false,
-        "semi": true,
-        "arrowParens": "always",
-        "jsxSingleQuote": true,
-        "endOfLine": "lf",
-        "quoteProps": "preserve",
-        "trailingComma": "all",
-        "bracketSpacing": true,
-        "bracketSameLine": false,
-        "singleAttributePerLine": true,
-        "proseWrap": "never",
-        "htmlWhitespaceSensitivity": "strict"
-    },
-    "files": [
-        "src/**/*",
-        "README.md",
-        "LICENSE"
-    ],
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/"
+        "interactjs": "^1.10.27"
     }
 }
