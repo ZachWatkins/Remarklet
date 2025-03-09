@@ -1,6 +1,5 @@
 import interact from "interactjs";
 import store from "./store.js";
-import { highlightClass } from "./highlight.js";
 
 let interactable = null;
 let inlineTarget = null;
@@ -46,8 +45,6 @@ function start(event) {
             parent = parent.parentElement;
         }
         if (parent) {
-            store.get('target').classList.remove(highlightClass);
-            parent.classList.add(highlightClass);
             store.set('target', parent);
             inlineTarget = event.target;
         }
@@ -83,8 +80,6 @@ function move(event) {
 function end(event) {
     store.set('dragging', false);
     if (inlineTarget) {
-        store.get('target').classList.remove(highlightClass);
-        inlineTarget.classList.add(highlightClass);
         store.set('target', inlineTarget);
         inlineTarget = null;
     }
