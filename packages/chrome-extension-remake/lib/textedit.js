@@ -1,3 +1,24 @@
 import store from "./store.js";
 
-export default function main(){}
+let contentTarget = null;
+
+export default function main() {
+    store.subscribe('target', (target) => {
+        if (!store.get('active')) {
+            if (contentTarget) {
+                contentTarget.removeAttribute('contenteditable');
+                contentTarget = null;
+            }
+            return;
+        }
+        if (contentTarget) {
+            contentTarget.removeAttribute('contenteditable');
+            contentTarget = null;
+        }
+        if (target) {
+            console.log('enabling text edit', target);
+            contentTarget = target;
+            target.setAttribute('contenteditable', 'true');
+        }
+    });
+}
