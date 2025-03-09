@@ -1,9 +1,8 @@
-import drag from "./drag.js";
-
 const state = {
     mode: "idle",
     target: null,
     dragging: false,
+    resizing: false,
     active: false,
 };
 
@@ -15,17 +14,13 @@ const subscribers = {
 };
 
 function setMode(mode) {
-    if (mode === "dragging") {
-        if (state.mode !== "dragging") {
-            state.mode = "dragging";
-            state.dragging = true;
-            drag.activate();
+    if (mode !== state.mode) {
+        if (state[state.mode]) {
+            state[state.mode] = false;
         }
-    } else if (state.mode === "dragging") {
-        state.mode = mode;
-        state.dragging = false;
-        drag.deactivate();
-    } else {
+        if (typeof state[mode] !== "undefined") {
+            state[mode] = true;
+        }
         state.mode = mode;
     }
 }
