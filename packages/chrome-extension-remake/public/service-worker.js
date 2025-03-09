@@ -33,12 +33,12 @@ function init() {
 
 function handleMessage(message, sender, sendResponse) {
     console.log(message);
-    if (message.type === 'getExtensionStatus') {
+    if (message.type === 'remarkletGetExtensionStatus') {
         chrome.storage.sync.get("status", (result) => {
             sendResponse({ value: result.status });
         });
         return true;
-    } else if (message.type === 'setRemarkletExtensionStatus') {
+    } else if (message.type === 'remarkletSetExtensionStatus') {
         chrome.action.setIcon({
             path: message.value ? icons.enabled : icons.disabled,
         }).then(() => {
@@ -51,7 +51,7 @@ function handleMessage(message, sender, sendResponse) {
                 chrome.tabs.query({}, function (tabs) {
                     for (let i = 0; i < tabs.length; i++) {
                         chrome.tabs.sendMessage(tabs[i].id, {
-                            type: 'setRemarkletExtensionStatus',
+                            type: 'remarkletSetExtensionStatus',
                             value: message.value
                         });
                     }

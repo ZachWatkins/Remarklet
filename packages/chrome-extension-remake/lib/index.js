@@ -10,7 +10,7 @@ textedit();
 
 chrome.runtime.onMessage.addListener(function (message) {
     console.log('Content script received message:', message);
-    if (message.type === 'setRemarkletExtensionStatus') {
+    if (message.type === 'remarkletSetExtensionStatus') {
         if (message.value) {
             console.log('Activating extension');
             store.set('active', true);

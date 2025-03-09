@@ -7,7 +7,7 @@ toggle.addEventListener('change', (e) => {
         const value = e.target.checked;
         console.log('setting extension status', 'popup.js');
         chrome.runtime.sendMessage({
-            type: 'setRemarkletExtensionStatus',
+            type: 'remarkletSetExtensionStatus',
             value,
         });
     }
@@ -20,7 +20,7 @@ if (privacyLink instanceof HTMLAnchorElement) {
 }
 
 chrome.runtime.sendMessage({
-    type: 'getExtensionStatus',
+    type: 'remarkletGetExtensionStatus',
 }).then((response) => {
     toggle.checked = response.value;
 });
