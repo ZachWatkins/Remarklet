@@ -11,9 +11,14 @@ drag();
 target();
 textedit();
 
-exports.activate = function () {
+function activate () {
     store.set("active", true);
 }
-exports.deactivate = function () {
+function deactivate () {
     store.set("active", false);
+}
+
+export default {
+    activate,
+    deactivate,
 }
