@@ -1,41 +1,23 @@
 # Remarklet
 
-Copyright 2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on web pages remarkably easy!
 
-Visual editor app that makes modifying and commenting on web pages remarkably easy!
+# Features
 
-I built this plugin in 2014 to make it easier for my clients to communicate changes they wanted made to their website.
+-   Drag elements around the page
+-   Resize elements
+-   Edit text
 
-This JavaScript application is built with jQuery and jQuery UI and will allow you to rapidly prototype web site changes and more easily communicate web site revisions with others.
+# Feature Roadmap
 
-If you enjoyed using this tool, I would appreciate hearing from you! zwatkins.it@gmail.com
-
-# Features:
-
--   Export
+-   Insert Note
+-   Delete Elements
+-   View Grid
+-   Copy Elements
+-   Export the edited page as an HTML file
+-   Insert Image
+-   Insert Code
 -   Save
 -   Restore
--   View Grid
--   View Outlines
--   View CSS Changes
--   Insert Image
--   Insert Note
--   Insert Code
--   Drag Elements
--   Resize Elements
--   Delete Elements
--   Edit Text
 
-# Keyboard Shortcuts:
-
-[Drag Mode]
-
--   Enter Text Mode: T
--   Enter Drag Mode: V
--   Resize Element: Ctrl + Alt + T
--   Finish Resizing Element: Enter
--   Delete Element: Delete
-
-[Text Mode]
-
--   Return to Drag Mode: Ctrl + Enter
+Copyright 2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
