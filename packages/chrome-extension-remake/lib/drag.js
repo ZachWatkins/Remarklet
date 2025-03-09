@@ -15,9 +15,31 @@ export function main() {
                 .draggable({
                     autoScroll: true,
                     listeners: {
-                        start,
-                        move,
-                        end,
+                        start: dragStart,
+                        move: dragMove,
+                        end: dragEnd,
+                    }
+                })
+                .resizable({
+                    edges: { left: true, right: true, bottom: true, top: true },
+                    listeners: {
+                        start(event) {
+                            event.target.style.transition = 'none';
+                            store.set('mode', 'resizing');
+                            store.set('resizing', true);
+                            store.set('target', event.target);
+                        },
+                        move(event) {
+                            const target = event.target;
+                            const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.deltaRect.left;
+                            const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.deltaRect.top;
+
+                            target.style.width = event.rect.width + 'px';
+                            target.style.height = event.rect.height + 'px';
+                            target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+                        }
                     }
                 });
         } else {
@@ -36,7 +58,7 @@ export function main() {
  * @param {HTMLElement} event.target The target element being dragged
  * @return {void}
  */
-function start(event) {
+function dragStart(event) {
     store.set('dragging', true);
     // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
     if (window.getComputedStyle(event.target).display === 'inline') {
@@ -59,7 +81,7 @@ function start(event) {
  * @param {HTMLElement} event.target The target element being dragged
  * @return {void}
  */
-function move(event) {
+function dragMove(event) {
     var target = store.get('target');
     if (!target) {
         return;
@@ -77,7 +99,7 @@ function move(event) {
  * @param {HTMLElement} event.target The target element being dragged
  * @return {void}
  */
-function end(event) {
+function dragEnd(event) {
     store.set('dragging', false);
     if (inlineTarget) {
         store.set('target', inlineTarget);
