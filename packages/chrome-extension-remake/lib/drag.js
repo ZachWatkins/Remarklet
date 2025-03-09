@@ -13,11 +13,12 @@ export function main() {
             }
             return;
         }
+        if (interactable) {
+            interactable.unset();
+            interactable = null;
+        }
         if (target && window.getComputedStyle(target).display !== 'inline') {
-            if (interactable) {
-                interactable.unset();
-                interactable = null;
-            }
+            console.log('enabling drag and resize', target);
             interactable = interact(target)
                 .draggable(draggableOptions)
                 .resizable(resizableOptions);
