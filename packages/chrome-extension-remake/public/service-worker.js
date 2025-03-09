@@ -32,7 +32,6 @@ function init() {
 }
 
 function handleMessage(message, sender, sendResponse) {
-    console.log(message);
     if (message.type === 'remarkletGetExtensionStatus') {
         chrome.storage.sync.get("status", (result) => {
             sendResponse({ value: result.status });

@@ -16,7 +16,6 @@ export default function main() {
             contentTarget = null;
         }
         if (target) {
-            console.log('enabling text edit', target);
             contentTarget = target;
             target.setAttribute('contenteditable', 'true');
         }

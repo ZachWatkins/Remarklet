@@ -18,7 +18,6 @@ export function main() {
             interactable = null;
         }
         if (target && window.getComputedStyle(target).display !== 'inline') {
-            console.log('enabling drag and resize', target);
             interactable = interact(target)
                 .draggable(draggableOptions)
                 .resizable(resizableOptions);
@@ -37,7 +36,6 @@ const draggableOptions = {
          */
         start(event) {
             if (store.get('modifying')) {
-                console.log('modifying');
                 return;
             }
             event.stopPropagation();
