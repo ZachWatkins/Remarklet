@@ -3,7 +3,6 @@ archived-library/
 assets/
 docs/
 tests/
-node_modules/
 .vscode/
 *.zip
 .editorconfig
