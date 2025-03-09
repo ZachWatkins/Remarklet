@@ -1,0 +1,31 @@
+{
+    "name": "remarklet-chrome-extension",
+    "version": "1.0.0",
+    "description": "A Chrome extension for modifying web pages.",
+    "main": "popup.js",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && npm run build:content",
+        "build:content": "vite build --config vite.content.config.js",
+        "preview": "vite preview",
+        "zip": "cd dist && zip -r ../remarklet-chrome-extension.zip .",
+        "zip:win": "powershell Compress-Archive -Path dist/* -DestinationPath remarklet-chrome-extension.zip -Force"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ZachWatkins/remarklet.git"
+    },
+    "author": "Zachary K. Watkins",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ZachWatkins/remarklet/issues"
+    },
+    "homepage": "https://github.com/ZachWatkins/remarklet#readme",
+    "dependencies": {
+        "vite": "^6.2.0"
+    },
+    "devDependencies": {
+        "interactjs": "^1.10.27"
+    }
+}
