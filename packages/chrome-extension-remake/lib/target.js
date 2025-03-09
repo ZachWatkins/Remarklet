@@ -33,7 +33,7 @@ export default function main() {
  */
 function handleMouseEnter(event) {
     event.stopPropagation();
-    if (event.target.classList) {
+    if (event.target.classList && !store.get('modifying')) {
         mouseEnterStack.push(event.target);
         store.set('target', event.target);
     }
@@ -45,7 +45,7 @@ function handleMouseEnter(event) {
  */
 function handleMouseLeave(event) {
     event.stopPropagation();
-    if (event.target.classList) {
+    if (event.target.classList && !store.get('modifying')) {
         const index = mouseEnterStack.indexOf(event.target);
         if (index !== -1) {
             mouseEnterStack.splice(index, 1);

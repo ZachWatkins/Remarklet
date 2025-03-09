@@ -1,9 +1,10 @@
 const state = {
     mode: "idle",
-    target: null,
     dragging: false,
     resizing: false,
+    target: null,
     active: false,
+    modifying: false,
 };
 
 const subscribers = {
@@ -22,6 +23,11 @@ function setMode(mode) {
             state[mode] = true;
         }
         state.mode = mode;
+        if (["dragging", "resizing"].includes(mode)) {
+            state.modifying = true;
+        } else {
+            state.modifying = false;
+        }
     }
 }
 

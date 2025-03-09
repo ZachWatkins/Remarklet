@@ -21,13 +21,11 @@ export function main() {
                     }
                 })
                 .resizable({
-                    edges: { left: true, right: true, bottom: true, top: true },
+                    edges: { left: true, right: true, bottom: true, top: false },
                     listeners: {
                         start(event) {
-                            event.target.style.transition = 'none';
+                            // An inline element cannot be resized.
                             store.set('mode', 'resizing');
-                            store.set('resizing', true);
-                            store.set('target', event.target);
                         },
                         move(event) {
                             const target = event.target;
@@ -39,6 +37,9 @@ export function main() {
                             target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
                             target.setAttribute('data-x', x);
                             target.setAttribute('data-y', y);
+                        },
+                        end(event) {
+                            store.set('mode', 'idle');
                         }
                     }
                 });
@@ -59,7 +60,12 @@ export function main() {
  * @return {void}
  */
 function dragStart(event) {
-    store.set('dragging', true);
+    if (store.get('modifying')) {
+        return;
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    store.set('mode', 'dragging');
     // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
     if (window.getComputedStyle(event.target).display === 'inline') {
         let parent = event.target.parentElement;
@@ -83,7 +89,7 @@ function dragStart(event) {
  */
 function dragMove(event) {
     var target = store.get('target');
-    if (!target) {
+    if (!target || target !== event.target) {
         return;
     }
     var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
@@ -100,11 +106,22 @@ function dragMove(event) {
  * @return {void}
  */
 function dragEnd(event) {
-    store.set('dragging', false);
-    if (inlineTarget) {
+    event.stopPropagation();
+    event.preventDefault();
+    const target = store.get('target');
+    if (!target) {
+        return;
+    }
+    if (event.target === inlineTarget) {
         store.set('target', inlineTarget);
         inlineTarget = null;
+        store.set('mode', 'idle');
+        return;
     }
+    if (event.target !== target) {
+        return;
+    }
+    store.set('mode', 'idle');
 }
 
 export default main;
