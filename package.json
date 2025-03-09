@@ -1,9 +1,9 @@
 {
     "name": "remarklet",
-    "description": "Remarklet - make mockups faster",
+    "description": "Remarklet adds visual editing capabilities to any web page.",
     "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com>",
-    "version": "0.9.0",
-    "main": "index.js",
+    "version": "1.0.0",
+    "main": "src/index.js",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -49,5 +49,13 @@
         "singleAttributePerLine": true,
         "proseWrap": "never",
         "htmlWhitespaceSensitivity": "strict"
+    },
+    "files": [
+        "src/**/*",
+        "README.md",
+        "LICENSE"
+    ],
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
     }
 }
