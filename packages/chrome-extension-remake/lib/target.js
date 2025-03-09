@@ -6,6 +6,8 @@ import store from "./store.js";
 
 export const highlightClass = 'remarklet-highlight';
 
+const mouseEnterStack = [];
+
 /**
  * Adds mouse event handlers to all elements in the document
  */
@@ -19,6 +21,10 @@ export default function main() {
             document.removeEventListener('mouseleave', handleMouseLeave, true);
         }
     });
+    store.subscribe('target', (target, oldTarget) => {
+        target?.classList.add(highlightClass);
+        oldTarget?.classList.remove(highlightClass);
+    });
 }
 
 /**
@@ -27,13 +33,9 @@ export default function main() {
  */
 function handleMouseEnter(event) {
     event.stopPropagation();
-    const element = event.target;
-    if (store.get('target')) {
-        store.get('target').classList.remove(highlightClass);
-    }
-    if (element.classList) {
-        store.set('target', element);
-        element.classList.add(highlightClass);
+    if (event.target.classList) {
+        mouseEnterStack.push(event.target);
+        store.set('target', event.target);
     }
 }
 
@@ -43,9 +45,15 @@ function handleMouseEnter(event) {
  */
 function handleMouseLeave(event) {
     event.stopPropagation();
-    const element = event.target;
-    if (element.classList) {
-        store.set('target', null);
-        element.classList.remove(highlightClass);
+    if (event.target.classList) {
+        const index = mouseEnterStack.indexOf(event.target);
+        if (index !== -1) {
+            mouseEnterStack.splice(index, 1);
+            if (mouseEnterStack.length === 0) {
+                store.set('target', null);
+            } else {
+                store.set('target', mouseEnterStack[mouseEnterStack.length - 1]);
+            }
+        }
     }
 }
