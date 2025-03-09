@@ -37,7 +37,7 @@ export default function LandingPage() {
           <div className="flex flex-1 items-center justify-end space-x-4">
             <nav className="flex items-center space-x-2">
               <Link
-                href="https://github.com"
+                href="https://github.com/zachwatkins/remarklet"
                 target="_blank"
                 rel="noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -56,7 +56,7 @@ export default function LandingPage() {
         <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
           <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-              Visual Editing for the Web, <span className="text-primary">Made Simple</span>
+              Changing your website should be remarkably easy!
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
               Remarklet adds drag-and-drop, resize, and text editing capabilities to any web page. Empower your users
@@ -196,14 +196,11 @@ export default function LandingPage() {
                     <code>{`// Add Remarklet to your page
 import Remarklet from 'remarklet';
 
-// Initialize with options
-const editor = new Remarklet({
-  selector: '.editable',
-  saveCallback: saveChanges
-});
+// Activate.
+Remarklet.activate();
 
-// Start editing
-editor.enable();`}</code>
+// Deactivate.
+Remarklet.deactivate();`}</code>
                   </pre>
                 </div>
               </div>
@@ -213,15 +210,8 @@ editor.enable();`}</code>
                 </div>
                 <h3 className="text-xl font-bold">User-Friendly Interface</h3>
                 <p className="text-muted-foreground">
-                  Remarklet provides an intuitive interface that users can understand immediately. No training required.
+                  Remarklet provides intuitive controls indicated by their mouse cursor and element outlines. No training required.
                 </p>
-                <Image
-                  src="/placeholder.svg?height=200&width=400"
-                  alt="Remarklet user interface"
-                  width={400}
-                  height={200}
-                  className="mt-4 rounded-lg border"
-                />
               </div>
             </div>
           </div>
@@ -240,7 +230,7 @@ editor.enable();`}</code>
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg">
-                  <Link href="#" className="flex items-center gap-1">
+                  <Link href="https://github.com/zachwatkins/remarklet" className="flex items-center gap-1">
                     View on GitHub <Github className="h-4 w-4" />
                   </Link>
                 </Button>
