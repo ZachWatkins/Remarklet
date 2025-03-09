@@ -38,7 +38,7 @@ function handleMessage(message, sender, sendResponse) {
             sendResponse({ value: result.status });
         });
         return true;
-    } else if (message.type === 'setExtensionStatus') {
+    } else if (message.type === 'setRemarkletExtensionStatus') {
         chrome.action.setIcon({
             path: message.value ? icons.enabled : icons.disabled,
         }).then(() => {
@@ -47,12 +47,12 @@ function handleMessage(message, sender, sendResponse) {
             }, () => {
                 sendResponse({ value: message.value });
 
-                // Forward message to active tab's content script
-                chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                    if (tabs[0] && tabs[0].id) {
-                        chrome.tabs.sendMessage(tabs[0].id, {
-                            type: 'setExtensionStatus',
-                            value: message.value  // Match the property name expected by content script
+                // Forward message to content scripts.
+                chrome.tabs.query({}, function (tabs) {
+                    for (let i = 0; i < tabs.length; i++) {
+                        chrome.tabs.sendMessage(tabs[i].id, {
+                            type: 'setRemarkletExtensionStatus',
+                            value: message.value
                         });
                     }
                 });

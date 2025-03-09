@@ -7,7 +7,7 @@ toggle.addEventListener('change', (e) => {
         const value = e.target.checked;
         console.log('setting extension status', 'popup.js');
         chrome.runtime.sendMessage({
-            type: 'setExtensionStatus',
+            type: 'setRemarkletExtensionStatus',
             value,
         });
     }
