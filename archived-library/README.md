@@ -1,6 +1,6 @@
 # Remarklet
 
-Copyright 2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+Copyright 2024 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
 
 Visual editor app that makes modifying and commenting on web pages remarkably easy!
 
