@@ -8,7 +8,9 @@
         "dev": "vite",
         "build": "vite build && npm run build:content",
         "build:content": "vite build --config vite.content.config.js",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "zip": "cd dist && zip -r ../remarklet-chrome-extension.zip .",
+        "zip:win": "powershell Compress-Archive -Path dist/* -DestinationPath remarklet-chrome-extension.zip"
     },
     "repository": {
         "type": "git",
