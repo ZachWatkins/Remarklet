@@ -31,13 +31,17 @@ function setMode(mode) {
 }
 
 export function set(key, value) {
+    const oldValue = state[key];
+    if (oldValue === value) {
+        return;
+    }
     if (key === "mode") {
         setMode(value);
     } else {
         state[key] = value;
     }
     if (subscribers[key] && subscribers[key].length) {
-        subscribers[key].forEach((callback) => callback(value));
+        subscribers[key].forEach((callback) => callback(value, oldValue));
     }
 }
 
