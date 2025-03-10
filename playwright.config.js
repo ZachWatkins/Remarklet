@@ -74,6 +74,6 @@ export default defineConfig({
         cwd: 'test',
         command: 'npm run serve',
         url: 'http://localhost:3000',
-        reuseExistingServer: !process.env.CI,
+        // reuseExistingServer: !process.env.CI,
     },
 });
