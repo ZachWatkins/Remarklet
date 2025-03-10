@@ -10,11 +10,13 @@
 
 ## Installation
 
-This package can be installed with npm:
+This package can be installed with:
 
-```shell
-npm install @zw/remarklet
-```
+-   npm: `npm install @zw/remarklet`
+-   yarn: `yarn add @zw/remarklet`
+-   pnpm: `pnpm add @zw/remarklet`
+-   unpkg: `<script src="https://unpkg.com/@zw/remarklet"></script>`
+-   jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`
 
 ## Example
 
