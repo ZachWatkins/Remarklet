@@ -24,5 +24,8 @@
     "homepage": "https://github.com/zachwatkins/remarklet#readme",
     "dependencies": {
         "interactjs": "^1.10.27"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.51.0"
     }
 }
