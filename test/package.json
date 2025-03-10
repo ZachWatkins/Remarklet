@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "serve": "vite preview"
+        "serve": "vite preview --port 3000"
     },
     "author": "",
     "license": "ISC",
