@@ -238,10 +238,10 @@ Remarklet.deactivate();`}</code>
               <div className="mt-8 w-full max-w-3xl rounded-md bg-background p-4">
                 <pre className="text-sm">
                   <code>{`# Install with npm
-npm install remarklet
+npm install @zw/remarklet
 
 # Or with yarn
-yarn add remarklet`}</code>
+yarn add @zw/remarklet`}</code>
                 </pre>
               </div>
             </div>
