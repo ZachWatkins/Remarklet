@@ -9,7 +9,12 @@
     },
     "keywords": [
         "mockup",
-        "drag"
+        "drag",
+        "drop",
+        "resize",
+        "remarklet",
+        "remarklet.js",
+        "interact"
     ],
     "author": "Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins/remarklet)",
     "license": "MIT",
