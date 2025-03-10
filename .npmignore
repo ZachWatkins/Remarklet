@@ -1,0 +1,15 @@
+.github/
+archived-library/
+assets/
+docs/
+tests/
+test/
+.vscode/
+*.zip
+.editorconfig
+.gitattributes
+.gitignore
+.nvmrc
+.prettierignore
+index.html
+*.config.js

@@ -1,41 +1,51 @@
-# Remarklet
+# Remarklet - JavaScript web page editor controls
 
-Copyright 2024 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy!**
 
-Visual editor app that makes modifying and commenting on web pages remarkably easy!
+## Features
 
-I built this plugin in 2014 to make it easier for my clients to communicate changes they wanted made to their website.
+-   Drag elements around the page
+-   Resize elements
+-   Edit text
 
-This JavaScript application is built with jQuery and jQuery UI and will allow you to rapidly prototype web site changes and more easily communicate web site revisions with others.
+## Installation
 
-If you enjoyed using this tool, I would appreciate hearing from you! zwatkins.it@gmail.com
+This package can be installed with:
 
-# Features:
+-   npm: `npm install @zw/remarklet`
+-   yarn: `yarn add @zw/remarklet`
+-   pnpm: `pnpm add @zw/remarklet`
+-   unpkg: `<script src="https://unpkg.com/@zw/remarklet"></script>`
+-   jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`
 
--   Export
+## Example
+
+To use Remarklet, you need to import the module in your JavaScript file:
+
+```javascript
+import remarklet from "@zw/remarklet";
+```
+
+Then, you can activate or deactivate the features it provides:
+
+```javascript
+import remarklet from "@zw/remarklet";
+remarklet.activate();
+// Now users can drag, resize, and edit elements on the page.
+remarklet.deactivate();
+// Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
+```
+
+## Feature Roadmap
+
+-   Insert Note
+-   Delete Elements
+-   View Grid
+-   Copy Elements
+-   Export the edited page as an HTML file
+-   Insert Image
+-   Insert Code
 -   Save
 -   Restore
--   View Grid
--   View Outlines
--   View CSS Changes
--   Insert Image
--   Insert Note
--   Insert Code
--   Drag Elements
--   Resize Elements
--   Delete Elements
--   Edit Text
 
-# Keyboard Shortcuts:
-
-[Drag Mode]
-
--   Enter Text Mode: T
--   Enter Drag Mode: V
--   Resize Element: Ctrl + Alt + T
--   Finish Resizing Element: Enter
--   Delete Element: Delete
-
-[Text Mode]
-
--   Return to Drag Mode: Ctrl + Enter
+Copyright 2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
