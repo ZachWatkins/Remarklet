@@ -16,6 +16,8 @@ on:
             - "docs/**"
             - "src/**"
             - "./index.js"
+        branches-ignore:
+            - "dependabot/**"
 
 jobs:
     build_and_deploy_job:
