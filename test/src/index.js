@@ -1,2 +1,12 @@
 import remarklet from '@zw/remarklet';
-remarklet.activate();
+document.getElementById('activate').addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    remarklet.activate();
+});
+document.getElementById('deactivate').addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    remarklet.deactivate();
+});
+
