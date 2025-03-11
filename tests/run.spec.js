@@ -13,4 +13,10 @@ test('no errors occur during page load', async ({ page }) => {
         test.fail();
     });
     await page.goto('/');
+    await page.getByText('Activate', { exact: true }).click();
+    await page.waitForTimeout(1000);
+    await page.getByText('Deactivate').click();
+    await page.waitForTimeout(1000);
+    await page.getByText('Activate', { exact: true }).click();
+    await page.waitForTimeout(1000);
 });
