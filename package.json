@@ -32,5 +32,17 @@
     },
     "devDependencies": {
         "@playwright/test": "^1.51.0"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    },
+    "files": [
+        "src",
+        "index.js",
+        "LICENSE.txt",
+        "README.md"
+    ],
+    "publishConfig": {
+        "access": "public"
     }
 }
