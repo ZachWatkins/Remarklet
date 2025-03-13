@@ -1,4 +1,8 @@
-# Remarklet - JavaScript web page editor controls
+# Remarklet - JavaScript web page editor
+
+[![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
+[![npm version](https://badge.fury.io/js/@zw%2Fremarklet.svg)](https://www.npmjs.com/package/@zw/remarklet)
+[![Downloads](https://img.shields.io/npm/dm/@zw%2Fremarklet.svg)](https://www.npmjs.com/package/@zw/remarklet)
 
 **Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy!**
 
