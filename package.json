@@ -22,6 +22,11 @@
         "url": "https://github.com/zachwatkins/remarklet/issues"
     },
     "homepage": "https://github.com/zachwatkins/remarklet#readme",
+    "scripts": {
+        "test": "playwright test",
+        "test:ui": "playwright test --ui",
+        "test:debug": "playwright test --debug"
+    },
     "dependencies": {
         "interactjs": "^1.10.27"
     },
