@@ -59,3 +59,25 @@ test('can edit text', async ({ page }) => {
     const originalText = await page.getByText('Hello, World!');
     expect(originalText).toHaveCount(0);
 });
+
+test('can resize text', async ({ page }) => {
+    page.on('pageerror', (error) => {
+        console.error(error);
+        test.fail();
+    });
+    await page.goto('/');
+    const text = await page.getByText('Hello, World!');
+    const boundingBox = await text.boundingBox();
+    if (!boundingBox) {
+        throw new Error('Bounding box is null');
+    }
+    await page.mouse.move(boundingBox.x, boundingBox.y + boundingBox.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(boundingBox.x + 50, boundingBox.y + boundingBox.height / 2, { steps: 10 });
+    await page.mouse.up();
+    const newBoundingBox = await text.boundingBox();
+    if (!newBoundingBox) {
+        throw new Error('New bounding box is null');
+    }
+    expect(newBoundingBox.width).toEqual(boundingBox.width - 50);
+});
