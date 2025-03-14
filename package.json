@@ -2,7 +2,7 @@
     "name": "@zw/remarklet",
     "version": "1.0.1",
     "description": "Remarklet adds visual editing capabilities to any web page.",
-    "main": "src/main.js",
+    "main": "index.js",
     "type": "module",
     "repository": {
         "type": "git",

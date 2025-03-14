@@ -1,12 +1,12 @@
 /**
  * @module @zachwatkins/remarklet
  */
-import pkg from '../package.json' with { type: "json" };
-import store from "./store.js";
-import drag from "./drag.js";
-import target from "./target.js";
-import styles from "./styles.js";
-import textedit from "./textedit.js";
+import pkg from './package.json' with { type: "json" };
+import store from "./src/store.js";
+import drag from "./src/drag.js";
+import target from "./src/target.js";
+import styles from "./src/styles.js";
+import textedit from "./src/textedit.js";
 
 let initialized = false;
 
