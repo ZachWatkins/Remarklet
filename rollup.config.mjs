@@ -7,14 +7,26 @@ export default {
     input: 'src/main.js',
     output: [
         {
-            file: 'remarklet.js',
-            format: 'cjs'
+            file: 'dist/remarklet.cjs',
+            format: 'cjs',
+            external: [
+                'interactjs',
+            ]
         },
         {
-            file: 'remarklet.min.js',
+            file: 'dst/remarklet.mjs',
+            format: 'es',
+            external: [
+                'interactjs',
+            ]
+        },
+        {
+            file: 'dist/remarklet.min.js',
             format: 'iife',
-            name: 'version',
-            plugins: [terser()]
+            name: 'remarklet',
+            plugins: [
+                terser()
+            ]
         }
     ],
     plugins: [
