@@ -47,7 +47,8 @@
         "src",
         "index.js",
         "LICENSE.txt",
-        "README.md"
+        "README.md",
+        "dist/remarklet.min.js"
     ],
     "publishConfig": {
         "access": "public"
