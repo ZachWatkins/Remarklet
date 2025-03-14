@@ -26,26 +26,19 @@ test('can drag elements', async ({ page }) => {
     if (!boundingBox) {
         throw new Error('Bounding box is null');
     }
-    // Take a screenshot and attach it to the report.
-    await page.screenshot({ path: 'screenshot-before.png' });
-    // Move the mouse to the text.
-    await page.mouse.move(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
-    // Mouse down and drag the text.
+    await page.mouse.move(boundingBox.x, boundingBox.y);
     await page.mouse.down();
-    await page.mouse.move(50, 50);
+    await page.mouse.move(boundingBox.x + 50, boundingBox.y, { steps: 10 });
     await page.mouse.up();
     await page.screenshot({ path: 'screenshot-after.png' });
-    // Check that the text has moved.
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error('New bounding box is null');
     }
     expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
-    expect(newBoundingBox.y).toEqual(boundingBox.y + 50);
-    // Check that the text is still visible.
+    expect(newBoundingBox.y).toEqual(boundingBox.y);
     const isVisible = await text.isVisible();
     expect(isVisible).toBeTruthy();
-    await page.screenshot({ path: 'screenshot-after.png' });
 });
 
 test('can edit text', async ({ page }) => {
@@ -53,13 +46,16 @@ test('can edit text', async ({ page }) => {
         console.error(error);
         test.fail();
     });
-    const text = await page.getByText('Hello, World!');
+    await page.goto('/');
+    const textValue = 'Hello, World!';
+    const text = await page.getByText(textValue);
     await text.click();
-    await page.keyboard.press('Backspace');
+    for (let i = 0; i < textValue.length; i++) {
+        await page.keyboard.press('Backspace');
+    }
     await page.keyboard.type('Goodbye, World!');
     const newText = await page.getByText('Goodbye, World!');
-    expect(newText).toBeTruthy();
+    expect(newText).toHaveCount(1);
     const originalText = await page.getByText('Hello, World!');
-    expect(originalText).toBeFalsy();
-    await page.screenshot({ path: 'screenshot-edited.png' });
+    expect(originalText).toHaveCount(0);
 });
