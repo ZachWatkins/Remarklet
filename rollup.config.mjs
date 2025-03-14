@@ -8,14 +8,6 @@ export default {
     input: pkg.main,
     output: [
         {
-            file: 'dist/remarklet.cjs',
-            format: 'cjs'
-        },
-        {
-            file: 'dist/remarklet.mjs',
-            format: 'es'
-        },
-        {
             file: 'dist/remarklet.min.js',
             format: 'iife',
             name: 'remarklet',
