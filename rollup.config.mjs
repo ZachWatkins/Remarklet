@@ -8,17 +8,11 @@ export default {
     output: [
         {
             file: 'dist/remarklet.cjs',
-            format: 'cjs',
-            external: [
-                'interactjs',
-            ]
+            format: 'cjs'
         },
         {
-            file: 'dst/remarklet.mjs',
-            format: 'es',
-            external: [
-                'interactjs',
-            ]
+            file: 'dist/remarklet.mjs',
+            format: 'es'
         },
         {
             file: 'dist/remarklet.min.js',
