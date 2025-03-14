@@ -49,6 +49,7 @@ sftp-config.json
 login.php
 
 dist/
+!dist/remarklet.min.js
 /test-results/
 /playwright-report/
 /blob-report/
