@@ -19,7 +19,7 @@ This package can be installed with:
 -   npm: `npm install @zw/remarklet`
 -   yarn: `yarn add @zw/remarklet`
 -   pnpm: `pnpm add @zw/remarklet`
--   unpkg: `<script src="https://unpkg.com/@zw/remarklet"></script>`
+-   unpkg: `<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>`
 -   jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`
 
 ## Example
