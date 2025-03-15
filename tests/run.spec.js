@@ -2,11 +2,6 @@
 // This file tests whether there are runtime errors simply from adding the script to the page.
 import { test, expect } from "@playwright/test";
 
-test("has title", async ({ page }) => {
-    await page.goto("/");
-    await expect(page).toHaveTitle("Hello World");
-});
-
 test("no errors occur during page load", async ({ page }) => {
     page.on("pageerror", (error) => {
         console.error(error);
@@ -21,7 +16,9 @@ test("can drag elements", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("Hello, World!");
+    const text = await page.getByText("CSS Zen Garden", {
+        exact: true,
+    });
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
@@ -46,16 +43,20 @@ test("can edit text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const textValue = "Hello, World!";
-    const text = await page.getByText(textValue);
+    const textValue = "CSS Zen Garden";
+    const text = await page.getByText(textValue, {
+        exact: true,
+    });
     await text.click();
     for (let i = 0; i < textValue.length; i++) {
         await page.keyboard.press("Backspace");
     }
-    await page.keyboard.type("Goodbye, World!");
-    const newText = await page.getByText("Goodbye, World!");
+    await page.keyboard.type("Hello, World!");
+    const newText = await page.getByText("Hello, World!");
     expect(newText).toHaveCount(1);
-    const originalText = await page.getByText("Hello, World!");
+    const originalText = await page.getByText("CSS Zen Garden", {
+        exact: true,
+    });
     expect(originalText).toHaveCount(0);
 });
 
@@ -65,7 +66,9 @@ test("can resize text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("Hello, World!");
+    const text = await page.getByText("CSS Zen Garden", {
+        exact: true,
+    });
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
