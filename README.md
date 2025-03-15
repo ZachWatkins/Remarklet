@@ -66,4 +66,4 @@ remarklet.deactivate();
 - Save
 - Restore
 
-Copyright 2014-2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
+Copyright 2014-2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://zacharywatkins.com)
