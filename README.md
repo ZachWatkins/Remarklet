@@ -42,6 +42,18 @@ remarklet.deactivate();
 // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
 ```
 
+## CDN Example
+
+```html
+<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
+<script>
+    remarklet.activate();
+    // Now users can drag, resize, and edit elements on the page.
+    remarklet.deactivate();
+    // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
+</script>
+```
+
 ## Feature Roadmap
 
 - Insert Note
