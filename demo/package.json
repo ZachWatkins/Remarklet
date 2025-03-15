@@ -11,7 +11,7 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "@zw/remarklet": "file:../remarklet.min.js",
+        "@zw/remarklet": "file:..",
         "vite": "^6.2.1"
     }
 }
