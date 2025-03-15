@@ -48,7 +48,7 @@ jobs:
               run: npx playwright install --with-deps
 
             - name: Install dependencies for test app
-              working-directory: test
+              working-directory: demo
               run: npm ci
 
             - name: Run Playwright tests
