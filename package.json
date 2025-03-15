@@ -1,11 +1,12 @@
 {
     "name": "@zw/remarklet",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
+    "type": "module",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/zachwatkins/remarklet.git#main"
+        "url": "https://github.com/zachwatkins/remarklet.git"
     },
     "keywords": [
         "mockup",
@@ -22,10 +23,39 @@
         "url": "https://github.com/zachwatkins/remarklet/issues"
     },
     "homepage": "https://github.com/zachwatkins/remarklet#readme",
+    "scripts": {
+        "test": "playwright test",
+        "test:ui": "playwright test --ui",
+        "test:debug": "playwright test --debug",
+        "build": "rollup -c",
+        "lint": "prettier --check .",
+        "lint:fix": "prettier --write .",
+        "prepublishOnly": "npm run build"
+    },
     "dependencies": {
         "interactjs": "^1.10.27"
     },
     "devDependencies": {
-        "@playwright/test": "^1.51.0"
+        "@playwright/test": "^1.51.0",
+        "@rollup/plugin-commonjs": "^28.0.3",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "prettier": "^3.5.3",
+        "rollup": "^4.35.0"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    },
+    "files": [
+        "src",
+        "index.js",
+        "LICENSE.txt",
+        "README.md",
+        "SECURITY.md",
+        "dist/remarklet.min.js"
+    ],
+    "publishConfig": {
+        "access": "public"
     }
 }
