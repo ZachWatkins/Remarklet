@@ -222,12 +222,13 @@ remarklet.deactivate();`}</code>
                                 <div className="w-full rounded-md bg-muted p-4">
                                     <pre className="text-sm text-left overflow-auto">
                                         <code>{`// Unpkg CDN.
-<script src="https://unpkg.com/@zw/remarklet"></script>
+<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
+<!-- or "https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js" !-->
 <script>
     remarklet.activate();
     remarklet.deactivate();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`}</code>
+`}</code>
                                     </pre>
                                 </div>
                             </div>
