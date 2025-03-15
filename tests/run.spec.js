@@ -30,7 +30,6 @@ test("can drag elements", async ({ page }) => {
     await page.mouse.down();
     await page.mouse.move(boundingBox.x + 50, boundingBox.y, { steps: 10 });
     await page.mouse.up();
-    await page.screenshot({ path: "screenshot-after.png" });
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
