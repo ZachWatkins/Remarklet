@@ -6,6 +6,8 @@
 
 **Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy!**
 
+[Demo available at CodePen](https://codepen.io/zw/pen/azbEBKp).
+
 ## Features
 
 - Drag elements around the page
