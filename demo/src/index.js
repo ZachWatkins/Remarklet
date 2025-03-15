@@ -1,2 +1,2 @@
-import remarklet from '@zw/remarklet';
+import remarklet from "@zw/remarklet";
 remarklet.activate();

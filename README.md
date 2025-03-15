@@ -8,19 +8,19 @@
 
 ## Features
 
--   Drag elements around the page
--   Resize elements
--   Edit text
+- Drag elements around the page
+- Resize elements
+- Edit text
 
 ## Installation
 
 This package can be installed with:
 
--   npm: `npm install @zw/remarklet`
--   yarn: `yarn add @zw/remarklet`
--   pnpm: `pnpm add @zw/remarklet`
--   unpkg: `<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>`
--   jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`
+- npm: `npm install @zw/remarklet`
+- yarn: `yarn add @zw/remarklet`
+- pnpm: `pnpm add @zw/remarklet`
+- unpkg: `<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>`
+- jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet"></script>`
 
 ## Example
 
@@ -42,14 +42,14 @@ remarklet.deactivate();
 
 ## Feature Roadmap
 
--   Insert Note
--   Delete Elements
--   View Grid
--   Copy Elements
--   Export the edited page as an HTML file
--   Insert Image
--   Insert Code
--   Save
--   Restore
+- Insert Note
+- Delete Elements
+- View Grid
+- Copy Elements
+- Export the edited page as an HTML file
+- Insert Image
+- Insert Code
+- Save
+- Restore
 
 Copyright 2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)

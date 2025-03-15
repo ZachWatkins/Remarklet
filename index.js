@@ -1,7 +1,7 @@
 /**
  * @module @zachwatkins/remarklet
  */
-import pkg from './package.json' with { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 import store from "./src/store.js";
 import drag from "./src/drag.js";
 import target from "./src/target.js";
@@ -25,7 +25,7 @@ let initialized = false;
  * // Get the version of the library
  * console.log(remarklet.version);
  */
-function remarklet() { }
+function remarklet() {}
 remarklet.activate = function () {
     if (!initialized) {
         initialized = true;
@@ -35,10 +35,10 @@ remarklet.activate = function () {
         textedit();
     }
     store.set("active", true);
-}
+};
 remarklet.deactivate = function () {
     store.set("active", false);
-}
+};
 remarklet.version = pkg.version;
 
 export default remarklet;

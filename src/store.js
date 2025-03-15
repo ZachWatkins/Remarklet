@@ -58,4 +58,4 @@ export default {
     set,
     get,
     subscribe,
-}
+};
