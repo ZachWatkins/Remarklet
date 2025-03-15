@@ -52,6 +52,7 @@
         "index.js",
         "LICENSE.txt",
         "README.md",
+        "SECURITY.md",
         "dist/remarklet.min.js"
     ],
     "publishConfig": {
