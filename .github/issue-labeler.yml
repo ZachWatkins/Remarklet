@@ -1,0 +1,10 @@
+# Add labels to new pull requests based on the changed file names and paths.
+# https://github.com/marketplace/actions/labeler
+
+# Add 'triage' label to any issue that gets opened.
+triage:
+- '/.*/'
+
+# Add/remove 'critical' label if issue contains the words 'urgent' or 'critical'
+help_wanted:
+- '(critical|urgent)'
