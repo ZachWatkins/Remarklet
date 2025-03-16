@@ -269,6 +269,7 @@ Intro
     width: auto;
     margin: 0;
     padding: 1em;
+    transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -533,6 +534,7 @@ Main
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -546,6 +548,7 @@ Main
         top: 0;
         left: 0;
         padding: 0;
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -692,6 +695,7 @@ Main
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -704,6 +708,7 @@ Main
         font-size: 150%;
         left: 0em;
         padding: 0;
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -995,6 +1000,7 @@ Sidebar
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -1006,6 +1012,7 @@ Sidebar
         top: 0;
         left: 0;
         position: relative;
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
@@ -1073,6 +1080,7 @@ Sidebar
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -1084,6 +1092,7 @@ Sidebar
         top: 0;
         left: 0;
         position: relative;
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
