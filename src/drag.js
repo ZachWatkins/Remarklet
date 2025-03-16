@@ -144,10 +144,7 @@ function resolveTransform(target, x, y, originalTransform) {
     if ("none" === originalTransform) {
         style = `translate(${x}px, ${y}px)`;
     } else if (target.hasAttribute("data-remarklet-x")) {
-        style = target.style.transform.replace(
-            /translate\(([^)]+)\)/,
-            `translate(${x}px, ${y}px)`,
-        );
+        style = target.style.transform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
     } else {
         if (originalTransform.indexOf("matrix3d") === -1) {
             if (originalTransform.indexOf("matrix") === -1) {
@@ -214,7 +211,9 @@ function resolveTransform(target, x, y, originalTransform) {
                 // Get the original translation values.
                 const translateRegex = /\btranslate\(([^)]+)\)/;
                 const translateMatch = originalTransform.match(translateRegex);
-                const translateValues = translateMatch ? translateMatch[1].split(",") : ["0px", "0px"];
+                const translateValues = translateMatch
+                    ? translateMatch[1].split(",")
+                    : ["0px", "0px"];
                 // Determine the unit of the translation values.
                 const unitRegex = /[a-zA-Z%]+/;
                 const unitMatch = translateValues[0].match(unitRegex);
@@ -273,28 +272,43 @@ function resolveTransform(target, x, y, originalTransform) {
             const unitMatch = translateValues[0].match(unitRegex);
             if (!unitMatch) {
                 // Invalid CSS unit, so ignore the original value.
-                style = originalTransform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+                style = originalTransform.replace(
+                    /translate\(([^)]+)\)/,
+                    `translate(${x}px, ${y}px)`,
+                );
             } else if (unitMatch[0] === "px") {
                 // px unit, so we can safely add the values.
                 x = parseFloat(translateValues[0]) + x;
                 y = parseFloat(translateValues[1]) + y;
-                style = originalTransform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+                style = originalTransform.replace(
+                    /translate\(([^)]+)\)/,
+                    `translate(${x}px, ${y}px)`,
+                );
             } else if (unitMatch[0] === "%") {
                 // % unit, so we need to calculate the percentage of the element's width and height.
                 const width = target.offsetWidth;
                 const height = target.offsetHeight;
                 x = (parseFloat(translateValues[0]) / 100) * width + x;
                 y = (parseFloat(translateValues[1]) / 100) * height + y;
-                style = originalTransform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+                style = originalTransform.replace(
+                    /translate\(([^)]+)\)/,
+                    `translate(${x}px, ${y}px)`,
+                );
             } else if (unitMatch[0] === "em") {
                 // em unit, so we need to calculate the percentage of the element's font size.
                 const fontSize = parseFloat(window.getComputedStyle(target).fontSize);
                 x = parseFloat(translateValues[0]) * fontSize + x;
                 y = parseFloat(translateValues[1]) * fontSize + y;
-                style = originalTransform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+                style = originalTransform.replace(
+                    /translate\(([^)]+)\)/,
+                    `translate(${x}px, ${y}px)`,
+                );
             } else {
                 // Unknown unit, so we can't do anything.
-                style = originalTransform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+                style = originalTransform.replace(
+                    /translate\(([^)]+)\)/,
+                    `translate(${x}px, ${y}px)`,
+                );
             }
         }
     }
