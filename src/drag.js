@@ -39,10 +39,10 @@ const draggableOptions = {
             event.stopPropagation();
             event.preventDefault();
             store.set("mode", "dragging");
-            if (target.getAttribute("data-remarklet-original-transform") === null) {
-                target.setAttribute(
+            if (event.target.getAttribute("data-remarklet-original-transform") === null) {
+                event.target.setAttribute(
                     "data-remarklet-original-transform",
-                    window.getComputedStyle(target).transform,
+                    window.getComputedStyle(event.target).transform,
                 );
             }
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
