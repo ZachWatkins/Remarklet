@@ -39,6 +39,9 @@ const draggableOptions = {
             event.stopPropagation();
             event.preventDefault();
             store.set("mode", "dragging");
+            if (target.getAttribute("data-remarklet-original-transform") === null) {
+                target.setAttribute("data-remarklet-original-transform", window.getComputedStyle(target).transform);
+            }
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
                 let parent = event.target.parentElement;
@@ -67,11 +70,7 @@ const draggableOptions = {
             }
             let x = (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.dx;
             let y = (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.dy;
-            let originalTransform = target.getAttribute("data-remarklet-original-transform");
-            if (!originalTransform) {
-                originalTransform = window.getComputedStyle(target).transform;
-                target.setAttribute("data-remarklet-original-transform", originalTransform);
-            }
+            const originalTransform = target.getAttribute("data-remarklet-original-transform");
             if ('none' === originalTransform) {
                 target.style.transform = `translate(${x}px, ${y}px)`;
                 target.setAttribute("data-remarklet-x", x);
