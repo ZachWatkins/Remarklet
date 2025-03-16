@@ -83,11 +83,18 @@ test("can resize text", async ({ page }) => {
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(boundingBox.x + boundingBox.width, boundingBox.y + boundingBox.height / 2);
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width,
+        boundingBox.y + boundingBox.height / 2,
+    );
     await page.mouse.down();
-    await page.mouse.move(boundingBox.x + boundingBox.width + 50, boundingBox.y + boundingBox.height / 2, {
-        steps: 10,
-    });
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width + 50,
+        boundingBox.y + boundingBox.height / 2,
+        {
+            steps: 10,
+        },
+    );
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
