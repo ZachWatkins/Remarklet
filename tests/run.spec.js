@@ -81,10 +81,17 @@ test("can resize text", async ({ page }) => {
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(
-        boundingBox.x + boundingBox.width,
-        boundingBox.y + boundingBox.height / 2,
-    );
+    await text.hover({
+        position: {
+            x: boundingBox.width - 1,
+            y: boundingBox.height / 2,
+        },
+    });
+    // Assert the mouse cursor is a resize cursor.
+    const cursor = await page.evaluate(() => {
+        return window.getComputedStyle(document.body).cursor;
+    });
+    expect(cursor).toEqual("ew-resize");
     await page.mouse.down();
     await page.mouse.move(
         boundingBox.x + boundingBox.width + 50,
@@ -98,5 +105,5 @@ test("can resize text", async ({ page }) => {
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.width).toEqual(boundingBox.width - 50);
+    expect(newBoundingBox.width).toEqual(boundingBox.width + 50);
 });
