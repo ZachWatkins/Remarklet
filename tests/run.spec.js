@@ -28,14 +28,17 @@ test("can drag elements", async ({ page }) => {
         boundingBox.y + boundingBox.height / 2,
     );
     await page.mouse.down();
-    await page.mouse.move(boundingBox.x + 50, boundingBox.y);
+    await page.mouse.move(boundingBox.x + 50, boundingBox.y, { steps: 10 });
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
+    // Compare the width and height before and after, rounded to 2 decimal places.
+    expect(Math.round(newBoundingBox.width * 100) / 100).toEqual(Math.round(boundingBox.width * 100) / 100);
+    expect(Math.round(newBoundingBox.height * 100) / 100).toEqual(Math.round(boundingBox.height * 100) / 100);
     expect(newBoundingBox.y).toEqual(boundingBox.y);
+    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
     const isVisible = await text.isVisible();
     expect(isVisible).toBeTruthy();
 });
