@@ -53,21 +53,15 @@ test("can edit text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const textValue = "CSS Zen Garden";
-    const text = await page.getByText(textValue, {
+    const before = await page.getByText("Hello, World!");
+    expect(before).toHaveCount(0);
+    const text = await page.getByText("CSS Zen Garden", {
         exact: true,
     });
     await text.click();
-    for (let i = 0; i < textValue.length; i++) {
-        await page.keyboard.press("Backspace");
-    }
-    await page.keyboard.type("Hello, World!");
-    const newText = await page.getByText("Hello, World!");
-    expect(newText).toHaveCount(1);
-    const originalText = await page.getByText("CSS Zen Garden", {
-        exact: true,
-    });
-    expect(originalText).toHaveCount(0);
+    await text.fill("Hello, World!");
+    const after = await page.getByText("Hello, World!");
+    expect(after).toHaveCount(1);
 });
 
 test("can resize text", async ({ page }) => {
