@@ -23,9 +23,9 @@ test("can drag elements", async ({ page }) => {
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(boundingBox.x, boundingBox.y);
+    await page.mouse.move(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
     await page.mouse.down();
-    await page.mouse.move(boundingBox.x + 50, boundingBox.y, { steps: 10 });
+    await page.mouse.move(boundingBox.x + 50, boundingBox.y);
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
