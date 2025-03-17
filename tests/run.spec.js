@@ -31,7 +31,7 @@ test("can drag elements", async ({ page }) => {
     await page.mouse.move(
         boundingBox.x + boundingBox.width / 2 + 50,
         boundingBox.y + boundingBox.height / 2,
-        { steps: 10 }
+        { steps: 10 },
     );
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
