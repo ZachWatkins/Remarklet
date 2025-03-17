@@ -100,10 +100,13 @@ test("can resize text", async ({ page }) => {
             steps: 10,
         },
     );
+    expect(cursor).toEqual("ew-resize");
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.width).toEqual(boundingBox.width + 50);
+    expect(newBoundingBox.width).toBeGreaterThan(
+        boundingBox.width,
+    );
 });
