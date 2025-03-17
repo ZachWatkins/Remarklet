@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes are available.
+### Changed
+
+- Fixed the drag module to resolve computed styles of elements which have a pre-existing transform style.
+- Fixed issues with tests after changing the demo site.
 
 ## [1.0.2] - 2025-03-15
 
@@ -23,9 +26,10 @@ No unreleased changes are available.
 ### Changed
 
 - Demo site now uses a CSS Zen Garden theme to better communicate the need for being able to easily reposition and resize page elements.
-- Updated the README to include use of the package from CDNs and a link to the CodePen demo.
+- Updated README.md to include use of the package from CDNs and a link to the CodePen demo.
 - Improved Playwright tests.
 - Upgraded Node version from 18.x to 20.x
+- Applied code style changes to the codebase using Prettier.
 
 ### Removed
 
