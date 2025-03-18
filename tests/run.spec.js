@@ -74,9 +74,7 @@ test("can resize text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("CSS Zen Garden", {
-        exact: true,
-    });
+    const text = await page.getByText("A demonstration of what can be accomplished through");
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
@@ -94,7 +92,7 @@ test("can resize text", async ({ page }) => {
     expect(cursor).toEqual("ew-resize");
     await page.mouse.down();
     await page.mouse.move(
-        boundingBox.x + boundingBox.width + 50,
+        boundingBox.x + boundingBox.width - 1 - 50,
         boundingBox.y + boundingBox.height / 2,
         {
             steps: 10,
@@ -106,7 +104,7 @@ test("can resize text", async ({ page }) => {
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.width).toBeGreaterThan(
+    expect(newBoundingBox.width).toBeLessThan(
         boundingBox.width,
     );
 });
