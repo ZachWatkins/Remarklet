@@ -104,7 +104,5 @@ test("can resize text", async ({ page }) => {
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.width).toBeLessThan(
-        boundingBox.width,
-    );
+    expect(newBoundingBox.width).toBeLessThan(boundingBox.width);
 });
