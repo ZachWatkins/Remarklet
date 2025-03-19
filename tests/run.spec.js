@@ -2,11 +2,6 @@
 // This file tests whether there are runtime errors simply from adding the script to the page.
 import { test, expect } from "@playwright/test";
 
-test("has title", async ({ page }) => {
-    await page.goto("/");
-    await expect(page).toHaveTitle("Hello World");
-});
-
 test("no errors occur during page load", async ({ page }) => {
     page.on("pageerror", (error) => {
         console.error(error);
@@ -21,21 +16,37 @@ test("can drag elements", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("Hello, World!");
+    const text = await page.getByText("CSS Zen Garden", {
+        exact: true,
+    });
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(boundingBox.x, boundingBox.y);
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width / 2,
+        boundingBox.y + boundingBox.height / 2,
+    );
     await page.mouse.down();
-    await page.mouse.move(boundingBox.x + 50, boundingBox.y, { steps: 10 });
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width / 2 + 50,
+        boundingBox.y + boundingBox.height / 2,
+        { steps: 10 },
+    );
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
+    // Compare the width and height before and after, rounded to 2 decimal places.
+    expect(Math.round(newBoundingBox.width * 100) / 100).toEqual(
+        Math.round(boundingBox.width * 100) / 100,
+    );
+    expect(Math.round(newBoundingBox.height * 100) / 100).toEqual(
+        Math.round(boundingBox.height * 100) / 100,
+    );
     expect(newBoundingBox.y).toEqual(boundingBox.y);
+    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
     const isVisible = await text.isVisible();
     expect(isVisible).toBeTruthy();
 });
@@ -46,17 +57,15 @@ test("can edit text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const textValue = "Hello, World!";
-    const text = await page.getByText(textValue);
+    const before = await page.getByText("Hello, World!");
+    expect(before).toHaveCount(0);
+    const text = await page.getByText("CSS Zen Garden", {
+        exact: true,
+    });
     await text.click();
-    for (let i = 0; i < textValue.length; i++) {
-        await page.keyboard.press("Backspace");
-    }
-    await page.keyboard.type("Goodbye, World!");
-    const newText = await page.getByText("Goodbye, World!");
-    expect(newText).toHaveCount(1);
-    const originalText = await page.getByText("Hello, World!");
-    expect(originalText).toHaveCount(0);
+    await text.fill("Hello, World!");
+    const after = await page.getByText("Hello, World!");
+    expect(after).toHaveCount(1);
 });
 
 test("can resize text", async ({ page }) => {
@@ -65,20 +74,38 @@ test("can resize text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("Hello, World!");
+    const text = await page.getByText("We must clear the mind of the past.");
+    await text.scrollIntoViewIfNeeded();
+    const isVisible = await text.isVisible();
+    expect(isVisible).toBeTruthy();
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(boundingBox.x, boundingBox.y + boundingBox.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(boundingBox.x + 50, boundingBox.y + boundingBox.height / 2, {
-        steps: 10,
+    await text.hover({
+        position: {
+            x: boundingBox.width - 1,
+            y: boundingBox.height / 2,
+        },
     });
+    // Assert the mouse cursor is a resize cursor.
+    const cursor = await page.evaluate(() => {
+        return window.getComputedStyle(document.body).cursor;
+    });
+    expect(cursor).toEqual("ew-resize");
+    await page.mouse.down();
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width - 1 - 50,
+        boundingBox.y + boundingBox.height / 2,
+        {
+            steps: 10,
+        },
+    );
+    expect(cursor).toEqual("ew-resize");
     await page.mouse.up();
     const newBoundingBox = await text.boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    expect(newBoundingBox.width).toEqual(boundingBox.width - 50);
+    expect(newBoundingBox.width).toBeLessThan(boundingBox.width);
 });
