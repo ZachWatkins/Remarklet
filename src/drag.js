@@ -121,8 +121,16 @@ const resizableOptions = {
         },
         move(event) {
             const target = event.target;
-            target.style.width = event.rect.width + "px";
-            target.style.height = event.rect.height + "px";
+            // Resolve whether to change the width or the height.
+            if (event.rect.height === rect.height) {
+                // Element is not rotated.
+                target.style.width = event.rect.width + "px";
+                target.style.height = event.rect.height + "px";
+            } else {
+                // Element is rotated.
+                target.style.width = event.rect.height + "px";
+                target.style.height = event.rect.width + "px";
+            }
             const x =
                 (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
             const y =
