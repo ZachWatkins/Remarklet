@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.3] - 2025-03-18
+
 ### Changed
 
 - Fixed the drag module to resolve computed styles of elements which have a pre-existing transform style.
 - Fixed issues with tests after changing the demo site.
+- Fixed the drag module to resize rotated elements correctly.
 
 ## [1.0.2] - 2025-03-15
 
