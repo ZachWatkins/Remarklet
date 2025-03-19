@@ -74,7 +74,10 @@ test("can resize text", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("A demonstration of what can be accomplished through");
+    const text = await page.getByText("We must clear the mind of the past.");
+    await text.scrollIntoViewIfNeeded();
+    const isVisible = await text.isVisible();
+    expect(isVisible).toBeTruthy();
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
