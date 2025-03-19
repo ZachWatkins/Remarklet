@@ -122,6 +122,7 @@ const resizableOptions = {
         move(event) {
             const target = event.target;
             // Resolve whether to change the width or the height.
+            const rect = target.getBoundingClientRect();
             if (event.rect.height === rect.height) {
                 // Element is not rotated.
                 target.style.width = event.rect.width + "px";
