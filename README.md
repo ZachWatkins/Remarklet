@@ -2,7 +2,7 @@
 
 [![Npm package version](https://badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
-[![Npm package yearly downloads](https://badgen.net/npm/dy/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+[![Npm package total downloads](https://badgen.net/npm/dt/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
 ![npm package minimized gzipped size](https://img.shields.io/bundlejs/size/%40zw%2Fremarklet%401.0.2)
 [![GitHub Repo stars](https://img.shields.io/github/stars/zachwatkins/remarklet)](https://github.com/zachwatkins/remarklet)
 
