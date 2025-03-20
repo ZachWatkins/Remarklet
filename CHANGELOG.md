@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Changed
+
+- Added status badges to the README.md file.
+- Added a contributor section to the README.md file.
 
 ## [1.0.3] - 2025-03-18
 
