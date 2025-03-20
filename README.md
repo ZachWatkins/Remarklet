@@ -1,14 +1,18 @@
 # Remarklet - JavaScript web page editor
 
-[![Npm package version](https://badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
+
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Npm package total downloads](https://badgen.net/npm/dt/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+[![Npm package version](https://badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
 ![npm package minimized gzipped size](https://img.shields.io/bundlejs/size/%40zw%2Fremarklet%401.0.2)
+[![Npm package license](https://badgen.net/npm/license/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
 [![GitHub Repo stars](https://img.shields.io/github/stars/zachwatkins/remarklet)](https://github.com/zachwatkins/remarklet)
 
-**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy!**
-
-[Check out the CodePen demo](https://codepen.io/zw/full/azbEBKp).
+[![GitHub issues](https://img.shields.io/github/issues/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
+[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
 ## Features
 
