@@ -69,4 +69,8 @@ remarklet.deactivate();
 - Save
 - Restore
 
+## Contributing
+
+Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/zachwatkins/remarklet/blob/main/CONTRIBUTING.md) file for guidelines.
+
 Copyright 2014-2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://zacharywatkins.com)
