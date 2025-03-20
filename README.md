@@ -1,5 +1,6 @@
 # Remarklet - JavaScript web page editor
 
+[![Npm package version](https://badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Downloads](https://img.shields.io/npm/dm/@zw%2Fremarklet.svg)](https://www.npmjs.com/package/@zw/remarklet)
 ![npm package minimized gzipped size](https://img.shields.io/bundlejs/size/%40zw%2Fremarklet%401.0.2)
