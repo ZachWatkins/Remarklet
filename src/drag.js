@@ -122,26 +122,28 @@ const resizableOptions = {
         },
         move(event) {
             const target = event.target;
+            target.style.width = resolveWidth(target, event.rect.width);
+            target.style.height = resolveHeight(target, event.rect.height);
             // Resolve whether to change the width or the height.
-            const rect = target.getBoundingClientRect();
-            if (event.rect.height === rect.height) {
-                // Element is not rotated.
-                target.style.width = event.rect.width + "px";
-                target.style.height = event.rect.height + "px";
-            } else {
-                // Element is rotated.
-                target.style.width = event.rect.height + "px";
-                target.style.height = event.rect.width + "px";
-            }
-            const x =
-                (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
-            const y =
-                (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.deltaRect.top;
-            const originalTransform = target.getAttribute("data-remarklet-original-transform");
-            const resolved = resolveTransform(target, x, y, originalTransform);
-            target.style.transform = resolved.style;
-            target.setAttribute("data-remarklet-x", resolved.x);
-            target.setAttribute("data-remarklet-y", resolved.y);
+            // const rect = target.getBoundingClientRect();
+            // if (event.rect.height === rect.height) {
+            //     // Element is not rotated.
+            //     target.style.width = event.rect.width + "px";
+            //     target.style.height = event.rect.height + "px";
+            // } else {
+            //     // Element is rotated.
+            //     target.style.width = event.rect.height + "px";
+            //     target.style.height = event.rect.width + "px";
+            // }
+            // const x =
+            //     (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
+            // const y =
+            //     (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.deltaRect.top;
+            // const originalTransform = target.getAttribute("data-remarklet-original-transform");
+            // const resolved = resolveTransform(target, x, y, originalTransform);
+            // target.style.transform = resolved.style;
+            // target.setAttribute("data-remarklet-x", resolved.x);
+            // target.setAttribute("data-remarklet-y", resolved.y);
         },
         end(event) {
             store.set("mode", "edit");
@@ -149,6 +151,38 @@ const resizableOptions = {
         },
     },
 };
+
+/**
+ * The totalWidth does not consider the CSS box-sizing property.
+ * @param {HTMLElement} target The target element
+ * @param {number} totalWidth The total width of the element
+ * @returns {string} The resolved width in px
+ */
+function resolveWidth(target, totalWidth) {
+    const computedStyle = window.getComputedStyle(target);
+    if (computedStyle.boxSizing === "border-box") {
+        return `${totalWidth}px`;
+    }
+    const paddingLeft = parseFloat(computedStyle.paddingLeft);
+    const paddingRight = parseFloat(computedStyle.paddingRight);
+    return `${totalWidth - paddingLeft - paddingRight}px`;
+}
+
+/**
+ * The totalHeight does not consider the CSS box-sizing property.
+ * @param {HTMLElement} target The target element
+ * @param {number} totalWidth The total height of the element
+ * @returns {string} The resolved height in px
+ */
+function resolveHeight(target, totalHeight) {
+    const computedStyle = window.getComputedStyle(target);
+    if (computedStyle.boxSizing === "border-box") {
+        return `${totalHeight}px`;
+    }
+    const paddingTop = parseFloat(computedStyle.paddingTop);
+    const paddingBottom = parseFloat(computedStyle.paddingBottom);
+    return `${totalHeight - paddingTop - paddingBottom}px`;
+}
 
 function resolveTransform(target, x, y, originalTransform) {
     let style = "";
