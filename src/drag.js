@@ -122,18 +122,23 @@ const resizableOptions = {
         },
         move(event) {
             const target = event.target;
+            if (hasRotation(target)) {
+                console.warn(
+                    "Resizing rotated elements is not yet supported.",
+                );
+            }
             target.style.width = resolveWidth(target, event.rect.width);
             target.style.height = resolveHeight(target, event.rect.height);
-            // Resolve whether to change the width or the height.
+
             // const rect = target.getBoundingClientRect();
             // if (event.rect.height === rect.height) {
             //     // Element is not rotated.
-            //     target.style.width = event.rect.width + "px";
-            //     target.style.height = event.rect.height + "px";
+            //     target.style.width = resolveWidth(target, event.rect.width);
+            //     target.style.height = resolveHeight(target, event.rect.height);
             // } else {
             //     // Element is rotated.
-            //     target.style.width = event.rect.height + "px";
-            //     target.style.height = event.rect.width + "px";
+            //     target.style.width = resolveWidth(target, event.rect.height);
+            //     target.style.height = resolveHeight(target, event.rect.width);
             // }
             // const x =
             //     (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
@@ -182,6 +187,45 @@ function resolveHeight(target, totalHeight) {
     const paddingTop = parseFloat(computedStyle.paddingTop);
     const paddingBottom = parseFloat(computedStyle.paddingBottom);
     return `${totalHeight - paddingTop - paddingBottom}px`;
+}
+
+/**
+ * Detect whether the element uses a rotation transform CSS property.
+ * @param {HTMLElement} target The target element
+ * @return {boolean} True if the element uses a rotation transform CSS property
+ */
+function hasRotation(target) {
+    const transform = window.getComputedStyle(target).transform;
+    if (transform === "none") {
+        return false;
+    }
+    // Test for rotate, matrix, and matrix3d.
+    const rotateRegex = /rotate\(([^)]+)\)/;
+    const rotateMatch = transform.match(rotateRegex);
+    if (rotateMatch) {
+        return true;
+    }
+    const matrixRegex = /matrix\(([^)]+)\)/;
+    const matrixMatch = transform.match(matrixRegex);
+    if (matrixMatch) {
+        const matrixValues = matrixMatch[1].split(",");
+        const a = parseFloat(matrixValues[0]);
+        const b = parseFloat(matrixValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    const matrix3dRegex = /matrix3d\(([^)]+)\)/;
+    const matrix3dMatch = transform.match(matrix3dRegex);
+    if (matrix3dMatch) {
+        const matrix3dValues = matrix3dMatch[1].split(",");
+        const a = parseFloat(matrix3dValues[0]);
+        const b = parseFloat(matrix3dValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function resolveTransform(target, x, y, originalTransform) {
