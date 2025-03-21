@@ -126,7 +126,7 @@ const resizableOptions = {
             if (hasRotation(target) && !warnedOfRotation) {
                 warnedOfRotation = true;
                 console.warn(
-                    "Resizing rotated elements is not yet supported.",
+                    "Remarklet does not yet support resizing rotated elements.",
                 );
             }
             target.style.width = resolveWidth(target, event.rect.width);
