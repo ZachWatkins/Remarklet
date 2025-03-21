@@ -4,8 +4,13 @@
  */
 export default function main() {
     const styles = `
-.remarklet-highlight {
+[data-remarklet-highlight] {
     outline: 2px solid #00b3dd;
+}
+[data-remarklet-dragging],
+[data-remarklet-resizing] {
+    user-select: none !important;
+    -webkit-user-select: none !important;
 }
 `;
     const styleSheet = document.createElement("style");

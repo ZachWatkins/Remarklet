@@ -4,8 +4,6 @@
  */
 import store from "./store.js";
 
-export const highlightClass = "remarklet-highlight";
-
 const mouseEnterStack = [];
 
 /**
@@ -24,15 +22,15 @@ export default function main() {
     store.subscribe("target", (target, oldTarget) => {
         if (!store.get("active")) {
             if (target) {
-                target.classList.remove(highlightClass);
+                target.removeAttribute("data-remarklet-highlight");
             }
             if (oldTarget) {
-                oldTarget.classList.remove(highlightClass);
+                oldTarget.removeAttribute("data-remarklet-highlight");
             }
             return;
         }
-        target?.classList.add(highlightClass);
-        oldTarget?.classList.remove(highlightClass);
+        target?.setAttribute("data-remarklet-highlight", "true");
+        oldTarget?.removeAttribute("data-remarklet-highlight");
     });
 }
 
@@ -43,8 +41,8 @@ export default function main() {
 function handleMouseEnter(event) {
     event.stopPropagation();
     if (event.target.classList && !store.get("modifying")) {
-        mouseEnterStack.push(event.target);
         store.set("target", event.target);
+        mouseEnterStack.push(event.target);
     }
 }
 

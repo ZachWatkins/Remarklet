@@ -53,10 +53,11 @@ const draggableOptions = {
                 }
                 if (parent) {
                     store.set("target", parent);
+                    parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
-                store.set("target", event.target);
+                event.target.setAttribute("data-remarklet-dragging", "true");
             }
         },
         /**
@@ -92,16 +93,12 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
                 store.set("target", inlineTarget);
                 inlineTarget = null;
-                store.set("mode", "idle");
-                return;
             }
-            if (event.target !== target) {
-                return;
-            }
-            store.set("mode", "idle");
+            store.set("mode", "edit");
         },
     },
 };
@@ -110,8 +107,12 @@ const resizableOptions = {
     edges: { left: true, right: true, bottom: true, top: false },
     listeners: {
         start(event) {
+            if (store.get("modifying")) {
+                return;
+            }
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
+            event.target.setAttribute("data-remarklet-resizing", "true");
             if (event.target.getAttribute("data-remarklet-original-transform") === null) {
                 event.target.setAttribute(
                     "data-remarklet-original-transform",
@@ -143,7 +144,8 @@ const resizableOptions = {
             target.setAttribute("data-remarklet-y", resolved.y);
         },
         end(event) {
-            store.set("mode", "idle");
+            store.set("mode", "edit");
+            event.target.removeAttribute("data-remarklet-resizing");
         },
     },
 };
