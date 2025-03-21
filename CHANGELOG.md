@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Resizing will now only set the width or height of the element during the action, not both at the same time.
 - Fixed visual issue where resizing elements caused the text inside of the element to be selected.
 - Fixed issue where dragging elements did not disable the content editing mode.
 - Fixed issue where elements with `box-sizing: content-box` and padding were not resized correctly.

@@ -127,8 +127,11 @@ const resizableOptions = {
                 warnedOfRotation = true;
                 console.warn("Remarklet does not yet support resizing rotated elements.");
             }
-            target.style.width = resolveWidth(target, event.rect.width);
-            target.style.height = resolveHeight(target, event.rect.height);
+            if (event.edges.left || event.edges.right) {
+                target.style.width = resolveWidth(target, event.rect.width);
+            } else if (event.edges.top || event.edges.bottom) {
+                target.style.height = resolveHeight(target, event.rect.height);
+            }
 
             // const rect = target.getBoundingClientRect();
             // if (event.rect.height === rect.height) {
