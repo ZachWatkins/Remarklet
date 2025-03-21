@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Removed
 
 - Removed incomplete solution for resizing rotated elements.
+- Removed the last file from the docs directory.
 
 ## [1.0.3] - 2025-03-18
 
