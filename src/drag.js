@@ -125,9 +125,7 @@ const resizableOptions = {
             const target = event.target;
             if (hasRotation(target) && !warnedOfRotation) {
                 warnedOfRotation = true;
-                console.warn(
-                    "Remarklet does not yet support resizing rotated elements.",
-                );
+                console.warn("Remarklet does not yet support resizing rotated elements.");
             }
             target.style.width = resolveWidth(target, event.rect.width);
             target.style.height = resolveHeight(target, event.rect.height);
