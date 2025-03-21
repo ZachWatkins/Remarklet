@@ -1,23 +1,25 @@
 import store from "./store.js";
 
-let contentTarget = null;
-
 export default function main() {
-    store.subscribe("target", (target) => {
+    store.subscribe("target", (target, oldTarget) => {
+        if (oldTarget) {
+            oldTarget.removeAttribute("contenteditable");
+        }
         if (!store.get("active")) {
-            if (contentTarget) {
-                contentTarget.removeAttribute("contenteditable");
-                contentTarget = null;
-            }
             return;
         }
-        if (contentTarget) {
-            contentTarget.removeAttribute("contenteditable");
-            contentTarget = null;
-        }
-        if (target) {
-            contentTarget = target;
+        if (target && "edit" === store.get("mode")) {
             target.setAttribute("contenteditable", "true");
+        }
+    });
+    store.subscribe("mode", (mode) => {
+        if (mode === "edit") {
+            store.get("target")?.setAttribute("contenteditable", "true");
+        } else {
+            const target = store.get("target");
+            if (target && target.hasAttribute("contenteditable")) {
+                target.removeAttribute("contenteditable");
+            }
         }
     });
 }

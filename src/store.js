@@ -1,5 +1,5 @@
 const state = {
-    mode: "idle",
+    mode: "edit",
     dragging: false,
     resizing: false,
     target: null,
@@ -50,6 +50,19 @@ export function get(key) {
     return state[key];
 }
 
+/**
+ * @typedef {function} SubscriberCallback
+ * @callback SubscriberCallback
+ * @param {any} value - The new value of the state.
+ * @param {any} oldValue - The old value of the state.
+ * @returns {void}
+ */
+/**
+ * Subscribe function
+ * @param {string} key - The key to subscribe to.
+ * @param {SubscriberCallback} callback - The callback function to call when the state changes.
+ * @returns {void}
+ */
 export function subscribe(key, callback) {
     subscribers[key].push(callback);
 }

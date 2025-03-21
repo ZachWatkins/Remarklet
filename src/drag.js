@@ -3,6 +3,7 @@ import store from "./store.js";
 
 let interactable = null;
 let inlineTarget = null;
+let warnedOfRotation = false;
 
 export function main() {
     store.subscribe("target", (target) => {
@@ -53,10 +54,11 @@ const draggableOptions = {
                 }
                 if (parent) {
                     store.set("target", parent);
+                    parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
-                store.set("target", event.target);
+                event.target.setAttribute("data-remarklet-dragging", "true");
             }
         },
         /**
@@ -92,16 +94,12 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
                 store.set("target", inlineTarget);
                 inlineTarget = null;
-                store.set("mode", "idle");
-                return;
             }
-            if (event.target !== target) {
-                return;
-            }
-            store.set("mode", "idle");
+            store.set("mode", "edit");
         },
     },
 };
@@ -110,8 +108,12 @@ const resizableOptions = {
     edges: { left: true, right: true, bottom: true, top: false },
     listeners: {
         start(event) {
+            if (store.get("modifying")) {
+                return;
+            }
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
+            event.target.setAttribute("data-remarklet-resizing", "true");
             if (event.target.getAttribute("data-remarklet-original-transform") === null) {
                 event.target.setAttribute(
                     "data-remarklet-original-transform",
@@ -121,32 +123,110 @@ const resizableOptions = {
         },
         move(event) {
             const target = event.target;
-            // Resolve whether to change the width or the height.
-            const rect = target.getBoundingClientRect();
-            if (event.rect.height === rect.height) {
-                // Element is not rotated.
-                target.style.width = event.rect.width + "px";
-                target.style.height = event.rect.height + "px";
-            } else {
-                // Element is rotated.
-                target.style.width = event.rect.height + "px";
-                target.style.height = event.rect.width + "px";
+            if (hasRotation(target) && !warnedOfRotation) {
+                warnedOfRotation = true;
+                console.warn("Remarklet does not yet support resizing rotated elements.");
             }
-            const x =
-                (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
-            const y =
-                (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.deltaRect.top;
-            const originalTransform = target.getAttribute("data-remarklet-original-transform");
-            const resolved = resolveTransform(target, x, y, originalTransform);
-            target.style.transform = resolved.style;
-            target.setAttribute("data-remarklet-x", resolved.x);
-            target.setAttribute("data-remarklet-y", resolved.y);
+            target.style.width = resolveWidth(target, event.rect.width);
+            target.style.height = resolveHeight(target, event.rect.height);
+
+            // const rect = target.getBoundingClientRect();
+            // if (event.rect.height === rect.height) {
+            //     // Element is not rotated.
+            //     target.style.width = resolveWidth(target, event.rect.width);
+            //     target.style.height = resolveHeight(target, event.rect.height);
+            // } else {
+            //     // Element is rotated.
+            //     target.style.width = resolveWidth(target, event.rect.height);
+            //     target.style.height = resolveHeight(target, event.rect.width);
+            // }
+            // const x =
+            //     (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
+            // const y =
+            //     (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.deltaRect.top;
+            // const originalTransform = target.getAttribute("data-remarklet-original-transform");
+            // const resolved = resolveTransform(target, x, y, originalTransform);
+            // target.style.transform = resolved.style;
+            // target.setAttribute("data-remarklet-x", resolved.x);
+            // target.setAttribute("data-remarklet-y", resolved.y);
         },
         end(event) {
-            store.set("mode", "idle");
+            store.set("mode", "edit");
+            event.target.removeAttribute("data-remarklet-resizing");
         },
     },
 };
+
+/**
+ * The totalWidth does not consider the CSS box-sizing property.
+ * @param {HTMLElement} target The target element
+ * @param {number} totalWidth The total width of the element
+ * @returns {string} The resolved width in px
+ */
+function resolveWidth(target, totalWidth) {
+    const computedStyle = window.getComputedStyle(target);
+    if (computedStyle.boxSizing === "border-box") {
+        return `${totalWidth}px`;
+    }
+    const paddingLeft = parseFloat(computedStyle.paddingLeft);
+    const paddingRight = parseFloat(computedStyle.paddingRight);
+    return `${totalWidth - paddingLeft - paddingRight}px`;
+}
+
+/**
+ * The totalHeight does not consider the CSS box-sizing property.
+ * @param {HTMLElement} target The target element
+ * @param {number} totalWidth The total height of the element
+ * @returns {string} The resolved height in px
+ */
+function resolveHeight(target, totalHeight) {
+    const computedStyle = window.getComputedStyle(target);
+    if (computedStyle.boxSizing === "border-box") {
+        return `${totalHeight}px`;
+    }
+    const paddingTop = parseFloat(computedStyle.paddingTop);
+    const paddingBottom = parseFloat(computedStyle.paddingBottom);
+    return `${totalHeight - paddingTop - paddingBottom}px`;
+}
+
+/**
+ * Detect whether the element uses a rotation transform CSS property.
+ * @param {HTMLElement} target The target element
+ * @return {boolean} True if the element uses a rotation transform CSS property
+ */
+function hasRotation(target) {
+    const transform = window.getComputedStyle(target).transform;
+    if (transform === "none") {
+        return false;
+    }
+    // Test for rotate, matrix, and matrix3d.
+    const rotateRegex = /rotate\(([^)]+)\)/;
+    const rotateMatch = transform.match(rotateRegex);
+    if (rotateMatch) {
+        return true;
+    }
+    const matrixRegex = /matrix\(([^)]+)\)/;
+    const matrixMatch = transform.match(matrixRegex);
+    if (matrixMatch) {
+        const matrixValues = matrixMatch[1].split(",");
+        const a = parseFloat(matrixValues[0]);
+        const b = parseFloat(matrixValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    const matrix3dRegex = /matrix3d\(([^)]+)\)/;
+    const matrix3dMatch = transform.match(matrix3dRegex);
+    if (matrix3dMatch) {
+        const matrix3dValues = matrix3dMatch[1].split(",");
+        const a = parseFloat(matrix3dValues[0]);
+        const b = parseFloat(matrix3dValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    return false;
+}
 
 function resolveTransform(target, x, y, originalTransform) {
     let style = "";

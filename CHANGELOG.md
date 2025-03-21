@@ -6,10 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### Changed
+### Added
 
+- Added a console warning when users try to resize a rotated element: "Remarklet does not yet support resizing rotated elements."
 - Added status badges to the README.md file.
 - Added a contributor section to the README.md file.
+
+### Changed
+
+- Fixed visual issue where resizing elements caused the text inside of the element to be selected.
+- Fixed issue where dragging elements did not disable the content editing mode.
+- Fixed issue where elements with `box-sizing: content-box` and padding were not resized correctly.
+
+### Removed
+
+- Removed incomplete solution for resizing rotated elements.
 
 ## [1.0.3] - 2025-03-18
 
