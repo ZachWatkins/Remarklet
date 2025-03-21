@@ -3,6 +3,7 @@ import store from "./store.js";
 
 let interactable = null;
 let inlineTarget = null;
+let warnedOfRotation = false;
 
 export function main() {
     store.subscribe("target", (target) => {
@@ -122,7 +123,8 @@ const resizableOptions = {
         },
         move(event) {
             const target = event.target;
-            if (hasRotation(target)) {
+            if (hasRotation(target) && !warnedOfRotation) {
+                warnedOfRotation = true;
                 console.warn(
                     "Resizing rotated elements is not yet supported.",
                 );
