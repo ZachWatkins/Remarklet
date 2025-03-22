@@ -9,7 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added instructions for adding and activating the library from any website's developer console.
+
+### Changed
+
 - Improved touch support for dragging and resizing elements.
+- Renamed `demo/cdn.html` to `demo/dev.html` to clarify the purpose of the file is to experiment with features during development.
 
 ## [1.0.4] - 2025-03-21
 
