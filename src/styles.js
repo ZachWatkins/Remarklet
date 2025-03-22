@@ -20,18 +20,7 @@ export default function main() {
 `);
     document.head.appendChild(stylesheet.element);
 
-    store.subscribe("mode", (mode, lastMode) => {
-        // When the mode is resizing or dragging, add a style to the body using the stylesheet that gives it "user-select: none".
-        if ("dragging" === mode) {
-            document.body.setAttribute("data-remarklet-dragging", "true");
-            if ("resizing" === lastMode) {
-                document.body.removeAttribute("data-remarklet-resizing");
-            }
-        } else if ("resizing" === mode) {
-            document.body.setAttribute("data-remarklet-resizing", "true");
-            if ("dragging" === lastMode) {
-                document.body.removeAttribute("data-remarklet-dragging");
-            }
-        }
+    store.subscribe("mode", (mode) => {
+        document.body.setAttribute("data-remarklet-mode", mode);
     });
 }
