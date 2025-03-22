@@ -28,6 +28,15 @@ let initialized = false;
 function remarklet() {}
 
 /**
+ * Sets the selector for elements to be enhanced by the Remarklet library.
+ * @param {string} selector - The CSS selector for the elements to be enhanced.
+ * @example
+ * remarklet.selector(".my-element");
+ */
+remarklet.selector = function (selector) {
+    store.set("selector", selector);
+};
+/**
  * Activates the Remarklet library, initializing all necessary components.
  * @example
  * remarklet.activate();
