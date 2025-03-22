@@ -1,6 +1,6 @@
 # Remarklet - JavaScript web page editor
 
-**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
+**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
 
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Npm package version](https://flat.badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
