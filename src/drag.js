@@ -7,16 +7,12 @@ let warnedOfRotation = false;
 
 export function main() {
     store.subscribe("target", (target) => {
-        if (!store.get("active")) {
-            if (interactable) {
-                interactable.unset();
-                interactable = null;
-            }
-            return;
-        }
         if (interactable) {
             interactable.unset();
             interactable = null;
+            if (!store.get("active")) {
+                return;
+            }
         }
         if (target && window.getComputedStyle(target).display !== "inline") {
             interactable = interact(target).draggable(draggableOptions).resizable(resizableOptions);

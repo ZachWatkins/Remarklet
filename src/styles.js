@@ -12,8 +12,8 @@ export default function main() {
 }
 body[data-remarklet-dragging],
 body[data-remarklet-resizing] {
-    user-select: none !important;
-    -webkit-user-select: none !important;
+    touch-action: none;
+    user-select: none;
 }
 `);
     document.head.appendChild(stylesheet.element);
