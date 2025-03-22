@@ -3,10 +3,10 @@
 **Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
 
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
-[![Npm package total downloads](https://badgen.net/npm/dt/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
-[![Npm package version](https://badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+[![Npm package version](https://flat.badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+![Npm package total downloads](https://flat.badgen.net/npm/dt/@zw/remarklet)
 ![npm package minimized gzipped size](https://img.shields.io/bundlejs/size/%40zw%2Fremarklet%401.0.2)
-[![Npm package license](https://badgen.net/npm/license/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
+![Npm package license](https://flat.badgen.net/npm/license/@zw/remarklet)
 [![GitHub Repo stars](https://img.shields.io/github/stars/zachwatkins/remarklet)](https://github.com/zachwatkins/remarklet)
 
 [![GitHub issues](https://img.shields.io/github/issues/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/issues/)
