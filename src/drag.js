@@ -1,4 +1,9 @@
-import interact from "interactjs";
+import "@interactjs/auto-start/index.prod";
+import "@interactjs/actions/drag/index.prod";
+import "@interactjs/actions/resize/index.prod";
+import "@interactjs/modifiers/index.prod";
+// import '@interactjs/dev-tools'
+import interact from "@interactjs/interact/index.prod";
 import store from "./store.js";
 
 let interactable = null;
