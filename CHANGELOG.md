@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.5] - 2025-03-22
+
 ### Added
 
 - Added instructions for adding and activating the library from any website's developer console.
