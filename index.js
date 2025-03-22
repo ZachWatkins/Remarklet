@@ -25,7 +25,7 @@ let initialized = false;
  * // Get the version of the library
  * console.log(remarklet.version);
  */
-function remarklet() { }
+function remarklet() {}
 
 /**
  * Activates the Remarklet library, initializing all necessary components.
