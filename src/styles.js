@@ -10,10 +10,12 @@ export default function main() {
 [data-remarklet-highlight] {
     outline: 2px solid #00b3dd;
 }
-body[data-remarklet-dragging],
-body[data-remarklet-resizing] {
-    touch-action: none;
-    user-select: none;
+[data-remarklet-dragging],
+[data-remarklet-resizing] {
+    touch-action: none !important;
+    user-select: none !important;
+    transition: none !important;
+    animation: none !important;
 }
 `);
     document.head.appendChild(stylesheet.element);
