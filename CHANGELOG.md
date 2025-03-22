@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added instructions for adding and activating the library from any website's developer console.
+- Improved touch support for dragging and resizing elements.
 
 ## [1.0.4] - 2025-03-21
 
