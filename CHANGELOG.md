@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.4] - 2025-03-21
+
 ### Added
 
 - Added a console warning when users try to resize a rotated element: "Remarklet does not yet support resizing rotated elements."

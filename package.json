@@ -1,6 +1,6 @@
 {
     "name": "@zw/remarklet",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
     "type": "module",
@@ -24,6 +24,7 @@
     },
     "homepage": "https://github.com/zachwatkins/remarklet#readme",
     "scripts": {
+        "demo": "cd demo && npm run dev",
         "test": "playwright test",
         "test:ui": "playwright test --ui",
         "test:debug": "playwright test --debug",
