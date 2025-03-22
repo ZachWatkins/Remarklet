@@ -38,12 +38,6 @@ To use Remarklet, you need to import the module in your JavaScript file:
 
 ```javascript
 import remarklet from "@zw/remarklet";
-```
-
-Then, you can activate or deactivate the features it provides:
-
-```javascript
-import remarklet from "@zw/remarklet";
 remarklet.activate();
 // Now users can drag, resize, and edit elements on the page.
 remarklet.deactivate();
@@ -60,6 +54,15 @@ remarklet.deactivate();
     remarklet.deactivate();
     // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
 </script>
+```
+
+You can also use the CDN to load the library directly in any website. Just open your browser's console and add the following code:
+
+```javascript
+const script = document.createElement("script");
+script.src = "https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";
+document.head.appendChild(script);
+script.onload = () => remarklet.activate();
 ```
 
 ## Feature Roadmap
