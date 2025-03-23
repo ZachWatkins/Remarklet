@@ -19,7 +19,11 @@ export default function Stylesheet(value) {
         var ruletext,
             found = false,
             i = this.element.sheet.cssRules.length - 1;
-        ruletext = "{\n" + indent + rule.replace(/; (\w)/g, ";\n" + indent + "$1") + "\n}";
+        ruletext =
+            "{\n" +
+            indent +
+            rule.replace(/; (\w)/g, ";\n" + indent + "$1") +
+            "\n}";
         while (i >= 0) {
             if (selector == this.element.sheet.cssRules[i].selectorText) {
                 found = this.element.sheet.cssRules[i];

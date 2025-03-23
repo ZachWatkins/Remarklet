@@ -19,7 +19,9 @@ export function main() {
             }
         }
         if (target && window.getComputedStyle(target).display !== "inline") {
-            interactable = interact(target).draggable(draggableOptions).resizable(resizableOptions);
+            interactable = interact(target)
+                .draggable(draggableOptions)
+                .resizable(resizableOptions);
         }
     });
 }
@@ -40,7 +42,11 @@ const draggableOptions = {
             event.stopPropagation();
             event.preventDefault();
             store.set("mode", "dragging");
-            if (event.target.getAttribute("data-remarklet-original-transform") === null) {
+            if (
+                event.target.getAttribute(
+                    "data-remarklet-original-transform",
+                ) === null
+            ) {
                 event.target.setAttribute(
                     "data-remarklet-original-transform",
                     window.getComputedStyle(event.target).transform,
@@ -49,7 +55,10 @@ const draggableOptions = {
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
                 let parent = event.target.parentElement;
-                while (parent && window.getComputedStyle(parent).display === "inline") {
+                while (
+                    parent &&
+                    window.getComputedStyle(parent).display === "inline"
+                ) {
                     parent = parent.parentElement;
                 }
                 if (parent) {
@@ -73,9 +82,15 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.dx;
-            let y = (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.dy;
-            const originalTransform = target.getAttribute("data-remarklet-original-transform");
+            let x =
+                (parseFloat(target.getAttribute("data-remarklet-x")) || 0) +
+                event.dx;
+            let y =
+                (parseFloat(target.getAttribute("data-remarklet-y")) || 0) +
+                event.dy;
+            const originalTransform = target.getAttribute(
+                "data-remarklet-original-transform",
+            );
             const resolved = resolveTransform(target, x, y, originalTransform);
             target.style.transform = resolved.style;
             target.setAttribute("data-remarklet-x", resolved.x);
@@ -114,7 +129,11 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            if (event.target.getAttribute("data-remarklet-original-transform") === null) {
+            if (
+                event.target.getAttribute(
+                    "data-remarklet-original-transform",
+                ) === null
+            ) {
                 event.target.setAttribute(
                     "data-remarklet-original-transform",
                     window.getComputedStyle(event.target).transform,
@@ -125,7 +144,9 @@ const resizableOptions = {
             const target = event.target;
             if (hasRotation(target) && !warnedOfRotation) {
                 warnedOfRotation = true;
-                console.warn("Remarklet does not yet support resizing rotated elements.");
+                console.warn(
+                    "Remarklet does not yet support resizing rotated elements.",
+                );
             }
             if (event.edges.left || event.edges.right) {
                 target.style.width = resolveWidth(target, event.rect.width);
@@ -236,7 +257,10 @@ function resolveTransform(target, x, y, originalTransform) {
     if ("none" === originalTransform) {
         style = `translate(${x}px, ${y}px)`;
     } else if (target.hasAttribute("data-remarklet-x")) {
-        style = target.style.transform.replace(/translate\(([^)]+)\)/, `translate(${x}px, ${y}px)`);
+        style = target.style.transform.replace(
+            /translate\(([^)]+)\)/,
+            `translate(${x}px, ${y}px)`,
+        );
     } else {
         if (originalTransform.indexOf("matrix3d") === -1) {
             if (originalTransform.indexOf("matrix") === -1) {
@@ -247,7 +271,8 @@ function resolveTransform(target, x, y, originalTransform) {
                     // Pre-existing positioning transform.
                     // Get the original translation values.
                     const translateRegex = /\btranslate\(([^)]+)\)/;
-                    const translateMatch = originalTransform.match(translateRegex);
+                    const translateMatch =
+                        originalTransform.match(translateRegex);
                     const translateValues = translateMatch
                         ? translateMatch[1].split(",")
                         : ["0px", "0px"];
@@ -280,7 +305,9 @@ function resolveTransform(target, x, y, originalTransform) {
                         );
                     } else if (unitMatch[0] === "em") {
                         // em unit, so calculate the percentage of the element's font size.
-                        const fontSize = parseFloat(window.getComputedStyle(target).fontSize);
+                        const fontSize = parseFloat(
+                            window.getComputedStyle(target).fontSize,
+                        );
                         x = parseFloat(translateValues[0]) * fontSize + x;
                         y = parseFloat(translateValues[1]) * fontSize + y;
                         style = originalTransform.replace(
@@ -335,7 +362,9 @@ function resolveTransform(target, x, y, originalTransform) {
                     );
                 } else if (unitMatch[0] === "em") {
                     // em unit, so we need to calculate the percentage of the element's font size.
-                    const fontSize = parseFloat(window.getComputedStyle(target).fontSize);
+                    const fontSize = parseFloat(
+                        window.getComputedStyle(target).fontSize,
+                    );
                     x = parseFloat(translateValues[0]) * fontSize + x;
                     y = parseFloat(translateValues[1]) * fontSize + y;
                     style = originalTransform.replace(
@@ -358,7 +387,9 @@ function resolveTransform(target, x, y, originalTransform) {
             // Get the original translation values.
             const translateRegex = /\btranslate\(([^)]+)\)/;
             const translateMatch = originalTransform.match(translateRegex);
-            const translateValues = translateMatch ? translateMatch[1].split(",") : ["0px", "0px"];
+            const translateValues = translateMatch
+                ? translateMatch[1].split(",")
+                : ["0px", "0px"];
             // Determine the unit of the translation values.
             const unitRegex = /[a-zA-Z%]+/;
             const unitMatch = translateValues[0].match(unitRegex);
@@ -388,7 +419,9 @@ function resolveTransform(target, x, y, originalTransform) {
                 );
             } else if (unitMatch[0] === "em") {
                 // em unit, so we need to calculate the percentage of the element's font size.
-                const fontSize = parseFloat(window.getComputedStyle(target).fontSize);
+                const fontSize = parseFloat(
+                    window.getComputedStyle(target).fontSize,
+                );
                 x = parseFloat(translateValues[0]) * fontSize + x;
                 y = parseFloat(translateValues[1]) * fontSize + y;
                 style = originalTransform.replace(
