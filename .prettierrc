@@ -2,6 +2,5 @@
     "useTabs": false,
     "tabWidth": 4,
     "endOfLine": "lf",
-    "printWidth": 80,
-    "objectWrap": "collapse"
+    "printWidth": 80
 }
