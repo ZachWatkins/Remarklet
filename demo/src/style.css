@@ -626,7 +626,8 @@ Main
 }
 @media (max-width: 53em) {
     .main .benefits {
-        background: rgba(0, 188, 217, 0.8) url(icon-circles.svg) no-repeat center top;
+        background: rgba(0, 188, 217, 0.8) url(icon-circles.svg) no-repeat
+            center top;
         background-size: 33%;
         position: relative;
         right: 0;
@@ -637,7 +638,8 @@ Main
 }
 @media (max-width: 33em) {
     .main .benefits {
-        background: rgba(0, 188, 217, 0.8) url(icon-circles.svg) no-repeat center top;
+        background: rgba(0, 188, 217, 0.8) url(icon-circles.svg) no-repeat
+            center top;
         background-size: 33%;
         position: relative;
         right: 0;

@@ -59,7 +59,10 @@ function handleMouseLeave(event) {
             if (mouseEnterStack.length === 0) {
                 store.set("target", null);
             } else {
-                store.set("target", mouseEnterStack[mouseEnterStack.length - 1]);
+                store.set(
+                    "target",
+                    mouseEnterStack[mouseEnterStack.length - 1],
+                );
             }
         }
     }
