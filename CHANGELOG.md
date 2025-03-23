@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Added
+
+- Added instructions to README.md for using the library as a bookmarklet.
+
+### Changed
+
+- Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own webpage from the CDN.
 
 ## [1.0.5] - 2025-03-22
 

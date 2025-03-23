@@ -29,12 +29,8 @@ This package can be installed with:
 - npm: `npm install @zw/remarklet`
 - yarn: `yarn add @zw/remarklet`
 - pnpm: `pnpm add @zw/remarklet`
-- unpkg: `<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>`
-- jsdelivr: `<script src="https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js"></script>`
 
-## Example
-
-To use Remarklet, you need to import the module in your JavaScript file:
+Then import the module in your JavaScript file:
 
 ```javascript
 import remarklet from "@zw/remarklet";
@@ -44,7 +40,22 @@ remarklet.deactivate();
 // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
 ```
 
-## CDN Example
+## Installation from CDN
+
+This library is available from:
+
+- unpkg: `https://unpkg.com/@zw/remarklet/dist/remarklet.min.js`
+- jsdelivr: `https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js`
+
+To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar (it also works with jsdelivr):
+
+`javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();`
+
+Make some changes, print the screen, and then send it to someone!
+
+You can save this as a custom bookmark in your browser by adding it as the bookmark URL. This will let you activate the library on any webpage when you click the bookmark.
+
+To use Remarklet in your own webpage, add the following code to your HTML file:
 
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
@@ -54,15 +65,6 @@ remarklet.deactivate();
     remarklet.deactivate();
     // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
 </script>
-```
-
-You can also use the CDN to load the library directly in any website. Just open your browser's console and add the following code:
-
-```javascript
-const script = document.createElement("script");
-script.src = "https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";
-document.head.appendChild(script);
-script.onload = () => remarklet.activate();
 ```
 
 ## Feature Roadmap
