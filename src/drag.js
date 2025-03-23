@@ -4,11 +4,12 @@ import "@interactjs/actions/resize/index.prod";
 // import '@interactjs/dev-tools'
 import interact from "@interactjs/interact/index.prod";
 import store from "./store.js";
-import resolveTransform from "./utils/resolveTransform.js";
+import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
+let position = { x: 0, y: 0 };
 
 export function main() {
     store.subscribe("target", (target) => {
@@ -43,16 +44,6 @@ const draggableOptions = {
             event.stopPropagation();
             event.preventDefault();
             store.set("mode", "dragging");
-            if (
-                event.target.getAttribute(
-                    "data-remarklet-original-transform",
-                ) === null
-            ) {
-                event.target.setAttribute(
-                    "data-remarklet-original-transform",
-                    window.getComputedStyle(event.target).transform,
-                );
-            }
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
                 let parent = event.target.parentElement;
@@ -70,6 +61,8 @@ const draggableOptions = {
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
             }
+            position.x = 0;
+            position.y = 0;
         },
         /**
          * Handles the drag move event
@@ -83,19 +76,12 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x =
-                (parseFloat(target.getAttribute("data-remarklet-x")) || 0) +
-                event.dx;
-            let y =
-                (parseFloat(target.getAttribute("data-remarklet-y")) || 0) +
-                event.dy;
-            const originalTransform = target.getAttribute(
-                "data-remarklet-original-transform",
-            );
-            const resolved = resolveTransform(target, x, y, originalTransform);
+            let x = position.x + event.dx;
+            let y = position.y + event.dy;
+            const resolved = resolveTransform(target, x, y);
             target.style.transform = resolved.style;
-            target.setAttribute("data-remarklet-x", resolved.x);
-            target.setAttribute("data-remarklet-y", resolved.y);
+            position.x = resolved.x;
+            position.y = resolved.y;
         },
         /**
          * Handles the drag end event
@@ -116,6 +102,8 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             store.set("mode", "edit");
+            position.x = 0;
+            position.y = 0;
         },
     },
 };
@@ -130,16 +118,6 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            if (
-                event.target.getAttribute(
-                    "data-remarklet-original-transform",
-                ) === null
-            ) {
-                event.target.setAttribute(
-                    "data-remarklet-original-transform",
-                    window.getComputedStyle(event.target).transform,
-                );
-            }
         },
         move(event) {
             const target = event.target;
@@ -212,45 +190,6 @@ function resolveHeight(target, totalHeight) {
     const paddingTop = parseFloat(computedStyle.paddingTop);
     const paddingBottom = parseFloat(computedStyle.paddingBottom);
     return `${totalHeight - paddingTop - paddingBottom}px`;
-}
-
-/**
- * Detect whether the element uses a rotation transform CSS property.
- * @param {HTMLElement} target The target element
- * @return {boolean} True if the element uses a rotation transform CSS property
- */
-function hasRotation(target) {
-    const transform = window.getComputedStyle(target).transform;
-    if (transform === "none") {
-        return false;
-    }
-    // Test for rotate, matrix, and matrix3d.
-    const rotateRegex = /rotate\(([^)]+)\)/;
-    const rotateMatch = transform.match(rotateRegex);
-    if (rotateMatch) {
-        return true;
-    }
-    const matrixRegex = /matrix\(([^)]+)\)/;
-    const matrixMatch = transform.match(matrixRegex);
-    if (matrixMatch) {
-        const matrixValues = matrixMatch[1].split(",");
-        const a = parseFloat(matrixValues[0]);
-        const b = parseFloat(matrixValues[1]);
-        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
-            return true;
-        }
-    }
-    const matrix3dRegex = /matrix3d\(([^)]+)\)/;
-    const matrix3dMatch = transform.match(matrix3dRegex);
-    if (matrix3dMatch) {
-        const matrix3dValues = matrix3dMatch[1].split(",");
-        const a = parseFloat(matrix3dValues[0]);
-        const b = parseFloat(matrix3dValues[1]);
-        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
-            return true;
-        }
-    }
-    return false;
 }
 
 export default main;

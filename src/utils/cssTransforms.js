@@ -1,3 +1,19 @@
+const elementTransforms = new Map();
+
+/**
+ * Store the original transform property of the target element.
+ * @param {HTMLElement} element The target element.
+ * @returns {string} The original transform property.
+ */
+function storeOriginalTransform(element) {
+    if (!element || elementTransforms.has(element)) {
+        return;
+    }
+    const computedTransform = window.getComputedStyle(element).transform;
+    elementTransforms.set(element, computedTransform);
+    return computedTransform;
+}
+
 /**
  * Resolve the target element's new transform properties based on the current
  * transform, the x and y coordinate changes, and the original transform
@@ -5,13 +21,14 @@
  * @param {HTMLElement} target The target element being transformed.
  * @param {number} x The x coordinate change.
  * @param {number} y The y coordinate change.
- * @param {string} originalTransform The original transform property of the
  * target element.
  * @returns {{ x: number, y: number, style: string}} An object containing the
  * new x and y coordinates and the new transform style string.
  */
-export default function resolveTransform(target, x, y, originalTransform) {
+export function resolveTransform(target, x, y) {
     let style = "";
+    const originalTransform =
+        elementTransforms.get(target) || storeOriginalTransform(target);
     if ("none" === originalTransform) {
         style = `translate(${x}px, ${y}px)`;
     } else if (target.hasAttribute("data-remarklet-x")) {
@@ -201,3 +218,47 @@ export default function resolveTransform(target, x, y, originalTransform) {
         style,
     };
 }
+
+/**
+ * Detect whether the element uses a rotation transform CSS property.
+ * @param {HTMLElement} target The target element
+ * @return {boolean} True if the element uses a rotation transform CSS property
+ */
+function hasRotation(target) {
+    const transform = window.getComputedStyle(target).transform;
+    if (transform === "none") {
+        return false;
+    }
+    // Test for rotate, matrix, and matrix3d.
+    const rotateRegex = /rotate\(([^)]+)\)/;
+    const rotateMatch = transform.match(rotateRegex);
+    if (rotateMatch) {
+        return true;
+    }
+    const matrixRegex = /matrix\(([^)]+)\)/;
+    const matrixMatch = transform.match(matrixRegex);
+    if (matrixMatch) {
+        const matrixValues = matrixMatch[1].split(",");
+        const a = parseFloat(matrixValues[0]);
+        const b = parseFloat(matrixValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    const matrix3dRegex = /matrix3d\(([^)]+)\)/;
+    const matrix3dMatch = transform.match(matrix3dRegex);
+    if (matrix3dMatch) {
+        const matrix3dValues = matrix3dMatch[1].split(",");
+        const a = parseFloat(matrix3dValues[0]);
+        const b = parseFloat(matrix3dValues[1]);
+        if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export default {
+    resolveTransform,
+    hasRotation,
+};
