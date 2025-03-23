@@ -19,6 +19,10 @@ The entry point for the library is located at `./index.js` and the main source c
 
 We use spaces, not tabs.
 
+## Line Length
+
+Limit lines to 80 characters.
+
 ## Naming Conventions
 
 - Use PascalCase for `type` names
@@ -42,7 +46,7 @@ When writing Typescript:
 
 ## Comments
 
-- When there are comments for `functions`, `interfaces`, `enums`, and `classes` use JSDoc style comments
+- When there are comments for `functions`, `interfaces`, `enums`, and `classes` use JSDoc style comments.
 
 ## Strings
 
