@@ -13,6 +13,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own webpage from the CDN.
+- Moved source code specific to CSS transforms from drag.js to utils/cssTransforms.js.
+
+### Removed
+
+- Removed use of data attributes `data-remarklet-x` and `data-remarklet-y` for storing the last position of elements being dragged, and `data-remarklet-original-transform` for storing the original computed transform style of the target element. This information is now stored in private variables.
 
 ## [1.0.5] - 2025-03-22
 
