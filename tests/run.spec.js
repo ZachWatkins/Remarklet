@@ -68,7 +68,7 @@ test("can edit text", async ({ page }) => {
     expect(after).toHaveCount(1);
 });
 
-test("can resize text", async ({ page }) => {
+test("can resize elements", async ({ page }) => {
     page.on("pageerror", (error) => {
         console.error(error);
         test.fail();
