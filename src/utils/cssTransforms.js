@@ -224,7 +224,7 @@ export function resolveTransform(target, x, y) {
  * @param {HTMLElement} target The target element
  * @return {boolean} True if the element uses a rotation transform CSS property
  */
-function hasRotation(target) {
+export function hasRotation(target) {
     const transform = window.getComputedStyle(target).transform;
     if (transform === "none") {
         return false;
