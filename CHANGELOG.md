@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added instructions to README.md for using the library as a bookmarklet.
+- Added automated CSS test to confirm behavior which the library depends on.
 
 ### Changed
 

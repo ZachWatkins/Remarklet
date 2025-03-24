@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Remarklet Demo</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 1rem;
+                text-align: center;
+            }
+
+            main {
+                padding: 2rem;
+            }
+
+            footer {
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                padding: 1rem;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Welcome to Remarklet CSS test page</h1>
+        </header>
+        <main>
+            <p>This file tests behaviors of CSS that Remarklet depends on.</p>
+            <p>Tests located in ../tests/css.spec.js</p>
+            <div id="test-1">
+                <h2>
+                    Test: All 2D CSS transform rules evaluate as matrix
+                    transforms when using JS
+                </h2>
+                <style>
+                    #test-1 .target {
+                        transform: translate(10px, 10px);
+                    }
+                </style>
+                <div class="target">Target</div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Remarklet</p>
+        </footer>
+    </body>
+</html>
