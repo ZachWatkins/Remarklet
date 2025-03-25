@@ -229,12 +229,6 @@ export function hasRotation(target) {
     if (transform === "none") {
         return false;
     }
-    // Test for rotate, matrix, and matrix3d.
-    const rotateRegex = /rotate\(([^)]+)\)/;
-    const rotateMatch = transform.match(rotateRegex);
-    if (rotateMatch) {
-        return true;
-    }
     const matrixRegex = /matrix\(([^)]+)\)/;
     const matrixMatch = transform.match(matrixRegex);
     if (matrixMatch) {
