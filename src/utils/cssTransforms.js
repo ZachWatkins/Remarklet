@@ -30,6 +30,59 @@ export function resolveTransform(target, x, y) {
     const originalTransform =
         elementTransforms.get(target) || storeOriginalTransform(target);
     if ("none" === originalTransform) {
+        style = `matrix(1, 0, 0, 1, ${x}, ${y})`;
+    } else if (originalTransform.indexOf("matrix(") >= 0) {
+        const matrixRegex = /matrix\(([^)]+)\)/;
+        const matrixMatch = originalTransform.match(matrixRegex);
+        let vals = [1, 0, 0, 1, 0, 0];
+        if (matrixMatch) {
+            vals = matrixMatch[1].split(",").map((v) => parseFloat(v));
+        }
+        const a = parseFloat(vals[0]);
+        const b = parseFloat(vals[1]);
+        const c = parseFloat(vals[2]);
+        const d = parseFloat(vals[3]);
+        const e = parseFloat(vals[4]);
+        const f = parseFloat(vals[5]);
+        // Calculate the new translation values.
+        x = a * x + c * y + e;
+        y = b * x + d * y + f;
+        // Create the new matrix string.
+        style = `matrix(${a}, ${b}, ${c}, ${d}, ${x}, ${y})`;
+    } else {
+        const matrix3dRegex = /matrix3d\(([^)]+)\)/;
+        const matrix3dMatch = originalTransform.match(matrix3dRegex);
+        let vals = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        if (matrix3dMatch) {
+            vals = matrix3dMatch[1].split(",").map((v) => parseFloat(v));
+        }
+        x = vals[12] = vals[0] * x + vals[4] * y + vals[12];
+        y = vals[13] = vals[1] * x + vals[5] * y + vals[13];
+        style = "matrix3d(" + vals.join(", ") + ")";
+    }
+    return {
+        x,
+        y,
+        style,
+    };
+}
+
+/**
+ * Resolve the target element's new transform properties based on the current
+ * transform, the x and y coordinate changes, and the original transform
+ * property.
+ * @param {HTMLElement} target The target element being transformed.
+ * @param {number} x The x coordinate change.
+ * @param {number} y The y coordinate change.
+ * target element.
+ * @returns {{ x: number, y: number, style: string}} An object containing the
+ * new x and y coordinates and the new transform style string.
+ */
+export function resolveTransformOld(target, x, y) {
+    let style = "";
+    const originalTransform =
+        elementTransforms.get(target) || storeOriginalTransform(target);
+    if ("none" === originalTransform) {
         style = `translate(${x}px, ${y}px)`;
     } else if (target.hasAttribute("data-remarklet-x")) {
         style = target.style.transform.replace(
@@ -232,9 +285,9 @@ export function hasRotation(target) {
     const matrixRegex = /matrix\(([^)]+)\)/;
     const matrixMatch = transform.match(matrixRegex);
     if (matrixMatch) {
-        const matrixValues = matrixMatch[1].split(",");
-        const a = parseFloat(matrixValues[0]);
-        const b = parseFloat(matrixValues[1]);
+        const vals = matrixMatch[1].split(",");
+        const a = parseFloat(vals[0]);
+        const b = parseFloat(vals[1]);
         if (Math.abs(a) !== 1 || Math.abs(b) !== 0) {
             return true;
         }

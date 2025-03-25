@@ -15,40 +15,63 @@ test("can drag elements", async ({ page }) => {
         console.error(error);
         test.fail();
     });
+    const textString = "A demonstration of what can be accomplished";
     await page.goto("/");
-    const text = await page.getByText("CSS Zen Garden", {
-        exact: true,
-    });
+    const text = await page.getByText(textString);
+    expect(text).toHaveCount(1);
+    await text.scrollIntoViewIfNeeded();
+    const isVisible = await text.isVisible();
+    expect(isVisible).toBeTruthy();
     const boundingBox = await text.boundingBox();
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await page.mouse.move(
-        boundingBox.x + boundingBox.width / 2,
-        boundingBox.y + boundingBox.height / 2,
-    );
+    const start = {
+        x: boundingBox.x + boundingBox.width / 2,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    const end = {
+        x: boundingBox.x + boundingBox.width / 2 + 50,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    // Hover over the element to show the drag cursor.
+    await page.mouse.move(start.x, start.y);
+    const cursor = await page.evaluate(() => {
+        return window.getComputedStyle(document.body).cursor;
+    });
+    expect(cursor).toEqual("move");
     await page.mouse.down();
-    await page.mouse.move(
-        boundingBox.x + boundingBox.width / 2 + 50,
-        boundingBox.y + boundingBox.height / 2,
-        { steps: 10 },
-    );
+    await page.mouse.move(end.x, end.y, {
+        steps: 10,
+    });
+    const dragging = await text.getAttribute("data-remarklet-dragging");
+    expect(dragging).toEqual("true");
     await page.mouse.up();
-    const newBoundingBox = await text.boundingBox();
+    const stillDragging = await text.getAttribute("data-remarklet-dragging");
+    expect(stillDragging).toEqual(null);
+    const transform = await text.evaluate((el) => {
+        return el.style.transform;
+    });
+    expect(transform).toMatch("matrix(1, 0, 0, 1, 50, 0)");
+    const newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    // Compare the width and height before and after, rounded to 2 decimal places.
+    expect(Math.round(newBoundingBox.x * 100) / 100).not.toEqual(
+        Math.round(boundingBox.x * 100) / 100,
+    );
+    expect(Math.round(newBoundingBox.x * 100) / 100).toEqual(
+        Math.round(boundingBox.x * 100) / 100 + 50,
+    );
+    expect(Math.round(newBoundingBox.y * 100) / 100).toEqual(
+        Math.round(boundingBox.y * 100) / 100,
+    );
     expect(Math.round(newBoundingBox.width * 100) / 100).toEqual(
         Math.round(boundingBox.width * 100) / 100,
     );
     expect(Math.round(newBoundingBox.height * 100) / 100).toEqual(
         Math.round(boundingBox.height * 100) / 100,
     );
-    expect(newBoundingBox.y).toEqual(boundingBox.y);
-    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
-    const isVisible = await text.isVisible();
-    expect(isVisible).toBeTruthy();
 });
 
 test("can edit text", async ({ page }) => {
