@@ -68,7 +68,7 @@ test("can edit text", async ({ page }) => {
     expect(after).toHaveCount(1);
 });
 
-test("can resize elements", async ({ page }) => {
+test("can resize elements from the right edge", async ({ page }) => {
     page.on("pageerror", (error) => {
         console.error(error);
         test.fail();
@@ -108,4 +108,47 @@ test("can resize elements", async ({ page }) => {
         throw new Error("New bounding box is null");
     }
     expect(newBoundingBox.width).toBeLessThan(boundingBox.width);
+});
+
+test("can resize elements from the left edge", async ({ page }) => {
+    page.on("pageerror", (error) => {
+        console.error(error);
+        test.fail();
+    });
+    await page.goto("/");
+    const text = await page.getByText("We must clear the mind of the past.");
+    await text.scrollIntoViewIfNeeded();
+    const isVisible = await text.isVisible();
+    expect(isVisible).toBeTruthy();
+    const boundingBox = await text.boundingBox();
+    if (!boundingBox) {
+        throw new Error("Bounding box is null");
+    }
+    await text.hover({
+        position: {
+            x: 1,
+            y: boundingBox.height / 2,
+        },
+    });
+    // Assert the mouse cursor is a resize cursor.
+    const cursor = await page.evaluate(() => {
+        return window.getComputedStyle(document.body).cursor;
+    });
+    expect(cursor).toEqual("ew-resize");
+    await page.mouse.down();
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width - 1 - 50,
+        boundingBox.y + boundingBox.height / 2,
+        {
+            steps: 10,
+        },
+    );
+    expect(cursor).toEqual("ew-resize");
+    await page.mouse.up();
+    const newBoundingBox = await text.boundingBox();
+    if (!newBoundingBox) {
+        throw new Error("New bounding box is null");
+    }
+    expect(newBoundingBox.width).toBeLessThan(boundingBox.width);
+    expect(newBoundingBox.x).toBeGreaterThan(boundingBox.x);
 });
