@@ -15,8 +15,8 @@ test("can drag elements", async ({ page }) => {
         console.error(error);
         test.fail();
     });
-    const textString = "A demonstration of what can be accomplished";
     await page.goto("/");
+    const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
     await text.scrollIntoViewIfNeeded();
@@ -139,7 +139,9 @@ test("can resize elements from the left edge", async ({ page }) => {
         test.fail();
     });
     await page.goto("/");
-    const text = await page.getByText("We must clear the mind of the past.");
+    const textString = "A demonstration of what can be accomplished";
+    const text = await page.getByText(textString);
+    expect(text).toHaveCount(1);
     await text.scrollIntoViewIfNeeded();
     const isVisible = await text.isVisible();
     expect(isVisible).toBeTruthy();
@@ -147,31 +149,43 @@ test("can resize elements from the left edge", async ({ page }) => {
     if (!boundingBox) {
         throw new Error("Bounding box is null");
     }
-    await text.hover({
-        position: {
-            x: 1,
-            y: boundingBox.height / 2,
-        },
-    });
-    // Assert the mouse cursor is a resize cursor.
+    const start = {
+        x: boundingBox.x,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    const end = {
+        x: boundingBox.x + 50,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    // Hover over the element to show the drag cursor.
+    await page.mouse.move(start.x, start.y);
     const cursor = await page.evaluate(() => {
         return window.getComputedStyle(document.body).cursor;
     });
     expect(cursor).toEqual("ew-resize");
     await page.mouse.down();
-    await page.mouse.move(
-        boundingBox.x + boundingBox.width - 1 - 50,
-        boundingBox.y + boundingBox.height / 2,
-        {
-            steps: 10,
-        },
-    );
-    expect(cursor).toEqual("ew-resize");
+    await page.mouse.move(end.x, end.y, {
+        steps: 10,
+    });
+    const resizing = await text.getAttribute("data-remarklet-resizing");
+    expect(resizing).toEqual("true");
     await page.mouse.up();
-    const newBoundingBox = await text.boundingBox();
+    const stillDragging = await text.getAttribute("data-remarklet-resizing");
+    expect(stillDragging).toEqual(null);
+    const transform = await text.evaluate((el) => {
+        return el.style.transform;
+    });
+    expect(transform).toMatch("matrix(1, 0, 0, 1, 50, 0)");
+    const newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
     expect(newBoundingBox.width).toBeLessThan(boundingBox.width);
     expect(newBoundingBox.x).toBeGreaterThan(boundingBox.x);
+    expect(newBoundingBox.x).toEqual(boundingBox.x + 50);
+    expect(newBoundingBox.x).not.toEqual(boundingBox.x);
+    // Assert the right edge has not moved.
+    expect(
+        Math.round((newBoundingBox.x + newBoundingBox.width) * 100) / 100,
+    ).not.toEqual(Math.round((boundingBox.x + boundingBox.width) * 100) / 100);
 });
