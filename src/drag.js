@@ -109,7 +109,7 @@ const draggableOptions = {
 };
 
 const resizableOptions = {
-    edges: { left: true, right: true, bottom: true, top: false },
+    edges: { left: true, right: true, bottom: true, top: true },
     listeners: {
         start(event) {
             if (store.get("modifying")) {
