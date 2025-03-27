@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.6] - 2025-03-27
+
 ### Added
 
 - Added translation of element left or right when resizing from the left edge.
@@ -19,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Removed
 
-- Removed use of data attributes `data-remarklet-x` and `data-remarklet-y` for storing the last position of elements being dragged, and `data-remarklet-original-transform` for storing the original computed transform style of the target element. This information is now stored in private variables.
+- Removed use of data attributes `data-remarklet-x` and `data-remarklet-y` for storing the last position of elements being dragged, and `data-remarklet-original-transform` for storing the original computed transform style of the target element. This information is now stored in a private variable.
 
 ## [1.0.5] - 2025-03-22
 

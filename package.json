@@ -1,6 +1,6 @@
 {
     "name": "@zw/remarklet",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
     "type": "module",
