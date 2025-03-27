@@ -109,15 +109,19 @@ const draggableOptions = {
 };
 
 const resizableOptions = {
-    edges: { left: true, right: true, bottom: true, top: false },
+    edges: { left: true, right: true, bottom: true, top: true },
     listeners: {
         start(event) {
             if (store.get("modifying")) {
                 return;
             }
+            event.stopPropagation();
+            event.preventDefault();
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
+            position.x = 0;
+            position.y = 0;
         },
         move(event) {
             const target = event.target;
@@ -132,26 +136,13 @@ const resizableOptions = {
             } else if (event.edges.top || event.edges.bottom) {
                 target.style.height = resolveHeight(target, event.rect.height);
             }
-
-            // const rect = target.getBoundingClientRect();
-            // if (event.rect.height === rect.height) {
-            //     // Element is not rotated.
-            //     target.style.width = resolveWidth(target, event.rect.width);
-            //     target.style.height = resolveHeight(target, event.rect.height);
-            // } else {
-            //     // Element is rotated.
-            //     target.style.width = resolveWidth(target, event.rect.height);
-            //     target.style.height = resolveHeight(target, event.rect.width);
-            // }
-            // const x =
-            //     (parseFloat(target.getAttribute("data-remarklet-x")) || 0) + event.deltaRect.left;
-            // const y =
-            //     (parseFloat(target.getAttribute("data-remarklet-y")) || 0) + event.deltaRect.top;
-            // const originalTransform = target.getAttribute("data-remarklet-original-transform");
-            // const resolved = resolveTransform(target, x, y, originalTransform);
-            // target.style.transform = resolved.style;
-            // target.setAttribute("data-remarklet-x", resolved.x);
-            // target.setAttribute("data-remarklet-y", resolved.y);
+            event.target.setAttribute("data-remarklet-resizing", "true");
+            let x = position.x + event.deltaRect.left;
+            let y = position.y + event.deltaRect.top;
+            const resolved = resolveTransform(target, x, y);
+            target.style.transform = resolved.style;
+            position.x = resolved.x;
+            position.y = resolved.y;
         },
         end(event) {
             store.set("mode", "edit");
