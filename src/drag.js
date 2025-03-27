@@ -136,15 +136,13 @@ const resizableOptions = {
             } else if (event.edges.top || event.edges.bottom) {
                 target.style.height = resolveHeight(target, event.rect.height);
             }
-            if (event.edges.left) {
-                // Move the element to the right since it is being resized from the left edge toward the left or right.
-                let x = position.x + event.deltaRect.left;
-                let y = position.y + event.deltaRect.top;
-                const resolved = resolveTransform(target, x, y);
-                target.style.transform = resolved.style;
-                position.x = resolved.x;
-                position.y = resolved.y;
-            }
+            event.target.setAttribute("data-remarklet-resizing", "true");
+            let x = position.x + event.deltaRect.left;
+            let y = position.y + event.deltaRect.top;
+            const resolved = resolveTransform(target, x, y);
+            target.style.transform = resolved.style;
+            position.x = resolved.x;
+            position.y = resolved.y;
         },
         end(event) {
             store.set("mode", "edit");
