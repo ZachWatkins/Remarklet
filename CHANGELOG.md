@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Added
+
+- Added tests for the resize feature to cover all four edges and both directions of movement for each edge.
+
+### Changed
+
+- Moved drag and resize tests from run.spec.js to their own files.
 
 ## [1.0.6] - 2025-03-27
 
