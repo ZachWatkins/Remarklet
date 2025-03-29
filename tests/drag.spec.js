@@ -59,3 +59,52 @@ test("can drag elements", async ({ page }) => {
         Math.round(boundingBox.height * 100) / 100,
     );
 });
+
+test("can drag element more than once", async ({ page }) => {
+    page.on("pageerror", (error) => {
+        console.error(error);
+        test.fail();
+    });
+    await page.goto("/");
+    const textString = "A demonstration of what can be accomplished";
+    const text = await page.getByText(textString);
+    const boundingBox = await text.boundingBox();
+    if (!boundingBox) {
+        throw new Error("Bounding box is null");
+    }
+    const start = {
+        x: boundingBox.x + boundingBox.width / 2,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    const end = { ...start, y: start.y - 50 };
+    const end2 = { ...end, y: end.y - 50 };
+    await page.mouse.move(start.x, start.y);
+    await page.mouse.down();
+    await page.mouse.move(end.x, end.y, {
+        steps: 10,
+    });
+    await page.mouse.up();
+    const newBoundingBox = await page.getByText(textString).boundingBox();
+    if (!newBoundingBox) {
+        throw new Error("New bounding box is null");
+    }
+    const transform = await text.evaluate((el) => {
+        return el.style.transform;
+    });
+    expect(transform).toMatch("matrix(1, 0, 0, 1, 0, -50)");
+    expect(Math.round(newBoundingBox.y * 100) / 100).toEqual(
+        Math.round((boundingBox.y - 50) * 100) / 100,
+    );
+    await page.mouse.down();
+    await page.mouse.move(end2.x, end2.y, {
+        steps: 10,
+    });
+    await page.mouse.up();
+    const new2BoundingBox = await page.getByText(textString).boundingBox();
+    if (!new2BoundingBox) {
+        throw new Error("New bounding box is null");
+    }
+    expect(Math.round(new2BoundingBox.y * 100) / 100).toEqual(
+        Math.round(boundingBox.y * 100) / 100 - 100,
+    );
+});

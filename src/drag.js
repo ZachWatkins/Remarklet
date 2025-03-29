@@ -10,6 +10,7 @@ let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
 let position = { x: 0, y: 0 };
+let elementChangeMap = new WeakMap();
 
 export function main() {
     store.subscribe("target", (target) => {
@@ -55,14 +56,28 @@ const draggableOptions = {
                 }
                 if (parent) {
                     store.set("target", parent);
+                    if (!elementChangeMap.has(parent)) {
+                        elementChangeMap.set(parent, {
+                            position: {
+                                x: 0,
+                                y: 0,
+                            },
+                        });
+                    }
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
+                if (!elementChangeMap.has(event.target)) {
+                    elementChangeMap.set(event.target, {
+                        position: {
+                            x: 0,
+                            y: 0,
+                        },
+                    });
+                }
             }
-            position.x = 0;
-            position.y = 0;
         },
         /**
          * Handles the drag move event
@@ -76,12 +91,12 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = position.x + event.dx;
-            let y = position.y + event.dy;
+            let x = elementChangeMap.get(target).position.x + event.dx;
+            let y = elementChangeMap.get(target).position.y + event.dy;
             const resolved = resolveTransform(target, x, y);
             target.style.transform = resolved.style;
-            position.x = resolved.x;
-            position.y = resolved.y;
+            elementChangeMap.get(target).position.x = resolved.x;
+            elementChangeMap.get(target).position.y = resolved.y;
         },
         /**
          * Handles the drag end event
@@ -102,8 +117,7 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             store.set("mode", "edit");
-            position.x = 0;
-            position.y = 0;
+            // Position is no longer reset here, allowing subsequent drags to continue from current position
         },
     },
 };
