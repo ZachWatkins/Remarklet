@@ -155,7 +155,7 @@ const resizableOptions = {
                 target.style.height = resolveHeight(target, event.rect.height);
             }
             event.target.setAttribute("data-remarklet-resizing", "true");
-            if (event.deltaRect.left || event.deltaRect.top) {
+            if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
                 let x =
                     elementChangeMap.get(target).position.x +
                     event.deltaRect.left;
