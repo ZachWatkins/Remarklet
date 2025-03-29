@@ -4,6 +4,8 @@ import "@interactjs/actions/resize/index.prod";
 // import '@interactjs/dev-tools'
 import interact from "@interactjs/interact/index.prod";
 import store from "./store.js";
+import styles from "./styles.js";
+import { getUniqueSelector } from "./utils/cssSelector.js";
 import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
@@ -61,6 +63,7 @@ const draggableOptions = {
                                 x: 0,
                                 y: 0,
                             },
+                            selector: getUniqueSelector(parent, false),
                         });
                     }
                     parent.setAttribute("data-remarklet-dragging", "true");
@@ -74,6 +77,7 @@ const draggableOptions = {
                             x: 0,
                             y: 0,
                         },
+                        selector: getUniqueSelector(event.target, false),
                     });
                 }
             }
@@ -116,6 +120,14 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             store.set("mode", "edit");
+
+            // Apply the changes to the stylesheet.
+            const selector = elementChangeMap.get(target).selector;
+            const rule = `transform: ${target.style.transform};`;
+            styles().setRule(selector, rule);
+
+            // Delete the inline style.
+            target.style.transform = "";
         },
     },
 };
@@ -138,6 +150,7 @@ const resizableOptions = {
                         x: 0,
                         y: 0,
                     },
+                    selector: getUniqueSelector(parent, false),
                 });
             }
         },
