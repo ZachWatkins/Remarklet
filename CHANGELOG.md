@@ -9,10 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added tests for the resize feature to cover all four edges and both directions of movement for each edge.
+- Added test for repeated dragging due to a bug in the drag module.
 
 ### Changed
 
 - Moved drag and resize tests from run.spec.js to their own files.
+- Fixed issue related to repeat dragging of an element.
 
 ## [1.0.6] - 2025-03-27
 
