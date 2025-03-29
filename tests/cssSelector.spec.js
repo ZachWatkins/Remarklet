@@ -8,7 +8,9 @@ test.beforeEach(async ({ page }) => {
     await injectCssSelectorFunctions(page);
 });
 
-test("getUniqueSelector returns id selector when element has id", async ({ page }) => {
+test("getUniqueSelector returns id selector when element has id", async ({
+    page,
+}) => {
     await page.setContent(`
         <div id="test-element" class="test-class">Test Element</div>
     `);
@@ -35,7 +37,9 @@ test("getUniqueSelector can identify elements by class", async ({ page }) => {
     expect(result).toBe("div.unique-class");
 });
 
-test("getUniqueSelector can identify elements by attributes", async ({ page }) => {
+test("getUniqueSelector can identify elements by attributes", async ({
+    page,
+}) => {
     await page.setContent(`
         <div data-test="unique-value">Test Element</div>
         <div data-test="another-value">Another Element</div>
@@ -49,7 +53,9 @@ test("getUniqueSelector can identify elements by attributes", async ({ page }) =
     expect(result).toBe('div[data-test="unique-value"]');
 });
 
-test("getUniqueSelector falls back to nth-child for similar elements", async ({ page }) => {
+test("getUniqueSelector falls back to nth-child for similar elements", async ({
+    page,
+}) => {
     await page.setContent(`
         <div>
             <p>First paragraph</p>
@@ -67,7 +73,9 @@ test("getUniqueSelector falls back to nth-child for similar elements", async ({ 
     expect(result).toBe(/p:nth-child\(2\)/);
 });
 
-test("getUniqueSelector creates a full path when optimized=false", async ({ page }) => {
+test("getUniqueSelector creates a full path when optimized=false", async ({
+    page,
+}) => {
     await page.setContent(`
         <div class="container">
             <section class="section">
@@ -84,10 +92,14 @@ test("getUniqueSelector creates a full path when optimized=false", async ({ page
     });
 
     // Should contain the full path
-    expect(result).toMatch(/div\.container > section\.section > article\.article > p/);
+    expect(result).toMatch(
+        /div\.container > section\.section > article\.article > p/,
+    );
 });
 
-test("isUniqueSelector correctly validates unique selectors", async ({ page }) => {
+test("isUniqueSelector correctly validates unique selectors", async ({
+    page,
+}) => {
     await page.setContent(`
         <div id="test-element">Test Element</div>
         <div class="another-element">Another Element</div>
@@ -101,7 +113,9 @@ test("isUniqueSelector correctly validates unique selectors", async ({ page }) =
     expect(result).toBe(true);
 });
 
-test("isUniqueSelector returns false for non-unique selectors", async ({ page }) => {
+test("isUniqueSelector returns false for non-unique selectors", async ({
+    page,
+}) => {
     await page.setContent(`
         <div class="same-class">First Element</div>
         <div class="same-class">Second Element</div>
@@ -115,7 +129,9 @@ test("isUniqueSelector returns false for non-unique selectors", async ({ page })
     expect(result).toBe(false);
 });
 
-test("getUniqueSelector handles elements with special characters in IDs and classes", async ({ page }) => {
+test("getUniqueSelector handles elements with special characters in IDs and classes", async ({
+    page,
+}) => {
     await page.setContent(`
         <div id="test.element" class="test:class">Test Element with special chars</div>
     `);
@@ -137,12 +153,14 @@ test("getUniqueSelector handles document.documentElement", async ({ page }) => {
     expect(result).toBe("html");
 });
 
-test("getUniqueSelector returns empty string for invalid inputs", async ({ page }) => {
+test("getUniqueSelector returns empty string for invalid inputs", async ({
+    page,
+}) => {
     const results = await page.evaluate(() => {
         return [
             window.getUniqueSelector(null),
             window.getUniqueSelector(undefined),
-            window.getUniqueSelector(document.createTextNode("text node"))
+            window.getUniqueSelector(document.createTextNode("text node")),
         ];
     });
 
