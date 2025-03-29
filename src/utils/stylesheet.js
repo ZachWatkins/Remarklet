@@ -9,34 +9,57 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
-export default function Stylesheet(value) {
+import LocalStorageItem from "./localStorageItem.js";
+
+/**
+ * Stylesheet Module
+ * @constructor
+ */
+export default function Stylesheet() {
+    this.storage = new LocalStorageItem({
+        key: "remarklet-stylesheet",
+        type: "object",
+        defaultValue: {},
+    });
+    this.ruleLength = 0;
     this.element = document.createElement("style");
-    this.element.innerText = value || "";
-    var indent = "    ";
-    var rules = {};
+    document.head.appendChild(this.element);
+    var rules = this.storage.value;
+    for (let selector in rules) {
+        if (rules.hasOwnProperty(selector)) {
+            this.element.sheet.insertRule(selector + rules[selector]);
+        }
+    }
+
+    /**
+     * Set a CSS rule in the stylesheet.
+     * @param {string} selector - The CSS selector to set the rule for.
+     * @param {string} rule - The CSS rule to set.
+     * @returns {void}
+     */
     this.setRule = (selector, rule) => {
         if (!rule) return;
-        var ruletext,
-            found = false,
-            i = this.element.sheet.cssRules.length - 1;
-        ruletext =
-            "{\n" +
-            indent +
-            rule.replace(/; (\w)/g, ";\n" + indent + "$1") +
-            "\n}";
-        while (i >= 0) {
-            if (selector == this.element.sheet.cssRules[i].selectorText) {
-                found = this.element.sheet.cssRules[i];
-                i = 0;
-            }
-            i--;
+        var found = this.storage.value[selector] || false;
+        var ruletext = selector + '{' + rule + '}';
+        if (found) {
+            this.element.sheet.insertRule(ruletext, found.index);
+            this.storage.value[selector].rule = ruletext;
+        } else {
+            this.element.sheet.insertRule(ruletext);
+            this.storage.value[selector] = {
+                index: this.ruleLength++,
+                rule: ruletext,
+            };
         }
-        if (!found) {
-            i = this.element.sheet.cssRules.length;
-        }
-        this.element.sheet.insertRule(selector + ruletext, i);
         rules[selector] = ruletext;
+        this.storage.store();
     };
+
+    /**
+     * Replace the entire stylesheet with a new CSS string.
+     * @param {string} str - The new CSS string to set in the stylesheet.
+     * @returns {void}
+     */
     this.setString = (str) => {
         if (this.element.textContent === str) {
             return;
