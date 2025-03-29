@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
+## [1.0.9] - 2025-03-29
+
+### Changed
+
+- Fixed issue with touchscreens where an element would only be dragged for a fraction of a second before stopping.
+
 ## [1.0.8] - 2025-03-28
 
 ### Changed
