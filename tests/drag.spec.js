@@ -93,7 +93,7 @@ test("can drag element more than once", async ({ page }) => {
     });
     expect(transform).toMatch("matrix(1, 0, 0, 1, 0, -50)");
     expect(Math.round(newBoundingBox.y * 100) / 100).toEqual(
-        (Math.round((boundingBox.y - 50) * 100) / 100),
+        Math.round((boundingBox.y - 50) * 100) / 100,
     );
     await page.mouse.down();
     await page.mouse.move(end2.x, end2.y, {
