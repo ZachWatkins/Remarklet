@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.7] - 2025-03-28
+
 ### Added
 
 - Added tests for the resize feature to cover all four edges and both directions of movement for each edge.
