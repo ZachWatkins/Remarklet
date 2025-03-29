@@ -9,6 +9,8 @@ export default function main() {
     const stylesheet = new Stylesheet(`
 [data-remarklet-highlight] {
     outline: 2px solid #00b3dd;
+    touch-action: none !important;
+    user-select: none !important;
 }
 [data-remarklet-dragging],
 [data-remarklet-resizing] {
