@@ -15,6 +15,6 @@ changelog:
           labels:
               - Semver-Minor
               - enhancement
-        - title: Other Changes
+        - title: Merged Pull Requests
           labels:
               - "*"
