@@ -9,7 +9,6 @@ import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
-let position = { x: 0, y: 0 };
 let elementChangeMap = new WeakMap();
 
 export function main() {
@@ -117,7 +116,6 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             store.set("mode", "edit");
-            // Position is no longer reset here, allowing subsequent drags to continue from current position
         },
     },
 };
@@ -134,8 +132,14 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            position.x = 0;
-            position.y = 0;
+            if (!elementChangeMap.has(event.target)) {
+                elementChangeMap.set(event.target, {
+                    position: {
+                        x: 0,
+                        y: 0,
+                    },
+                });
+            }
         },
         move(event) {
             const target = event.target;
@@ -151,12 +155,18 @@ const resizableOptions = {
                 target.style.height = resolveHeight(target, event.rect.height);
             }
             event.target.setAttribute("data-remarklet-resizing", "true");
-            let x = position.x + event.deltaRect.left;
-            let y = position.y + event.deltaRect.top;
-            const resolved = resolveTransform(target, x, y);
-            target.style.transform = resolved.style;
-            position.x = resolved.x;
-            position.y = resolved.y;
+            if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
+                let x =
+                    elementChangeMap.get(target).position.x +
+                    event.deltaRect.left;
+                let y =
+                    elementChangeMap.get(target).position.y +
+                    event.deltaRect.top;
+                const resolved = resolveTransform(target, x, y);
+                target.style.transform = resolved.style;
+                elementChangeMap.get(target).position.x = resolved.x;
+                elementChangeMap.get(target).position.y = resolved.y;
+            }
         },
         end(event) {
             store.set("mode", "edit");
