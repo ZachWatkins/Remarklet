@@ -23,7 +23,6 @@ export default function main() {
         "[data-remarklet-dragging], [data-remarklet-resizing]",
         "touch-action: none !important; user-select: none !important; transition: none !important; animation: none !important;",
     );
-    store.set("stylesheet", sheet);
     store.subscribe("mode", (mode) => {
         document.body.setAttribute("data-remarklet-mode", mode);
     });

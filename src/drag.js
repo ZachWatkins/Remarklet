@@ -132,6 +132,9 @@ const draggableOptions = {
 
             // Delete the inline style.
             target.style.transform = "";
+            if ("" === target.style.cssText) {
+                target.removeAttribute("style");
+            }
         },
     },
 };
