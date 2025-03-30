@@ -9,7 +9,7 @@
  * @link        https://github.com/zachwatkins/remarklet
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
-import LocalStorageItem from "./localStorageItem.js";
+import LocalStorageItem from "./LocalStorageItem.js";
 
 /**
  * Stylesheet Module
