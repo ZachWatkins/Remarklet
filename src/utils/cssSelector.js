@@ -1,16 +1,16 @@
 /**
  * Generates a unique CSS selector for a DOM element
  * @param {HTMLElement} element The target DOM element
- * @param {boolean} [optimized=true] Whether to generate an optimized selector
+ * @param {Object} [options] Options for generating the selector
+ * @param {string} [options.excludeDataAttributePrefix] Exclude data attributes with this prefix
+ * @param {boolean} [options.optimized=true] Whether to generate an optimized selector
  * @returns {string} A unique CSS selector for the element
  */
-export function getUniqueSelector(
-    element,
-    { optimized, excludeDataAttributePrefix },
-) {
+export function getUniqueSelector(element, options) {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
         return "";
     }
+    const { optimized, excludeDataAttributePrefix } = options || {};
     if (typeof optimized === "undefined") {
         optimized = true;
     }
