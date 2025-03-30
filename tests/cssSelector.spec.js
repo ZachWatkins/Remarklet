@@ -97,6 +97,39 @@ test("getUniqueSelector creates a full path when optimized=false", async ({
     );
 });
 
+test("getUniqueSelector creates a full path when an element has both an id and class name and optimized=false", async ({
+    page,
+}) => {
+    await page.setContent(`
+        <div class="page-wrapper">
+            <section class="intro" id="zen-intro">
+                <div class="summary" id="zen-summary" role="article">
+                    <p>
+                        A demonstration of what can be accomplished through
+                        <abbr title="Cascading Style Sheets">CSS</abbr>-based
+                        design. Select any style sheet from the list to load it
+                        into this page.
+                    </p>
+                    <p>
+                        Download the example
+                        <a href="/examples/index" title="This page's source HTML code, not to be modified.">html file</a>
+                        and
+                        <a href="/examples/style.css" title="This page's sample CSS, the file you may modify.">css file</a>
+                    </p>
+                </div>
+            </section>
+        </div>
+    `);
+
+    const result = await page.evaluate(() => {
+        const element = document.querySelector("p");
+        return window.getUniqueSelector(element, false);
+    });
+
+    // Should contain the full path
+    expect(result).toBe("#zen-summary > p:nth-child(1)");
+});
+
 test("isUniqueSelector correctly validates unique selectors", async ({
     page,
 }) => {
