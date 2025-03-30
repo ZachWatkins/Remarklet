@@ -6,19 +6,14 @@
 export async function injectCssSelectorFunctions(page) {
     await page.addScriptTag({
         content: `
-            /**
-             * Generates a unique CSS selector for a DOM element
-             * @param {HTMLElement} element The target DOM element
-             * @param {boolean} [optimized=true] Whether to generate an optimized selector
-             * @returns {string} A unique CSS selector for the element
-             */
             window.getUniqueSelector = function(
                 element,
-                { optimized, excludeDataAttributePrefix },
+                options,
             ) {
                 if (!element || element.nodeType !== Node.ELEMENT_NODE) {
                     return "";
                 }
+                let { optimized, excludeDataAttributePrefix } = options || {};
                 if (typeof optimized === "undefined") {
                     optimized = true;
                 }
