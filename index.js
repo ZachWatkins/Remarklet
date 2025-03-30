@@ -16,14 +16,19 @@ let initialized = false;
  * @example
  * import remarklet from "@zw/remarklet";
  *
- * // Initialize the library
+ * // Initialize the library.
  * remarklet.activate();
  *
- * // Deactivate the library
+ * // Deactivate the library.
  * remarklet.deactivate();
  *
- * // Get the version of the library
+ * // Get the version of the library.
  * console.log(remarklet.version);
+ *
+ * // Configure the library.
+ * remarklet.configure({
+ *     persist: true,
+ * });
  */
 function remarklet() {}
 
