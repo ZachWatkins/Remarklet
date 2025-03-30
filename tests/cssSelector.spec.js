@@ -70,7 +70,7 @@ test("getUniqueSelector falls back to nth-child for similar elements", async ({
     });
 
     // The result should include nth-child since there are multiple paragraphs
-    expect(result).toBe(/p:nth-child\(2\)/);
+    expect(result).toMatch(/p:nth-child\(2\)/);
 });
 
 test("getUniqueSelector creates a full path when optimized=false", async ({
