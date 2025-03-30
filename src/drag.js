@@ -63,7 +63,9 @@ const draggableOptions = {
                                 x: 0,
                                 y: 0,
                             },
-                            selector: getUniqueSelector(parent, false),
+                            selector: getUniqueSelector(parent, {
+                                excludeDataAttributePrefix: "remarklet",
+                            }),
                         });
                     }
                     parent.setAttribute("data-remarklet-dragging", "true");
@@ -77,7 +79,9 @@ const draggableOptions = {
                             x: 0,
                             y: 0,
                         },
-                        selector: getUniqueSelector(event.target, false),
+                        selector: getUniqueSelector(event.target, {
+                            excludeDataAttributePrefix: "remarklet",
+                        }),
                     });
                 }
             }
@@ -150,7 +154,9 @@ const resizableOptions = {
                         x: 0,
                         y: 0,
                     },
-                    selector: getUniqueSelector(parent, false),
+                    selector: getUniqueSelector(parent, {
+                        excludeDataAttributePrefix: "remarklet",
+                    }),
                 });
             }
         },
