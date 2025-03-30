@@ -5,6 +5,7 @@ const state = {
     target: null,
     active: false,
     modifying: false,
+    persist: false,
 };
 
 const subscribers = {
