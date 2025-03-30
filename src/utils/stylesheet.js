@@ -14,13 +14,13 @@ import LocalStorageItem from "./LocalStorageItem.js";
 /**
  * Stylesheet Module
  * @constructor
- * @param {Object} options - Options for the stylesheet.
+ * @param {Object} [options] - Options for the stylesheet. Optional.
  * @param {object} options.persist - If present, will persist the stylesheet to localStorage and pass the given options to the LocalStorageItem constructor.
  * @param {boolean} options.persist.key - The key for localStorage.
  * @param {object} options.persist.extras - Additional properties to store in localStorage.
  */
 export default function Stylesheet(options) {
-    this.persist = typeof options.persist === "object";
+    this.persist = options && typeof options.persist === "object";
     this.storage = {
         value: {
             ruleIndexes: {},
@@ -61,7 +61,7 @@ export default function Stylesheet(options) {
             index,
         );
     }
-    if (this.persist.store) {
+    if (this.storage.store) {
         this.storage.store();
     }
 
