@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Added a new feature to persist the state of the page when elements are dragged or resized, allowing users to save their changes and restore them later.
+- Added a new feature to persist the drag and resize changes using localStorage and automatically restore them when the page is reloaded.
 
 ## [1.0.9] - 2025-03-29
 
