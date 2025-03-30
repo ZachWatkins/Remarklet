@@ -13,10 +13,14 @@ export async function injectCssSelectorFunctions(page) {
                 if (!element || element.nodeType !== Node.ELEMENT_NODE) {
                     return "";
                 }
-                let { optimized, excludeDataAttributePrefix } = options || {};
-                if (typeof optimized === "undefined") {
-                    optimized = true;
-                }
+                const optimized =
+                    options && typeof options.optimized === "boolean"
+                        ? options.optimized
+                        : true;
+                const excludeDataAttributePrefix =
+                    options && options.excludeDataAttributePrefix
+                        ? options.excludeDataAttributePrefix
+                        : null;
 
                 // Use id if available
                 if (element.id) {
