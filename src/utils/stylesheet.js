@@ -14,16 +14,41 @@ import LocalStorageItem from "./LocalStorageItem.js";
 /**
  * Stylesheet Module
  * @constructor
+ * @param {Object} options - Options for the stylesheet.
+ * @param {object} options.persist - If present, will persist the stylesheet to localStorage and pass the given options to the LocalStorageItem constructor.
+ * @param {boolean} options.persist.key - The key for localStorage.
+ * @param {object} options.persist.extras - Additional properties to store in localStorage.
  */
-export default function Stylesheet() {
-    this.storage = new LocalStorageItem({
-        key: "remarklet-stylesheet",
-        type: "object",
-        defaultValue: {
+export default function Stylesheet(options) {
+    this.persist = typeof options.persist === "object";
+    this.storage = {
+        value: {
             ruleIndexes: {},
             rules: [],
         },
-    });
+    };
+    if (this.persist) {
+        if (typeof options.persist.extras === "object") {
+            this.storage = new LocalStorageItem({
+                key: options.persist.key,
+                type: "object",
+                defaultValue: {
+                    ...options.persist.extras,
+                    ruleIndexes: {},
+                    rules: [],
+                },
+            });
+        } else {
+            this.storage = new LocalStorageItem({
+                key: options.persist.key,
+                type: "object",
+                defaultValue: {
+                    ruleIndexes: {},
+                    rules: [],
+                },
+            });
+        }
+    }
     this.element = document.createElement("style");
     document.head.appendChild(this.element);
     let selectors = Object.keys(this.storage.value.ruleIndexes);
@@ -36,7 +61,9 @@ export default function Stylesheet() {
             index,
         );
     }
-    this.storage.store();
+    if (this.persist.store) {
+        this.storage.store();
+    }
 
     /**
      * Set a CSS rule in the stylesheet.
@@ -63,6 +90,8 @@ export default function Stylesheet() {
             this.element.sheet.insertRule(ruletext, foundIndex);
             this.storage.value.rules[foundIndex].rule = rule;
         }
-        this.storage.store();
+        if (this.storage.store) {
+            this.storage.store();
+        }
     };
 }

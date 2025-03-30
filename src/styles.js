@@ -2,6 +2,7 @@
  * @module styles
  * Add a stylesheet to the document containing the library's styles.
  */
+import pkg from "../package.json" with { type: "json" };
 import store from "./store.js";
 import Stylesheet from "./utils/stylesheet.js";
 let sheet = null;
@@ -14,7 +15,16 @@ export default function main() {
     if (sheet) {
         return sheet;
     }
-    sheet = new Stylesheet();
+    if (store.get("persist") === true) {
+        sheet = new Stylesheet({
+            persist: {
+                key: "remarklet-stylesheet",
+                extras: { version: pkg.version },
+            },
+        });
+    } else {
+        sheet = new Stylesheet();
+    }
     sheet.setRule(
         "[data-remarklet-highlight]",
         "outline: 2px solid #00b3dd; touch-action: none !important; user-select: none !important;",
