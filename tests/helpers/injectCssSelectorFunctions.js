@@ -22,6 +22,11 @@ export async function injectCssSelectorFunctions(page) {
                         ? options.excludeDataAttributePrefix
                         : null;
 
+                // Skip html and body elements
+                if (element === document.documentElement || element === document.body) {
+                    return "";
+                }
+
                 // Use id if available
                 if (element.id) {
                     return \`#\${CSS.escape(element.id)}\`;
@@ -30,17 +35,22 @@ export async function injectCssSelectorFunctions(page) {
                 // Get element's tag name
                 let tagName = element.tagName.toLowerCase();
 
-                // If this is the root element, return the tag name
-                if (element === document.documentElement) {
-                    return tagName;
-                }
-
                 // If optimized is false, use a full path approach
                 if (!optimized) {
                     let current = element;
                     let result = [];
 
                     while (current && current.nodeType === Node.ELEMENT_NODE) {
+                        // Skip html and body tags
+                        if (
+                            current === document.documentElement ||
+                            current === document.body
+                        ) {
+                            current = current.parentNode;
+                            tagName = current?.tagName ? current.tagName.toLowerCase() : "";
+                            continue;
+                        }
+
                         let selector = tagName;
 
                         // Add classes
@@ -84,7 +94,7 @@ export async function injectCssSelectorFunctions(page) {
                         }
 
                         current = current.parentNode;
-                        tagName = current.tagName ? current.tagName.toLowerCase() : "";
+                        tagName = current?.tagName ? current.tagName.toLowerCase() : "";
                     }
 
                     return result.join(" > ");
@@ -129,8 +139,23 @@ export async function injectCssSelectorFunctions(page) {
                 let siblings = Array.from(parentElement.children);
                 let index = siblings.indexOf(element) + 1;
 
+                // Skip if parent is html or body
+                if (
+                    parentElement === document.documentElement ||
+                    parentElement === document.body
+                ) {
+                    return \`\${tagName}:nth-child(\${index})\`;
+                }
+
                 // Get parent selector recursively
-                let parentSelector = window.getUniqueSelector(parentElement, optimized);
+                let parentSelector = getUniqueSelector(parentElement, options);
+
+                // If parent selector is empty (which happens when parent is or contains html/body),
+                // return just this element's selector
+                if (!parentSelector) {
+                    return \`\${tagName}:nth-child(\${index})\`;
+                }
+
                 return \`\${parentSelector} > \${tagName}:nth-child(\${index})\`;
             };
 
