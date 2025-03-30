@@ -10,7 +10,7 @@ export function getUniqueSelector(element, options) {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
         return "";
     }
-    const { optimized, excludeDataAttributePrefix } = options || {};
+    let { optimized, excludeDataAttributePrefix } = options || {};
     if (typeof optimized === "undefined") {
         optimized = true;
     }
