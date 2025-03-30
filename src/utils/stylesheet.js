@@ -26,13 +26,15 @@ export default function Stylesheet() {
     });
     this.element = document.createElement("style");
     document.head.appendChild(this.element);
-    for (let i = 0; i < this.storage.value.rules.length; i++) {
-        let rule = this.storage.value.rules[i];
+    let selectors = Object.keys(this.storage.value.ruleIndexes);
+    for (let i = 0; i < selectors.length; i++) {
+        let selector = selectors[i];
+        let index = this.storage.value.ruleIndexes[selector];
+        let rule = this.storage.value.rules[index];
         this.element.sheet.insertRule(
-            rule.selector + "{" + rule.value + "}",
-            i,
+            rule.selector + "{" + rule.rule + "}",
+            index,
         );
-        this.storage.value.ruleIndexes[rule.selector] = i;
     }
     this.storage.store();
 
@@ -43,19 +45,23 @@ export default function Stylesheet() {
      * @returns {void}
      */
     this.setRule = (selector, rule) => {
-        var foundIndex = this.storage.value.ruleIndexes[selector] || false;
+        var foundIndex =
+            typeof this.storage.value.ruleIndexes[selector] === "number"
+                ? this.storage.value.ruleIndexes[selector]
+                : false;
         var ruletext = selector + "{" + rule + "}";
-        if (foundIndex !== false) {
-            this.element.sheet.insertRule(ruletext, foundIndex);
-            this.storage.value.rules[foundIndex].value = rule;
-        } else {
+        if (foundIndex === false) {
             var newIndex = this.storage.value.rules.length;
             this.storage.value.ruleIndexes[selector] = newIndex;
             this.storage.value.rules.push({
-                selector: selector,
-                value: rule,
+                selector,
+                rule,
             });
             this.element.sheet.insertRule(ruletext, newIndex);
+        } else {
+            this.element.sheet.deleteRule(foundIndex);
+            this.element.sheet.insertRule(ruletext, foundIndex);
+            this.storage.value.rules[foundIndex].rule = rule;
         }
         this.storage.store();
     };
