@@ -102,8 +102,8 @@ const draggableOptions = {
             let y = elementChangeMap.get(target).position.y + event.dy;
             const resolved = resolveTransform(target, x, y);
             target.style.transform = resolved.style;
-            elementChangeMap.get(target).position.x = resolved.x;
-            elementChangeMap.get(target).position.y = resolved.y;
+            elementChangeMap.get(target).position.x += event.dx;
+            elementChangeMap.get(target).position.y += event.dy;
         },
         /**
          * Handles the drag end event
@@ -186,8 +186,8 @@ const resizableOptions = {
                     event.deltaRect.top;
                 const resolved = resolveTransform(target, x, y);
                 target.style.transform = resolved.style;
-                elementChangeMap.get(target).position.x = resolved.x;
-                elementChangeMap.get(target).position.y = resolved.y;
+                elementChangeMap.get(target).position.x += event.deltaRect.left;
+                elementChangeMap.get(target).position.y += event.deltaRect.top;
             }
         },
         end(event) {

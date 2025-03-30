@@ -45,8 +45,8 @@ export function resolveTransform(target, x, y) {
         const e = parseFloat(vals[4]);
         const f = parseFloat(vals[5]);
         // Calculate the new translation values.
-        x = a * x + c * y + e;
-        y = b * x + d * y + f;
+        x = e + x;
+        y = f + y;
         // Create the new matrix string.
         style = `matrix(${a}, ${b}, ${c}, ${d}, ${x}, ${y})`;
     } else {
