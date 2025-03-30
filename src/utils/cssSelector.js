@@ -4,9 +4,15 @@
  * @param {boolean} [optimized=true] Whether to generate an optimized selector
  * @returns {string} A unique CSS selector for the element
  */
-export function getUniqueSelector(element, optimized = true) {
+export function getUniqueSelector(
+    element,
+    { optimized, excludeDataAttributePrefix },
+) {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
         return "";
+    }
+    if (typeof optimized === "undefined") {
+        optimized = true;
     }
 
     // Use id if available
@@ -99,7 +105,12 @@ export function getUniqueSelector(element, optimized = true) {
 
     // Try with attribute selectors
     for (const attr of element.attributes) {
-        if (attr.name !== "class" && attr.name !== "style") {
+        if (
+            attr.name !== "class" &&
+            attr.name !== "style" &&
+            (!excludeDataAttributePrefix ||
+                !attr.name.startsWith("data-" + excludeDataAttributePrefix))
+        ) {
             let selector = `${tagName}[${attr.name}="${CSS.escape(attr.value)}"]`;
             if (document.querySelectorAll(selector).length === 1) {
                 return selector;
