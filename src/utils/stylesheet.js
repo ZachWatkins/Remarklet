@@ -19,17 +19,22 @@ export default function Stylesheet() {
     this.storage = new LocalStorageItem({
         key: "remarklet-stylesheet",
         type: "object",
-        defaultValue: {},
+        defaultValue: {
+            ruleIndexes: {},
+            rules: [],
+        },
     });
-    this.ruleLength = 0;
     this.element = document.createElement("style");
     document.head.appendChild(this.element);
-    var rules = this.storage.value;
-    for (let selector in rules) {
-        if (rules.hasOwnProperty(selector)) {
-            this.element.sheet.insertRule(selector + rules[selector]);
-        }
+    for (let i = 0; i < this.storage.value.rules.length; i++) {
+        let rule = this.storage.value.rules[i];
+        this.element.sheet.insertRule(
+            rule.selector + "{" + rule.value + "}",
+            i,
+        );
+        this.storage.value.ruleIndexes[rule.selector] = i;
     }
+    this.storage.store();
 
     /**
      * Set a CSS rule in the stylesheet.
@@ -38,39 +43,20 @@ export default function Stylesheet() {
      * @returns {void}
      */
     this.setRule = (selector, rule) => {
-        if (!rule) return;
-        var found = this.storage.value[selector] || false;
-        var ruletext = selector + '{' + rule + '}';
-        if (found) {
-            this.element.sheet.insertRule(ruletext, found.index);
-            this.storage.value[selector].rule = ruletext;
+        var foundIndex = this.storage.value.ruleIndexes[selector] || false;
+        var ruletext = selector + "{" + rule + "}";
+        if (foundIndex !== false) {
+            this.element.sheet.insertRule(ruletext, foundIndex);
+            this.storage.value.rules[foundIndex].value = rule;
         } else {
-            this.element.sheet.insertRule(ruletext);
-            this.storage.value[selector] = {
-                index: this.ruleLength++,
-                rule: ruletext,
-            };
+            var newIndex = this.storage.value.rules.length;
+            this.storage.value.ruleIndexes[selector] = newIndex;
+            this.storage.value.rules.push({
+                selector: selector,
+                value: rule,
+            });
+            this.element.sheet.insertRule(ruletext, newIndex);
         }
-        rules[selector] = ruletext;
         this.storage.store();
-    };
-
-    /**
-     * Replace the entire stylesheet with a new CSS string.
-     * @param {string} str - The new CSS string to set in the stylesheet.
-     * @returns {void}
-     */
-    this.setString = (str) => {
-        if (this.element.textContent === str) {
-            return;
-        }
-        this.element.sheet.replaceSync(str);
-        rules = {};
-        for (let i = 0; i < this.element.sheet.cssRules.length; i++) {
-            let rule = this.element.sheet.cssRules[i];
-            let selector = rule.cssText.split("{")[0].trim();
-            let ruleText = rule.cssText.split("{", 2)[1].trim();
-            rules[selector] = ruleText;
-        }
     };
 }
