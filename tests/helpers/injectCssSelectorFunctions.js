@@ -12,9 +12,15 @@ export async function injectCssSelectorFunctions(page) {
              * @param {boolean} [optimized=true] Whether to generate an optimized selector
              * @returns {string} A unique CSS selector for the element
              */
-            window.getUniqueSelector = function(element, optimized = true) {
+            window.getUniqueSelector = function(
+                element,
+                { optimized, excludeDataAttributePrefix },
+            ) {
                 if (!element || element.nodeType !== Node.ELEMENT_NODE) {
                     return "";
+                }
+                if (typeof optimized === "undefined") {
+                    optimized = true;
                 }
 
                 // Use id if available
@@ -107,7 +113,12 @@ export async function injectCssSelectorFunctions(page) {
 
                 // Try with attribute selectors
                 for (const attr of element.attributes) {
-                    if (attr.name !== "class" && attr.name !== "style") {
+                    if (
+                        attr.name !== "class" &&
+                        attr.name !== "style" &&
+                        (!excludeDataAttributePrefix ||
+                            !attr.name.startsWith("data-" + excludeDataAttributePrefix))
+                    ) {
                         let selector = \`\${tagName}[\${attr.name}="\${CSS.escape(attr.value)}"]\`;
                         if (document.querySelectorAll(selector).length === 1) {
                             return selector;
