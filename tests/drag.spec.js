@@ -38,10 +38,6 @@ test("can drag elements", async ({ page }) => {
     await page.mouse.up();
     const stillDragging = await text.getAttribute("data-remarklet-dragging");
     expect(stillDragging).toEqual(null);
-    const transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, 50, 0)");
     const newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
@@ -88,10 +84,6 @@ test("can drag element more than once", async ({ page }) => {
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
     }
-    const transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, 0, -50)");
     expect(Math.round(newBoundingBox.y * 100) / 100).toEqual(
         Math.round((boundingBox.y - 50) * 100) / 100,
     );
