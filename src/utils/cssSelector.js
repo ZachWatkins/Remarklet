@@ -36,6 +36,7 @@ export function getUniqueSelector(element, options) {
     if (!optimized) {
         let current = element;
         let result = [];
+        let idFound = false;
 
         while (current && current.nodeType === Node.ELEMENT_NODE) {
             // Skip html and body tags
@@ -48,7 +49,15 @@ export function getUniqueSelector(element, options) {
                 continue;
             }
 
-            let selector = tagName;
+            // If we found an element with an ID, we can stop building the path
+            // and just use the ID as the base
+            if (current.id) {
+                result = [`#${CSS.escape(current.id)}`];
+                idFound = true;
+                break;
+            }
+
+            let selector = current.tagName.toLowerCase();
 
             // Add classes
             if (current.className && typeof current.className === "string") {
@@ -61,7 +70,7 @@ export function getUniqueSelector(element, options) {
                         .join(".");
             }
 
-            // Add nth-child
+            // Add nth-child for elements with siblings of the same type
             let parent = current.parentNode;
             if (parent && parent.children.length > 1) {
                 let index = 0;
@@ -84,14 +93,26 @@ export function getUniqueSelector(element, options) {
             }
 
             result.unshift(selector);
-
-            if (current.id) {
-                result.unshift(`#${CSS.escape(current.id)}`);
-                break;
-            }
-
             current = current.parentNode;
             tagName = current?.tagName ? current.tagName.toLowerCase() : "";
+        }
+
+        // If we're dealing with an element inside an element with ID,
+        // we need to handle the case specifically for elements with nth-child
+        if (idFound && element !== document.querySelector(result[0])) {
+            // Find position of the element among siblings of the same tag
+            const parentWithId = document.querySelector(result[0]);
+            if (parentWithId) {
+                const targetTag = element.tagName.toLowerCase();
+                const siblings = Array.from(
+                    parentWithId.querySelectorAll(targetTag),
+                );
+                const position = siblings.indexOf(element) + 1;
+
+                if (position > 0) {
+                    return `${result[0]} > ${targetTag}:nth-child(${position})`;
+                }
+            }
         }
 
         return result.join(" > ");
