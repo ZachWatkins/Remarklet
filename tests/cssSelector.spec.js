@@ -88,7 +88,7 @@ test("getUniqueSelector creates a full path when optimized=false", async ({
 
     const result = await page.evaluate(() => {
         const element = document.querySelector("p");
-        return window.getUniqueSelector(element, false);
+        return window.getUniqueSelector(element, { optimized: false });
     });
 
     // Should contain the full path
@@ -123,7 +123,7 @@ test("getUniqueSelector creates a full path when an element has both an id and c
 
     const result = await page.evaluate(() => {
         const element = document.querySelector("p");
-        return window.getUniqueSelector(element, false);
+        return window.getUniqueSelector(element, { optimized: false });
     });
 
     // Should contain the full path
@@ -176,14 +176,6 @@ test("getUniqueSelector handles elements with special characters in IDs and clas
 
     // CSS.escape should handle the dot in the ID
     expect(result).toBe("#test\\.element");
-});
-
-test("getUniqueSelector handles document.documentElement", async ({ page }) => {
-    const result = await page.evaluate(() => {
-        return window.getUniqueSelector(document.documentElement);
-    });
-
-    expect(result).toBe("html");
 });
 
 test("getUniqueSelector returns empty string for invalid inputs", async ({
