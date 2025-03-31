@@ -12,7 +12,7 @@ let initialized = false;
 
 /**
  * @module remarklet
- * @description The main module for the Remarklet library. It should be used as a singleton.
+ * @description The main module for the Remarklet library. It must be used as a singleton.
  * @example
  * import remarklet from "@zw/remarklet";
  *
@@ -31,19 +31,24 @@ let initialized = false;
  * });
  */
 function remarklet() {}
-
+let optionsSet = false;
 /**
  * Configures the Remarklet library with the provided options.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
  */
-remarklet.configure = function (options) {
+remarklet.options = function (options) {
+    if (optionsSet) {
+        console.error("Options have already been set.");
+        return;
+    }
     if (typeof options !== "object") {
         console.error("Options must be an object");
     }
     if (options.persist === true) {
         store.set("persist", true);
     }
+    optionsSet = true;
 };
 /**
  * Activates the Remarklet library, initializing all necessary components.
