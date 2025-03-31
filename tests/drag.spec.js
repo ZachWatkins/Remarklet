@@ -97,6 +97,6 @@ test("can drag element more than once", async ({ page }) => {
         throw new Error("New bounding box is null");
     }
     expect(Math.round(new2BoundingBox.y * 100) / 100).toEqual(
-        Math.round(boundingBox.y * 100) / 100 - 100,
+        Math.round((boundingBox.y - 100) * 100) / 100,
     );
 });
