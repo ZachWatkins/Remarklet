@@ -1,0 +1,39 @@
+name: Bug Report
+description: "Report something that's broken."
+body:
+  - type: markdown
+    attributes:
+      value: |
+        * For questions, ask in [Discussions](https://github.com/zachwatkins/remarklet/discussions).
+        * Check to make sure someone hasn't already opened a similar bug report [issue](https://github.com/zachwatkins/remarklet/issues).
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: This project has a Code of Conduct that all participants are expected to understand and follow.
+      options:
+        - label: I have read and agree to the project's [Code of Conduct](https://github.com/zachwatkins/remarklet/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+
+  - type: input
+    attributes:
+      label: Version Number
+      description: Provide the version number that you are using.
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: Provide a detailed description of the issue you are facing.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps To Recreate The Issue
+      description: Provide detailed steps to recreate your issue. If necessary, please provide a GitHub repository to demonstrate your issue.
+    validations:
+      required: true
