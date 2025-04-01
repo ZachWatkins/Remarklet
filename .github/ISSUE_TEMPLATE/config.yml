@@ -1,8 +1,5 @@
 blank_issues_enabled: true
 contact_links:
-    - name: Feature request
-      url: https://github.com/zachwatkins/remarklet/discussions
-      about: "For ideas or feature requests, start a new discussion first."
     - name: Inquiries
       url: https://zacharywatkins.com/contact/
       about: Contact me if you have any questions about my work.
