@@ -30,11 +30,11 @@ Check to see what [types of contributions](/contributing/types-of-contributions.
 
 ### Create a new issue
 
-If you encounter a problem while using the project and have determined there is something in the code that isn't working as intended, [search for an existing issue](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments) before creating a new one. If it doesn't exist then you may [open a new issue](https://github.com/zachwatkins/.github/issues/new/choose).
+If you encounter a problem while using the project and have determined there is something in the code that isn't working as intended, [search for an existing issue](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments) before creating a new one. If it doesn't exist then you may [open a new issue](https://github.com/zachwatkins/remarklet/issues/new/choose).
 
 ### Solve an issue
 
-You are welcome to find an [existing issue](https://github.com/zachwatkins/.github/issues) that you want to help us with. You can use issue labels to help your search. If you find an issue that isn't assigned to someone then you are welcome to open a pull request to submit your solution.
+You are welcome to find an [existing issue](https://github.com/zachwatkins/remarklet/issues) that you want to help us with. You can use issue labels to help your search. If you find an issue that isn't assigned to someone then you are welcome to open a pull request to submit your solution.
 
 #### Make Changes locally
 
@@ -53,7 +53,7 @@ You are welcome to find an [existing issue](https://github.com/zachwatkins/.gith
 When your changes are ready for review, create a pull request (also known as a "PR"). A maintainer for the repository will review your proposal and may ask questions or request additional information.
 
 - Use the pull request template to help us understand your changes and their purpose.
-- Link your pull request to an [issue](https://github.com/zachwatkins/.github/issues) if you are solving one.
+- Link your pull request to an [issue](https://github.com/zachwatkins/remarklet/issues) if you are solving one.
 - Enable the checkbox to [allow maintainer edits](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) so we have permission to merge your PR's branch.
 - We may ask for changes to be made before a PR can be merged, either using [suggested changes](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/incorporating-feedback-in-your-pull-request) or comments on the pull request. You can apply suggested changes directly through the UI. You can make any other changes in your fork, then commit them to your branch to update the pull request.
 - As you update your PR and apply changes, mark each conversation as [resolved](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/commenting-on-a-pull-request#resolving-conversations).
