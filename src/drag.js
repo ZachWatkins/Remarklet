@@ -48,6 +48,7 @@ const draggableOptions = {
             store.set("mode", "dragging");
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
+                /** @type {HTMLElement} */
                 let parent = event.target.parentElement;
                 while (
                     parent &&
@@ -66,6 +67,12 @@ const draggableOptions = {
                             selector: getUniqueSelector(parent, {
                                 excludeDataAttributePrefix: "remarklet",
                             }),
+                            style: {
+                                transform: null,
+                                width: null,
+                                height: null,
+                            },
+                            initialStyle: parent.style.cssText,
                         });
                     }
                     parent.setAttribute("data-remarklet-dragging", "true");
@@ -82,6 +89,12 @@ const draggableOptions = {
                         selector: getUniqueSelector(event.target, {
                             excludeDataAttributePrefix: "remarklet",
                         }),
+                        style: {
+                            transform: null,
+                            width: null,
+                            height: null,
+                        },
+                        initialStyle: event.target.style.cssText,
                     });
                 }
             }
@@ -102,6 +115,7 @@ const draggableOptions = {
             let y = elementChangeMap.get(target).position.y + event.dy;
             const resolved = resolveTransform(target, x, y);
             target.style.transform = resolved.style;
+            elementChangeMap.get(target).style.transform = resolved.style;
             elementChangeMap.get(target).position.x += event.dx;
             elementChangeMap.get(target).position.y += event.dy;
         },
@@ -127,12 +141,14 @@ const draggableOptions = {
 
             // Apply the changes to the stylesheet.
             const selector = elementChangeMap.get(target).selector;
-            const rule = `transform: ${target.style.transform};`;
+            const rule = `transform: ${elementChangeMap.get(target).style.transform};`;
             styles().setRule(selector, rule);
 
-            // Delete the inline style.
-            target.style.transform = "";
-            if ("" === target.style.cssText) {
+            // Restore the inline style, if any.
+            const initialStyle = elementChangeMap.get(target).initialStyle;
+            if (initialStyle) {
+                target.style.cssText = initialStyle;
+            } else {
                 target.removeAttribute("style");
             }
         },
@@ -160,6 +176,12 @@ const resizableOptions = {
                     selector: getUniqueSelector(parent, {
                         excludeDataAttributePrefix: "remarklet",
                     }),
+                    style: {
+                        transform: null,
+                        width: null,
+                        height: null,
+                    },
+                    initialStyle: event.target.style.cssText,
                 });
             }
         },
@@ -172,11 +194,14 @@ const resizableOptions = {
                 );
             }
             if (event.edges.left || event.edges.right) {
-                target.style.width = resolveWidth(target, event.rect.width);
+                const resolvedWidth = resolveWidth(target, event.rect.width);
+                target.style.width = resolvedWidth;
+                elementChangeMap.get(target).style.width = resolvedWidth;
             } else if (event.edges.top || event.edges.bottom) {
-                target.style.height = resolveHeight(target, event.rect.height);
+                const resolvedHeight = resolveHeight(target, event.rect.height);
+                target.style.height = resolvedHeight;
+                elementChangeMap.get(target).style.height = resolvedHeight;
             }
-            event.target.setAttribute("data-remarklet-resizing", "true");
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
                 let x =
                     elementChangeMap.get(target).position.x +
@@ -186,12 +211,40 @@ const resizableOptions = {
                     event.deltaRect.top;
                 const resolved = resolveTransform(target, x, y);
                 target.style.transform = resolved.style;
+                elementChangeMap.get(target).style.transform = resolved.style;
                 elementChangeMap.get(target).position.x += event.deltaRect.left;
                 elementChangeMap.get(target).position.y += event.deltaRect.top;
             }
         },
         end(event) {
             store.set("mode", "edit");
+
+            // Apply the changes to the stylesheet.
+            const target = event.target;
+            const selector = elementChangeMap.get(event.target).selector;
+            const changeMap = elementChangeMap.get(target);
+            let rule = [];
+            if (changeMap.style.width) {
+                rule.push(`width: ${changeMap.style.width}`);
+            }
+            if (changeMap.style.height) {
+                rule.push(`height: ${changeMap.style.height}`);
+            }
+            if (changeMap.style.transform) {
+                rule.push(`transform: ${changeMap.style.transform}`);
+            }
+            rule = rule.join("; ");
+            if (rule) {
+                styles().setRule(selector, rule);
+            }
+
+            // Restore the inline style, if any.
+            const initialStyle = elementChangeMap.get(target).initialStyle;
+            if (initialStyle) {
+                target.style.cssText = initialStyle;
+            } else {
+                target.removeAttribute("style");
+            }
             event.target.removeAttribute("data-remarklet-resizing");
         },
     },
