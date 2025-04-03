@@ -12,6 +12,22 @@ let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
 let elementChangeMap = new WeakMap();
+function resolveChangeMapStyleRule(styles) {
+    let rule = [];
+    if (styles.transform) {
+        rule.push(`transform: ${styles.transform}`);
+    }
+    if (styles.width) {
+        rule.push(`width: ${styles.width}`);
+    }
+    if (styles.height) {
+        rule.push(`height: ${styles.height}`);
+    }
+    if (rule.length === 0) {
+        return "";
+    }
+    return rule.join(";\n") + ";";
+}
 
 export function main() {
     store.subscribe("target", (target) => {
@@ -140,9 +156,11 @@ const draggableOptions = {
             store.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
-            const selector = elementChangeMap.get(target).selector;
-            const rule = `transform: ${elementChangeMap.get(target).style.transform};`;
-            styles().setRule(selector, rule);
+            const changeMap = elementChangeMap.get(target);
+            styles().setRule(
+                changeMap.selector,
+                resolveChangeMapStyleRule(changeMap.style),
+            );
 
             // Restore the inline style, if any.
             const initialStyle = elementChangeMap.get(target).initialStyle;
@@ -221,22 +239,10 @@ const resizableOptions = {
 
             // Apply the changes to the stylesheet.
             const target = event.target;
-            const selector = elementChangeMap.get(event.target).selector;
             const changeMap = elementChangeMap.get(target);
-            let rule = [];
-            if (changeMap.style.width) {
-                rule.push(`width: ${changeMap.style.width}`);
-            }
-            if (changeMap.style.height) {
-                rule.push(`height: ${changeMap.style.height}`);
-            }
-            if (changeMap.style.transform) {
-                rule.push(`transform: ${changeMap.style.transform}`);
-            }
-            rule = rule.join("; ");
-            if (rule) {
-                styles().setRule(selector, rule);
-            }
+            const selector = changeMap.selector;
+            const rule = resolveChangeMapStyleRule(changeMap.style);
+            styles().setRule(selector, rule);
 
             // Restore the inline style, if any.
             const initialStyle = elementChangeMap.get(target).initialStyle;
@@ -245,6 +251,7 @@ const resizableOptions = {
             } else {
                 target.removeAttribute("style");
             }
+
             event.target.removeAttribute("data-remarklet-resizing");
         },
     },
