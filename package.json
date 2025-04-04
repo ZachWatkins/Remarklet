@@ -28,6 +28,7 @@
         "test": "playwright test",
         "test:ui": "playwright test --ui",
         "test:debug": "playwright test --debug",
+        "test:node": "node --test './src/**/*.spec.js'",
         "build": "rollup -c",
         "lint": "prettier --check .",
         "lint:fix": "prettier --write .",
@@ -52,7 +53,7 @@
         "rollup": "^4.35.0"
     },
     "engines": {
-        "node": ">=20.0.0"
+        "node": ">=22.0.0"
     },
     "files": [
         "src",
