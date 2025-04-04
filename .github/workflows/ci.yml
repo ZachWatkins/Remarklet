@@ -57,7 +57,7 @@ jobs:
               run: npm ci
 
             - name: Run Node tests
-              run: npm test:node
+              run: npm run test:node
 
             - name: Run Playwright tests
               run: npm test
