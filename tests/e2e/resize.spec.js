@@ -391,7 +391,9 @@ test("can resize elements larger from the top edge", async ({ page }) => {
     );
 });
 
-test("can repeatedly resize elements larger from the top edge", async ({ page }) => {
+test("can repeatedly resize elements larger from the top edge", async ({
+    page,
+}) => {
     page.on("pageerror", (error) => {
         console.error(error);
         test.fail();
