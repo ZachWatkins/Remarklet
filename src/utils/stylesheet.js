@@ -57,7 +57,7 @@ export default function Stylesheet(options) {
         let index = this.storage.value.ruleIndexes[selector];
         let rule = this.storage.value.rules[index];
         this.element.sheet.insertRule(
-            rule.selector + "{" + rule.rule + "}",
+            rule.selector + "{\n" + rule.rule + "\n}",
             index,
         );
     }
@@ -76,7 +76,8 @@ export default function Stylesheet(options) {
             typeof this.storage.value.ruleIndexes[selector] === "number"
                 ? this.storage.value.ruleIndexes[selector]
                 : false;
-        var ruletext = selector + "{" + rule + "}";
+        var ruletext = selector + "{\n" + rule + "\n}";
+        console.log(ruletext);
         if (foundIndex === false) {
             var newIndex = this.storage.value.rules.length;
             this.storage.value.ruleIndexes[selector] = newIndex;
