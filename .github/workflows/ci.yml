@@ -56,6 +56,9 @@ jobs:
               working-directory: demo
               run: npm ci
 
+            - name: Run Node tests
+              run: npm test:node
+
             - name: Run Playwright tests
               run: npm test
 
