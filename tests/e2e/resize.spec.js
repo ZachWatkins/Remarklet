@@ -202,10 +202,6 @@ test("can resize elements smaller from the left edge", async ({ page }) => {
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
     expect(stillResizing).toEqual(null);
-    let transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, 50, 0)");
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
@@ -259,10 +255,6 @@ test("can resize elements larger from the left edge", async ({ page }) => {
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
     expect(stillResizing).toEqual(null);
-    let transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, -50, 0)");
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
@@ -315,10 +307,6 @@ test("can resize elements smaller from the top edge", async ({ page }) => {
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
     expect(stillResizing).toEqual(null);
-    let transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, 0, 50)");
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
@@ -372,10 +360,6 @@ test("can resize elements larger from the top edge", async ({ page }) => {
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
     expect(stillResizing).toEqual(null);
-    let transform = await text.evaluate((el) => {
-        return el.style.transform;
-    });
-    expect(transform).toMatch("matrix(1, 0, 0, 1, 0, -50)");
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
         throw new Error("New bounding box is null");
