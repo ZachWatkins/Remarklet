@@ -191,7 +191,7 @@ const resizableOptions = {
                         x: 0,
                         y: 0,
                     },
-                    selector: getUniqueSelector(parent, {
+                    selector: getUniqueSelector(event.target, {
                         excludeDataAttributePrefix: "remarklet",
                     }),
                     style: {
