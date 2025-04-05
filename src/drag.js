@@ -12,6 +12,25 @@ let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
 let elementChangeMap = new WeakMap();
+function initChangeMapElement(target) {
+    if (!elementChangeMap.has(target)) {
+        elementChangeMap.set(target, {
+            position: {
+                x: 0,
+                y: 0,
+            },
+            selector: getUniqueSelector(target, {
+                excludeDataAttributePrefix: "remarklet",
+            }),
+            style: {
+                transform: null,
+                width: null,
+                height: null,
+            },
+            initialStyle: target.style.cssText,
+        });
+    }
+}
 function resolveChangeMapStyleRule(styles) {
     let rule = [];
     if (styles.transform) {
@@ -74,45 +93,13 @@ const draggableOptions = {
                 }
                 if (parent) {
                     store.set("target", parent);
-                    if (!elementChangeMap.has(parent)) {
-                        elementChangeMap.set(parent, {
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            selector: getUniqueSelector(parent, {
-                                excludeDataAttributePrefix: "remarklet",
-                            }),
-                            style: {
-                                transform: null,
-                                width: null,
-                                height: null,
-                            },
-                            initialStyle: parent.style.cssText,
-                        });
-                    }
+                    initChangeMapElement(parent);
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
-                if (!elementChangeMap.has(event.target)) {
-                    elementChangeMap.set(event.target, {
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-                        selector: getUniqueSelector(event.target, {
-                            excludeDataAttributePrefix: "remarklet",
-                        }),
-                        style: {
-                            transform: null,
-                            width: null,
-                            height: null,
-                        },
-                        initialStyle: event.target.style.cssText,
-                    });
-                }
+                initChangeMapElement(event.target);
             }
         },
         /**
@@ -185,23 +172,7 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            if (!elementChangeMap.has(event.target)) {
-                elementChangeMap.set(event.target, {
-                    position: {
-                        x: 0,
-                        y: 0,
-                    },
-                    selector: getUniqueSelector(event.target, {
-                        excludeDataAttributePrefix: "remarklet",
-                    }),
-                    style: {
-                        transform: null,
-                        width: null,
-                        height: null,
-                    },
-                    initialStyle: event.target.style.cssText,
-                });
-            }
+            initChangeMapElement(event.target);
         },
         move(event) {
             const target = event.target;
