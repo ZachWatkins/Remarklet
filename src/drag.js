@@ -17,9 +17,11 @@ function initChangeMapElement(target, mode) {
     if (!elementChangeMap.has(target)) {
         elementChangeMap.set(target, {
             initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
-            position: {
+            delta: {
                 x: 0,
                 y: 0,
+                width: 0,
+                height: 0,
             },
             dragged: mode === "dragged",
             resized: mode === "resized",
@@ -37,14 +39,12 @@ function initChangeMapElement(target, mode) {
 
 function resolveChangeMapStyleRule(styles) {
     let rule = [];
-    if (styles.transform) {
-        rule.push(`transform: ${styles.transform}`);
-    }
-    if (styles.width) {
-        rule.push(`width: ${styles.width}`);
-    }
-    if (styles.height) {
-        rule.push(`height: ${styles.height}`);
+    for (const key in styles) {
+        let kebabKey = key.replace(
+            /([A-Z])/g,
+            (match) => `-${match.toLowerCase()}`,
+        );
+        rule.push(`${kebabKey}: ${styles[key]}`);
     }
     if (rule.length === 0) {
         return "";
@@ -118,12 +118,12 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = elementChangeMap.get(target).position.x + event.dx;
-            let y = elementChangeMap.get(target).position.y + event.dy;
+            let x = elementChangeMap.get(target).delta.x + event.dx;
+            let y = elementChangeMap.get(target).delta.y + event.dy;
             const resolved = resolveTransform(target, x, y);
             elementChangeMap.get(target).style.transform = resolved.style;
-            elementChangeMap.get(target).position.x += event.dx;
-            elementChangeMap.get(target).position.y += event.dy;
+            elementChangeMap.get(target).delta.x += event.dx;
+            elementChangeMap.get(target).delta.y += event.dy;
             target.style.transform = resolved.style;
         },
         /**
@@ -186,37 +186,41 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
+            console.log("resizing", event.deltaRect);
+            const changeMap = elementChangeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                elementChangeMap.get(target).style.width = newStyles.width =
-                    resolveWidth(target, event.rect.width);
+                changeMap.delta.width += event.deltaRect.width;
+                changeMap.style.width = newStyles.width = resolveWidth(
+                    target,
+                    event.rect.width,
+                );
             }
             if (event.edges.top || event.edges.bottom) {
-                elementChangeMap.get(target).style.height = newStyles.height =
-                    resolveHeight(target, event.rect.height);
+                changeMap.delta.height += event.deltaRect.height;
+                changeMap.style.height = newStyles.height = resolveHeight(
+                    target,
+                    event.rect.height,
+                );
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
-                let x =
-                    elementChangeMap.get(target).position.x +
-                    event.deltaRect.left;
-                let y =
-                    elementChangeMap.get(target).position.y +
-                    event.deltaRect.top;
+                let x = changeMap.delta.x + event.deltaRect.left;
+                let y = changeMap.delta.y + event.deltaRect.top;
                 const resolved = resolveTransform(target, x, y);
-                elementChangeMap.get(target).style.transform =
-                    newStyles.transform = resolved.style;
-                elementChangeMap.get(target).position.x += event.deltaRect.left;
-                elementChangeMap.get(target).position.y += event.deltaRect.top;
+                changeMap.style.transform = newStyles.transform =
+                    resolved.style;
+                changeMap.delta.x += event.deltaRect.left;
+                changeMap.delta.y += event.deltaRect.top;
             }
-            // Apply DOM changes.
-            if (newStyles.width) {
-                target.style.width = newStyles.width;
+            if (changeMap.dragged) {
+                // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
+                changeMap.style.marginBottom =
+                    newStyles.marginBottom = `${-changeMap.delta.height}px`;
+                changeMap.style.marginRight =
+                    newStyles.marginRight = `${-changeMap.delta.width}px`;
             }
-            if (newStyles.height) {
-                target.style.height = newStyles.height;
-            }
-            if (newStyles.transform) {
-                target.style.transform = newStyles.transform;
+            for (const key in newStyles) {
+                target.style[key] = newStyles[key];
             }
         },
         end(event) {
