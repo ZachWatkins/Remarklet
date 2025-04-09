@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Inline styles for dragged elements no longer remain once a drag operation ends. Instead, they are added to a dynamic stylesheet.
+- Changing the height of a repositioned element now does not affect the position of sibling elements.
 
 ## [1.0.9] - 2025-03-29
 

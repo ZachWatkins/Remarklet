@@ -12,16 +12,39 @@ let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
 let elementChangeMap = new WeakMap();
+
+function initChangeMapElement(target, mode) {
+    if (!elementChangeMap.has(target)) {
+        elementChangeMap.set(target, {
+            initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
+            delta: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+            },
+            dragged: mode === "dragged",
+            resized: mode === "resized",
+            selector: getUniqueSelector(target, {
+                excludeDataAttributePrefix: "remarklet",
+            }),
+            style: {
+                transform: null,
+                width: null,
+                height: null,
+            },
+        });
+    }
+}
+
 function resolveChangeMapStyleRule(styles) {
     let rule = [];
-    if (styles.transform) {
-        rule.push(`transform: ${styles.transform}`);
-    }
-    if (styles.width) {
-        rule.push(`width: ${styles.width}`);
-    }
-    if (styles.height) {
-        rule.push(`height: ${styles.height}`);
+    for (const key in styles) {
+        let kebabKey = key.replace(
+            /([A-Z])/g,
+            (match) => `-${match.toLowerCase()}`,
+        );
+        rule.push(`${kebabKey}: ${styles[key]}`);
     }
     if (rule.length === 0) {
         return "";
@@ -74,45 +97,13 @@ const draggableOptions = {
                 }
                 if (parent) {
                     store.set("target", parent);
-                    if (!elementChangeMap.has(parent)) {
-                        elementChangeMap.set(parent, {
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            selector: getUniqueSelector(parent, {
-                                excludeDataAttributePrefix: "remarklet",
-                            }),
-                            style: {
-                                transform: null,
-                                width: null,
-                                height: null,
-                            },
-                            initialStyle: parent.style.cssText,
-                        });
-                    }
+                    initChangeMapElement(parent, "dragged");
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
-                if (!elementChangeMap.has(event.target)) {
-                    elementChangeMap.set(event.target, {
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-                        selector: getUniqueSelector(event.target, {
-                            excludeDataAttributePrefix: "remarklet",
-                        }),
-                        style: {
-                            transform: null,
-                            width: null,
-                            height: null,
-                        },
-                        initialStyle: event.target.style.cssText,
-                    });
-                }
+                initChangeMapElement(event.target, "dragged");
             }
         },
         /**
@@ -127,13 +118,13 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = elementChangeMap.get(target).position.x + event.dx;
-            let y = elementChangeMap.get(target).position.y + event.dy;
+            let x = elementChangeMap.get(target).delta.x + event.dx;
+            let y = elementChangeMap.get(target).delta.y + event.dy;
             const resolved = resolveTransform(target, x, y);
-            target.style.transform = resolved.style;
             elementChangeMap.get(target).style.transform = resolved.style;
-            elementChangeMap.get(target).position.x += event.dx;
-            elementChangeMap.get(target).position.y += event.dy;
+            elementChangeMap.get(target).delta.x += event.dx;
+            elementChangeMap.get(target).delta.y += event.dy;
+            target.style.transform = resolved.style;
         },
         /**
          * Handles the drag end event
@@ -185,23 +176,7 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             store.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            if (!elementChangeMap.has(event.target)) {
-                elementChangeMap.set(event.target, {
-                    position: {
-                        x: 0,
-                        y: 0,
-                    },
-                    selector: getUniqueSelector(event.target, {
-                        excludeDataAttributePrefix: "remarklet",
-                    }),
-                    style: {
-                        transform: null,
-                        width: null,
-                        height: null,
-                    },
-                    initialStyle: event.target.style.cssText,
-                });
-            }
+            initChangeMapElement(event.target, "resized");
         },
         move(event) {
             const target = event.target;
@@ -211,27 +186,41 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
+            console.log("resizing", event.deltaRect);
+            const changeMap = elementChangeMap.get(target);
+            let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                const resolvedWidth = resolveWidth(target, event.rect.width);
-                target.style.width = resolvedWidth;
-                elementChangeMap.get(target).style.width = resolvedWidth;
-            } else if (event.edges.top || event.edges.bottom) {
-                const resolvedHeight = resolveHeight(target, event.rect.height);
-                target.style.height = resolvedHeight;
-                elementChangeMap.get(target).style.height = resolvedHeight;
+                changeMap.delta.width += event.deltaRect.width;
+                changeMap.style.width = newStyles.width = resolveWidth(
+                    target,
+                    event.rect.width,
+                );
+            }
+            if (event.edges.top || event.edges.bottom) {
+                changeMap.delta.height += event.deltaRect.height;
+                changeMap.style.height = newStyles.height = resolveHeight(
+                    target,
+                    event.rect.height,
+                );
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
-                let x =
-                    elementChangeMap.get(target).position.x +
-                    event.deltaRect.left;
-                let y =
-                    elementChangeMap.get(target).position.y +
-                    event.deltaRect.top;
+                let x = changeMap.delta.x + event.deltaRect.left;
+                let y = changeMap.delta.y + event.deltaRect.top;
                 const resolved = resolveTransform(target, x, y);
-                target.style.transform = resolved.style;
-                elementChangeMap.get(target).style.transform = resolved.style;
-                elementChangeMap.get(target).position.x += event.deltaRect.left;
-                elementChangeMap.get(target).position.y += event.deltaRect.top;
+                changeMap.style.transform = newStyles.transform =
+                    resolved.style;
+                changeMap.delta.x += event.deltaRect.left;
+                changeMap.delta.y += event.deltaRect.top;
+            }
+            if (changeMap.dragged) {
+                // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
+                changeMap.style.marginBottom =
+                    newStyles.marginBottom = `${-changeMap.delta.height}px`;
+                changeMap.style.marginRight =
+                    newStyles.marginRight = `${-changeMap.delta.width}px`;
+            }
+            for (const key in newStyles) {
+                target.style[key] = newStyles[key];
             }
         },
         end(event) {
