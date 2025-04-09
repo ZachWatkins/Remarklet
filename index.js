@@ -61,12 +61,12 @@ remarklet.activate = function () {
     if (!state.get("initialized") && !loading) {
         loading = true;
         state.subscribe("stylesheet.initialized", () => {
+            drag();
+            target();
+            textedit();
             loading = false;
             state.set("initialized", true);
         });
-        drag();
-        target();
-        textedit();
         styles();
     }
     state.set("active", true);
