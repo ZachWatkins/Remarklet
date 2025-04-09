@@ -48,20 +48,23 @@ remarklet.options = function (options) {
     }
     optionsSet = true;
 };
+let loading = false;
 /**
  * Activates the Remarklet library, initializing all necessary components.
  * @example
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!state.get("initialized")) {
-        styles();
+    if (!state.get("initialized") && !loading) {
+        loading = true;
+        state.subscribe("stylesheet.initialized", () => {
+            loading = false;
+            state.set("initialized", true);
+        });
         drag();
         target();
         textedit();
-        state.subscribe("stylesheet.initialized", () => {
-            state.set("initialized", true);
-        });
+        styles();
     }
     state.set("active", true);
 };
