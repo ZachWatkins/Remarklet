@@ -1,5 +1,5 @@
 import remarklet from "@zw/remarklet";
-// remarklet.configure({
+// remarklet.options({
 //     persist: true,
 // });
 remarklet.activate();
