@@ -2,7 +2,7 @@
  * @module highlight
  * @description Adds mouseenter/mouseleave event handlers that add outline styles when hovering over elements and removes them when leaving elements.
  */
-import store from "./store.js";
+import state from "./state.js";
 
 const mouseEnterStack = [];
 
@@ -10,7 +10,7 @@ const mouseEnterStack = [];
  * Adds mouse event handlers to all elements in the document
  */
 export default function main() {
-    store.subscribe("active", (active) => {
+    state.subscribe("active", (active) => {
         if (active) {
             document.addEventListener("mouseenter", handleMouseEnter, true);
             document.addEventListener("mouseleave", handleMouseLeave, true);
@@ -19,8 +19,8 @@ export default function main() {
             document.removeEventListener("mouseleave", handleMouseLeave, true);
         }
     });
-    store.subscribe("target", (target, oldTarget) => {
-        if (!store.get("active")) {
+    state.subscribe("target", (target, oldTarget) => {
+        if (!state.get("active")) {
             if (target) {
                 target.removeAttribute("data-remarklet-highlight");
             }
@@ -40,8 +40,8 @@ export default function main() {
  */
 function handleMouseEnter(event) {
     event.stopPropagation();
-    if (event.target.classList && !store.get("modifying")) {
-        store.set("target", event.target);
+    if (event.target.classList && !state.get("modifying")) {
+        state.set("target", event.target);
         mouseEnterStack.push(event.target);
     }
 }
@@ -52,14 +52,14 @@ function handleMouseEnter(event) {
  */
 function handleMouseLeave(event) {
     event.stopPropagation();
-    if (event.target.classList && !store.get("modifying")) {
+    if (event.target.classList && !state.get("modifying")) {
         const index = mouseEnterStack.indexOf(event.target);
         if (index !== -1) {
             mouseEnterStack.splice(index, 1);
             if (mouseEnterStack.length === 0) {
-                store.set("target", null);
+                state.set("target", null);
             } else {
-                store.set(
+                state.set(
                     "target",
                     mouseEnterStack[mouseEnterStack.length - 1],
                 );

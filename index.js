@@ -2,7 +2,7 @@
  * @module @zachwatkins/remarklet
  */
 import pkg from "./package.json" with { type: "json" };
-import store from "./src/store.js";
+import state from "./src/state.js";
 import drag from "./src/drag.js";
 import target from "./src/target.js";
 import styles from "./src/styles.js";
@@ -46,7 +46,7 @@ remarklet.options = function (options) {
         console.error("Options must be an object");
     }
     if (options.persist === true) {
-        store.set("persist", true);
+        state.set("persist", true);
     }
     optionsSet = true;
 };
@@ -63,7 +63,7 @@ remarklet.activate = function () {
         target();
         textedit();
     }
-    store.set("active", true);
+    state.set("active", true);
 };
 /**
  * Deactivates the Remarklet library, cleaning up any resources or event listeners.
@@ -71,7 +71,7 @@ remarklet.activate = function () {
  * remarklet.deactivate();
  */
 remarklet.deactivate = function () {
-    store.set("active", false);
+    state.set("active", false);
 };
 /**
  * Get the current version of the Remarklet library.

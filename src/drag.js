@@ -3,7 +3,7 @@ import "@interactjs/actions/drag/index.prod";
 import "@interactjs/actions/resize/index.prod";
 // import '@interactjs/dev-tools'
 import interact from "@interactjs/interact/index.prod";
-import store from "./store.js";
+import state from "./state.js";
 import styles from "./styles.js";
 import { getUniqueSelector } from "./utils/cssSelector.js";
 import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
@@ -53,11 +53,11 @@ function resolveChangeMapStyleRule(styles) {
 }
 
 export function main() {
-    store.subscribe("target", (target) => {
+    state.subscribe("target", (target) => {
         if (interactable) {
             interactable.unset();
             interactable = null;
-            if (!store.get("active")) {
+            if (!state.get("active")) {
                 return;
             }
         }
@@ -79,12 +79,12 @@ const draggableOptions = {
          * @return {void}
          */
         start(event) {
-            if (store.get("modifying")) {
+            if (state.get("modifying")) {
                 return;
             }
             event.stopPropagation();
             event.preventDefault();
-            store.set("mode", "dragging");
+            state.set("mode", "dragging");
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
                 /** @type {HTMLElement} */
@@ -96,7 +96,7 @@ const draggableOptions = {
                     parent = parent.parentElement;
                 }
                 if (parent) {
-                    store.set("target", parent);
+                    state.set("target", parent);
                     initChangeMapElement(parent, "dragged");
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
@@ -114,7 +114,7 @@ const draggableOptions = {
          */
         move(event) {
             /** @type {HTMLElement} */
-            var target = store.get("target");
+            var target = state.get("target");
             if (!target || target !== event.target) {
                 return;
             }
@@ -135,16 +135,16 @@ const draggableOptions = {
         end(event) {
             event.stopPropagation();
             event.preventDefault();
-            const target = store.get("target");
+            const target = state.get("target");
             if (!target) {
                 return;
             }
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
-                store.set("target", inlineTarget);
+                state.set("target", inlineTarget);
                 inlineTarget = null;
             }
-            store.set("mode", "edit");
+            state.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
             const changeMap = elementChangeMap.get(target);
@@ -168,13 +168,13 @@ const resizableOptions = {
     edges: { left: true, right: true, bottom: true, top: true },
     listeners: {
         start(event) {
-            if (store.get("modifying")) {
+            if (state.get("modifying")) {
                 return;
             }
             event.stopPropagation();
             event.preventDefault();
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
-            store.set("mode", "resizing");
+            state.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
             initChangeMapElement(event.target, "resized");
         },
@@ -224,7 +224,7 @@ const resizableOptions = {
             }
         },
         end(event) {
-            store.set("mode", "edit");
+            state.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
             const target = event.target;
