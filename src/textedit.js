@@ -1,22 +1,22 @@
-import store from "./store.js";
+import state from "./state.js";
 
 export default function main() {
-    store.subscribe("target", (target, oldTarget) => {
+    state.subscribe("target", (target, oldTarget) => {
         if (oldTarget) {
             oldTarget.removeAttribute("contenteditable");
         }
-        if (!store.get("active")) {
+        if (!state.get("active")) {
             return;
         }
-        if (target && "edit" === store.get("mode")) {
+        if (target && "edit" === state.get("mode")) {
             target.setAttribute("contenteditable", "true");
         }
     });
-    store.subscribe("mode", (mode) => {
+    state.subscribe("mode", (mode) => {
         if (mode === "edit") {
-            store.get("target")?.setAttribute("contenteditable", "true");
+            state.get("target")?.setAttribute("contenteditable", "true");
         } else {
-            const target = store.get("target");
+            const target = state.get("target");
             if (target && target.hasAttribute("contenteditable")) {
                 target.removeAttribute("contenteditable");
             }
