@@ -10,47 +10,53 @@
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
 import LocalStorageItem from "./LocalStorageItem.js";
+import state from "../state.js";
 
 /**
  * Stylesheet Module
  * @constructor
  * @param {Object} [options] - Options for the stylesheet. Optional.
+ * @param {string[][]} [options.rules] - An array of rules to add to the stylesheet. Each rule is an array of two strings: the selector and the rule.
+ * @param {string} [options.rules[].0] - The selector for the rule.
+ * @param {string} [options.rules[].1] - The rule to apply to the selector.
  * @param {object} options.persist - If present, will persist the stylesheet to localStorage and pass the given options to the LocalStorageItem constructor.
  * @param {boolean} options.persist.key - The key for localStorage.
  * @param {object} options.persist.extras - Additional properties to store in localStorage.
  */
 export default function Stylesheet(options) {
     this.persist = options && typeof options.persist === "object";
-    this.storage = {
-        value: {
-            ruleIndexes: {},
-            rules: [],
-        },
-    };
-    if (this.persist) {
-        if (typeof options.persist.extras === "object") {
-            this.storage = new LocalStorageItem({
-                key: options.persist.key,
-                type: "object",
-                defaultValue: {
-                    ...options.persist.extras,
-                    ruleIndexes: {},
-                    rules: [],
-                },
-            });
-        } else {
-            this.storage = new LocalStorageItem({
-                key: options.persist.key,
-                type: "object",
-                defaultValue: {
-                    ruleIndexes: {},
-                    rules: [],
-                },
-            });
-        }
+
+    if (!this.persist) {
+        this.storage = {
+            value: {
+                ruleIndexes: {},
+                rules: [],
+            },
+        };
+    } else if (typeof options.persist.extras === "object") {
+        this.storage = new LocalStorageItem({
+            key: options.persist.key,
+            type: "object",
+            defaultValue: {
+                ...options.persist.extras,
+                ruleIndexes: {},
+                rules: [],
+            },
+        });
+    } else {
+        this.storage = new LocalStorageItem({
+            key: options.persist.key,
+            type: "object",
+            defaultValue: {
+                ruleIndexes: {},
+                rules: [],
+            },
+        });
     }
+
     this.element = document.createElement("style");
     document.head.appendChild(this.element);
+
     let selectors = Object.keys(this.storage.value.ruleIndexes);
     for (let i = 0; i < selectors.length; i++) {
         let selector = selectors[i];
@@ -61,9 +67,18 @@ export default function Stylesheet(options) {
             index,
         );
     }
+    if (options && Array.isArray(options.rules)) {
+        for (let i = 0; i < options.rules.length; i++) {
+            let rule = options.rules[i];
+            this.setRule(rule[0], rule[1]);
+        }
+    }
+
     if (this.storage.store) {
         this.storage.store();
     }
+
+    state.publish("stylesheet.initialized");
 
     /**
      * Set a CSS rule in the stylesheet.

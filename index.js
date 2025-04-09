@@ -8,8 +8,6 @@ import target from "./src/target.js";
 import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
 
-let initialized = false;
-
 /**
  * @module remarklet
  * @description The main module for the Remarklet library. It must be used as a singleton.
@@ -56,12 +54,14 @@ remarklet.options = function (options) {
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!initialized) {
-        initialized = true;
+    if (!state.get("initialized")) {
         styles();
         drag();
         target();
         textedit();
+        state.subscribe("stylesheet.initialized", () => {
+            state.set("initialized", true);
+        });
     }
     state.set("active", true);
 };
