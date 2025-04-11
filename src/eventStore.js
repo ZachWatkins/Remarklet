@@ -44,13 +44,20 @@ class EventStore {
         };
 
         // Initialize storage
-        this.events.value = new LocalStorageItem(this.options.storageKey, []);
+        this.events = new LocalStorageItem({
+            key: this.options.storageKey,
+            defaultValue: [],
+            type: "object",
+        });
         this.subscribers = [];
         this.currentSequence = this.getLastSequence();
 
         // Snapshots for optimization
-        this.snapshots = new LocalStorageItem("remarklet_snapshots", {});
-        this.snapshotCache = this.snapshots.load();
+        this.snapshots = new LocalStorageItem({
+            key: "remarklet_event_snapshots",
+            defaultValue: {},
+            type: "object",
+        });
     }
 
     /**
@@ -92,7 +99,7 @@ class EventStore {
 
         // Add event to store
         this.events.value.push(event);
-        this.events.value.store();
+        this.events.store();
 
         // Create periodic snapshots for performance
         if (this.currentSequence % this.options.snapshotFrequency === 0) {
@@ -121,12 +128,12 @@ class EventStore {
      */
     createSnapshot() {
         const state = this.getCurrentState();
-        this.snapshotCache = {
+        this.snapshots.value = {
             timestamp: Date.now(),
             sequence: this.currentSequence,
             state,
         };
-        this.snapshots.save(this.snapshotCache);
+        this.snapshots.store();
     }
 
     /**
@@ -206,8 +213,8 @@ class EventStore {
         }
 
         // Use snapshot if available for better performance
-        if (this.snapshotCache && this.snapshotCache.state) {
-            const { state } = this.snapshotCache;
+        if (this.snapshots.value && this.snapshots.value.state) {
+            const { state } = this.snapshots.value;
 
             // Apply snapshot state
             for (const [selector, elementState] of Object.entries(state)) {
@@ -226,7 +233,7 @@ class EventStore {
 
             // Apply any events that came after the snapshot
             const remainingEvents = this.events.value.filter(
-                (event) => event.sequence > this.snapshotCache.sequence,
+                (event) => event.sequence > this.snapshots.value.sequence,
             );
 
             for (const event of remainingEvents) {
@@ -321,8 +328,8 @@ class EventStore {
     clear() {
         this.events.value = [];
         this.events.store();
-        this.snapshotCache = {};
-        this.snapshots.save(this.snapshotCache);
+        this.snapshots.value = {};
+        this.snapshots.store();
         this.currentSequence = 0;
     }
 
