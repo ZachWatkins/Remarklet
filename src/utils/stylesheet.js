@@ -27,7 +27,11 @@ export default function Stylesheet(options) {
     this.persist = options && typeof options.persist === "object";
 
     if (!this.persist) {
-        this.storage = null;
+        this.storage = {
+            value: {
+                rules: [],
+            },
+        };
     } else if (typeof options.persist.extras === "object") {
         this.storage = new LocalStorageItem({
             key: options.persist.key,
