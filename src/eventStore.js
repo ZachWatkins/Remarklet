@@ -44,20 +44,22 @@ class EventStore {
         };
 
         // Initialize storage
-        this.events = new LocalStorageItem({
+        this.storage = new LocalStorageItem({
             key: this.options.storageKey,
             defaultValue: [],
             type: "object",
         });
+        this.events = this.storage.value;
         this.subscribers = [];
         this.currentSequence = this.getLastSequence();
 
         // Snapshots for optimization
         this.snapshots = new LocalStorageItem({
-            key: "remarklet_event_snapshots",
+            key: "remarklet_snapshots",
             defaultValue: {},
             type: "object",
         });
+        this.snapshotCache = this.snapshots.value;
     }
 
     /**
@@ -65,8 +67,8 @@ class EventStore {
      * @returns {number} Last sequence number or 0
      */
     getLastSequence() {
-        if (!this.events.value.length) return 0;
-        return this.events.value[this.events.value.length - 1].sequence;
+        if (!this.events.length) return 0;
+        return this.events[this.events.length - 1].sequence;
     }
 
     /**
@@ -98,8 +100,9 @@ class EventStore {
         };
 
         // Add event to store
-        this.events.value.push(event);
-        this.events.store();
+        this.events.push(event);
+        this.storage.value = this.events;
+        this.storage.store();
 
         // Create periodic snapshots for performance
         if (this.currentSequence % this.options.snapshotFrequency === 0) {
@@ -107,13 +110,12 @@ class EventStore {
         }
 
         // Trim if needed
-        if (this.events.value.length > this.options.maxEvents) {
+        if (this.events.length > this.options.maxEvents) {
             // Before trimming, ensure we have a snapshot
             this.createSnapshot();
-            this.events.value = this.events.value.slice(
-                -this.options.maxEvents,
-            );
-            this.events.store();
+            this.events = this.events.slice(-this.options.maxEvents);
+            this.storage.value = this.events;
+            this.storage.store();
         }
 
         // Notify subscribers
@@ -128,11 +130,12 @@ class EventStore {
      */
     createSnapshot() {
         const state = this.getCurrentState();
-        this.snapshots.value = {
+        this.snapshotCache = {
             timestamp: Date.now(),
             sequence: this.currentSequence,
             state,
         };
+        this.snapshots.value = this.snapshotCache;
         this.snapshots.store();
     }
 
@@ -144,9 +147,7 @@ class EventStore {
     getEventsForElement(target) {
         const selector =
             typeof target === "string" ? target : getUniqueSelector(target);
-        return this.events.value.filter(
-            (event) => event.targetSelector === selector,
-        );
+        return this.events.filter((event) => event.targetSelector === selector);
     }
 
     /**
@@ -190,7 +191,7 @@ class EventStore {
      */
     getCurrentState() {
         const elementSelectors = [
-            ...new Set(this.events.value.map((event) => event.targetSelector)),
+            ...new Set(this.events.map((event) => event.targetSelector)),
         ];
         const state = {};
 
@@ -213,8 +214,8 @@ class EventStore {
         }
 
         // Use snapshot if available for better performance
-        if (this.snapshots.value && this.snapshots.value.state) {
-            const { state } = this.snapshots.value;
+        if (this.snapshotCache && this.snapshotCache.state) {
+            const { state } = this.snapshotCache;
 
             // Apply snapshot state
             for (const [selector, elementState] of Object.entries(state)) {
@@ -232,8 +233,8 @@ class EventStore {
             }
 
             // Apply any events that came after the snapshot
-            const remainingEvents = this.events.value.filter(
-                (event) => event.sequence > this.snapshots.value.sequence,
+            const remainingEvents = this.events.filter(
+                (event) => event.sequence > this.snapshotCache.sequence,
             );
 
             for (const event of remainingEvents) {
@@ -326,9 +327,11 @@ class EventStore {
      * Clear all events
      */
     clear() {
-        this.events.value = [];
-        this.events.store();
-        this.snapshots.value = {};
+        this.events = [];
+        this.storage.value = this.events;
+        this.storage.store();
+        this.snapshotCache = {};
+        this.snapshots.value = this.snapshotCache;
         this.snapshots.store();
         this.currentSequence = 0;
     }
@@ -341,7 +344,7 @@ class EventStore {
         return JSON.stringify({
             version: "1.0.9",
             timestamp: Date.now(),
-            events: this.events.value,
+            events: this.events,
         });
     }
 
@@ -364,8 +367,9 @@ class EventStore {
                 }
             }
 
-            this.events.value = data.events;
-            this.events.store();
+            this.events = data.events;
+            this.storage.value = this.events;
+            this.storage.store();
             this.currentSequence = this.getLastSequence();
 
             // Recreate snapshot
