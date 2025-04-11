@@ -146,7 +146,7 @@ export function getUniqueSelector(element, options) {
             (!excludeDataAttributePrefix ||
                 !attr.name.startsWith("data-" + excludeDataAttributePrefix))
         ) {
-            let selector = `${tagName}[${attr.name}="${CSS.escape(attr.value)}"]`;
+            let selector = `${tagName}[${attr.name}="${typeof CSS !== "undefined" ? CSS.escape(attr.value) : attr.value}"]`;
             if (document.querySelectorAll(selector).length === 1) {
                 return selector;
             }
