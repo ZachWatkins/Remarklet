@@ -77,7 +77,6 @@ export default function Stylesheet(options) {
                 ? this.storage.value.ruleIndexes[selector]
                 : false;
         var ruletext = selector + "{\n" + rule + "\n}";
-        console.log(ruletext);
         if (foundIndex === false) {
             var newIndex = this.storage.value.rules.length;
             this.storage.value.ruleIndexes[selector] = newIndex;
