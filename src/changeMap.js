@@ -2,24 +2,26 @@ import state from "./state.js";
 import { getUniqueSelector } from "./utils/cssSelector";
 import LocalStorageItem from "./utils/LocalStorageItem";
 const elementChangeMap = new WeakMap();
-const store =
-    state.get("persist") === true
-        ? new LocalStorageItem({
-              key: "remarklet-changemap",
-              type: "object",
-              defaultValue: {},
-          })
-        : null;
+let store = null;
+export default function changeMap() {
+    if (state.get("persist") === true) {
+        store = new LocalStorageItem({
+            key: "remarklet-changemap",
+            type: "object",
+            defaultValue: {},
+        });
+    }
+}
 
-export function has(target) {
+changeMap.has = function (target) {
     return elementChangeMap.has(target);
-}
+};
 
-export function get(target) {
+changeMap.get = function (target) {
     return elementChangeMap.get(target);
-}
+};
 
-export function set(target, value) {
+changeMap.set = function (target, value) {
     elementChangeMap.set(target, value);
     if (store) {
         const selector = getUniqueSelector(target, {
@@ -28,9 +30,9 @@ export function set(target, value) {
         store.value[selector] = value;
         store.store();
     }
-}
+};
 
-export function sync(target) {
+changeMap.sync = function (target) {
     if (!store) {
         return;
     }
@@ -39,9 +41,9 @@ export function sync(target) {
     });
     store.value[selector] = elementChangeMap.get(target);
     store.store();
-}
+};
 
-export function init(target, mode) {
+changeMap.init = function (target, mode) {
     if (elementChangeMap.has(target)) {
         return;
     }
@@ -141,34 +143,7 @@ export function init(target, mode) {
             return rule.join(";\n") + ";";
         },
     });
+    console.log("init", elementChangeMap.get(target));
     store.value[selector] = elementChangeMap.get(target);
     store.store();
-}
-
-function getStyleRule() {
-    const styles = this.style;
-    let rule = [];
-    for (const key in styles) {
-        if (styles[key] === null) {
-            continue;
-        }
-        const kebabKey = key.replace(
-            /([A-Z])/g,
-            (match) => `-${match.toLowerCase()}`,
-        );
-        rule.push(`${kebabKey}: ${styles[key]}`);
-    }
-    if (rule.length === 0) {
-        return "";
-    }
-    return rule.join(";\n") + ";";
-}
-
-export default {
-    has,
-    get,
-    set,
-    init,
-    getStyleRule,
-    sync,
 };
