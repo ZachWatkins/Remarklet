@@ -10,6 +10,7 @@ import drag from "./src/drag.js";
 import target from "./src/target.js";
 import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
+import changeMap from "./src/changeMap.js";
 
 /**
  * @module remarklet
@@ -61,6 +62,7 @@ remarklet.activate = function () {
     if (!state.get("initialized") && !loading) {
         loading = true;
         state.subscribe("stylesheet.initialized", () => {
+            changeMap();
             drag();
             target();
             textedit();
