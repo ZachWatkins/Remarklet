@@ -30,10 +30,24 @@ export function set(target, value) {
     }
 }
 
-export function init(target, mode) {
-    if (has(target)) {
+export function sync(target) {
+    if (!store) {
         return;
     }
+    const selector = getUniqueSelector(target, {
+        excludeDataAttributePrefix: "remarklet",
+    });
+    store.value[selector] = elementChangeMap.get(target);
+    store.store();
+}
+
+export function init(target, mode) {
+    if (elementChangeMap.has(target)) {
+        return;
+    }
+    const selector = getUniqueSelector(target, {
+        excludeDataAttributePrefix: "remarklet",
+    });
     if (!store) {
         elementChangeMap.set(target, {
             initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
@@ -47,12 +61,27 @@ export function init(target, mode) {
             resized: mode === "resized",
             selector,
             style: {},
+            getStyleRule() {
+                const styles = this.style;
+                let rule = [];
+                for (const key in styles) {
+                    if (styles[key] === null) {
+                        continue;
+                    }
+                    const kebabKey = key.replace(
+                        /([A-Z])/g,
+                        (match) => `-${match.toLowerCase()}`,
+                    );
+                    rule.push(`${kebabKey}: ${styles[key]}`);
+                }
+                if (rule.length === 0) {
+                    return "";
+                }
+                return rule.join(";\n") + ";";
+            },
         });
         return;
     }
-    const selector = getUniqueSelector(target, {
-        excludeDataAttributePrefix: "remarklet",
-    });
     const previousSession = store.value[selector];
     if (!previousSession) {
         elementChangeMap.set(target, {
@@ -67,6 +96,24 @@ export function init(target, mode) {
             resized: mode === "resized",
             selector,
             style: {},
+            getStyleRule() {
+                const styles = this.style;
+                let rule = [];
+                for (const key in styles) {
+                    if (styles[key] === null) {
+                        continue;
+                    }
+                    const kebabKey = key.replace(
+                        /([A-Z])/g,
+                        (match) => `-${match.toLowerCase()}`,
+                    );
+                    rule.push(`${kebabKey}: ${styles[key]}`);
+                }
+                if (rule.length === 0) {
+                    return "";
+                }
+                return rule.join(";\n") + ";";
+            },
         });
         store.value[selector] = elementChangeMap.get(target);
         store.store();
@@ -75,13 +122,31 @@ export function init(target, mode) {
     elementChangeMap.set(target, {
         ...JSON.parse(JSON.stringify(previousSession)),
         [mode]: true,
+        getStyleRule() {
+            const styles = this.style;
+            let rule = [];
+            for (const key in styles) {
+                if (styles[key] === null) {
+                    continue;
+                }
+                const kebabKey = key.replace(
+                    /([A-Z])/g,
+                    (match) => `-${match.toLowerCase()}`,
+                );
+                rule.push(`${kebabKey}: ${styles[key]}`);
+            }
+            if (rule.length === 0) {
+                return "";
+            }
+            return rule.join(";\n") + ";";
+        },
     });
     store.value[selector] = elementChangeMap.get(target);
     store.store();
 }
 
-export function getStyleRule(target) {
-    const styles = elementChangeMap.get(target).style;
+function getStyleRule() {
+    const styles = this.style;
     let rule = [];
     for (const key in styles) {
         if (styles[key] === null) {
@@ -105,4 +170,5 @@ export default {
     set,
     init,
     getStyleRule,
+    sync,
 };
