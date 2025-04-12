@@ -15,24 +15,27 @@ export default function main() {
     if (sheet) {
         return sheet;
     }
+    const rules = [
+        [
+            "[data-remarklet-highlight]",
+            "outline: 2px solid #00b3dd; touch-action: none !important; user-select: none !important;",
+        ],
+        [
+            "[data-remarklet-dragging], [data-remarklet-resizing]",
+            "touch-action: none !important; user-select: none !important; transition: none !important; animation: none !important;",
+        ],
+    ];
     if (state.get("persist") === true) {
         sheet = new Stylesheet({
             persist: {
                 key: "remarklet-stylesheet",
                 extras: { version: pkg.version },
             },
+            rules,
         });
     } else {
-        sheet = new Stylesheet();
+        sheet = new Stylesheet({ rules });
     }
-    sheet.setRule(
-        "[data-remarklet-highlight]",
-        "outline: 2px solid #00b3dd; touch-action: none !important; user-select: none !important;",
-    );
-    sheet.setRule(
-        "[data-remarklet-dragging], [data-remarklet-resizing]",
-        "touch-action: none !important; user-select: none !important; transition: none !important; animation: none !important;",
-    );
     state.subscribe("mode", (mode) => {
         document.body.setAttribute("data-remarklet-mode", mode);
     });
