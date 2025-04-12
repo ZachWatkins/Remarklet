@@ -6,6 +6,7 @@ const state = {
     active: false,
     modifying: false,
     persist: false,
+    initialized: false,
 };
 
 const subscribers = {
