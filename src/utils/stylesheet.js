@@ -66,7 +66,7 @@ export default function Stylesheet(options) {
     }
 
     /**
-     * Set a CSS rule in the stylesheet.
+     * Add or update a CSS rule in the stylesheet which uses the given selector.
      * @param {string} selector - The CSS selector to set the rule for.
      * @param {string} rule - The CSS rule to set.
      * @returns {void}
