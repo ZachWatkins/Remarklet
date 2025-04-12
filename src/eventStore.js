@@ -145,9 +145,39 @@ class EventStore {
      * @returns {Array<DOMEvent>} Matching events
      */
     getEventsForElement(target) {
-        const selector =
-            typeof target === "string" ? target : getUniqueSelector(target);
-        return this.events.filter((event) => event.targetSelector === selector);
+        let selector;
+        let testId;
+
+        if (typeof target === "string") {
+            selector = target;
+            // Extract data-testid if present in the selector
+            const testIdMatch = selector.match(/data-testid="([^"]+)"/);
+            if (testIdMatch) {
+                testId = testIdMatch[1];
+            }
+        } else {
+            selector = getUniqueSelector(target);
+            testId = target.getAttribute("data-testid");
+        }
+
+        return this.events.filter((event) => {
+            // Direct match
+            if (event.targetSelector === selector) {
+                return true;
+            }
+
+            // Match by data-testid attribute if available
+            if (testId) {
+                const eventTestIdMatch = event.targetSelector.match(
+                    /data-testid="([^"]+)"/,
+                );
+                if (eventTestIdMatch && eventTestIdMatch[1] === testId) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 
     /**
