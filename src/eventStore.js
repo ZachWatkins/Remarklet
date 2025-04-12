@@ -82,6 +82,7 @@ class EventStore {
         if (!targetElement || !type) {
             throw new Error("Event requires both type and target element");
         }
+        console.log('append', type, targetElement.tagName, targetElement, data);
 
         // Create a selector that can uniquely identify this element later
         const targetSelector = getUniqueSelector(targetElement);
@@ -130,6 +131,7 @@ class EventStore {
      */
     createSnapshot() {
         const state = this.getCurrentState();
+        console.log('createSnapshot', state);
         this.snapshotCache = {
             timestamp: Date.now(),
             sequence: this.currentSequence,
@@ -216,6 +218,7 @@ class EventStore {
         // Use snapshot if available for better performance
         if (this.snapshotCache && this.snapshotCache.state) {
             const { state } = this.snapshotCache;
+            console.log("Replaying from snapshot", state);
 
             // Apply snapshot state
             for (const [selector, elementState] of Object.entries(state)) {

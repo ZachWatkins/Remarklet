@@ -81,7 +81,10 @@ test("EventStore can get current state for all elements", async () => {
         x: 10,
         y: 20,
     });
-    assert.deepEqual(state["element-2"].position, { x: 30, y: 40 });
+    assert.deepEqual(state['div[data-testid="element-2"]'].position, {
+        x: 30,
+        y: 40,
+    });
 });
 
 test("EventStore supports event subscription", async () => {
@@ -161,10 +164,12 @@ test("EventStore handles replay of events", async () => {
     const appliedStates = [];
 
     // Add events
-    eventStore.append("drag", testElement, { position: { x: 10, y: 20 } });
     eventStore.append("resize", testElement, {
         dimensions: { width: 300, height: 200 },
     });
+    console.log("testElement", testElement);
+    eventStore.append("drag", testElement, { position: { x: 10, y: 20 } });
+    console.log("testElement", testElement);
 
     // Clear DOM and recreate the element with the same ID to simulate page reload
     document.body.innerHTML = "";
@@ -172,8 +177,12 @@ test("EventStore handles replay of events", async () => {
 
     // Mock apply function
     const applyFn = (element, state) => {
+        console.log('applyFn', element, state);
         appliedStates.push({
-            selector: element.getAttribute("data-testid"),
+            selector:
+                'div[data-testid="' +
+                element.getAttribute("data-testid") +
+                '"]',
             state: { ...state }, // Clone state to avoid reference issues
         });
     };
@@ -182,8 +191,12 @@ test("EventStore handles replay of events", async () => {
     eventStore.replay(applyFn);
 
     // Assertions
+    console.log(appliedStates);
     assert.equal(appliedStates.length, 1);
-    assert.equal(appliedStates[0].selector, "replay-element");
+    assert.equal(
+        appliedStates[0].selector,
+        'div[data-testid="replay-element"]',
+    );
     assert.deepEqual(appliedStates[0].state.position, { x: 10, y: 20 });
     assert.deepEqual(appliedStates[0].state.dimensions, {
         width: 300,
