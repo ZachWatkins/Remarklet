@@ -11,8 +11,6 @@ import target from "./src/target.js";
 import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
 
-let initialized = false;
-
 /**
  * @module remarklet
  * @description The main module for the Remarklet library. It must be used as a singleton.
@@ -53,18 +51,23 @@ remarklet.options = function (options) {
     }
     optionsSet = true;
 };
+let loading = false;
 /**
  * Activates the Remarklet library, initializing all necessary components.
  * @example
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!initialized) {
-        initialized = true;
+    if (!state.get("initialized") && !loading) {
+        loading = true;
+        state.subscribe("stylesheet.initialized", () => {
+            drag();
+            target();
+            textedit();
+            loading = false;
+            state.set("initialized", true);
+        });
         styles();
-        drag();
-        target();
-        textedit();
     }
     state.set("active", true);
 };
