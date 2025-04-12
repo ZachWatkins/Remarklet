@@ -15,6 +15,53 @@ let elementChangeMap = new WeakMap();
 
 function initChangeMapElement(target, mode) {
     if (!elementChangeMap.has(target)) {
+        // Detect whether the element was resized or dragged during a previous session.
+        const previousSession = {};
+        if (state.get("persist") === true) {
+            const rule = styles().getRule(target);
+            if (rule) {
+                const transform = rule.match(/\btransform:\s*([^;]+)/);
+                if (transform) {
+                    previousSession.dragged = true;
+                    if (!previousSession.style) {
+                        previousSession.style = {};
+                    }
+                    previousSession.style.transform = transform[1];
+                }
+                const width = rule.match(/\bwidth:\s*([^;]+)/);
+                if (width) {
+                    previousSession.resized = true;
+                    if (!previousSession.style) {
+                        previousSession.style = {};
+                    }
+                    previousSession.style.width = width[1];
+                }
+                const height = rule.match(/\bheight:\s*([^;]+)/);
+                if (height) {
+                    previousSession.resized = true;
+                    if (!previousSession.style) {
+                        previousSession.style = {};
+                    }
+                    previousSession.style.height = height[1];
+                }
+                const marginBottom = rule.match(/\bmargin-bottom:\s*([^;]+)/);
+                if (marginBottom) {
+                    previousSession.resized = true;
+                    if (!previousSession.style) {
+                        previousSession.style = {};
+                    }
+                    previousSession.style.marginBottom = marginBottom[1];
+                }
+                const marginRight = rule.match(/\bmargin-right:\s*([^;]+)/);
+                if (marginRight) {
+                    previousSession.resized = true;
+                    if (!previousSession.style) {
+                        previousSession.style = {};
+                    }
+                    previousSession.style.marginRight = marginRight[1];
+                }
+            }
+        }
         elementChangeMap.set(target, {
             initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
             delta: {
@@ -23,15 +70,17 @@ function initChangeMapElement(target, mode) {
                 width: 0,
                 height: 0,
             },
-            dragged: mode === "dragged",
-            resized: mode === "resized",
+            dragged: mode === "dragged" || previousSession.dragged || false,
+            resized: mode === "resized" || previousSession.resized || false,
             selector: getUniqueSelector(target, {
                 excludeDataAttributePrefix: "remarklet",
             }),
-            style: {
+            style: previousSession.style || {
                 transform: null,
                 width: null,
                 height: null,
+                marginBottom: null,
+                marginRight: null,
             },
         });
     }
@@ -40,7 +89,10 @@ function initChangeMapElement(target, mode) {
 function resolveChangeMapStyleRule(styles) {
     let rule = [];
     for (const key in styles) {
-        let kebabKey = key.replace(
+        if (styles[key] === null) {
+            continue;
+        }
+        const kebabKey = key.replace(
             /([A-Z])/g,
             (match) => `-${match.toLowerCase()}`,
         );
@@ -148,7 +200,7 @@ const draggableOptions = {
 
             // Apply the changes to the stylesheet.
             const changeMap = elementChangeMap.get(target);
-            styles().setRule(
+            styles().mergeRule(
                 changeMap.selector,
                 resolveChangeMapStyleRule(changeMap.style),
             );
@@ -231,7 +283,7 @@ const resizableOptions = {
             const changeMap = elementChangeMap.get(target);
             const selector = changeMap.selector;
             const rule = resolveChangeMapStyleRule(changeMap.style);
-            styles().setRule(selector, rule);
+            styles().mergeRule(selector, rule);
 
             // Restore the inline style, if any.
             const initialStyle = elementChangeMap.get(target).initialStyle;
