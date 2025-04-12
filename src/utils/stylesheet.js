@@ -55,6 +55,36 @@ export default function Stylesheet(options) {
     document.head.appendChild(this.element);
 
     /**
+     * Detect whether a selector has a rule in the stylesheet.
+     * @param {string} selector - The CSS selector to check.
+     * @returns {boolean} - True if the selector has a rule, false otherwise.
+     */
+    this.hasRule = (selector) => {
+        const rules = this.element.sheet.cssRules;
+        for (let i = 0; i < rules.length; i++) {
+            if (rules[i].selectorText === selector) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieve a CSS rule from the stylesheet given a selector.
+     * @param {string} selector - The CSS selector to retrieve the rule for.
+     * @returns {string | null} - The CSS rule for the selector, or null if not found.
+     */
+    this.getRule = (selector) => {
+        const rules = this.element.sheet.cssRules;
+        for (let i = 0; i < rules.length; i++) {
+            if (rules[i].selectorText === selector) {
+                return rules[i].style.cssText;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Set a CSS rule in the stylesheet.
      * @param {string} selector - The CSS selector to set the rule for.
      * @param {string} rule - The CSS rule to set.
@@ -99,8 +129,45 @@ export default function Stylesheet(options) {
      * @param {string} rule - The CSS rule to set.
      * @returns {void}
      */
-    this.mergeRule = (selector, rule) => {};
-
+    this.mergeRule = (selector, rule) => {
+        var foundIndex = false;
+        const rules = this.element.sheet.cssRules;
+        for (let i = 0; i < rules.length; i++) {
+            if (rules[i].selectorText === selector) {
+                foundIndex = i;
+                break;
+            }
+        }
+        if (foundIndex === false) {
+            this.setRule(selector, rule);
+            return;
+        }
+        // Merge styles with the existing rule.
+        // First, get the existing rule and parse it into an object.
+        const existingRule = rules[foundIndex].style;
+        console.log('mergeRule', 'rule', rule, 'existingRule', existingRule);
+        const combinedRules = {};
+        for (let i = 0; i < existingRule.length; i++) {
+            const property = existingRule[i];
+            combinedRules[property] = existingRule.getPropertyValue(property);
+        }
+        // Then, parse the new rule into an object.
+        const newRule = rule.split(";");
+        for (let i = 0; i < newRule.length; i++) {
+            const property = newRule[i].split(":");
+            if (property.length === 2) {
+                combinedRules[property[0].trim()] = property[1].trim();
+            }
+        }
+        // Finally, set the rule with the combined properties.
+        let combinedRule = Object.entries(combinedRules)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(";");
+        if (combinedRule) {
+            combinedRule += ";";
+        }
+        this.setRule(selector, combinedRule);
+    };
 
     for (let i = 0; i < this.storage.value.rules.length; i++) {
         let rule = this.storage.value.rules[i];
