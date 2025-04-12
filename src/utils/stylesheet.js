@@ -10,6 +10,7 @@
  * @license     https://spdx.org/licenses/MIT.html MIT License
  */
 import LocalStorageItem from "./LocalStorageItem.js";
+import state from "../state.js";
 
 /**
  * Stylesheet Module
@@ -116,4 +117,6 @@ export default function Stylesheet(options) {
     if (this.storage.store) {
         this.storage.store();
     }
+
+    state.publish("stylesheet.initialized");
 }
