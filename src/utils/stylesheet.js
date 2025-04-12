@@ -94,4 +94,12 @@ export default function Stylesheet(options) {
             this.storage.store();
         }
     };
+
+    /**
+     * Merge a new CSS rule in the stylesheet with the existing rule. New rule values replace existing rule values. If a rule does not exist with the given selector, it will be added.
+     * @param {string} selector - The CSS selector to set the rule for.
+     * @param {string} rule - The CSS rule to set.
+     * @returns {void}
+     */
+    this.mergeRule = (selector, rule) => {};
 }
