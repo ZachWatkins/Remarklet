@@ -5,104 +5,12 @@ import "@interactjs/actions/resize/index.prod";
 import interact from "@interactjs/interact/index.prod";
 import state from "./state.js";
 import styles from "./styles.js";
-import { getUniqueSelector } from "./utils/cssSelector.js";
+import elementChangeMap from "./changeMap.js";
 import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
-let elementChangeMap = new WeakMap();
-
-function initChangeMapElement(target, mode) {
-    if (!elementChangeMap.has(target)) {
-        // Detect whether the element was resized or dragged during a previous session.
-        const previousSession = {};
-        if (state.get("persist") === true) {
-            const rule = styles().getRule(target);
-            if (rule) {
-                const transform = rule.match(/\btransform:\s*([^;]+)/);
-                if (transform) {
-                    previousSession.dragged = true;
-                    if (!previousSession.style) {
-                        previousSession.style = {};
-                    }
-                    previousSession.style.transform = transform[1];
-                }
-                const width = rule.match(/\bwidth:\s*([^;]+)/);
-                if (width) {
-                    previousSession.resized = true;
-                    if (!previousSession.style) {
-                        previousSession.style = {};
-                    }
-                    previousSession.style.width = width[1];
-                }
-                const height = rule.match(/\bheight:\s*([^;]+)/);
-                if (height) {
-                    previousSession.resized = true;
-                    if (!previousSession.style) {
-                        previousSession.style = {};
-                    }
-                    previousSession.style.height = height[1];
-                }
-                const marginBottom = rule.match(/\bmargin-bottom:\s*([^;]+)/);
-                if (marginBottom) {
-                    previousSession.resized = true;
-                    if (!previousSession.style) {
-                        previousSession.style = {};
-                    }
-                    previousSession.style.marginBottom = marginBottom[1];
-                }
-                const marginRight = rule.match(/\bmargin-right:\s*([^;]+)/);
-                if (marginRight) {
-                    previousSession.resized = true;
-                    if (!previousSession.style) {
-                        previousSession.style = {};
-                    }
-                    previousSession.style.marginRight = marginRight[1];
-                }
-            }
-        }
-        elementChangeMap.set(target, {
-            initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
-            delta: {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-            },
-            dragged: mode === "dragged" || previousSession.dragged || false,
-            resized: mode === "resized" || previousSession.resized || false,
-            selector: getUniqueSelector(target, {
-                excludeDataAttributePrefix: "remarklet",
-            }),
-            style: previousSession.style || {
-                transform: null,
-                width: null,
-                height: null,
-                marginBottom: null,
-                marginRight: null,
-            },
-        });
-    }
-}
-
-function resolveChangeMapStyleRule(styles) {
-    let rule = [];
-    for (const key in styles) {
-        if (styles[key] === null) {
-            continue;
-        }
-        const kebabKey = key.replace(
-            /([A-Z])/g,
-            (match) => `-${match.toLowerCase()}`,
-        );
-        rule.push(`${kebabKey}: ${styles[key]}`);
-    }
-    if (rule.length === 0) {
-        return "";
-    }
-    return rule.join(";\n") + ";";
-}
 
 export function main() {
     state.subscribe("target", (target) => {
@@ -149,13 +57,13 @@ const draggableOptions = {
                 }
                 if (parent) {
                     state.set("target", parent);
-                    initChangeMapElement(parent, "dragged");
+                    elementChangeMap.init(parent, "dragged");
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
-                initChangeMapElement(event.target, "dragged");
+                elementChangeMap.init(event.target, "dragged");
             }
         },
         /**
@@ -170,12 +78,13 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = elementChangeMap.get(target).delta.x + event.dx;
-            let y = elementChangeMap.get(target).delta.y + event.dy;
+            const changeMap = elementChangeMap.get(target);
+            let x = changeMap.delta.x + event.dx;
+            let y = changeMap.delta.y + event.dy;
             const resolved = resolveTransform(target, x, y);
-            elementChangeMap.get(target).style.transform = resolved.style;
-            elementChangeMap.get(target).delta.x += event.dx;
-            elementChangeMap.get(target).delta.y += event.dy;
+            changeMap.style.transform = resolved.style;
+            changeMap.delta.x += event.dx;
+            changeMap.delta.y += event.dy;
             target.style.transform = resolved.style;
         },
         /**
@@ -191,6 +100,7 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            elementChangeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
                 state.set("target", inlineTarget);
@@ -200,13 +110,10 @@ const draggableOptions = {
 
             // Apply the changes to the stylesheet.
             const changeMap = elementChangeMap.get(target);
-            styles().mergeRule(
-                changeMap.selector,
-                resolveChangeMapStyleRule(changeMap.style),
-            );
+            styles().mergeRule(changeMap.selector, changeMap.getStyleRule());
 
             // Restore the inline style, if any.
-            const initialStyle = elementChangeMap.get(target).initialStyle;
+            const initialStyle = changeMap.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
@@ -228,7 +135,7 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             state.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            initChangeMapElement(event.target, "resized");
+            elementChangeMap.init(event.target, "resized");
         },
         move(event) {
             const target = event.target;
@@ -238,7 +145,6 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
-            console.log("resizing", event.deltaRect);
             const changeMap = elementChangeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
@@ -280,13 +186,14 @@ const resizableOptions = {
 
             // Apply the changes to the stylesheet.
             const target = event.target;
+            elementChangeMap.sync(target);
             const changeMap = elementChangeMap.get(target);
             const selector = changeMap.selector;
-            const rule = resolveChangeMapStyleRule(changeMap.style);
+            const rule = changeMap.getStyleRule();
             styles().mergeRule(selector, rule);
 
             // Restore the inline style, if any.
-            const initialStyle = elementChangeMap.get(target).initialStyle;
+            const initialStyle = changeMap.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
