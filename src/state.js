@@ -65,6 +65,9 @@ export function get(key) {
  * @returns {void}
  */
 export function subscribe(key, callback) {
+    if (!subscribers[key]) {
+        subscribers[key] = [];
+    }
     subscribers[key].push(callback);
 }
 
