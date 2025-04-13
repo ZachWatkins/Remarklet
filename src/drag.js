@@ -5,7 +5,7 @@ import "@interactjs/actions/resize/index.prod";
 import interact from "@interactjs/interact/index.prod";
 import state from "./state.js";
 import styles from "./styles.js";
-import elementChangeMap from "./changeMap.js";
+import changeMap from "./changeMap.js";
 import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
@@ -57,13 +57,13 @@ const draggableOptions = {
                 }
                 if (parent) {
                     state.set("target", parent);
-                    elementChangeMap.init(parent, "dragged");
+                    changeMap.init(parent, "dragged");
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
-                elementChangeMap.init(event.target, "dragged");
+                changeMap.init(event.target, "dragged");
             }
         },
         /**
@@ -78,7 +78,7 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            const changeMap = elementChangeMap.get(target);
+            const changeMap = changeMap.get(target);
             let x = changeMap.delta.x + event.dx;
             let y = changeMap.delta.y + event.dy;
             const resolved = resolveTransform(target, x, y);
@@ -100,7 +100,7 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
-            elementChangeMap.sync(target);
+            changeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
                 state.set("target", inlineTarget);
@@ -109,7 +109,7 @@ const draggableOptions = {
             state.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
-            const changeMap = elementChangeMap.get(target);
+            const changeMap = changeMap.get(target);
             styles().mergeRule(changeMap.selector, changeMap.getStyleRule());
 
             // Restore the inline style, if any.
@@ -135,7 +135,7 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             state.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            elementChangeMap.init(event.target, "resized");
+            changeMap.init(event.target, "resized");
         },
         move(event) {
             const target = event.target;
@@ -145,7 +145,7 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
-            const changeMap = elementChangeMap.get(target);
+            const changeMap = changeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
                 changeMap.delta.width += event.deltaRect.width;
@@ -186,8 +186,8 @@ const resizableOptions = {
 
             // Apply the changes to the stylesheet.
             const target = event.target;
-            elementChangeMap.sync(target);
-            const changeMap = elementChangeMap.get(target);
+            changeMap.sync(target);
+            const changeMap = changeMap.get(target);
             const selector = changeMap.selector;
             const rule = changeMap.getStyleRule();
             styles().mergeRule(selector, rule);
