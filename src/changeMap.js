@@ -51,99 +51,76 @@ changeMap.init = function (target, mode) {
         excludeDataAttributePrefix: "remarklet",
     });
     if (!store) {
-        elementChangeMap.set(target, {
-            initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
-            delta: {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-            },
-            dragged: mode === "dragged",
-            resized: mode === "resized",
-            selector,
-            style: {},
-            getStyleRule() {
-                const styles = this.style;
-                let rule = [];
-                for (const key in styles) {
-                    if (styles[key] === null) {
-                        continue;
-                    }
-                    const kebabKey = key.replace(
-                        /([A-Z])/g,
-                        (match) => `-${match.toLowerCase()}`,
-                    );
-                    rule.push(`${kebabKey}: ${styles[key]}`);
-                }
-                if (rule.length === 0) {
-                    return "";
-                }
-                return rule.join(";\n") + ";";
-            },
-        });
+        elementChangeMap.set(
+            target,
+            new ChangeMapItem(target, {
+                selector,
+                dragged: mode === "dragged",
+                resized: mode === "resized",
+            }),
+        );
         return;
     }
     const previousSession = store.value[selector];
     if (!previousSession) {
-        elementChangeMap.set(target, {
-            initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
-            delta: {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-            },
-            dragged: mode === "dragged",
-            resized: mode === "resized",
-            selector,
-            style: {},
-            getStyleRule() {
-                const styles = this.style;
-                let rule = [];
-                for (const key in styles) {
-                    if (styles[key] === null) {
-                        continue;
-                    }
-                    const kebabKey = key.replace(
-                        /([A-Z])/g,
-                        (match) => `-${match.toLowerCase()}`,
-                    );
-                    rule.push(`${kebabKey}: ${styles[key]}`);
-                }
-                if (rule.length === 0) {
-                    return "";
-                }
-                return rule.join(";\n") + ";";
-            },
-        });
+        elementChangeMap.set(
+            target,
+            new ChangeMapItem(target, {
+                selector,
+                dragged: mode === "dragged",
+                resized: mode === "resized",
+            }),
+        );
         store.value[selector] = elementChangeMap.get(target);
         store.store();
         return;
     }
-    elementChangeMap.set(target, {
-        ...JSON.parse(JSON.stringify(previousSession)),
-        [mode]: true,
-        getStyleRule() {
-            const styles = this.style;
-            let rule = [];
-            for (const key in styles) {
-                if (styles[key] === null) {
-                    continue;
-                }
-                const kebabKey = key.replace(
-                    /([A-Z])/g,
-                    (match) => `-${match.toLowerCase()}`,
-                );
-                rule.push(`${kebabKey}: ${styles[key]}`);
-            }
-            if (rule.length === 0) {
-                return "";
-            }
-            return rule.join(";\n") + ";";
-        },
-    });
-    console.log("init", elementChangeMap.get(target));
+    elementChangeMap.set(
+        target,
+        new ChangeMapItem(target, {
+            ...JSON.parse(JSON.stringify(previousSession)),
+            [mode]: true,
+        }),
+    );
     store.value[selector] = elementChangeMap.get(target);
     store.store();
 };
+
+function ChangeMapItem(target, props = {}) {
+    this.initialStyle =
+        props.initialStyle ||
+        target.style.cssText.replace(/cursor:[^;]+;?/g, "");
+    // this.initialTransform = target.style.transform;
+    this.delta = props.delta || {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+    };
+    this.dragged = props.dragged || false;
+    this.resized = props.resized || false;
+    this.selector =
+        props.selector ||
+        getUniqueSelector(target, {
+            excludeDataAttributePrefix: "remarklet",
+        });
+    this.style = props.style || {};
+    this.getStyleRule = function () {
+        const styles = this.style;
+        let rule = [];
+        for (const key in styles) {
+            if (styles[key] === null) {
+                continue;
+            }
+            const kebabKey = key.replace(
+                /([A-Z])/g,
+                (match) => `-${match.toLowerCase()}`,
+            );
+            rule.push(`${kebabKey}: ${styles[key]}`);
+        }
+        if (rule.length === 0) {
+            return "";
+        }
+        return rule.join(";\n") + ";";
+    };
+}
