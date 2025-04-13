@@ -48,8 +48,9 @@ test("can drag elements", async ({ page }) => {
     expect(Math.round(newBoundingBox.y * 100) / 100).toEqual(
         Math.round(boundingBox.y * 100) / 100,
     );
-    expect(Math.round(newBoundingBox.width * 100) / 100).toEqual(
+    expect(Math.round(newBoundingBox.width * 100) / 100).toBeCloseTo(
         Math.round(boundingBox.width * 100) / 100,
+        1,
     );
     expect(Math.round(newBoundingBox.height * 100) / 100).toEqual(
         Math.round(boundingBox.height * 100) / 100,

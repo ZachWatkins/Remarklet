@@ -6,6 +6,7 @@ const state = {
     active: false,
     modifying: false,
     persist: false,
+    initialized: false,
 };
 
 const subscribers = {
@@ -65,11 +66,27 @@ export function get(key) {
  * @returns {void}
  */
 export function subscribe(key, callback) {
+    if (!subscribers[key]) {
+        subscribers[key] = [];
+    }
     subscribers[key].push(callback);
+}
+
+/**
+ * Publish function
+ * @param {string} key - The key to publish.
+ * @param {any} [value] - The value to publish.
+ * @returns {void}
+ */
+export function publish(key, value) {
+    if (subscribers[key]) {
+        subscribers[key].forEach((callback) => callback(value));
+    }
 }
 
 export default {
     set,
     get,
     subscribe,
+    publish,
 };

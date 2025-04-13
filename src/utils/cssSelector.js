@@ -143,6 +143,7 @@ export function getUniqueSelector(element, options) {
         if (
             attr.name !== "class" &&
             attr.name !== "style" &&
+            attr.name !== "contenteditable" && // Ignore contenteditable attribute
             (!excludeDataAttributePrefix ||
                 !attr.name.startsWith("data-" + excludeDataAttributePrefix))
         ) {

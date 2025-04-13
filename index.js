@@ -1,5 +1,8 @@
 /**
- * @module @zachwatkins/remarklet
+ * Remarklet - A JavaScript library for visually manipulating web page content.
+ * @author Zachary Kendall Watkins
+ * @copyright 2014-2025 Zachary Kendall Watkins, All Rights Reserved
+ * @license MIT
  */
 import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
@@ -7,8 +10,7 @@ import drag from "./src/drag.js";
 import target from "./src/target.js";
 import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
-
-let initialized = false;
+import changeMap from "./src/changeMap.js";
 
 /**
  * @module remarklet
@@ -50,18 +52,24 @@ remarklet.options = function (options) {
     }
     optionsSet = true;
 };
+let loading = false;
 /**
  * Activates the Remarklet library, initializing all necessary components.
  * @example
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!initialized) {
-        initialized = true;
+    if (!state.get("initialized") && !loading) {
+        loading = true;
+        state.subscribe("stylesheet.initialized", () => {
+            changeMap();
+            drag();
+            target();
+            textedit();
+            loading = false;
+            state.set("initialized", true);
+        });
         styles();
-        drag();
-        target();
-        textedit();
     }
     state.set("active", true);
 };

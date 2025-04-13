@@ -5,52 +5,12 @@ import "@interactjs/actions/resize/index.prod";
 import interact from "@interactjs/interact/index.prod";
 import state from "./state.js";
 import styles from "./styles.js";
-import { getUniqueSelector } from "./utils/cssSelector.js";
+import changeMap from "./changeMap.js";
 import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
-let elementChangeMap = new WeakMap();
-
-function initChangeMapElement(target, mode) {
-    if (!elementChangeMap.has(target)) {
-        elementChangeMap.set(target, {
-            initialStyle: target.style.cssText.replace(/cursor:[^;]+;?/g, ""),
-            delta: {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-            },
-            dragged: mode === "dragged",
-            resized: mode === "resized",
-            selector: getUniqueSelector(target, {
-                excludeDataAttributePrefix: "remarklet",
-            }),
-            style: {
-                transform: null,
-                width: null,
-                height: null,
-            },
-        });
-    }
-}
-
-function resolveChangeMapStyleRule(styles) {
-    let rule = [];
-    for (const key in styles) {
-        let kebabKey = key.replace(
-            /([A-Z])/g,
-            (match) => `-${match.toLowerCase()}`,
-        );
-        rule.push(`${kebabKey}: ${styles[key]}`);
-    }
-    if (rule.length === 0) {
-        return "";
-    }
-    return rule.join(";\n") + ";";
-}
 
 export function main() {
     state.subscribe("target", (target) => {
@@ -97,13 +57,13 @@ const draggableOptions = {
                 }
                 if (parent) {
                     state.set("target", parent);
-                    initChangeMapElement(parent, "dragged");
+                    changeMap.init(parent, "dragged");
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
-                initChangeMapElement(event.target, "dragged");
+                changeMap.init(event.target, "dragged");
             }
         },
         /**
@@ -118,13 +78,9 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            let x = elementChangeMap.get(target).delta.x + event.dx;
-            let y = elementChangeMap.get(target).delta.y + event.dy;
-            const resolved = resolveTransform(target, x, y);
-            elementChangeMap.get(target).style.transform = resolved.style;
-            elementChangeMap.get(target).delta.x += event.dx;
-            elementChangeMap.get(target).delta.y += event.dy;
-            target.style.transform = resolved.style;
+            const map = changeMap.get(target);
+            map.move(event.dx, event.dy);
+            target.style.transform = map.transformText;
         },
         /**
          * Handles the drag end event
@@ -139,6 +95,7 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            changeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
                 state.set("target", inlineTarget);
@@ -147,14 +104,11 @@ const draggableOptions = {
             state.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
-            const changeMap = elementChangeMap.get(target);
-            styles().setRule(
-                changeMap.selector,
-                resolveChangeMapStyleRule(changeMap.style),
-            );
+            const map = changeMap.get(target);
+            styles().mergeRule(map.selector, map.rule);
 
             // Restore the inline style, if any.
-            const initialStyle = elementChangeMap.get(target).initialStyle;
+            const initialStyle = map.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
@@ -176,7 +130,7 @@ const resizableOptions = {
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             state.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
-            initChangeMapElement(event.target, "resized");
+            changeMap.init(event.target, "resized");
         },
         move(event) {
             const target = event.target;
@@ -186,38 +140,26 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
-            console.log("resizing", event.deltaRect);
-            const changeMap = elementChangeMap.get(target);
+            const map = changeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                changeMap.delta.width += event.deltaRect.width;
-                changeMap.style.width = newStyles.width = resolveWidth(
-                    target,
-                    event.rect.width,
-                );
+                map.width = map.width + event.deltaRect.width;
+                newStyles.width = `${map.width}px`;
             }
             if (event.edges.top || event.edges.bottom) {
-                changeMap.delta.height += event.deltaRect.height;
-                changeMap.style.height = newStyles.height = resolveHeight(
-                    target,
-                    event.rect.height,
-                );
+                map.height = map.height + event.deltaRect.height;
+                newStyles.height = `${map.height}px`;
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
-                let x = changeMap.delta.x + event.deltaRect.left;
-                let y = changeMap.delta.y + event.deltaRect.top;
-                const resolved = resolveTransform(target, x, y);
-                changeMap.style.transform = newStyles.transform =
-                    resolved.style;
-                changeMap.delta.x += event.deltaRect.left;
-                changeMap.delta.y += event.deltaRect.top;
+                map.move(event.deltaRect.left, event.deltaRect.top);
+                newStyles.transform = map.transformText;
             }
-            if (changeMap.dragged) {
+            if (map.dragged) {
                 // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
-                changeMap.style.marginBottom =
-                    newStyles.marginBottom = `${-changeMap.delta.height}px`;
-                changeMap.style.marginRight =
-                    newStyles.marginRight = `${-changeMap.delta.width}px`;
+                map.marginBottom = map.marginBottom - event.deltaRect.height;
+                map.marginRight = map.marginRight - event.deltaRect.width;
+                newStyles.marginBottom = `${map.marginBottom}px`;
+                newStyles.marginRight = `${map.marginRight}px`;
             }
             for (const key in newStyles) {
                 target.style[key] = newStyles[key];
@@ -228,13 +170,12 @@ const resizableOptions = {
 
             // Apply the changes to the stylesheet.
             const target = event.target;
-            const changeMap = elementChangeMap.get(target);
-            const selector = changeMap.selector;
-            const rule = resolveChangeMapStyleRule(changeMap.style);
-            styles().setRule(selector, rule);
+            changeMap.sync(target);
+            const map = changeMap.get(target);
+            styles().mergeRule(map.selector, map.rule);
 
             // Restore the inline style, if any.
-            const initialStyle = elementChangeMap.get(target).initialStyle;
+            const initialStyle = map.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
