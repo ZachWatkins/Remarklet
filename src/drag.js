@@ -156,8 +156,8 @@ const resizableOptions = {
             }
             if (map.dragged) {
                 // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
-                map.marginBottom = map.marginBottom - event.deltaRect.top;
-                map.marginRight = map.marginRight - event.deltaRect.left;
+                map.marginBottom = map.marginBottom - event.deltaRect.height;
+                map.marginRight = map.marginRight - event.deltaRect.width;
                 newStyles.marginBottom = `${map.marginBottom}px`;
                 newStyles.marginRight = `${map.marginRight}px`;
             }
