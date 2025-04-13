@@ -78,13 +78,13 @@ const draggableOptions = {
             if (!target || target !== event.target) {
                 return;
             }
-            const changeMap = changeMap.get(target);
-            let x = changeMap.delta.x + event.dx;
-            let y = changeMap.delta.y + event.dy;
+            const map = changeMap.get(target);
+            let x = map.delta.x + event.dx;
+            let y = map.delta.y + event.dy;
             const resolved = resolveTransform(target, x, y);
-            changeMap.style.transform = resolved.style;
-            changeMap.delta.x += event.dx;
-            changeMap.delta.y += event.dy;
+            map.style.transform = resolved.style;
+            map.delta.x += event.dx;
+            map.delta.y += event.dy;
             target.style.transform = resolved.style;
         },
         /**
@@ -109,11 +109,11 @@ const draggableOptions = {
             state.set("mode", "edit");
 
             // Apply the changes to the stylesheet.
-            const changeMap = changeMap.get(target);
-            styles().mergeRule(changeMap.selector, changeMap.getStyleRule());
+            const map = changeMap.get(target);
+            styles().mergeRule(map.selector, map.getStyleRule());
 
             // Restore the inline style, if any.
-            const initialStyle = changeMap.initialStyle;
+            const initialStyle = map.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
@@ -145,37 +145,36 @@ const resizableOptions = {
                     "Remarklet does not yet support resizing rotated elements.",
                 );
             }
-            const changeMap = changeMap.get(target);
+            const map = changeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                changeMap.delta.width += event.deltaRect.width;
-                changeMap.style.width = newStyles.width = resolveWidth(
+                map.delta.width += event.deltaRect.width;
+                map.style.width = newStyles.width = resolveWidth(
                     target,
                     event.rect.width,
                 );
             }
             if (event.edges.top || event.edges.bottom) {
-                changeMap.delta.height += event.deltaRect.height;
-                changeMap.style.height = newStyles.height = resolveHeight(
+                map.delta.height += event.deltaRect.height;
+                map.style.height = newStyles.height = resolveHeight(
                     target,
                     event.rect.height,
                 );
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
-                let x = changeMap.delta.x + event.deltaRect.left;
-                let y = changeMap.delta.y + event.deltaRect.top;
+                let x = map.delta.x + event.deltaRect.left;
+                let y = map.delta.y + event.deltaRect.top;
                 const resolved = resolveTransform(target, x, y);
-                changeMap.style.transform = newStyles.transform =
-                    resolved.style;
-                changeMap.delta.x += event.deltaRect.left;
-                changeMap.delta.y += event.deltaRect.top;
+                map.style.transform = newStyles.transform = resolved.style;
+                map.delta.x += event.deltaRect.left;
+                map.delta.y += event.deltaRect.top;
             }
-            if (changeMap.dragged) {
+            if (map.dragged) {
                 // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
-                changeMap.style.marginBottom =
-                    newStyles.marginBottom = `${-changeMap.delta.height}px`;
-                changeMap.style.marginRight =
-                    newStyles.marginRight = `${-changeMap.delta.width}px`;
+                map.style.marginBottom =
+                    newStyles.marginBottom = `${-map.delta.height}px`;
+                map.style.marginRight =
+                    newStyles.marginRight = `${-map.delta.width}px`;
             }
             for (const key in newStyles) {
                 target.style[key] = newStyles[key];
@@ -187,13 +186,13 @@ const resizableOptions = {
             // Apply the changes to the stylesheet.
             const target = event.target;
             changeMap.sync(target);
-            const changeMap = changeMap.get(target);
-            const selector = changeMap.selector;
-            const rule = changeMap.getStyleRule();
+            const map = changeMap.get(target);
+            const selector = map.selector;
+            const rule = map.getStyleRule();
             styles().mergeRule(selector, rule);
 
             // Restore the inline style, if any.
-            const initialStyle = changeMap.initialStyle;
+            const initialStyle = map.initialStyle;
             if (initialStyle) {
                 target.style.cssText = initialStyle;
             } else {
