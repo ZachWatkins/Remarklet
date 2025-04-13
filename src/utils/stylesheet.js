@@ -67,7 +67,7 @@ export default function Stylesheet(options) {
             }
         }
         return false;
-    }
+    };
 
     /**
      * Retrieve a CSS rule from the stylesheet given a selector.
@@ -82,7 +82,7 @@ export default function Stylesheet(options) {
             }
         }
         return null;
-    }
+    };
 
     /**
      * Set a CSS rule in the stylesheet.
@@ -145,7 +145,6 @@ export default function Stylesheet(options) {
         // Merge styles with the existing rule.
         // First, get the existing rule and parse it into an object.
         const existingRule = rules[foundIndex].style;
-        console.log('mergeRule', 'rule', rule, 'existingRule', existingRule);
         const combinedRules = {};
         for (let i = 0; i < existingRule.length; i++) {
             const property = existingRule[i];
