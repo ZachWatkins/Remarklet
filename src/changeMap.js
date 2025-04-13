@@ -6,24 +6,21 @@ let store = null;
 
 /**
  * @typedef {Object} ElementState
- * @property {boolean} restored - Whether the item has been restored.
+ * @property {string} selector - The selector of the item.
  * @property {string} initialStyle - The initial style of the item.
- * @property {Object} delta - The delta of the item.
- * @property {number} delta.x - The x coordinate change.
- * @property {number} delta.y - The y coordinate change.
- * @property {number} delta.width - The width change.
- * @property {number} delta.height - The height change.
+ * @property {boolean} restored - Whether the item has been restored.
  * @property {boolean} dragged - Whether the item has been dragged.
  * @property {boolean} resized - Whether the item has been resized.
- * @property {string} selector - The selector of the item.
- * @property {Object} style - The style of the item.
- * @property {string} style.transform - The transform of the item.
- * @property {string} style.width - The width of the item.
- * @property {string} style.height - The height of the item.
- * @property {string} style.marginBottom - The margin bottom of the item.
- * @property {string} style.marginRight - The margin right of the item.
  * @property {boolean} matrix3d - Whether the element position should be styled using matrix3d.
- * @property {() => string} getStyleRule - Returns the style rule for the item.
+ * @property {number} x - The transform's x value.
+ * @property {number} y - The transform's y value.
+ * @property {number} width - The width value in pixels.
+ * @property {number} height - The height value in pixels.
+ * @property {number} marginBottom - The bottom margin in pixels.
+ * @property {number} marginRight - The right margin in pixels.
+ * @property {Array<number>} transform - The transform matrix.
+ * @property {string} transformText - The transform text representation.
+ * @property {string} rule - The CSS rule for the item.
  * @property {(deltaX: number, deltaY: number) => void} move - Moves the item by deltaX and/or deltaY.
  */
 /**
@@ -33,6 +30,7 @@ let store = null;
  * @param {boolean} [props.restored] - Whether the item has been restored.
  * @param {boolean} [props.dragged] - Whether the item has been dragged.
  * @param {boolean} [props.resized] - Whether the item has been resized.
+ * @returns {ElementState} The element state object.
  */
 function ElementState(target, props = {}) {
     const computed = window.getComputedStyle(target);
@@ -75,37 +73,51 @@ function ElementState(target, props = {}) {
         }
     }
     if (!this.matrix3d) {
-        Object.defineProperty(this, "x", {
-            get() {
-                return this.transform[4];
+        Object.defineProperties(this, {
+            x: {
+                get() {
+                    return this.transform[4];
+                },
+                set(value) {
+                    this.transform[4] = value;
+                },
             },
-            set(value) {
-                this.transform[4] = value;
+            y: {
+                get() {
+                    return this.transform[5];
+                },
+                set(value) {
+                    this.transform[5] = value;
+                },
             },
-        });
-        Object.defineProperty(this, "y", {
-            get() {
-                return this.transform[5];
-            },
-            set(value) {
-                this.transform[5] = value;
+            transformText: {
+                get() {
+                    return `matrix(${this.transform.join(", ")})`;
+                },
             },
         });
     } else {
-        Object.defineProperty(this, "x", {
-            get() {
-                return this.transform[12];
+        Object.defineProperties(this, {
+            x: {
+                get() {
+                    return this.transform[12];
+                },
+                set(value) {
+                    this.transform[12] = value;
+                },
             },
-            set(value) {
-                this.transform[12] = value;
+            y: {
+                get() {
+                    return this.transform[13];
+                },
+                set(value) {
+                    this.transform[13] = value;
+                },
             },
-        });
-        Object.defineProperty(this, "y", {
-            get() {
-                return this.transform[13];
-            },
-            set(value) {
-                this.transform[13] = value;
+            transformText: {
+                get() {
+                    return `matrix3d(${this.transform.join(", ")})`;
+                },
             },
         });
     }

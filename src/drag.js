@@ -79,13 +79,10 @@ const draggableOptions = {
                 return;
             }
             const map = changeMap.get(target);
-            let x = map.delta.x + event.dx;
-            let y = map.delta.y + event.dy;
-            const resolved = resolveTransform(target, x, y);
-            map.style.transform = resolved.style;
-            map.delta.x += event.dx;
-            map.delta.y += event.dy;
-            target.style.transform = resolved.style;
+            map.move(event.dx, event.dy);
+            map.x = map.x + event.dx;
+            map.y = map.y + event.dy;
+            target.style.transform = map.transformText;
         },
         /**
          * Handles the drag end event
@@ -110,7 +107,7 @@ const draggableOptions = {
 
             // Apply the changes to the stylesheet.
             const map = changeMap.get(target);
-            styles().mergeRule(map.selector, map.getStyleRule());
+            styles().mergeRule(map.selector, map.rule);
 
             // Restore the inline style, if any.
             const initialStyle = map.initialStyle;
@@ -148,33 +145,23 @@ const resizableOptions = {
             const map = changeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                map.delta.width += event.deltaRect.width;
-                map.style.width = newStyles.width = resolveWidth(
-                    target,
-                    event.rect.width,
-                );
+                newStyles.width = resolveWidth(target, event.rect.width);
+                map.width = parseFloat(newStyles.width);
             }
             if (event.edges.top || event.edges.bottom) {
-                map.delta.height += event.deltaRect.height;
-                map.style.height = newStyles.height = resolveHeight(
-                    target,
-                    event.rect.height,
-                );
+                newStyles.height = resolveHeight(target, event.rect.height);
+                map.height = parseFloat(newStyles.height);
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
-                let x = map.delta.x + event.deltaRect.left;
-                let y = map.delta.y + event.deltaRect.top;
-                const resolved = resolveTransform(target, x, y);
-                map.style.transform = newStyles.transform = resolved.style;
-                map.delta.x += event.deltaRect.left;
-                map.delta.y += event.deltaRect.top;
+                map.move(event.deltaRect.left, event.deltaRect.top);
+                newStyles.transform = map.transformText;
             }
             if (map.dragged) {
                 // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
-                map.style.marginBottom =
-                    newStyles.marginBottom = `${-map.delta.height}px`;
-                map.style.marginRight =
-                    newStyles.marginRight = `${-map.delta.width}px`;
+                map.marginBottom = map.marginBottom - event.deltaRect.top;
+                map.marginRight = map.marginRight - event.deltaRect.left;
+                newStyles.marginBottom = `${map.marginBottom}px`;
+                newStyles.marginRight = `${map.marginRight}px`;
             }
             for (const key in newStyles) {
                 target.style[key] = newStyles[key];
@@ -187,9 +174,7 @@ const resizableOptions = {
             const target = event.target;
             changeMap.sync(target);
             const map = changeMap.get(target);
-            const selector = map.selector;
-            const rule = map.getStyleRule();
-            styles().mergeRule(selector, rule);
+            styles().mergeRule(map.selector, map.rule);
 
             // Restore the inline style, if any.
             const initialStyle = map.initialStyle;
