@@ -80,8 +80,6 @@ const draggableOptions = {
             }
             const map = changeMap.get(target);
             map.move(event.dx, event.dy);
-            map.x = map.x + event.dx;
-            map.y = map.y + event.dy;
             target.style.transform = map.transformText;
         },
         /**
@@ -145,12 +143,12 @@ const resizableOptions = {
             const map = changeMap.get(target);
             let newStyles = {};
             if (event.edges.left || event.edges.right) {
-                newStyles.width = resolveWidth(target, event.rect.width);
-                map.width = parseFloat(newStyles.width);
+                map.width = map.width + event.deltaRect.width;
+                newStyles.width = `${map.width}px`;
             }
             if (event.edges.top || event.edges.bottom) {
-                newStyles.height = resolveHeight(target, event.rect.height);
-                map.height = parseFloat(newStyles.height);
+                map.height = map.height + event.deltaRect.height;
+                newStyles.height = `${map.height}px`;
             }
             if (event.deltaRect.left !== 0 || event.deltaRect.top !== 0) {
                 map.move(event.deltaRect.left, event.deltaRect.top);
