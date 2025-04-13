@@ -3,6 +3,47 @@ import { getUniqueSelector } from "./utils/cssSelector";
 import LocalStorageItem from "./utils/LocalStorageItem";
 const elementChangeMap = new WeakMap();
 let store = null;
+
+function ChangeMapItem(target, props = {}) {
+    this.restored = props.restored || false;
+    this.initialStyle =
+        props.initialStyle ||
+        target.style.cssText.replace(/cursor:[^;]+;?/g, "");
+    // this.initialTransform = target.style.transform;
+    this.delta = props.delta || {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+    };
+    this.dragged = props.dragged || false;
+    this.resized = props.resized || false;
+    this.selector =
+        props.selector ||
+        getUniqueSelector(target, {
+            excludeDataAttributePrefix: "remarklet",
+        });
+    this.style = props.style || {};
+    this.getStyleRule = function () {
+        const styles = this.style;
+        let rule = [];
+        for (const key in styles) {
+            if (styles[key] === null) {
+                continue;
+            }
+            const kebabKey = key.replace(
+                /([A-Z])/g,
+                (match) => `-${match.toLowerCase()}`,
+            );
+            rule.push(`${kebabKey}: ${styles[key]}`);
+        }
+        if (rule.length === 0) {
+            return "";
+        }
+        return rule.join(";\n") + ";";
+    };
+}
+
 export default function changeMap() {
     if (state.get("persist") === true) {
         store = new LocalStorageItem({
@@ -55,8 +96,7 @@ changeMap.init = function (target, mode) {
             target,
             new ChangeMapItem(target, {
                 selector,
-                dragged: mode === "dragged",
-                resized: mode === "resized",
+                [mode]: true,
             }),
         );
         return;
@@ -67,8 +107,7 @@ changeMap.init = function (target, mode) {
             target,
             new ChangeMapItem(target, {
                 selector,
-                dragged: mode === "dragged",
-                resized: mode === "resized",
+                [mode]: true,
             }),
         );
         store.value[selector] = elementChangeMap.get(target);
@@ -85,42 +124,3 @@ changeMap.init = function (target, mode) {
     store.value[selector] = elementChangeMap.get(target);
     store.store();
 };
-
-function ChangeMapItem(target, props = {}) {
-    this.initialStyle =
-        props.initialStyle ||
-        target.style.cssText.replace(/cursor:[^;]+;?/g, "");
-    // this.initialTransform = target.style.transform;
-    this.delta = props.delta || {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-    };
-    this.dragged = props.dragged || false;
-    this.resized = props.resized || false;
-    this.selector =
-        props.selector ||
-        getUniqueSelector(target, {
-            excludeDataAttributePrefix: "remarklet",
-        });
-    this.style = props.style || {};
-    this.getStyleRule = function () {
-        const styles = this.style;
-        let rule = [];
-        for (const key in styles) {
-            if (styles[key] === null) {
-                continue;
-            }
-            const kebabKey = key.replace(
-                /([A-Z])/g,
-                (match) => `-${match.toLowerCase()}`,
-            );
-            rule.push(`${kebabKey}: ${styles[key]}`);
-        }
-        if (rule.length === 0) {
-            return "";
-        }
-        return rule.join(";\n") + ";";
-    };
-}
