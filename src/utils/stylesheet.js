@@ -26,29 +26,30 @@ import state from "../state.js";
 export default function Stylesheet(options) {
     this.persist = options && typeof options.persist === "object";
 
-    if (!this.persist) {
-        this.storage = {
-            value: {
-                rules: [],
-            },
-        };
-    } else if (typeof options.persist.extras === "object") {
-        this.storage = new LocalStorageItem({
-            key: options.persist.key,
-            type: "object",
-            defaultValue: {
-                ...options.persist.extras,
-                rules: [],
-            },
-        });
-    } else {
-        this.storage = new LocalStorageItem({
-            key: options.persist.key,
-            type: "object",
-            defaultValue: {
-                rules: [],
-            },
-        });
+    this.storage = {
+        value: {
+            rules: [],
+        },
+    };
+    if (this.persist) {
+        if (typeof options.persist.extras === "object") {
+            this.storage = new LocalStorageItem({
+                key: options.persist.key,
+                type: "object",
+                defaultValue: {
+                    ...options.persist.extras,
+                    rules: [],
+                },
+            });
+        } else {
+            this.storage = new LocalStorageItem({
+                key: options.persist.key,
+                type: "object",
+                defaultValue: {
+                    rules: [],
+                },
+            });
+        }
     }
 
     this.element = document.createElement("style");
@@ -180,7 +181,7 @@ export default function Stylesheet(options) {
         }
     }
 
-    if (this.storage.store) {
+    if (typeof this.storage.store === "function") {
         this.storage.store();
     }
 
