@@ -35,6 +35,11 @@ Then import the module in your JavaScript file:
 
 ```javascript
 import remarklet from "@zw/remarklet";
+// Override default options for the library.
+remarklet.options({
+    persist: true, // default: false.
+});
+// Activate the library.
 remarklet.activate();
 // Now users can drag, resize, and edit elements on the page.
 remarklet.deactivate();
@@ -61,8 +66,10 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Declare options for the library.
-    remarklet.options({ persist: true });
+    // Override default options for the library.
+    remarklet.options({
+        persist: true, // default: false.
+    });
     // Activate the library.
     remarklet.activate();
     // Now users can drag, resize, and edit elements on the page.

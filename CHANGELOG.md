@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Changed
+
+- Changed README.md to note use of options method in the Installation section.
 
 ## [1.1.0] - 2025-04-13
 
