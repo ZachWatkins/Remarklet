@@ -11,10 +11,12 @@ export default function main() {
 
     if (state.get("persist") === true) {
         changeMap.each((elementState) => {
-            const selector = elementState.selector;
-            const target = document.querySelector(selector);
-            if (target) {
-                target.innerHTML = elementState.content;
+            if (typeof elementState.content === "string") {
+                const selector = elementState.selector;
+                const target = document.querySelector(selector);
+                if (target) {
+                    target.innerHTML = elementState.content;
+                }
             }
         });
     }
