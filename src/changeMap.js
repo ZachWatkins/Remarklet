@@ -50,7 +50,9 @@ function ElementState(target, props = {}) {
     this.marginBottom = parseFloat(computed.marginBottom);
     this.marginRight = parseFloat(computed.marginRight);
     this.matrix3d = computed.transform.indexOf("matrix3d(") >= 0;
-    if (computed.transform === "none") {
+    if (props.transform) {
+        this.transform = props.transform;
+    } else if (computed.transform === "none") {
         this.transform = [1, 0, 0, 1, 0, 0];
     } else if (!this.matrix3d) {
         const matrixRegex = /matrix\(([^)]+)\)/;
@@ -153,6 +155,20 @@ export default function changeMap() {
             type: "object",
             defaultValue: {},
         });
+        if (store.restored) {
+            for (const selector in store.value) {
+                const stored = store.value[selector];
+                const target = document.querySelector(selector);
+                if (stored && target) {
+                    stored.restored = true;
+                    elementChangeMap.set(
+                        target,
+                        new ElementState(target, stored),
+                    );
+                    store.value[selector] = elementChangeMap.get(target);
+                }
+            }
+        }
     }
 }
 
