@@ -160,6 +160,16 @@ const resizableOptions = {
                 map.marginRight = map.marginRight - event.deltaRect.width;
                 newStyles.marginBottom = `${map.marginBottom}px`;
                 newStyles.marginRight = `${map.marginRight}px`;
+            } else {
+                if (event.edges.top) {
+                    map.marginBottom =
+                        map.marginBottom - event.deltaRect.height;
+                    newStyles.marginBottom = `${map.marginBottom}px`;
+                }
+                if (event.edges.left) {
+                    map.marginRight = map.marginRight - event.deltaRect.width;
+                    newStyles.marginRight = `${map.marginRight}px`;
+                }
             }
             for (const key in newStyles) {
                 target.style[key] = newStyles[key];
