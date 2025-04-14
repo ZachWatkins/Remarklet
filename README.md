@@ -14,6 +14,8 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
+[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Feature Roadmap](#feature-roadmap)
+
 ## Features
 
 This library lets you add the following features to any web page with no keyboard shortcuts or UI overlays:
@@ -55,11 +57,17 @@ This library is available from:
 
 To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar (it also works with jsdelivr):
 
-`javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();`
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
+```
 
-Make some changes, print the screen, and then send it to someone!
+To persist the changes using local storage, use this bookmarklet URL:
 
-You can save this as a custom bookmark in your browser by adding it as the bookmark URL. This will let you activate the library on any webpage when you click the bookmark.
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true});remarklet.activate()}})();
+```
+
+You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking it.
 
 To use Remarklet in your own webpage, add the following code to your HTML file:
 
@@ -78,6 +86,10 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 </script>
 ```
 
+## Contributing
+
+Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/zachwatkins/remarklet/blob/main/CONTRIBUTING.md) file for guidelines.
+
 ## Feature Roadmap
 
 - Delete Elements
@@ -88,8 +100,4 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 - Copy Elements
 - Export the edited page as an HTML file
 
-## Contributing
-
-Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/zachwatkins/remarklet/blob/main/CONTRIBUTING.md) file for guidelines.
-
-Copyright 2014-2025 Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://zacharywatkins.com)
+Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://zacharywatkins.com
