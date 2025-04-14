@@ -154,13 +154,11 @@ const resizableOptions = {
                 map.move(event.deltaRect.left, event.deltaRect.top);
                 newStyles.transform = map.transformText;
             }
-            if (map.dragged) {
-                // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
-                map.marginBottom = map.marginBottom - event.deltaRect.height;
-                map.marginRight = map.marginRight - event.deltaRect.width;
-                newStyles.marginBottom = `${map.marginBottom}px`;
-                newStyles.marginRight = `${map.marginRight}px`;
-            }
+            // We need to update the margin so sibling elements do not change their position, effectively locking in the space occupied by the element to its original dimensions.
+            map.marginBottom = map.marginBottom - event.deltaRect.height;
+            map.marginRight = map.marginRight - event.deltaRect.width;
+            newStyles.marginBottom = `${map.marginBottom}px`;
+            newStyles.marginRight = `${map.marginRight}px`;
             for (const key in newStyles) {
                 target.style[key] = newStyles[key];
             }
