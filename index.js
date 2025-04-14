@@ -61,15 +61,13 @@ let loading = false;
 remarklet.activate = function () {
     if (!state.get("initialized") && !loading) {
         loading = true;
-        state.subscribe("stylesheet.initialized", () => {
-            changeMap();
-            drag();
-            target();
-            textedit();
-            loading = false;
-            state.set("initialized", true);
-        });
+        changeMap();
         styles();
+        drag();
+        target();
+        textedit();
+        state.set("initialized", true);
+        loading = false;
     }
     state.set("active", true);
 };

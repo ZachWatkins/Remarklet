@@ -18,6 +18,12 @@ export default class LocalStorageItem {
     value;
 
     /**
+     * Whether the localStorage item was restored from a previous state.
+     * @type {boolean}
+     */
+    restored = false;
+
+    /**
      * Creates a new localStorage item interface.
      * @param {object} props - The properties for the localStorage item.
      * @param {string} props.key - The localStorage item's key.
@@ -39,9 +45,10 @@ export default class LocalStorageItem {
         if ("object" === type) {
             try {
                 let stored = localStorage.getItem(key);
-                if (stored) {
+                if (stored !== null) {
                     try {
                         value = JSON.parse(stored);
+                        this.restored = true;
                     } catch (error) {
                         this.#state.parseError = error;
                         value = defaultValue;
@@ -56,8 +63,9 @@ export default class LocalStorageItem {
         } else {
             try {
                 let stored = localStorage.getItem(key);
-                if (stored) {
+                if (stored !== null) {
                     value = stored;
+                    this.restored = true;
                 } else {
                     value = defaultValue;
                 }
