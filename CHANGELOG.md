@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Inline styles for elements will now be moved to a stylesheet once the operation ends.
-- Changing the width or height of a repositioned element no longer affects the position of sibling elements. This is accomplished with margin styles.
+- Changing the width or height of a repositioned element no longer affects the position of sibling elements, and dragging the top and left edges of elements which have not been repositioned will no longer affect the position of sibling elements. This is accomplished with margin styles.
 
 ## [1.0.9] - 2025-03-29
 
