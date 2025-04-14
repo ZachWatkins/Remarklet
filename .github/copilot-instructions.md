@@ -46,6 +46,9 @@ When writing Typescript:
 
 ## Comments
 
+- Only use comments for exported `functions`, `interfaces`, `enums`, and `classes`.
+- Use `//` for single line comments.
+- Use `/* */` for multi-line comments.
 - When there are comments for `functions`, `interfaces`, `enums`, and `classes` use JSDoc style comments.
 
 ## Strings
