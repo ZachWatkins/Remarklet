@@ -43,6 +43,11 @@ function ElementState(target, props = {}) {
     this.restored = props.restored || false;
     this.dragged = props.dragged || false;
     this.resized = props.resized || false;
+    this.edited = props.edited || false;
+    this.contentEdited = props.contentEdited || false;
+    this.content =
+        props.content ||
+        (target.hasAttribute("contenteditable") ? target.innerHTML : "");
     this.width = parseFloat(computed.width);
     this.height = parseFloat(computed.height);
     this.marginBottom = parseFloat(computed.marginBottom);
@@ -173,8 +178,18 @@ changeMap.sync = function (target) {
     store.store();
 };
 
+changeMap.each = function (callback) {
+    for (const selector of store.value) {
+        const elementState = store.value[selector];
+        if (elementState) {
+            callback(elementState);
+        }
+    }
+};
+
 changeMap.init = function (target, mode) {
     if (elementChangeMap.has(target)) {
+        elementChangeMap.get(target)[mode] = true;
         return;
     }
     if (!store) {
@@ -202,6 +217,7 @@ changeMap.init = function (target, mode) {
         store.store();
         return;
     }
+
     elementChangeMap.set(
         target,
         new ElementState(target, {
@@ -210,6 +226,17 @@ changeMap.init = function (target, mode) {
             [mode]: true,
         }),
     );
+
+    // Restore content if it was previously edited and we have content to restore
+    const elementState = elementChangeMap.get(target);
+    if (
+        elementState.contentEdited &&
+        elementState.content &&
+        target.hasAttribute("contenteditable")
+    ) {
+        target.innerHTML = elementState.content;
+    }
+
     store.value[selector] = elementChangeMap.get(target);
     store.store();
 };

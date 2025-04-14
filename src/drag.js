@@ -101,7 +101,7 @@ const draggableOptions = {
                 state.set("target", inlineTarget);
                 inlineTarget = null;
             }
-            state.set("mode", "edit");
+            state.set("mode", "editing");
 
             // Apply the changes to the stylesheet.
             const map = changeMap.get(target);
@@ -166,7 +166,7 @@ const resizableOptions = {
             }
         },
         end(event) {
-            state.set("mode", "edit");
+            state.set("mode", "editing");
 
             // Apply the changes to the stylesheet.
             const target = event.target;

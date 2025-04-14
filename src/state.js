@@ -1,5 +1,6 @@
 const state = {
-    mode: "edit",
+    mode: "editing",
+    editing: false,
     dragging: false,
     resizing: false,
     target: null,
