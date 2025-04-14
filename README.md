@@ -21,6 +21,7 @@ This library lets you add the following features to any web page with no keyboar
 - Drag elements around the page
 - Resize elements
 - Edit text
+- Option to save your changes to local storage
 
 ## Installation
 
@@ -60,6 +61,9 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
+    // Declare options for the library.
+    remarklet.options({ persist: true });
+    // Activate the library.
     remarklet.activate();
     // Now users can drag, resize, and edit elements on the page.
     remarklet.deactivate();
