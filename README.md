@@ -73,15 +73,13 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 
 ## Feature Roadmap
 
-- Insert Note
 - Delete Elements
+- Insert Notes
+- Insert Images
+- Insert Code
 - View Grid
 - Copy Elements
 - Export the edited page as an HTML file
-- Insert Image
-- Insert Code
-- Save
-- Restore
 
 ## Contributing
 
