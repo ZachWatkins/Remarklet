@@ -2,8 +2,7 @@ import state from "./state.js";
 import changeMap from "./changeMap.js";
 
 /**
- * Initialize text editing functionality for the remarklet
- * Handles making elements editable and persisting their changes when needed
+ * Initialize text editing functionality for the library.
  * @returns {void}
  */
 export default function main() {
