@@ -5,13 +5,17 @@ const elementChangeMap = new WeakMap();
 let store = null;
 
 /**
- * @constructor
+ * Stores element state.
  * @param {HTMLElement} target - The target element.
  * @param {Object} [props] - The properties of the change map item.
  * @param {boolean} [props.restored] - Whether the item has been restored.
  * @param {boolean} [props.dragged] - Whether the item has been dragged.
  * @param {boolean} [props.resized] - Whether the item has been resized.
- * @returns {ElementState} The element state object.
+ * @param {boolean} [props.edited] - Whether the item has been edited.
+ * @param {string} [props.selector] - The selector of the item.
+ * @param {string} [props.content] - The content of the item.
+ * @param {string} [props.transform] - The transform of the item.
+ * @returns {void}
  */
 function ElementState(target, props = {}) {
     const computed = window.getComputedStyle(target);
