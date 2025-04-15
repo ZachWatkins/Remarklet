@@ -115,6 +115,7 @@ function ElementState(target, props = {}) {
     Object.defineProperty(this, "rule", {
         get() {
             return `
+display: ${this.display};
 width: ${this.width}px;
 height: ${this.height}px;
 margin-bottom: ${this.marginBottom}px;
