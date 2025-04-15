@@ -99,5 +99,6 @@ Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/z
 - View Grid
 - Copy Elements
 - Export the edited page as an HTML file
+- Undo / Redo
 
 Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://zacharywatkins.com
