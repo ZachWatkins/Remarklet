@@ -5,25 +5,6 @@ const elementChangeMap = new WeakMap();
 let store = null;
 
 /**
- * @typedef {Object} ElementState
- * @property {string} selector - The selector of the item.
- * @property {string} initialStyle - The initial style of the item.
- * @property {boolean} restored - Whether the item has been restored.
- * @property {boolean} dragged - Whether the item has been dragged.
- * @property {boolean} resized - Whether the item has been resized.
- * @property {boolean} matrix3d - Whether the element position should be styled using matrix3d.
- * @property {number} x - The transform's x value.
- * @property {number} y - The transform's y value.
- * @property {number} width - The width value in pixels.
- * @property {number} height - The height value in pixels.
- * @property {number} marginBottom - The bottom margin in pixels.
- * @property {number} marginRight - The right margin in pixels.
- * @property {Array<number>} transform - The transform matrix.
- * @property {string} transformText - The transform text representation.
- * @property {string} rule - The CSS rule for the item.
- * @property {(deltaX: number, deltaY: number) => void} move - Moves the item by deltaX and/or deltaY.
- */
-/**
  * @constructor
  * @param {HTMLElement} target - The target element.
  * @param {Object} [props] - The properties of the change map item.
