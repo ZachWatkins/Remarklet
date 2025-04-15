@@ -15,6 +15,7 @@ let store = null;
  * @param {string} [props.selector] - The selector of the item.
  * @param {string} [props.content] - The content of the item.
  * @param {string} [props.transform] - The transform of the item.
+ * @param {string} [props.display] - The display of the item.
  * @returns {void}
  */
 function ElementState(target, props = {}) {
@@ -34,6 +35,7 @@ function ElementState(target, props = {}) {
     this.height = parseFloat(computed.height);
     this.marginBottom = parseFloat(computed.marginBottom);
     this.marginRight = parseFloat(computed.marginRight);
+    this.display = props.display || computed.display;
     this.matrix3d = computed.transform.indexOf("matrix3d(") >= 0;
     if (props.transform) {
         this.transform = props.transform;
