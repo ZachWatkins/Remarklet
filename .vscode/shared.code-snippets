@@ -10,10 +10,11 @@
 		"scope": "javascript,typescript,css",
 		"prefix": ["copyright"],
 		"body": [
-			"/*---------------------------------------------------------------------------------------------",
-			" *  Copyright (c) Zachary Kendall Watkins. All rights reserved.",
-			" *  Licensed under the MIT License. See LICENSE.txt in the project root for license information.",
-			" *--------------------------------------------------------------------------------------------*/",
+			"/*-----------------------------------------------------------------------------",
+            " *  Copyright (c) Zachary Kendall Watkins. All rights reserved.",
+            " *  Licensed under the MIT License. See LICENSE.txt in the project root for",
+            " *  license information.",
+            " *---------------------------------------------------------------------------*/",
 			"",
 			"$0"
 		],
