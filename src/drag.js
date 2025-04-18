@@ -30,7 +30,6 @@ export function main() {
 }
 
 const draggableOptions = {
-    ignoreFrom: "[data-remarklet-control]",
     autoScroll: true,
     listeners: {
         /**
@@ -120,7 +119,7 @@ const draggableOptions = {
 };
 
 const resizableOptions = {
-    ignoreFrom: "[data-remarklet-control]",
+    edges: { left: true, right: true, bottom: true, top: true },
     listeners: {
         start(event) {
             if (state.get("modifying")) {
