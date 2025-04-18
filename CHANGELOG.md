@@ -20,8 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Added a new opt-in feature using `remarklet.options({ persist: true })` to store the drag and resize changes in localStorage and automatically restore the changes when the klm;l[]'lp;/[:
-';ko/']"ppage is reloaded.
+- Added a new opt-in feature using `remarklet.options({ persist: true })` to store the drag and resize changes in localStorage and automatically restore the changes when the page is reloaded.
 
 ### Changed
 
