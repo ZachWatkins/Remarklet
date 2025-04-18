@@ -34,11 +34,14 @@ export default function main() {
  * @returns {void}
  */
 function listener(event) {
+    if (state.get("mode") !== "editing") {
+        return;
+    }
     if (event.code === "Delete" || event.code === "Backspace") {
         event.stopPropagation();
         event.preventDefault();
         const target = state.get("target");
-        if (!target) {
+        if (!target || target.tagName === "HTML" || target.tagName === "BODY") {
             return;
         }
         changeMap.init(target, "hide");
