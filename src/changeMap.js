@@ -145,6 +145,10 @@ export default function changeMap() {
         });
         if (store.restored) {
             for (const selector in store.value) {
+                if (!selector) {
+                    console.error('Selector is empty', store.value);
+                    continue;
+                }
                 const stored = store.value[selector];
                 const target = document.querySelector(selector);
                 if (stored && target) {
