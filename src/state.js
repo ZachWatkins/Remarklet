@@ -8,6 +8,7 @@ const state = {
     modifying: false,
     persist: false,
     initialized: false,
+    hide: false,
 };
 
 const subscribers = {
