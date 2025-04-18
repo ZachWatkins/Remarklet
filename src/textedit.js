@@ -1,45 +1,19 @@
 import state from "./state.js";
 import changeMap from "./changeMap.js";
 
-/**
- * Initialize text editing functionality for the library.
- * @returns {void}
- */
 export default function main() {
     let currentEditableElement = null;
 
     state.subscribe("target", (target, oldTarget) => {
         if (!state.get("active")) {
-            if (currentEditableElement) {
-                currentEditableElement.removeAttribute("contenteditable");
-                currentEditableElement.removeEventListener(
-                    "input",
-                    handleInput,
-                );
-                currentEditableElement.removeEventListener(
-                    "focus",
-                    handleFocus,
-                );
-                currentEditableElement.removeEventListener("blur", handleBlur);
-                currentEditableElement = null;
-            }
+            cleanupEditableElement(currentEditableElement);
+            currentEditableElement = null;
             return;
         }
         const mode = state.get("mode");
         if (mode === "editing" || mode === "textediting") {
-            if (currentEditableElement) {
-                currentEditableElement.removeAttribute("contenteditable");
-                currentEditableElement.removeEventListener(
-                    "input",
-                    handleInput,
-                );
-                currentEditableElement.removeEventListener(
-                    "focus",
-                    handleFocus,
-                );
-                currentEditableElement.removeEventListener("blur", handleBlur);
-                currentEditableElement = null;
-            }
+            cleanupEditableElement(currentEditableElement);
+            currentEditableElement = null;
             if (target) {
                 currentEditableElement = target;
                 currentEditableElement.setAttribute("contenteditable", "true");
@@ -47,11 +21,8 @@ export default function main() {
                 currentEditableElement.addEventListener("focus", handleFocus);
                 currentEditableElement.addEventListener("blur", handleBlur);
             }
-        } else if (currentEditableElement) {
-            currentEditableElement.removeAttribute("contenteditable");
-            currentEditableElement.removeEventListener("input", handleInput);
-            currentEditableElement.removeEventListener("focus", handleFocus);
-            currentEditableElement.removeEventListener("blur", handleBlur);
+        } else {
+            cleanupEditableElement(currentEditableElement);
             currentEditableElement = null;
         }
     });
@@ -84,9 +55,35 @@ function handleInput(event) {
     changeMap.sync(event.target);
 }
 
+/**
+ * Handle focus events on contenteditable elements
+ * @param {Event} event - The focus event object
+ * @returns {void}
+ */
 function handleFocus(event) {
     state.set("mode", "textediting");
 }
+
+/**
+ * Handle blur events on contenteditable elements
+ * @param {Event} event - The blur event object
+ * @returns {void}
+ */
 function handleBlur(event) {
     state.set("mode", "editing");
+}
+
+/**
+ * Remove contenteditable attribute and event handlers from an element.
+ * @param {Element|null} element - The element to clean up
+ * @returns {void}
+ */
+function cleanupEditableElement(element) {
+    if (!element) {
+        return;
+    }
+    element.removeAttribute("contenteditable");
+    element.removeEventListener("input", handleInput);
+    element.removeEventListener("focus", handleFocus);
+    element.removeEventListener("blur", handleBlur);
 }
