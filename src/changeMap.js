@@ -1,6 +1,6 @@
 import state from "./state.js";
-import { getUniqueSelector } from "./utils/cssSelector";
-import LocalStorageItem from "./utils/LocalStorageItem";
+import { getUniqueSelector } from "./utils/cssSelector.js";
+import LocalStorageItem from "./utils/LocalStorageItem.js";
 const elementChangeMap = new WeakMap();
 let store = null;
 
