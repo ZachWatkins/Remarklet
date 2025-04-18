@@ -6,7 +6,7 @@ import interact from "@interactjs/interact/index.prod";
 import state from "./state.js";
 import styles from "./styles.js";
 import changeMap from "./changeMap.js";
-import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
+import { hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
 let inlineTarget = null;
