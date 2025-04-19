@@ -49,7 +49,7 @@ export default function main() {
     });
     window.addEventListener("remarklet-dragend", (e) => {
         const { target, clientX, clientY } = e.detail;
-        if (hideZone.checkEntered(clientX, clientY)) {
+        if (hideZone.contains(clientX, clientY)) {
             // Hide the element
             changeMap.init(target, "hide");
             const map = changeMap.get(target);
@@ -105,7 +105,7 @@ function HideZone() {
         this.element.style.boxShadow = "none";
         this.element.removeAttribute("data-remarklet-over");
     };
-    this.checkEntered = function (x, y) {
+    this.contains = function (x, y) {
         const rect = this.element.getBoundingClientRect();
         return (
             x >= rect.left &&
