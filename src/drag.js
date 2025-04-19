@@ -81,7 +81,6 @@ const draggableOptions = {
             const map = changeMap.get(target);
             map.move(event.dx, event.dy);
             target.style.transform = map.transformText;
-            // Emit a custom event for hide zone detection
             state.publish("dragmove", {
                 target,
                 clientX: event.client.x,
@@ -101,7 +100,6 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
-            // Emit a custom event for hide zone detection
             state.publish("dragend", {
                 target,
                 clientX: event.client.x,
