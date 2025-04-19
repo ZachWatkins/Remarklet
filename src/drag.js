@@ -81,6 +81,14 @@ const draggableOptions = {
             const map = changeMap.get(target);
             map.move(event.dx, event.dy);
             target.style.transform = map.transformText;
+            // Emit a custom event for hide zone detection
+            const clientX = event.client.x;
+            const clientY = event.client.y;
+            window.dispatchEvent(
+                new CustomEvent("remarklet-dragmove", {
+                    detail: { target, clientX, clientY },
+                }),
+            );
         },
         /**
          * Handles the drag end event
@@ -95,6 +103,14 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            // Emit a custom event for hide zone detection
+            const clientX = event.client.x;
+            const clientY = event.client.y;
+            window.dispatchEvent(
+                new CustomEvent("remarklet-dragend", {
+                    detail: { target, clientX, clientY },
+                }),
+            );
             changeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
@@ -102,11 +118,9 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             state.set("mode", "editing");
-
             // Apply the changes to the stylesheet.
             const map = changeMap.get(target);
             styles().mergeRule(map.selector, map.rule);
-
             // Restore the inline style, if any.
             const initialStyle = map.initialStyle;
             if (initialStyle) {
