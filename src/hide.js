@@ -66,20 +66,39 @@ function HideZone() {
         : null;
     const themes = {
         light: {
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
-            borderColor: "rgba(255, 255, 255, 0.5)",
-            boxShadowColor: "#f00",
-            color: "rgb(0, 0, 0)",
+            visible: {
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                borderColor: "rgba(255, 255, 255, 0.5)",
+                color: "rgba(0, 0, 0, 0.5)",
+            },
+            entered: {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                borderColor: "rgba(255, 255, 255, 1)",
+                color: "rgba(0, 0, 0, 1)",
+            },
         },
         dark: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderColor: "rgba(0, 0, 0, 0.5)",
-            boxShadowColor: "#f00",
-            color: "rgb(255, 255, 255)",
+            visible: {
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                borderColor: "rgba(0, 0, 0, 0.5)",
+                color: "rgba(255, 255, 255, 0.5)",
+            },
+            entered: {
+                backgroundColor: "rgba(0, 0, 0, 1)",
+                borderColor: "rgba(0, 0, 0, 1)",
+                color: "rgba(255, 255, 255, 1)",
+            },
         },
     };
     this.getTheme = function () {
-        return pcs?.matches ? themes.dark : themes.light;
+        const state = this.state.entered ? "entered" : "visible";
+        return pcs?.matches ? themes.dark[state] : themes.light[state];
+    };
+    this.updateStyles = function () {
+        const theme = this.getTheme();
+        this.element.style.borderColor = theme.borderColor;
+        this.innerElement.style.backgroundColor = theme.backgroundColor;
+        this.innerElement.style.color = theme.color;
     };
     this.state = {
         visible: false,
@@ -87,11 +106,16 @@ function HideZone() {
     };
     if (document.querySelector("[data-remarklet-hide-zone]")) {
         this.element = document.querySelector("[data-remarklet-hide-zone]");
-        this.element.style.background = this.getTheme().backgroundColor;
-        this.element.style.border =
-            "10px dashed " + this.getTheme().borderColor;
+        this.innerElement = this.element.querySelector("div");
+        this.updateStyles();
     } else {
         this.element = document.createElement("div");
+        this.innerElement = document.createElement("div");
+        this.innerElement.innerHTML = "Hide"; // Todo: replace with an eye icon with a diagonal line through it.
+        Object.assign(this.innerElement.style, {
+            textAlign: "center",
+            lineHeight: "84px",
+        });
         this.element.setAttribute("data-remarklet-hide-zone", "");
         this.element.setAttribute("aria-label", "Hide Zone");
         Object.assign(this.element.style, {
@@ -106,17 +130,11 @@ function HideZone() {
             pointerEvents: "none",
             transition: "box-shadow 0.2s",
             padding: "2px",
-            border: "6px dashed " + this.getTheme().borderColor,
+            borderWidth: "6px",
+            borderStyle: "dashed",
         });
-        const innerElement = document.createElement("div");
-        innerElement.innerHTML = "Hide"; // Todo: replace with an eye icon with a diagonal line through it.
-        Object.assign(innerElement.style, {
-            background: this.getTheme().backgroundColor,
-            color: this.getTheme().color,
-            textAlign: "center",
-            lineHeight: "84px",
-        });
-        this.element.appendChild(innerElement);
+        this.element.appendChild(this.innerElement);
+        this.updateStyles();
         document.body.appendChild(this.element);
     }
     this.contains = function (x, y) {
@@ -128,34 +146,27 @@ function HideZone() {
             y <= rect.bottom
         );
     };
-    this.updateTheme = function () {
-        const theme = this.getTheme();
-        this.element.style.background = theme.backgroundColor;
-        this.element.style.border = "10px dashed " + theme.borderColor;
-    };
     pcs.onchange = (e) => {
-        this.updateTheme();
+        this.updateStyles();
     };
     this.show = function () {
         this.element.style.display = "block";
     };
     this.hide = function () {
         this.element.style.display = "none";
-        this.element.style.boxShadow = "none";
     };
     this.handleEnter = function () {
         if (this.state.entered) {
             return;
         }
-        this.element.style.boxShadow =
-            "0 0 0 4px " + this.getTheme().boxShadowColor;
         this.state.entered = true;
+        this.updateStyles();
     };
     this.handleLeave = function () {
         if (!this.state.entered) {
             return;
         }
-        this.element.style.boxShadow = "none";
         this.state.entered = false;
+        this.updateStyles();
     };
 }
