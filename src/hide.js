@@ -67,13 +67,15 @@ function HideZone() {
     const themes = {
         light: {
             backgroundColor: "rgba(255, 255, 255, 0.5)",
-            borderColor: "rgb(0, 0, 0)",
+            borderColor: "rgba(255, 255, 255, 0.5)",
             boxShadowColor: "#f00",
+            color: "rgb(0, 0, 0)",
         },
         dark: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderColor: "rgb(255, 255, 255)",
+            borderColor: "rgba(0, 0, 0, 0.5)",
             boxShadowColor: "#f00",
+            color: "rgb(255, 255, 255)",
         },
     };
     this.getTheme = function () {
@@ -83,26 +85,38 @@ function HideZone() {
         visible: false,
         entered: false,
     };
-    if (!document.querySelector("[data-remarklet-hide-zone]")) {
-        this.element = document.createElement("div");
-    } else {
+    if (document.querySelector("[data-remarklet-hide-zone]")) {
         this.element = document.querySelector("[data-remarklet-hide-zone]");
-    }
-    this.element.setAttribute("data-remarklet-hide-zone", "");
-    this.element.setAttribute("aria-label", "Hide Zone");
-    this.element.style.position = "fixed";
-    this.element.style.top = "0";
-    this.element.style.right = "0";
-    this.element.style.width = "100px";
-    this.element.style.height = "100px";
-    this.element.style.zIndex = "2147483647";
-    this.element.style.display = "none";
-    this.element.style.background = this.getTheme().backgroundColor;
-    this.element.style.border = "10px dashed " + this.getTheme().borderColor;
-    this.element.style.boxSizing = "border-box";
-    this.element.style.pointerEvents = "none";
-    this.element.style.transition = "box-shadow 0.2s";
-    if (!document.querySelector("[data-remarklet-hide-zone]")) {
+        this.element.style.background = this.getTheme().backgroundColor;
+        this.element.style.border =
+            "10px dashed " + this.getTheme().borderColor;
+    } else {
+        this.element = document.createElement("div");
+        this.element.setAttribute("data-remarklet-hide-zone", "");
+        this.element.setAttribute("aria-label", "Hide Zone");
+        Object.assign(this.element.style, {
+            position: "fixed",
+            top: "0",
+            right: "0",
+            width: "100px",
+            height: "100px",
+            zIndex: "2147483647",
+            display: "none",
+            boxSizing: "border-box",
+            pointerEvents: "none",
+            transition: "box-shadow 0.2s",
+            padding: "2px",
+            border: "6px dashed " + this.getTheme().borderColor,
+        });
+        const innerElement = document.createElement("div");
+        innerElement.innerHTML = "Hide"; // Todo: replace with an eye icon with a diagonal line through it.
+        Object.assign(innerElement.style, {
+            background: this.getTheme().backgroundColor,
+            color: this.getTheme().color,
+            textAlign: "center",
+            lineHeight: "84px",
+        });
+        this.element.appendChild(innerElement);
         document.body.appendChild(this.element);
     }
     this.contains = function (x, y) {
