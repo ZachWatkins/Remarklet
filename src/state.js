@@ -16,6 +16,8 @@ const subscribers = {
     target: [],
     dragging: [],
     active: [],
+    dragmove: [],
+    dragend: [],
 };
 
 function setMode(mode) {

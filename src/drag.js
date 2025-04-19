@@ -82,13 +82,11 @@ const draggableOptions = {
             map.move(event.dx, event.dy);
             target.style.transform = map.transformText;
             // Emit a custom event for hide zone detection
-            const clientX = event.client.x;
-            const clientY = event.client.y;
-            window.dispatchEvent(
-                new CustomEvent("remarklet-dragmove", {
-                    detail: { target, clientX, clientY },
-                }),
-            );
+            state.publish("dragmove", {
+                target,
+                clientX: event.client.x,
+                clientY: event.client.y,
+            });
         },
         /**
          * Handles the drag end event
@@ -104,13 +102,11 @@ const draggableOptions = {
                 return;
             }
             // Emit a custom event for hide zone detection
-            const clientX = event.client.x;
-            const clientY = event.client.y;
-            window.dispatchEvent(
-                new CustomEvent("remarklet-dragend", {
-                    detail: { target, clientX, clientY },
-                }),
-            );
+            state.publish("dragend", {
+                target,
+                clientX: event.client.x,
+                clientY: event.client.y,
+            });
             changeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {

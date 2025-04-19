@@ -33,16 +33,14 @@ export default function main() {
     });
 
     // Listen for drag events.
-    window.addEventListener("remarklet-dragmove", (e) => {
-        const { clientX, clientY } = e.detail;
+    state.subscribe("dragmove", ({ clientX, clientY }) => {
         if (hideZone.contains(clientX, clientY)) {
             hideZone.handleEnter();
         } else {
             hideZone.handleLeave();
         }
     });
-    window.addEventListener("remarklet-dragend", (e) => {
-        const { target, clientX, clientY } = e.detail;
+    state.subscribe("dragend", ({ target, clientX, clientY }) => {
         if (hideZone.contains(clientX, clientY)) {
             // Hide the element
             changeMap.init(target, "hide");
@@ -124,7 +122,7 @@ function HideZone() {
             right: "0",
             width: "100px",
             height: "100px",
-            zIndex: "2147483647",
+            zIndex: "2147483646",
             display: "none",
             boxSizing: "border-box",
             pointerEvents: "none",
