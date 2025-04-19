@@ -8,7 +8,7 @@ import state from "./state.js";
 import changeMap from "./changeMap.js";
 import styles from "./styles.js";
 
-let hideZoneElement = null;
+let hideZone = null;
 
 /**
  * @module hide
@@ -19,27 +19,16 @@ export default function main() {
     if (state.get("hide") === false) {
         return;
     }
-    if (state.get("mode") === "editing") {
-        window.addEventListener("keydown", listener, true);
+    if (!hideZone) {
+        hideZone = new HideZone();
     }
-    state.subscribe("mode", (mode) => {
-        if (mode === "editing") {
-            window.addEventListener("keydown", listener, true);
-        } else {
-            window.removeEventListener("keydown", listener, true);
-        }
-    });
-
-    // Create the hide zone overlay
-    let hideZone = getHideZone();
 
     // Show/hide the hide zone based on drag mode
     state.subscribe("mode", (mode) => {
         if (mode === "dragging") {
-            hideZone.style.display = "block";
+            hideZone.show();
         } else {
-            hideZone.style.display = "none";
-            hideZone.style.boxShadow = "none";
+            hideZone.hide();
         }
     });
 
@@ -53,22 +42,14 @@ export default function main() {
             clientY >= rect.top &&
             clientY <= rect.bottom
         ) {
-            hideZone.style.boxShadow = "0 0 0 4px #f00";
-            hideZone.setAttribute("data-remarklet-over", "true");
+            hideZone.handleEnter();
         } else {
-            hideZone.style.boxShadow = "none";
-            hideZone.removeAttribute("data-remarklet-over");
+            hideZone.handleLeave();
         }
     });
     window.addEventListener("remarklet-dragend", (e) => {
         const { target, clientX, clientY } = e.detail;
-        const rect = hideZone.getBoundingClientRect();
-        if (
-            clientX >= rect.left &&
-            clientX <= rect.right &&
-            clientY >= rect.top &&
-            clientY <= rect.bottom
-        ) {
+        if (hideZone.checkEntered(clientX, clientY)) {
             // Hide the element
             changeMap.init(target, "hide");
             const map = changeMap.get(target);
@@ -78,58 +59,59 @@ export default function main() {
             target.removeAttribute("data-remarklet-highlight");
             state.set("target", null);
         }
-        hideZone.style.boxShadow = "none";
-        hideZone.removeAttribute("data-remarklet-over");
+        hideZone.hide();
     });
 }
 
 /**
- * Event listener for the delete and backspace keys
- * @param {KeyboardEvent} event - The keyboard event
- * @returns {void}
+ * Create the hide zone element.
  */
-function listener(event) {
-    if (state.get("mode") !== "editing") {
-        return;
-    }
-    if (event.code === "Delete" || event.code === "Backspace") {
-        event.stopPropagation();
-        event.preventDefault();
-        const target = state.get("target");
-        if (!target || target.tagName === "HTML" || target.tagName === "BODY") {
-            return;
+function HideZone() {
+    this.element = document.createElement("div");
+    this.element.setAttribute("data-remarklet-hide-zone", "");
+    this.element.setAttribute("aria-label", "Hide Zone");
+    this.element.style.position = "fixed";
+    this.element.style.top = "0";
+    this.element.style.right = "0";
+    this.element.style.width = "100px";
+    this.element.style.height = "100px";
+    this.element.style.zIndex = "2147483647";
+    this.element.style.display = "none";
+    this.element.style.background = "rgba(255,255,255,0.5)";
+    this.element.style.border = "10px dashed #fff";
+    this.element.style.boxSizing = "border-box";
+    this.element.style.pointerEvents = "none";
+    this.element.style.transition = "box-shadow 0.2s";
+    document.body.appendChild(this.element);
+    this.show = function () {
+        this.element.style.display = "block";
+    };
+    this.hide = function () {
+        this.element.style.display = "none";
+        this.element.style.boxShadow = "none";
+    };
+    this.toggle = function () {
+        if (this.element.style.display === "none") {
+            this.show();
+        } else {
+            this.hide();
         }
-        changeMap.init(target, "hide");
-        const map = changeMap.get(target);
-        map.display = "none";
-        styles().mergeRule(map.selector, map.rule);
-        changeMap.sync(target);
-        target.removeAttribute("data-remarklet-highlight");
-        state.set("target", null);
-    }
-}
-
-/**
- * Get or create the hide zone element.
- * @returns {HTMLElement} The hide zone element.
- */
-function getHideZone() {
-    if (hideZoneElement) return hideZoneElement;
-    hideZoneElement = document.createElement("div");
-    hideZoneElement.setAttribute("data-remarklet-hide-zone", "");
-    hideZoneElement.setAttribute("aria-label", "Hide Zone");
-    hideZoneElement.style.position = "fixed";
-    hideZoneElement.style.top = "0";
-    hideZoneElement.style.right = "0";
-    hideZoneElement.style.width = "100px";
-    hideZoneElement.style.height = "100px";
-    hideZoneElement.style.zIndex = "2147483647";
-    hideZoneElement.style.display = "none";
-    hideZoneElement.style.background = "rgba(255,255,255,0.5)";
-    hideZoneElement.style.border = "10px dashed #fff";
-    hideZoneElement.style.boxSizing = "border-box";
-    hideZoneElement.style.pointerEvents = "none";
-    hideZoneElement.style.transition = "box-shadow 0.2s";
-    document.body.appendChild(hideZoneElement);
-    return hideZoneElement;
+    };
+    this.handleEnter = function () {
+        this.element.style.boxShadow = "0 0 0 4px #f00";
+        this.element.setAttribute("data-remarklet-over", "true");
+    };
+    this.handleLeave = function () {
+        this.element.style.boxShadow = "none";
+        this.element.removeAttribute("data-remarklet-over");
+    };
+    this.checkEntered = function (x, y) {
+        const rect = this.element.getBoundingClientRect();
+        return (
+            x >= rect.left &&
+            x <= rect.right &&
+            y >= rect.top &&
+            y <= rect.bottom
+        );
+    };
 }
