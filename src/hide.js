@@ -8,6 +8,8 @@ import state from "./state.js";
 import changeMap from "./changeMap.js";
 import styles from "./styles.js";
 
+let hideZoneElement = null;
+
 /**
  * @module hide
  * @description Hide elements on the page using a button for cross-device compatibility.
@@ -29,25 +31,7 @@ export default function main() {
     });
 
     // Create the hide zone overlay
-    let hideZone = document.getElementById("remarklet-hide-zone");
-    if (!hideZone) {
-        hideZone = document.createElement("div");
-        hideZone.id = "remarklet-hide-zone";
-        hideZone.setAttribute("aria-label", "Hide Zone");
-        hideZone.style.position = "fixed";
-        hideZone.style.top = "0";
-        hideZone.style.right = "0";
-        hideZone.style.width = "100px";
-        hideZone.style.height = "100px";
-        hideZone.style.zIndex = "2147483647";
-        hideZone.style.display = "none";
-        hideZone.style.background = "rgba(255,255,255,0.5)";
-        hideZone.style.border = "10px dashed #fff";
-        hideZone.style.boxSizing = "border-box";
-        hideZone.style.pointerEvents = "none";
-        hideZone.style.transition = "box-shadow 0.2s";
-        document.body.appendChild(hideZone);
-    }
+    let hideZone = getHideZone();
 
     // Show/hide the hide zone based on drag mode
     state.subscribe("mode", (mode) => {
@@ -59,7 +43,7 @@ export default function main() {
         }
     });
 
-    // Listen for drag events from Interact.js
+    // Listen for drag events.
     window.addEventListener("remarklet-dragmove", (e) => {
         const { target, clientX, clientY } = e.detail;
         const rect = hideZone.getBoundingClientRect();
@@ -118,11 +102,34 @@ function listener(event) {
         changeMap.init(target, "hide");
         const map = changeMap.get(target);
         map.display = "none";
-        console.log(target);
-        console.log(map);
         styles().mergeRule(map.selector, map.rule);
         changeMap.sync(target);
         target.removeAttribute("data-remarklet-highlight");
         state.set("target", null);
     }
+}
+
+/**
+ * Get or create the hide zone element.
+ * @returns {HTMLElement} The hide zone element.
+ */
+function getHideZone() {
+    if (hideZoneElement) return hideZoneElement;
+    hideZoneElement = document.createElement("div");
+    hideZoneElement.setAttribute("data-remarklet-hide-zone", "");
+    hideZoneElement.setAttribute("aria-label", "Hide Zone");
+    hideZoneElement.style.position = "fixed";
+    hideZoneElement.style.top = "0";
+    hideZoneElement.style.right = "0";
+    hideZoneElement.style.width = "100px";
+    hideZoneElement.style.height = "100px";
+    hideZoneElement.style.zIndex = "2147483647";
+    hideZoneElement.style.display = "none";
+    hideZoneElement.style.background = "rgba(255,255,255,0.5)";
+    hideZoneElement.style.border = "10px dashed #fff";
+    hideZoneElement.style.boxSizing = "border-box";
+    hideZoneElement.style.pointerEvents = "none";
+    hideZoneElement.style.transition = "box-shadow 0.2s";
+    document.body.appendChild(hideZoneElement);
+    return hideZoneElement;
 }
