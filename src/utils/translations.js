@@ -1,312 +1,174 @@
 const dict = {
     // Abkhazian.
-    ab: {
-        Hide: "",
-    },
+    ab: false,
     // Afar.
-    aa: {
-        Hide: "",
-    },
+    aa: false,
     // Afrikaans.
     af: {
         Hide: "Versteek",
     },
     // Akan.
-    ak: {
-        Hide: "",
-    },
+    ak: false,
     // Albanian.
-    sq: {
-        Hide: "",
-    },
+    sq: false,
     // Amharic.
-    am: {
-        Hide: "",
-    },
+    am: false,
     // Arabic.
     ar: {
         Hide: "يخفي",
     },
     // Aragonese.
-    an: {
-        Hide: "",
-    },
+    an: false,
     // Armenian.
-    hy: {
-        Hide: "",
-    },
+    hy: false,
     // Assamese.
-    as: {
-        Hide: "",
-    },
+    as: false,
     // Avaric.
-    av: {
-        Hide: "",
-    },
+    av: false,
     // Avestan.
-    ae: {
-        Hide: "",
-    },
+    ae: false,
     // Aymara.
-    ay: {
-        Hide: "",
-    },
+    ay: false,
     // Azerbaijani.
-    az: {
-        Hide: "",
-    },
+    az: false,
     // Bambara.
-    bm: {
-        Hide: "",
-    },
+    bm: false,
     // Bashkir.
-    ba: {
-        Hide: "",
-    },
+    ba: false,
     // Basque.
-    eu: {
-        Hide: "",
-    },
+    eu: false,
     // Belarusian.
-    be: {
-        Hide: "",
-    },
+    be: false,
     // Bengali (Bangla).
-    bn: {
-        Hide: "",
-    },
+    bn: false,
     // Bihari.
-    bh: {
-        Hide: "",
-    },
+    bh: false,
     // Bislama.
-    bi: {
-        Hide: "",
-    },
+    bi: false,
     // Bosnian.
-    bs: {
-        Hide: "",
-    },
+    bs: false,
     // Breton.
-    br: {
-        Hide: "",
-    },
+    br: false,
     // Bulgarian.
-    bg: {
-        Hide: "",
-    },
+    bg: false,
     // Burmese.
-    my: {
-        Hide: "",
-    },
+    my: false,
     // Catalan.
-    ca: {
-        Hide: "",
-    },
+    ca: false,
     // Chamorro.
-    ch: {
-        Hide: "",
-    },
+    ch: false,
     // Chechen.
-    ce: {
-        Hide: "",
-    },
+    ce: false,
     // Chichewa, Chewa, Nyanja.
-    ny: {
-        Hide: "",
-    },
+    ny: false,
     // Chinese.
     zh: {
         Hide: "隐藏",
     },
     // Chinese (Simplified).
-    "zh-Hans": {
-        Hide: "",
-    },
+    "zh-Hans": false,
     // Chinese (Traditional).
-    "zh-Hant": {
-        Hide: "",
-    },
+    "zh-Hant": false,
     // Chuvash.
-    cv: {
-        Hide: "",
-    },
+    cv: false,
     // Cornish.
-    kw: {
-        Hide: "",
-    },
+    kw: false,
     // Corsican.
-    co: {
-        Hide: "",
-    },
+    co: false,
     // Cree.
-    cr: {
-        Hide: "",
-    },
+    cr: false,
     // Croatian.
-    hr: {
-        Hide: "",
-    },
+    hr: false,
     // Czech.
-    cs: {
-        Hide: "",
-    },
+    cs: false,
     // Danish.
-    da: {
-        Hide: "",
-    },
+    da: false,
     // Divehi, Dhivehi, Maldivian.
-    dv: {
-        Hide: "",
-    },
+    dv: false,
     // Dutch.
     nl: {
         Hide: "Verbergen",
     },
     // Dzongkha.
-    dz: {
-        Hide: "",
-    },
+    dz: false,
     // English.
     en: {
         Hide: "Hide",
     },
     // Esperanto.
-    eo: {
-        Hide: "",
-    },
+    eo: false,
     // Estonian.
-    et: {
-        Hide: "",
-    },
+    et: false,
     // Ewe.
-    ee: {
-        Hide: "",
-    },
+    ee: false,
     // Faroese.
-    fo: {
-        Hide: "",
-    },
+    fo: false,
     // Fijian.
-    fj: {
-        Hide: "",
-    },
+    fj: false,
     // Finnish.
-    fi: {
-        Hide: "",
-    },
+    fi: false,
     // French.
     fr: {
         Hide: "Cacher",
     },
     // Fula, Fulah, Pulaar, Pular.
-    ff: {
-        Hide: "",
-    },
+    ff: false,
     // Galician.
-    gl: {
-        Hide: "",
-    },
+    gl: false,
     // Gaelic (Scottish).
-    gd: {
-        Hide: "",
-    },
+    gd: false,
     // Gaelic (Manx).
-    gv: {
-        Hide: "",
-    },
+    gv: false,
     // Georgian.
-    ka: {
-        Hide: "",
-    },
+    ka: false,
     // German.
     de: {
         Hide: "Verstecken",
     },
     // Greek.
-    el: {
-        Hide: "",
-    },
+    el: false,
     // Greenlandic.
-    kl: {
-        Hide: "",
-    },
+    kl: false,
     // Guarani.
-    gn: {
-        Hide: "",
-    },
+    gn: false,
     // Gujarati.
-    gu: {
-        Hide: "",
-    },
+    gu: false,
     // Haitian Creole.
-    ht: {
-        Hide: "",
-    },
+    ht: false,
     // Hausa.
-    ha: {
-        Hide: "",
-    },
+    ha: false,
     // Hebrew.
-    he: {
-        Hide: "",
-    },
+    he: false,
     // Herero.
-    hz: {
-        Hide: "",
-    },
+    hz: false,
     // Hindi.
     hi: {
         Hide: "छिपाना",
     },
     // Hiri Motu.
-    ho: {
-        Hide: "",
-    },
+    ho: false,
     // Hungarian.
-    hu: {
-        Hide: "",
-    },
+    hu: false,
     // Icelandic.
-    is: {
-        Hide: "",
-    },
+    is: false,
     // Ido.
-    io: {
-        Hide: "",
-    },
+    io: false,
     // Igbo.
-    ig: {
-        Hide: "",
-    },
+    ig: false,
     // Indonesian.
-    id: {
-        Hide: "",
-    },
+    id: false,
     // Indonesian.
-    in: {
-        Hide: "",
-    },
+    in: false,
     // Interlingua.
-    ia: {
-        Hide: "",
-    },
+    ia: false,
     // Interlingue.
-    ie: {
-        Hide: "",
-    },
+    ie: false,
     // Inuktitut.
-    iu: {
-        Hide: "",
-    },
+    iu: false,
     // Inupiak.
-    ik: {
-        Hide: "",
-    },
+    ik: false,
     // Irish.
-    ga: {
-        Hide: "",
-    },
+    ga: false,
     // Italian.
     it: {
         Hide: "Nascondere",
@@ -316,461 +178,241 @@ const dict = {
         Hide: "隠れる",
     },
     // Javanese.
-    jv: {
-        Hide: "",
-    },
+    jv: false,
     // Kalaallisut, Greenlandic.
-    kl: {
-        Hide: "",
-    },
+    kl: false,
     // Kannada.
-    kn: {
-        Hide: "",
-    },
+    kn: false,
     // Kanuri.
-    kr: {
-        Hide: "",
-    },
+    kr: false,
     // Kashmiri.
-    ks: {
-        Hide: "",
-    },
+    ks: false,
     // Kazakh.
-    kk: {
-        Hide: "",
-    },
+    kk: false,
     // Khmer.
-    km: {
-        Hide: "",
-    },
+    km: false,
     // Kikuyu.
-    ki: {
-        Hide: "",
-    },
+    ki: false,
     // Kinyarwanda (Rwanda).
-    rw: {
-        Hide: "",
-    },
+    rw: false,
     // Kirundi.
-    rn: {
-        Hide: "",
-    },
+    rn: false,
     // Kyrgyz.
-    ky: {
-        Hide: "",
-    },
+    ky: false,
     // Komi.
-    kv: {
-        Hide: "",
-    },
+    kv: false,
     // Kongo.
-    kg: {
-        Hide: "",
-    },
+    kg: false,
     // Korean.
     ko: {
         Hide: "숨다",
     },
     // Kurdish.
-    ku: {
-        Hide: "",
-    },
+    ku: false,
     // Kwanyama.
-    kj: {
-        Hide: "",
-    },
+    kj: false,
     // Lao.
-    lo: {
-        Hide: "",
-    },
+    lo: false,
     // Latin.
-    la: {
-        Hide: "",
-    },
+    la: false,
     // Latvian (Lettish).
-    lv: {
-        Hide: "",
-    },
+    lv: false,
     // Limburgish ( Limburger).
-    li: {
-        Hide: "",
-    },
+    li: false,
     // Lingala.
-    ln: {
-        Hide: "",
-    },
+    ln: false,
     // Lithuanian.
-    lt: {
-        Hide: "",
-    },
+    lt: false,
     // Luga-Katanga.
-    lu: {
-        Hide: "",
-    },
+    lu: false,
     // Luganda, Ganda.
-    lg: {
-        Hide: "",
-    },
+    lg: false,
     // Luxembourgish.
-    lb: {
-        Hide: "",
-    },
+    lb: false,
     // Manx.
-    gv: {
-        Hide: "",
-    },
+    gv: false,
     // Macedonian.
-    mk: {
-        Hide: "",
-    },
+    mk: false,
     // Malagasy.
-    mg: {
-        Hide: "",
-    },
+    mg: false,
     // Malay.
-    ms: {
-        Hide: "",
-    },
+    ms: false,
     // Malayalam.
-    ml: {
-        Hide: "",
-    },
+    ml: false,
     // Maltese.
-    mt: {
-        Hide: "",
-    },
+    mt: false,
     // Maori.
-    mi: {
-        Hide: "",
-    },
+    mi: false,
     // Marathi.
-    mr: {
-        Hide: "",
-    },
+    mr: false,
     // Marshallese.
-    mh: {
-        Hide: "",
-    },
+    mh: false,
     // Moldavian.
-    mo: {
-        Hide: "",
-    },
+    mo: false,
     // Mongolian.
-    mn: {
-        Hide: "",
-    },
+    mn: false,
     // Nauru.
-    na: {
-        Hide: "",
-    },
+    na: false,
     // Navajo.
-    nv: {
-        Hide: "",
-    },
+    nv: false,
     // Ndonga.
-    ng: {
-        Hide: "",
-    },
+    ng: false,
     // Northern Ndebele.
-    nd: {
-        Hide: "",
-    },
+    nd: false,
     // Nepali.
-    ne: {
-        Hide: "",
-    },
+    ne: false,
     // Norwegian.
-    no: {
-        Hide: "",
-    },
+    no: false,
     // Norwegian bokmål.
-    nb: {
-        Hide: "",
-    },
+    nb: false,
     // Norwegian nynorsk.
-    nn: {
-        Hide: "",
-    },
+    nn: false,
     // Nuosu.
-    ii: {
-        Hide: "",
-    },
+    ii: false,
     // Occitan.
-    oc: {
-        Hide: "",
-    },
+    oc: false,
     // Ojibwe.
-    oj: {
-        Hide: "",
-    },
+    oj: false,
     // Old Church Slavonic, Old Bulgarian.
-    cu: {
-        Hide: "",
-    },
+    cu: false,
     // Oriya.
-    or: {
-        Hide: "",
-    },
+    or: false,
     // Oromo (Afaan Oromo).
-    om: {
-        Hide: "",
-    },
+    om: false,
     // Ossetian.
-    os: {
-        Hide: "",
-    },
+    os: false,
     // Pāli.
-    pi: {
-        Hide: "",
-    },
+    pi: false,
     // Pashto, Pushto.
-    ps: {
-        Hide: "",
-    },
+    ps: false,
     // Persian (Farsi).
-    fa: {
-        Hide: "",
-    },
+    fa: false,
     // Polish.
-    pl: {
-        Hide: "",
-    },
+    pl: false,
     // Portuguese.
-    pt: {
-        Hide: "",
-    },
+    pt: false,
     // Punjabi (Eastern).
-    pa: {
-        Hide: "",
-    },
+    pa: false,
     // Quechua.
-    qu: {
-        Hide: "",
-    },
+    qu: false,
     // Romansh.
-    rm: {
-        Hide: "",
-    },
+    rm: false,
     // Romanian.
-    ro: {
-        Hide: "",
-    },
+    ro: false,
     // Russian.
     ru: {
         Hide: "Скрывать",
     },
     // Sami.
-    se: {
-        Hide: "",
-    },
+    se: false,
     // Samoan.
-    sm: {
-        Hide: "",
-    },
+    sm: false,
     // Sango.
-    sg: {
-        Hide: "",
-    },
+    sg: false,
     // Sanskrit.
-    sa: {
-        Hide: "",
-    },
+    sa: false,
     // Serbian.
-    sr: {
-        Hide: "",
-    },
+    sr: false,
     // Serbo-Croatian.
-    sh: {
-        Hide: "",
-    },
+    sh: false,
     // Sesotho.
-    st: {
-        Hide: "",
-    },
+    st: false,
     // Setswana.
-    tn: {
-        Hide: "",
-    },
+    tn: false,
     // Shona.
-    sn: {
-        Hide: "",
-    },
+    sn: false,
     // Sichuan Yi.
-    ii: {
-        Hide: "",
-    },
+    ii: false,
     // Sindhi.
-    sd: {
-        Hide: "",
-    },
+    sd: false,
     // Sinhalese.
-    si: {
-        Hide: "",
-    },
+    si: false,
     // Siswati.
-    ss: {
-        Hide: "",
-    },
+    ss: false,
     // Slovak.
-    sk: {
-        Hide: "",
-    },
+    sk: false,
     // Slovenian.
-    sl: {
-        Hide: "",
-    },
+    sl: false,
     // Somali.
-    so: {
-        Hide: "",
-    },
+    so: false,
     // Southern Ndebele.
-    nr: {
-        Hide: "",
-    },
+    nr: false,
     // Spanish.
     es: {
         Hide: "Esconder",
     },
     // Sundanese.
-    su: {
-        Hide: "",
-    },
+    su: false,
     // Swahili (Kiswahili).
-    sw: {
-        Hide: "",
-    },
+    sw: false,
     // Swati.
-    ss: {
-        Hide: "",
-    },
+    ss: false,
     // Swedish.
-    sv: {
-        Hide: "",
-    },
+    sv: false,
     // Tagalog.
-    tl: {
-        Hide: "",
-    },
+    tl: false,
     // Tahitian.
-    ty: {
-        Hide: "",
-    },
+    ty: false,
     // Tajik.
-    tg: {
-        Hide: "",
-    },
+    tg: false,
     // Tamil.
-    ta: {
-        Hide: "",
-    },
+    ta: false,
     // Tatar.
-    tt: {
-        Hide: "",
-    },
+    tt: false,
     // Telugu.
-    te: {
-        Hide: "",
-    },
+    te: false,
     // Thai.
     th: {
         Hide: "ซ่อน",
     },
     // Tibetan.
-    bo: {
-        Hide: "",
-    },
+    bo: false,
     // Tigrinya.
-    ti: {
-        Hide: "",
-    },
+    ti: false,
     // Tonga.
-    to: {
-        Hide: "",
-    },
+    to: false,
     // Tsonga.
-    ts: {
-        Hide: "",
-    },
+    ts: false,
     // Turkish.
-    tr: {
-        Hide: "",
-    },
+    tr: false,
     // Turkmen.
-    tk: {
-        Hide: "",
-    },
+    tk: false,
     // Twi.
-    tw: {
-        Hide: "",
-    },
+    tw: false,
     // Uyghur.
-    ug: {
-        Hide: "",
-    },
+    ug: false,
     // Ukrainian.
-    uk: {
-        Hide: "",
-    },
+    uk: false,
     // Urdu.
-    ur: {
-        Hide: "",
-    },
+    ur: false,
     // Uzbek.
-    uz: {
-        Hide: "",
-    },
+    uz: false,
     // Venda.
-    ve: {
-        Hide: "",
-    },
+    ve: false,
     // Vietnamese.
-    vi: {
-        Hide: "",
-    },
+    vi: false,
     // Volapük.
-    vo: {
-        Hide: "",
-    },
+    vo: false,
     // Wallon.
-    wa: {
-        Hide: "",
-    },
+    wa: false,
     // Welsh.
-    cy: {
-        Hide: "",
-    },
+    cy: false,
     // Wolof.
-    wo: {
-        Hide: "",
-    },
+    wo: false,
     // Western Frisian.
-    fy: {
-        Hide: "",
-    },
+    fy: false,
     // Xhosa.
-    xh: {
-        Hide: "",
-    },
+    xh: false,
     // Yiddish.
-    yi: {
-        Hide: "",
-    },
+    yi: false,
     // Yiddish.
-    ji: {
-        Hide: "",
-    },
+    ji: false,
     // Yoruba.
-    yo: {
-        Hide: "",
-    },
+    yo: false,
     // Zhuang, Chuang.
-    za: {
-        Hide: "",
-    },
+    za: false,
     // Zulu.
-    zu: {
-        Hide: "",
-    },
+    zu: false,
 };
 const events = [];
 let listening = false;
