@@ -46,6 +46,7 @@ export default function main() {
             changeMap.init(target, "hide");
             const map = changeMap.get(target);
             map.display = "none";
+            map.transform = map.lastTransform;
             styles().mergeRule(map.selector, map.rule);
             changeMap.sync(target);
             target.removeAttribute("data-remarklet-highlight");

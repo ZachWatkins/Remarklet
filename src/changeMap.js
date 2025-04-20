@@ -63,6 +63,7 @@ function ElementState(target, props = {}) {
             this.transform = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
         }
     }
+    this.lastTransform = [];
     if (!this.matrix3d) {
         Object.defineProperties(this, {
             x: {

@@ -59,12 +59,16 @@ const draggableOptions = {
                 if (parent) {
                     state.set("target", parent);
                     changeMap.init(parent, "dragged");
+                    const map = changeMap.get(parent);
+                    map.lastTransform = [...map.transform];
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
                 changeMap.init(event.target, "dragged");
+                const map = changeMap.get(event.target);
+                map.lastTransform = [...map.transform];
             }
         },
         /**
