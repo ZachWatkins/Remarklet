@@ -8,6 +8,30 @@ import changeMap from "./changeMap.js";
 export default function main() {
     let currentEditableElement = null;
 
+    state.subscribe("target", (target, oldTarget) => {
+        if (!state.get("active")) {
+            cleanupEditableElement(currentEditableElement);
+            currentEditableElement = null;
+            return;
+        }
+        const mode = state.get("mode");
+        if (mode === "editing" || mode === "textediting") {
+            cleanupEditableElement(currentEditableElement);
+            currentEditableElement = null;
+            if (target) {
+                currentEditableElement = target;
+                currentEditableElement.setAttribute("contenteditable", "true");
+                currentEditableElement.addEventListener("input", handleInput);
+                currentEditableElement.addEventListener("focus", handleFocus);
+                currentEditableElement.addEventListener("blur", handleBlur);
+            }
+        } else {
+            cleanupEditableElement(currentEditableElement);
+            currentEditableElement = null;
+        }
+    });
+
+    // Restore edited content if persist is true.
     if (state.get("persist") === true) {
         changeMap.each((elementState) => {
             if (typeof elementState.content === "string") {
@@ -19,57 +43,51 @@ export default function main() {
             }
         });
     }
+}
 
-    /**
-     * Handle input events on contenteditable elements
-     * @param {Event} event - The input event object
-     * @returns {void}
-     */
-    function handleInput(event) {
-        if (!state.get("persist")) {
-            return;
-        }
-        const target = event.target;
-        changeMap.init(target, "edited");
-        changeMap.get(target).content = target.innerHTML;
-        changeMap.sync(target);
+/**
+ * Handle input events on contenteditable elements
+ * @param {Event} event - The input event object
+ * @returns {void}
+ */
+function handleInput(event) {
+    changeMap.init(event.target, "edited");
+    if (!state.get("persist")) {
+        return;
     }
+    changeMap.get(event.target).content = event.target.innerHTML;
+    changeMap.sync(event.target);
+}
 
-    state.subscribe("target", (target, oldTarget) => {
-        if (oldTarget) {
-            oldTarget.removeAttribute("contenteditable");
-            if (currentEditableElement === oldTarget) {
-                oldTarget.removeEventListener("input", handleInput);
-                currentEditableElement = null;
-            }
-        }
+/**
+ * Handle focus events on contenteditable elements
+ * @param {Event} event - The focus event object
+ * @returns {void}
+ */
+function handleFocus(event) {
+    state.set("mode", "textediting");
+}
 
-        if (!state.get("active")) {
-            return;
-        }
+/**
+ * Handle blur events on contenteditable elements
+ * @param {Event} event - The blur event object
+ * @returns {void}
+ */
+function handleBlur(event) {
+    state.set("mode", "editing");
+}
 
-        if (target && "editing" === state.get("mode")) {
-            target.setAttribute("contenteditable", "true");
-            target.addEventListener("input", handleInput);
-            currentEditableElement = target;
-        }
-    });
-
-    state.subscribe("mode", (mode) => {
-        const target = state.get("target");
-
-        if (mode === "editing") {
-            if (target) {
-                target.setAttribute("contenteditable", "true");
-                target.addEventListener("input", handleInput);
-                currentEditableElement = target;
-            }
-        } else {
-            if (target && target.hasAttribute("contenteditable")) {
-                target.removeAttribute("contenteditable");
-                target.removeEventListener("input", handleInput);
-                currentEditableElement = null;
-            }
-        }
-    });
+/**
+ * Remove contenteditable attribute and event handlers from an element.
+ * @param {Element|null} element - The element to clean up
+ * @returns {void}
+ */
+function cleanupEditableElement(element) {
+    if (!element) {
+        return;
+    }
+    element.removeAttribute("contenteditable");
+    element.removeEventListener("input", handleInput);
+    element.removeEventListener("focus", handleFocus);
+    element.removeEventListener("blur", handleBlur);
 }

@@ -1,36 +1,22 @@
 import state from "./state.js";
-import { getUniqueSelector } from "./utils/cssSelector";
-import LocalStorageItem from "./utils/LocalStorageItem";
+import { getUniqueSelector } from "./utils/cssSelector.js";
+import LocalStorageItem from "./utils/LocalStorageItem.js";
 const elementChangeMap = new WeakMap();
 let store = null;
 
 /**
- * @typedef {Object} ElementState
- * @property {string} selector - The selector of the item.
- * @property {string} initialStyle - The initial style of the item.
- * @property {boolean} restored - Whether the item has been restored.
- * @property {boolean} dragged - Whether the item has been dragged.
- * @property {boolean} resized - Whether the item has been resized.
- * @property {boolean} matrix3d - Whether the element position should be styled using matrix3d.
- * @property {number} x - The transform's x value.
- * @property {number} y - The transform's y value.
- * @property {number} width - The width value in pixels.
- * @property {number} height - The height value in pixels.
- * @property {number} marginBottom - The bottom margin in pixels.
- * @property {number} marginRight - The right margin in pixels.
- * @property {Array<number>} transform - The transform matrix.
- * @property {string} transformText - The transform text representation.
- * @property {string} rule - The CSS rule for the item.
- * @property {(deltaX: number, deltaY: number) => void} move - Moves the item by deltaX and/or deltaY.
- */
-/**
- * @constructor
+ * Stores element state.
  * @param {HTMLElement} target - The target element.
  * @param {Object} [props] - The properties of the change map item.
  * @param {boolean} [props.restored] - Whether the item has been restored.
  * @param {boolean} [props.dragged] - Whether the item has been dragged.
  * @param {boolean} [props.resized] - Whether the item has been resized.
- * @returns {ElementState} The element state object.
+ * @param {boolean} [props.edited] - Whether the item has been edited.
+ * @param {string} [props.selector] - The selector of the item.
+ * @param {string} [props.content] - The content of the item.
+ * @param {string} [props.transform] - The transform of the item.
+ * @param {string} [props.display] - The display of the item.
+ * @returns {void}
  */
 function ElementState(target, props = {}) {
     const computed = window.getComputedStyle(target);
@@ -49,6 +35,7 @@ function ElementState(target, props = {}) {
     this.height = parseFloat(computed.height);
     this.marginBottom = parseFloat(computed.marginBottom);
     this.marginRight = parseFloat(computed.marginRight);
+    this.display = props.display || computed.display;
     this.matrix3d = computed.transform.indexOf("matrix3d(") >= 0;
     if (props.transform) {
         this.transform = props.transform;
@@ -76,6 +63,7 @@ function ElementState(target, props = {}) {
             this.transform = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
         }
     }
+    this.lastTransform = [];
     if (!this.matrix3d) {
         Object.defineProperties(this, {
             x: {
@@ -127,7 +115,11 @@ function ElementState(target, props = {}) {
     }
     Object.defineProperty(this, "rule", {
         get() {
+            if (this.display === "none") {
+                return "display: none;";
+            }
             return `
+display: ${this.display};
 width: ${this.width}px;
 height: ${this.height}px;
 margin-bottom: ${this.marginBottom}px;
@@ -157,6 +149,10 @@ export default function changeMap() {
         });
         if (store.restored) {
             for (const selector in store.value) {
+                if (!selector) {
+                    console.error("Selector is empty", store.value);
+                    continue;
+                }
                 const stored = store.value[selector];
                 const target = document.querySelector(selector);
                 if (stored && target) {

@@ -8,6 +8,7 @@ const state = {
     modifying: false,
     persist: false,
     initialized: false,
+    hide: false,
 };
 
 const subscribers = {
@@ -15,6 +16,8 @@ const subscribers = {
     target: [],
     dragging: [],
     active: [],
+    dragmove: [],
+    dragend: [],
 };
 
 function setMode(mode) {

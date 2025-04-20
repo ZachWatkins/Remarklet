@@ -6,7 +6,7 @@ import interact from "@interactjs/interact/index.prod";
 import state from "./state.js";
 import styles from "./styles.js";
 import changeMap from "./changeMap.js";
-import { resolveTransform, hasRotation } from "./utils/cssTransforms.js";
+import { hasRotation } from "./utils/cssTransforms.js";
 
 let interactable = null;
 let inlineTarget = null;
@@ -31,6 +31,7 @@ export function main() {
 
 const draggableOptions = {
     autoScroll: true,
+    ignoreFrom: "[data-remarklet-control]",
     listeners: {
         /**
          * Handles the drag start event
@@ -58,12 +59,16 @@ const draggableOptions = {
                 if (parent) {
                     state.set("target", parent);
                     changeMap.init(parent, "dragged");
+                    const map = changeMap.get(parent);
+                    map.lastTransform = [...map.transform];
                     parent.setAttribute("data-remarklet-dragging", "true");
                     inlineTarget = event.target;
                 }
             } else {
                 event.target.setAttribute("data-remarklet-dragging", "true");
                 changeMap.init(event.target, "dragged");
+                const map = changeMap.get(event.target);
+                map.lastTransform = [...map.transform];
             }
         },
         /**
@@ -81,6 +86,11 @@ const draggableOptions = {
             const map = changeMap.get(target);
             map.move(event.dx, event.dy);
             target.style.transform = map.transformText;
+            state.publish("dragmove", {
+                target,
+                clientX: event.client.x,
+                clientY: event.client.y,
+            });
         },
         /**
          * Handles the drag end event
@@ -95,6 +105,11 @@ const draggableOptions = {
             if (!target) {
                 return;
             }
+            state.publish("dragend", {
+                target,
+                clientX: event.client.x,
+                clientY: event.client.y,
+            });
             changeMap.sync(target);
             target.removeAttribute("data-remarklet-dragging");
             if (event.target === inlineTarget) {
@@ -102,11 +117,9 @@ const draggableOptions = {
                 inlineTarget = null;
             }
             state.set("mode", "editing");
-
             // Apply the changes to the stylesheet.
             const map = changeMap.get(target);
             styles().mergeRule(map.selector, map.rule);
-
             // Restore the inline style, if any.
             const initialStyle = map.initialStyle;
             if (initialStyle) {
@@ -120,6 +133,7 @@ const draggableOptions = {
 
 const resizableOptions = {
     edges: { left: true, right: true, bottom: true, top: true },
+    ignoreFrom: "[data-remarklet-control]",
     listeners: {
         start(event) {
             if (state.get("modifying")) {

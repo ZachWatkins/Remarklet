@@ -104,7 +104,12 @@ export default function Stylesheet(options) {
         if (foundIndex !== false) {
             this.element.sheet.deleteRule(foundIndex);
         }
-        this.element.sheet.insertRule(ruletext);
+        try {
+            this.element.sheet.insertRule(ruletext);
+        } catch (e) {
+            console.error("Error inserting rule:", ruletext, e);
+            return;
+        }
         if (this.persist) {
             let found = false;
             for (let i = 0; i < this.storage.value.rules.length; i++) {

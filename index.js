@@ -11,6 +11,7 @@ import target from "./src/target.js";
 import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
 import changeMap from "./src/changeMap.js";
+import hide from "./src/hide.js";
 
 /**
  * @module remarklet
@@ -41,7 +42,7 @@ let optionsSet = false;
  */
 remarklet.options = function (options) {
     if (optionsSet) {
-        console.error("Options have already been set.");
+        console.error("Options are already set.");
         return;
     }
     if (typeof options !== "object") {
@@ -49,6 +50,9 @@ remarklet.options = function (options) {
     }
     if (options.persist === true) {
         state.set("persist", true);
+    }
+    if (options.hide === true) {
+        state.set("hide", true);
     }
     optionsSet = true;
 };
@@ -66,6 +70,7 @@ remarklet.activate = function () {
         drag();
         target();
         textedit();
+        hide();
         state.set("initialized", true);
         loading = false;
     }
