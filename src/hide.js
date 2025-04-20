@@ -149,7 +149,6 @@ function HideZone() {
      */
     this.show = function () {
         if (!this.state.visible) {
-            console.log("show");
             this.element.style.display = "block";
             // Force reflow to ensure transition
             void this.element.offsetWidth;
@@ -162,7 +161,6 @@ function HideZone() {
      */
     this.hide = function () {
         if (this.state.visible) {
-            console.log("hide");
             this.element.style.opacity = "0";
             // After transition, set display to none
             const onTransitionEnd = (event) => {

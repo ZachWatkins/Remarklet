@@ -51,8 +51,8 @@ remarklet.options = function (options) {
     if (options.persist === true) {
         state.set("persist", true);
     }
-    if (typeof options.hide !== "undefined") {
-        state.set("hide", options.hide);
+    if (options.hide === true) {
+        state.set("hide", true);
     }
     optionsSet = true;
 };
