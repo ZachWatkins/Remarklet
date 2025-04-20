@@ -43,7 +43,6 @@ export default function main() {
     });
     state.subscribe("dragend", ({ target, clientX, clientY }) => {
         if (hideZone.contains(clientX, clientY)) {
-            // Hide the element
             changeMap.init(target, "hide");
             const map = changeMap.get(target);
             map.display = "none";
@@ -101,15 +100,7 @@ function HideZone() {
         entered: false,
     };
     this.element = document.createElement("div");
-    this.innerElement = document.createElement("div");
-    this.innerElement.innerHTML = __("Hide");
-    __.subscribe(() => {
-        this.innerElement.innerHTML = __("Hide");
-    });
-    Object.assign(this.innerElement.style, {
-        textAlign: "center",
-        lineHeight: "88px",
-    });
+    this.element.setAttribute("data-remarklet-control", "");
     this.element.setAttribute("data-remarklet-hide-zone", "");
     this.element.setAttribute("aria-label", "Hide Zone");
     Object.assign(this.element.style, {
@@ -128,6 +119,15 @@ function HideZone() {
             "border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
         opacity: "0",
         display: "none",
+    });
+    this.innerElement = document.createElement("div");
+    this.innerElement.innerHTML = __("Hide");
+    __.subscribe(() => {
+        this.innerElement.innerHTML = __("Hide");
+    });
+    Object.assign(this.innerElement.style, {
+        textAlign: "center",
+        lineHeight: "88px",
     });
     this.element.appendChild(this.innerElement);
     this.updateStyles();
