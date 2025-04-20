@@ -114,6 +114,9 @@ function ElementState(target, props = {}) {
     }
     Object.defineProperty(this, "rule", {
         get() {
+            if (this.display === "none") {
+                return "display: none;";
+            }
             return `
 display: ${this.display};
 width: ${this.width}px;
