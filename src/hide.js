@@ -103,6 +103,9 @@ function HideZone() {
     this.element = document.createElement("div");
     this.innerElement = document.createElement("div");
     this.innerElement.innerHTML = __("Hide");
+    __.subscribe(() => {
+        this.innerElement.innerHTML = __("Hide");
+    });
     Object.assign(this.innerElement.style, {
         textAlign: "center",
         lineHeight: "88px",
