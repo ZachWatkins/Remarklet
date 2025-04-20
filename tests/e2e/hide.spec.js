@@ -37,5 +37,6 @@ test("can hide elements", async ({ page }) => {
     await page.mouse.up();
     await page.waitForTimeout(100);
     const hiddenText = await page.getByText(textString);
-    expect(hiddenText).toHaveCount(0);
+    expect(hiddenText).toHaveCount(1);
+    expect(hiddenText).not.toBeVisible();
 });
