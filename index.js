@@ -1,9 +1,9 @@
-/**
- * Remarklet - A JavaScript library for visually manipulating web page content.
- * @author Zachary Kendall Watkins
- * @copyright 2014-2025 Zachary Kendall Watkins, All Rights Reserved
- * @license MIT
- */
+/*-----------------------------------------------------------------------------
+ *  Copyright (c) Zachary Kendall Watkins. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for
+ *  license information.
+ *---------------------------------------------------------------------------*/
+// Remarklet is a library for visually manipulating web page content.
 import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
 import drag from "./src/drag.js";
