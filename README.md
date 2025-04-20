@@ -96,4 +96,4 @@ Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://za
 
 ## Known Issues
 
-We use GitHub to create and resolve track issues, but some issues may not be able to be completely resolved within the library itself. Those issues are listed here: https://github.com/ZachWatkins/Remarklet/discussions/100
+We use GitHub to track [issues](https://github.com/ZachWatkins/Remarklet/issues), but some issues may be beyond the scope of this library to resolve. Those issues are listed in a GitHub Discussion here: https://github.com/ZachWatkins/Remarklet/discussions/100.
