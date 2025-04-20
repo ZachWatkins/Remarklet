@@ -103,7 +103,7 @@ function HideZone() {
     this.element = document.createElement("div");
     this.element.setAttribute("data-remarklet-control", "");
     this.element.setAttribute("data-remarklet-hide-zone", "");
-    this.element.setAttribute("aria-label", "Hide Zone");
+    this.element.setAttribute("aria-label", __("Hide"));
     Object.assign(this.element.style, {
         position: "fixed",
         top: "0",
