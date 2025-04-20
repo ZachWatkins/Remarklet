@@ -1,15 +1,43 @@
 const dict = {
+    // English.
     en: {
-        hide: "Hide",
+        Hide: "Hide",
     },
-    fr: {
-        hide: "Cacher",
+    // Afrikaans.
+    af: {
+        Hide: "Versteek",
     },
-    es: {
-        hide: "Ocultar",
+    // Arabic.
+    ar: {
+        Hide: "مرحبا",
     },
+    // German.
     de: {
-        hide: "Verstecken",
+        Hide: "Verstecken",
+    },
+    // Espanol.
+    es: {
+        Hide: "Esconder",
+    },
+    // French.
+    fr: {
+        Hide: "Cacher",
+    },
+    // Hindi.
+    hi: {
+        Hide: "छिपाना",
+    },
+    // Japanese.
+    ja: {
+        Hide: "隠れる",
+    },
+    // Korean.
+    ko: {
+        Hide: "숨다",
+    },
+    // Chinese.
+    zh: {
+        Hide: "隐藏",
     },
 };
 const events = [];
