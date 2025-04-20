@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Added `remarklet.restore()` which allows users to restore their changes from localStorage without activating the rest of the library. You also do not need to call `remarklet.options({persist:true})` when using `remarklet.restore()`.
 - Added a way for users to hide elements from view by dragging an element onto an element labeled "Hide". This hide area is shown while an element is being dragged.
 - Added language translation module for "Hide" text.
 - Added a Known Issues section to README.md.
