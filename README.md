@@ -14,7 +14,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
-[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Feature Roadmap](#feature-roadmap)
+[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Known Issues](#known-issues) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
 
 ## Features
 

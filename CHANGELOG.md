@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Added a way for users to hide elements from view by dragging an element onto an element labeled "Hide". This hide area is shown while an element is being dragged.
 - Added language translation module for "Hide" text.
+- Added a Known Issues section to README.md.
 
 ## [1.1.1] - 2025-04-13
 
