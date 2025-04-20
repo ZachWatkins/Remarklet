@@ -124,7 +124,10 @@ function HideZone() {
         padding: "2px",
         borderWidth: "4px",
         borderStyle: "dashed",
-        transition: "border-color 0.5s, color 0.5s",
+        transition:
+            "border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
+        opacity: "0",
+        display: "none",
     });
     this.element.appendChild(this.innerElement);
     this.updateStyles();
@@ -141,11 +144,40 @@ function HideZone() {
     pcs.onchange = (e) => {
         this.updateStyles();
     };
+    /**
+     * Show the hide zone with fade-in effect.
+     */
     this.show = function () {
-        this.element.style.display = "block";
+        if (!this.state.visible) {
+            console.log("show");
+            this.element.style.display = "block";
+            // Force reflow to ensure transition
+            void this.element.offsetWidth;
+            this.element.style.opacity = "1";
+            this.state.visible = true;
+        }
     };
+    /**
+     * Hide the hide zone with fade-out effect.
+     */
     this.hide = function () {
-        this.element.style.display = "none";
+        if (this.state.visible) {
+            console.log("hide");
+            this.element.style.opacity = "0";
+            // After transition, set display to none
+            const onTransitionEnd = (event) => {
+                if (event.propertyName === "opacity") {
+                    this.element.style.display = "none";
+                    this.element.removeEventListener(
+                        "transitionend",
+                        onTransitionEnd,
+                    );
+                }
+            };
+            this.element.addEventListener("transitionend", onTransitionEnd);
+            this.state.visible = false;
+            this.state.entered = false;
+        }
     };
     this.handleEnter = function () {
         if (this.state.entered) {
