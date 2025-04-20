@@ -120,17 +120,13 @@ function HideZone() {
             "border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
         opacity: "0",
         display: "none",
-    });
-    this.innerElement = document.createElement("div");
-    this.innerElement.innerHTML = __("Hide");
-    __.subscribe(() => {
-        this.innerElement.innerHTML = __("Hide");
-    });
-    Object.assign(this.innerElement.style, {
         textAlign: "center",
         lineHeight: "88px",
     });
-    this.element.appendChild(this.innerElement);
+    this.element.innerHTML = __("Hide");
+    __.subscribe(() => {
+        this.element.innerHTML = __("Hide");
+    });
     this.updateStyles();
     document.body.appendChild(this.element);
     this.contains = function (x, y) {
