@@ -7,6 +7,7 @@
 import state from "./state.js";
 import changeMap from "./changeMap.js";
 import styles from "./styles.js";
+import __ from "./utils/translations.js";
 
 let hideZone = null;
 
@@ -33,7 +34,7 @@ export default function main() {
     });
 
     // Listen for drag events.
-    state.subscribe("dragmove", ({ clientX, clientY }) => {
+    state.subscribe("dragmove", ({ target, clientX, clientY }) => {
         if (hideZone.contains(clientX, clientY)) {
             hideZone.handleEnter();
         } else {
@@ -65,25 +66,21 @@ function HideZone() {
     const themes = {
         light: {
             visible: {
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                borderColor: "rgba(255, 255, 255, 0.5)",
+                borderColor: "rgba(0, 0, 0, 0.5)",
                 color: "rgba(0, 0, 0, 0.5)",
             },
             entered: {
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                borderColor: "rgba(255, 255, 255, 1)",
+                borderColor: "rgba(0, 0, 0, 1)",
                 color: "rgba(0, 0, 0, 1)",
             },
         },
         dark: {
             visible: {
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                borderColor: "rgba(0, 0, 0, 0.5)",
+                borderColor: "rgba(255, 255, 255, 0.5)",
                 color: "rgba(255, 255, 255, 0.5)",
             },
             entered: {
-                backgroundColor: "rgba(0, 0, 0, 1)",
-                borderColor: "rgba(0, 0, 0, 1)",
+                borderColor: "rgba(255, 255, 255, 1)",
                 color: "rgba(255, 255, 255, 1)",
             },
         },
@@ -93,48 +90,42 @@ function HideZone() {
         return pcs?.matches ? themes.dark[state] : themes.light[state];
     };
     this.updateStyles = function () {
-        const theme = this.getTheme();
-        this.element.style.borderColor = theme.borderColor;
-        this.innerElement.style.backgroundColor = theme.backgroundColor;
-        this.innerElement.style.color = theme.color;
+        window.requestAnimationFrame(() => {
+            const theme = this.getTheme();
+            this.element.style.borderColor = theme.borderColor;
+            this.element.style.color = theme.color;
+        });
     };
     this.state = {
         visible: false,
         entered: false,
     };
-    if (document.querySelector("[data-remarklet-hide-zone]")) {
-        this.element = document.querySelector("[data-remarklet-hide-zone]");
-        this.innerElement = this.element.querySelector("div");
-        this.updateStyles();
-    } else {
-        this.element = document.createElement("div");
-        this.innerElement = document.createElement("div");
-        this.innerElement.innerHTML = "Hide"; // Todo: replace with an eye icon with a diagonal line through it.
-        Object.assign(this.innerElement.style, {
-            textAlign: "center",
-            lineHeight: "84px",
-        });
-        this.element.setAttribute("data-remarklet-hide-zone", "");
-        this.element.setAttribute("aria-label", "Hide Zone");
-        Object.assign(this.element.style, {
-            position: "fixed",
-            top: "0",
-            right: "0",
-            width: "100px",
-            height: "100px",
-            zIndex: "2147483646",
-            display: "none",
-            boxSizing: "border-box",
-            pointerEvents: "none",
-            transition: "box-shadow 0.2s",
-            padding: "2px",
-            borderWidth: "6px",
-            borderStyle: "dashed",
-        });
-        this.element.appendChild(this.innerElement);
-        this.updateStyles();
-        document.body.appendChild(this.element);
-    }
+    this.element = document.createElement("div");
+    this.innerElement = document.createElement("div");
+    this.innerElement.innerHTML = __("Hide");
+    Object.assign(this.innerElement.style, {
+        textAlign: "center",
+        lineHeight: "88px",
+    });
+    this.element.setAttribute("data-remarklet-hide-zone", "");
+    this.element.setAttribute("aria-label", "Hide Zone");
+    Object.assign(this.element.style, {
+        position: "fixed",
+        top: "0",
+        right: "0",
+        width: "100px",
+        height: "100px",
+        zIndex: "2147483646",
+        boxSizing: "border-box",
+        pointerEvents: "none",
+        padding: "2px",
+        borderWidth: "4px",
+        borderStyle: "dashed",
+        transition: "border-color 0.5s, color 0.5s",
+    });
+    this.element.appendChild(this.innerElement);
+    this.updateStyles();
+    document.body.appendChild(this.element);
     this.contains = function (x, y) {
         const rect = this.element.getBoundingClientRect();
         return (
