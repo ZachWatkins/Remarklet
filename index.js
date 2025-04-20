@@ -15,7 +15,7 @@ import hide from "./src/hide.js";
 
 /**
  * @module remarklet
- * @description The main module for the Remarklet library. It must be used as a singleton.
+ * @description The main module for the Remarklet library.
  * @example
  * import remarklet from "@zw/remarklet";
  *
@@ -30,23 +30,42 @@ import hide from "./src/hide.js";
  *
  * // Configure the library.
  * remarklet.configure({
- *     persist: true,
+ *     persist: true, // default: false.
+ *     hide: true, // default: false.
  * });
  */
 function remarklet() {}
-let optionsSet = false;
+const app = {
+    optionsSet: false,
+    loading: false,
+    using: [],
+    use: function (callback) {
+        if (typeof callback === "function") {
+            if (this.using.includes(callback)) {
+                return;
+            }
+            this.using.push(callback);
+            callback();
+        } else {
+            console.error("Callback must be a function");
+        }
+    },
+};
+
 /**
  * Configures the Remarklet library with the provided options.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} options.hide - Whether to hide certain elements.
  */
 remarklet.options = function (options) {
-    if (optionsSet) {
+    if (app.optionsSet) {
         console.error("Options are already set.");
         return;
     }
     if (typeof options !== "object") {
         console.error("Options must be an object");
+        return;
     }
     if (options.persist === true) {
         state.set("persist", true);
@@ -54,28 +73,48 @@ remarklet.options = function (options) {
     if (options.hide === true) {
         state.set("hide", true);
     }
-    optionsSet = true;
+    app.optionsSet = true;
 };
-let loading = false;
+
+/**
+ * Restores the persisted changes, if any.
+ * Runs before the interactive features are initialized.
+ * @returns {void}
+ */
+remarklet.restore = function () {
+    if (app.loading) {
+        console.warn("Loading is already in progress.");
+        return;
+    }
+    app.loading = true;
+    if (!state.get("persist")) {
+        state.set("persist", true);
+    }
+    app.use(changeMap);
+    app.use(styles);
+    app.loading = false;
+};
+
 /**
  * Activates the Remarklet library, initializing all necessary components.
  * @example
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!state.get("initialized") && !loading) {
-        loading = true;
-        changeMap();
-        styles();
-        drag();
-        target();
-        textedit();
-        hide();
+    if (!state.get("initialized") && !app.loading) {
+        app.loading = true;
+        app.use(changeMap);
+        app.use(styles);
+        app.use(drag);
+        app.use(target);
+        app.use(textedit);
+        app.use(hide);
         state.set("initialized", true);
-        loading = false;
+        app.loading = false;
     }
     state.set("active", true);
 };
+
 /**
  * Deactivates the Remarklet library, cleaning up any resources or event listeners.
  * @example
@@ -84,11 +123,12 @@ remarklet.activate = function () {
 remarklet.deactivate = function () {
     state.set("active", false);
 };
+
 /**
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.0.4"
+ * // "1.1.2"
  */
 remarklet.version = pkg.version;
 
