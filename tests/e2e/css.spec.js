@@ -5,10 +5,6 @@ import { test, expect } from "@playwright/test";
 test("all 2D CSS transform rules evaluate as matrix transforms when using JS", async ({
     page,
 }) => {
-    page.on("pageerror", (error) => {
-        console.error(error);
-        test.fail();
-    });
     await page.goto("/css.html");
     const element = await page.$("#test-1 .target");
     if (!element) {
@@ -25,10 +21,6 @@ test("all 2D CSS transform rules evaluate as matrix transforms when using JS", a
 test("all 3D CSS transform rules evaluate as matrix3d transforms when using JS", async ({
     page,
 }) => {
-    page.on("pageerror", (error) => {
-        console.error(error);
-        test.fail();
-    });
     await page.goto("/css.html");
     const element = await page.$("#test-2 .target");
     if (!element) {

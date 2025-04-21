@@ -1,6 +1,8 @@
 import remarklet from "@zw/remarklet";
-remarklet.options({
-    persist: true,
-    hide: true,
-});
-remarklet.activate();
+window.remarklet = remarklet;
+// remarklet.options({
+//     persist: true,
+//     hide: true,
+// });
+// remarklet.restore();
+// remarklet.activate();

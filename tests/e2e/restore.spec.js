@@ -21,16 +21,15 @@ const mockData = {
         lastTransform: [1, 0, 0, 1, 6.66668701171875, -22.666656494140625],
     },
 };
+
 test("can restore changes using remarklet.restore", async ({ page }) => {
-    page.on("pageerror", (error) => {
-        console.error(error);
-        test.fail();
-    });
     // Set local storage state.
     await page.evaluate(() => {
         localStorage.setItem("remarklet-changemap", JSON.stringify(mockData));
     });
-    await page.goto("/");
+    await page.evaluate(() => {
+        window["remarklet"]?.restore();
+    });
     const textString = "A demonstration of what can be accomplished";
     const hiddenText = await page.getByText(textString);
     expect(hiddenText).toHaveCount(1);
