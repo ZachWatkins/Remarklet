@@ -3,8 +3,6 @@
 import { test, expect } from "@playwright/test";
 
 test("can drag elements", async ({ page }) => {
-    const remarklet = await page.evaluateHandle("window.remarklet");
-    await page.evaluate((remarklet) => remarklet.activate(), remarklet);
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
@@ -55,8 +53,6 @@ test("can drag elements", async ({ page }) => {
 });
 
 test("can drag element more than once", async ({ page }) => {
-    const remarklet = await page.evaluateHandle("window.remarklet");
-    await page.evaluate((remarklet) => remarklet.activate(), remarklet);
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     const boundingBox = await text.boundingBox();
