@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 
 test("can resize elements smaller from the bottom edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -44,7 +44,7 @@ test("can resize elements smaller from the bottom edge", async ({ page }) => {
 
 test("can resize elements larger from the bottom edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -84,7 +84,7 @@ test("can resize elements larger from the bottom edge", async ({ page }) => {
 
 test("can resize elements smaller from the right edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -124,7 +124,7 @@ test("can resize elements smaller from the right edge", async ({ page }) => {
 
 test("can resize elements larger from the right edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -164,7 +164,7 @@ test("can resize elements larger from the right edge", async ({ page }) => {
 
 test("can resize elements smaller from the left edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -208,7 +208,7 @@ test("can resize elements smaller from the left edge", async ({ page }) => {
 
 test("can resize elements larger from the left edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -260,7 +260,7 @@ test("can resize elements larger from the left edge", async ({ page }) => {
 
 test("can resize elements smaller from the top edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -309,7 +309,7 @@ test("can resize elements smaller from the top edge", async ({ page }) => {
 
 test("can resize elements larger from the top edge", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -363,7 +363,7 @@ test("can repeatedly resize elements larger from the top edge", async ({
     page,
 }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);

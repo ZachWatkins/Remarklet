@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 
 test("can drag elements", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -57,7 +57,7 @@ test("can drag elements", async ({ page }) => {
 
 test("can drag element more than once", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);

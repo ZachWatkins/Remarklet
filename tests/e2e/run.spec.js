@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 
 test("can edit text", async ({ page }) => {
     await page.evaluate(() => {
-        window["remarklet"]?.activate();
+        window["remarklet"].activate();
     });
     const before = await page.getByText("Hello, World!");
     expect(before).toHaveCount(0);
