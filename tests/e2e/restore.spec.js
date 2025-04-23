@@ -24,12 +24,11 @@ const mockData = {
 
 test("can restore changes using remarklet.restore", async ({ page }) => {
     // Set local storage state.
-    await page.evaluate(() => {
+    await page.evaluate((mockData) => {
         localStorage.setItem("remarklet-changemap", JSON.stringify(mockData));
-    });
-    await page.evaluate(() => {
-        window["remarklet"]?.restore();
-    });
+    }, mockData);
+    const remarklet = await page.evaluateHandle("window.remarklet");
+    await page.evaluate((remarklet) => remarklet.restore(), remarklet);
     const textString = "A demonstration of what can be accomplished";
     const hiddenText = await page.getByText(textString);
     expect(hiddenText).toHaveCount(1);

@@ -3,9 +3,8 @@
 import { test, expect } from "@playwright/test";
 
 test("can hide elements", async ({ page }) => {
-    await page.evaluate(() => {
-        window["remarklet"].activate();
-    });
+    const remarklet = await page.evaluateHandle("window.remarklet");
+    await page.evaluate((remarklet) => remarklet.activate(), remarklet);
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
