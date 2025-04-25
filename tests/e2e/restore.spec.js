@@ -25,7 +25,10 @@ const mockData = {
 test("can restore changes using remarklet.restore", async ({ page }) => {
     // Set local storage state before navigating.
     await page.addInitScript((mockData) => {
-        window.localStorage.setItem("remarklet-changemap", JSON.stringify(mockData));
+        window.localStorage.setItem(
+            "remarklet-changemap",
+            JSON.stringify(mockData),
+        );
     }, mockData);
 
     await page.goto("?restore=true");
