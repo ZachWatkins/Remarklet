@@ -3,6 +3,7 @@
 import { test, expect } from "@playwright/test";
 
 test("can resize elements smaller from the bottom edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     let boundingBox = await text.boundingBox();
@@ -40,6 +41,7 @@ test("can resize elements smaller from the bottom edge", async ({ page }) => {
 });
 
 test("can resize elements larger from the bottom edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     let boundingBox = await text.boundingBox();
@@ -77,6 +79,7 @@ test("can resize elements larger from the bottom edge", async ({ page }) => {
 });
 
 test("can resize elements smaller from the right edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     await text.scrollIntoViewIfNeeded();
@@ -114,6 +117,7 @@ test("can resize elements smaller from the right edge", async ({ page }) => {
 });
 
 test("can resize elements larger from the right edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     await text.scrollIntoViewIfNeeded();
@@ -151,6 +155,7 @@ test("can resize elements larger from the right edge", async ({ page }) => {
 });
 
 test("can resize elements smaller from the left edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     await text.scrollIntoViewIfNeeded();
@@ -192,6 +197,7 @@ test("can resize elements smaller from the left edge", async ({ page }) => {
 });
 
 test("can resize elements larger from the left edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
@@ -241,6 +247,7 @@ test("can resize elements larger from the left edge", async ({ page }) => {
 });
 
 test("can resize elements smaller from the top edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
@@ -287,6 +294,7 @@ test("can resize elements smaller from the top edge", async ({ page }) => {
 });
 
 test("can resize elements larger from the top edge", async ({ page }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
@@ -338,6 +346,7 @@ test("can resize elements larger from the top edge", async ({ page }) => {
 test("can repeatedly resize elements larger from the top edge", async ({
     page,
 }) => {
+    await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);

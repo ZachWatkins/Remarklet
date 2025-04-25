@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 import { injectCssSelectorFunctions } from "./helpers/injectCssSelectorFunctions.js";
 
 test.beforeEach(async ({ page }) => {
-    // Inject the cssSelector functions into the browser context
+    // Inject the cssSelector functions into the browser context.
     await injectCssSelectorFunctions(page);
 });
 

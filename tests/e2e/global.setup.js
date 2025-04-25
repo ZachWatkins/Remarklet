@@ -6,5 +6,4 @@ setup("detect page errors", async ({ page }) => {
         console.error(error);
         setup.fail();
     });
-    await page.goto("/");
 });
