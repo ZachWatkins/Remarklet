@@ -3,7 +3,7 @@
 import { test, expect } from "@playwright/test";
 
 test("can hide elements", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("?hide=true");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
     expect(text).toHaveCount(1);
