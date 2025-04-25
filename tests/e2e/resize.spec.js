@@ -129,7 +129,7 @@ test("can resize elements larger from the right edge", async ({ page }) => {
         x: boundingBox.x + boundingBox.width - 6,
         y: boundingBox.y + boundingBox.height / 2,
     };
-    let end = { ...start, x: start.x + 50 };
+    let end = { ...start, x: start.x + 10 };
     await page.mouse.move(start.x, start.y);
     let cursor = await page.evaluate(() => {
         return window.getComputedStyle(document.body).cursor;
@@ -143,7 +143,6 @@ test("can resize elements larger from the right edge", async ({ page }) => {
     expect(resizing).toEqual("true");
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
-    await page.waitForTimeout(100);
     expect(stillResizing).toEqual(null);
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
@@ -151,7 +150,7 @@ test("can resize elements larger from the right edge", async ({ page }) => {
     }
     expect(newBoundingBox.x).toEqual(boundingBox.x);
     expect(Math.round(newBoundingBox.x + newBoundingBox.width)).toEqual(
-        Math.round(boundingBox.x + boundingBox.width) + 50,
+        Math.round(boundingBox.x + boundingBox.width) + 10,
     );
 });
 
