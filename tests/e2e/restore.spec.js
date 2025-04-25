@@ -15,7 +15,7 @@ const mockData = {
         height: 78,
         marginBottom: 0,
         marginRight: 0,
-        display: "block",
+        display: "none",
         matrix3d: false,
         transform: [1, 0, 0, 1, -16.6666259765625, -111.33334350585938],
         lastTransform: [1, 0, 0, 1, 6.66668701171875, -22.666656494140625],
@@ -23,10 +23,11 @@ const mockData = {
 };
 
 test("can restore changes using remarklet.restore", async ({ page }) => {
-    // Set local storage state.
-    await page.evaluate((mockData) => {
-        localStorage.setItem("remarklet-changemap", JSON.stringify(mockData));
+    // Set local storage state before navigating.
+    await page.addInitScript((mockData) => {
+        window.localStorage.setItem("remarklet-changemap", JSON.stringify(mockData));
     }, mockData);
+
     await page.goto("?restore=true");
     const textString = "A demonstration of what can be accomplished";
     const hiddenText = await page.getByText(textString);
