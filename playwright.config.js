@@ -22,6 +22,13 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: "html",
+    /* Each test is given 30 seconds. */
+    timeout: 30000,
+    /* Configuration for the expect assertion library. */
+    expect: {
+        /* Maximum time expect() should wait for the condition to be met. */
+        timeout: 6000,
+    },
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
