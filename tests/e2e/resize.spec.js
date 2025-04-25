@@ -143,6 +143,7 @@ test("can resize elements larger from the right edge", async ({ page }) => {
     expect(resizing).toEqual("true");
     await page.mouse.up();
     let stillResizing = await text.getAttribute("data-remarklet-resizing");
+    await page.waitForTimeout(100);
     expect(stillResizing).toEqual(null);
     let newBoundingBox = await page.getByText(textString).boundingBox();
     if (!newBoundingBox) {
