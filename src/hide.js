@@ -120,6 +120,7 @@ function HideZone() {
             "border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
         opacity: "0",
         display: "none",
+        backgroundColor: "rgba(0, 0, 0, 0.15)",
         textAlign: "center",
         lineHeight: "88px",
     });

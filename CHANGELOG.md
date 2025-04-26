@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
+### Changed
+
+- Changed the background color of the hide zone to 15% opacity black to ensure text is visible.
+
 ## [1.2.1] - 2025-04-26
 
 ### Added
