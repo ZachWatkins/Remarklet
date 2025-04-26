@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- Fixed issue with page element mouse events being triggered when initiating or completing drag and resize actions.
+- Fixed issue with page element mouse events being triggered when initiating or completing drag and resize actions. Also added test for this scenario.
 
 ## [1.2.1] - 2025-04-26
 
