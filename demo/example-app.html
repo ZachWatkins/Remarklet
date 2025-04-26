@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello World</title>
+        <style>
+            .draggable {
+                width: 25%;
+                min-height: 6.5em;
+                margin: 1rem 0 0 1rem;
+                background-color: #29e;
+                color: white;
+                border-radius: 0.75em;
+                padding: 4%;
+                touch-action: none;
+                user-select: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Hello, World!</h1>
+        <button id="click-test">Button with event handler on click.</button>
+        <script>
+            document
+                .getElementById("click-test")
+                .addEventListener("click", (event) => {
+                    console.log(event);
+                    alert("Button clicked!");
+                });
+        </script>
+        <section>
+            <h2>HTML Elements Style Guide</h2>
+            <h3>Headings</h3>
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+
+            <h3>Paragraph</h3>
+            <p>
+                This is a paragraph. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit.
+            </p>
+
+            <h3>Links</h3>
+            <a href="#">This is a link</a>
+
+            <h3>Lists</h3>
+            <ul>
+                <li>Unordered list item 1</li>
+                <li>Unordered list item 2</li>
+                <li>Unordered list item 3</li>
+            </ul>
+            <ol>
+                <li>Ordered list item 1</li>
+                <li>Ordered list item 2</li>
+                <li>Ordered list item 3</li>
+            </ol>
+
+            <h3>Tables</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Header 1</th>
+                        <th>Header 2</th>
+                        <th>Header 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <td>Data 3</td>
+                    </tr>
+                    <tr>
+                        <td>Data 4</td>
+                        <td>Data 5</td>
+                        <td>Data 6</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Forms</h3>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" /><br /><br />
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" /><br /><br />
+                <input type="submit" value="Submit" />
+            </form>
+
+            <h3>Blockquote</h3>
+            <blockquote>This is a blockquote.</blockquote>
+
+            <h3>Code</h3>
+            <code>This is inline code.</code>
+            <pre>
+                <code>
+                    This is a code block.
+                </code>
+            </pre>
+
+            <h3>Images</h3>
+            <img src="logo.png" alt="Remarklet Logo" />
+
+            <h3>Horizontal Rule</h3>
+            <hr />
+
+            <h3>Bold and Italic</h3>
+            <p><strong>This text is bold.</strong></p>
+            <p><em>This text is italic.</em></p>
+        </section>
+        <script src="src/index.js" type="module"></script>
+    </body>
+</html>
