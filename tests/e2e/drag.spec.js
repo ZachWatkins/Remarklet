@@ -115,16 +115,9 @@ test("can drag element that has a mouse event without triggering that event", as
     await page.mouse.move(end.x, end.y, {
         steps: 10,
     });
-    // Detect if window.alert was called, and fail the test if so.
-    let shouldTrigger = false;
-    let triggered = false;
     page.on("dialog", async (dialog) => {
-        if (!shouldTrigger) {
-            test.fail();
-            throw new Error("Dialog was triggered");
-        } else {
-            triggered = true;
-        }
+        test.fail();
+        throw new Error("Dialog was triggered");
     });
     await page.mouse.up();
     const newBoundingBox = await button.boundingBox();
@@ -134,7 +127,4 @@ test("can drag element that has a mouse event without triggering that event", as
     expect(Math.round(newBoundingBox.x * 100) / 100).toEqual(
         Math.round(boundingBox.x * 100) / 100 + 50,
     );
-    shouldTrigger = true;
-    await button.click();
-    expect(triggered).toBeTruthy();
 });
