@@ -40,7 +40,10 @@ import remarklet from "@zw/remarklet";
 // Override default options for the library.
 remarklet.options({
     persist: true, // default: false.
+    hide: true, // default: false.
 });
+// Restore persisted changes without activating any other features.
+remarklet.restore();
 // Activate the library.
 remarklet.activate();
 // Now users can drag, resize, and edit elements on the page.
@@ -77,7 +80,10 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
     // Override default options for the library.
     remarklet.options({
         persist: true, // default: false.
+        hide: true,
     });
+    // Restore persisted changes without activating any other features.
+    remarklet.restore();
     // Activate the library.
     remarklet.activate();
     // Now users can drag, resize, and edit elements on the page.
