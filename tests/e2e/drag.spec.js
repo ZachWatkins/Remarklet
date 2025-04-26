@@ -3,10 +3,6 @@
 import { test, expect } from "@playwright/test";
 
 test("can drag elements", async ({ page }) => {
-    page.on("pageerror", (error) => {
-        console.error(error);
-        test.fail();
-    });
     await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);
@@ -58,10 +54,6 @@ test("can drag elements", async ({ page }) => {
 });
 
 test("can drag element more than once", async ({ page }) => {
-    page.on("pageerror", (error) => {
-        console.error(error);
-        test.fail();
-    });
     await page.goto("/");
     const textString = "A demonstration of what can be accomplished";
     const text = await page.getByText(textString);

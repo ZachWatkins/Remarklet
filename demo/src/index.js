@@ -1,6 +1,18 @@
 import remarklet from "@zw/remarklet";
-remarklet.options({
-    persist: true,
-    hide: true,
-});
-remarklet.activate();
+const params = new URLSearchParams(window.location.search);
+const options = {
+    persist: false,
+    hide: false,
+};
+if (params.get("persist") === "true") {
+    options.persist = true;
+}
+if (params.get("hide") === "true") {
+    options.hide = true;
+}
+remarklet.options(options);
+if (new URLSearchParams(window.location.search).get("restore") === "true") {
+    remarklet.restore();
+} else {
+    remarklet.activate();
+}
