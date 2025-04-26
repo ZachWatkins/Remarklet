@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-04-26
+
 ### Added
 
 - Added `remarklet.restore()` which allows users to restore their changes from localStorage without activating the rest of the library. You also do not need to call `remarklet.options({persist:true})` when using `remarklet.restore()`.
