@@ -116,8 +116,11 @@ test("can drag element that has a mouse event without triggering that event", as
         steps: 10,
     });
     page.on("dialog", async (dialog) => {
-        test.fail();
-        throw new Error("Dialog was triggered");
+        test.fail(
+            true,
+            "The dialog should not be triggered if the button click event is being suppressed as expected.",
+        );
+        dialog.accept();
     });
     await page.mouse.up();
     const newBoundingBox = await button.boundingBox();
