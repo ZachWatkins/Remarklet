@@ -19,6 +19,9 @@ import hide from "./src/hide.js";
  * @example
  * import remarklet from "@zw/remarklet";
  *
+ * // Restore changes from localStorage.
+ * remarklet.restore();
+ *
  * // Initialize the library.
  * remarklet.activate();
  *
@@ -128,7 +131,7 @@ remarklet.deactivate = function () {
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.1.2"
+ * // "1.2.1"
  */
 remarklet.version = pkg.version;
 
