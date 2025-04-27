@@ -7,12 +7,15 @@ import state from "./state.js";
 import styles from "./styles.js";
 import changeMap from "./changeMap.js";
 import { hasRotation } from "./utils/cssTransforms.js";
+import preventDefaultEvents from "./utils/preventDefaultEvents.js";
 
 let interactable = null;
 let inlineTarget = null;
 let warnedOfRotation = false;
+let preventEvents = null;
 
 export function main() {
+    preventEvents = new preventDefaultEvents(["mousedown", "mouseup", "click"]);
     state.subscribe("target", (target) => {
         if (interactable) {
             interactable.unset();
@@ -43,8 +46,7 @@ const draggableOptions = {
             if (state.get("modifying")) {
                 return;
             }
-            event.stopPropagation();
-            event.preventDefault();
+            preventEvents.on();
             state.set("mode", "dragging");
             // If the element has a computed display:inline property, it cannot be dragged, so we change the target to the first parent that is not display:inline.
             if (window.getComputedStyle(event.target).display === "inline") {
@@ -99,8 +101,9 @@ const draggableOptions = {
          * @return {void}
          */
         end(event) {
-            event.stopPropagation();
-            event.preventDefault();
+            window.requestAnimationFrame(() => {
+                preventEvents.off();
+            });
             const target = state.get("target");
             if (!target) {
                 return;
@@ -139,8 +142,7 @@ const resizableOptions = {
             if (state.get("modifying")) {
                 return;
             }
-            event.stopPropagation();
-            event.preventDefault();
+            preventEvents.on();
             // An inline element cannot be resized. I can't decide the least surprising behavior here.
             state.set("mode", "resizing");
             event.target.setAttribute("data-remarklet-resizing", "true");
@@ -190,6 +192,9 @@ const resizableOptions = {
             }
         },
         end(event) {
+            window.requestAnimationFrame(() => {
+                preventEvents.off();
+            });
             state.set("mode", "editing");
 
             // Apply the changes to the stylesheet.

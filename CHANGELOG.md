@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
+## [1.2.2] - 2025-04-27
+
 ### Changed
 
 - Changed the background color of the hide zone to 15% opacity black to ensure text is visible.
+
+### Fixed
+
+- Fixed issue with page element mouse events being triggered when initiating or completing drag and resize actions. Also added test for this scenario.
 
 ## [1.2.1] - 2025-04-26
 

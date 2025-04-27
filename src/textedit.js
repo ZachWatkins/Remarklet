@@ -1,33 +1,38 @@
 import state from "./state.js";
 import changeMap from "./changeMap.js";
+import preventDefaultEvents from "./utils/preventDefaultEvents.js";
+
+let currentEditableElement = null;
+let preventEvents = null;
 
 /**
  * Initialize text editing functionality for the library.
  * @returns {void}
  */
 export default function main() {
-    let currentEditableElement = null;
+    preventEvents = new preventDefaultEvents(["click"]);
 
     state.subscribe("target", (target, oldTarget) => {
         if (!state.get("active")) {
             cleanupEditableElement(currentEditableElement);
             currentEditableElement = null;
+            preventEvents.off();
             return;
         }
         const mode = state.get("mode");
         if (mode === "editing" || mode === "textediting") {
             cleanupEditableElement(currentEditableElement);
             currentEditableElement = null;
+            preventEvents.off();
             if (target) {
                 currentEditableElement = target;
-                currentEditableElement.setAttribute("contenteditable", "true");
-                currentEditableElement.addEventListener("input", handleInput);
-                currentEditableElement.addEventListener("focus", handleFocus);
-                currentEditableElement.addEventListener("blur", handleBlur);
+                setupEditableElement(currentEditableElement);
+                preventEvents.on();
             }
         } else {
             cleanupEditableElement(currentEditableElement);
             currentEditableElement = null;
+            preventEvents.off();
         }
     });
 
@@ -75,6 +80,16 @@ function handleFocus(event) {
  */
 function handleBlur(event) {
     state.set("mode", "editing");
+}
+
+function setupEditableElement(element) {
+    if (!element) {
+        return;
+    }
+    element.setAttribute("contenteditable", "true");
+    element.addEventListener("input", handleInput);
+    element.addEventListener("focus", handleFocus);
+    element.addEventListener("blur", handleBlur);
 }
 
 /**

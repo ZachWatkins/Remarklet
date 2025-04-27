@@ -93,3 +93,41 @@ test("can drag element more than once", async ({ page }) => {
         Math.round((boundingBox.y - 100) * 100) / 100,
     );
 });
+
+test("can drag element that has a mouse event without triggering that event", async ({
+    page,
+}) => {
+    await page.goto("/example-app.html");
+    const text = "Button with event handler on click.";
+    const button = await page.getByText(text);
+    await button.scrollIntoViewIfNeeded();
+    const boundingBox = await button.boundingBox();
+    if (!boundingBox) {
+        throw new Error("Bounding box is null");
+    }
+    const start = {
+        x: boundingBox.x + boundingBox.width / 2,
+        y: boundingBox.y + boundingBox.height / 2,
+    };
+    const end = { ...start, x: start.x + 50 };
+    await page.mouse.move(start.x, start.y);
+    await page.mouse.down();
+    await page.mouse.move(end.x, end.y, {
+        steps: 10,
+    });
+    page.on("dialog", async (dialog) => {
+        test.fail(
+            true,
+            "The dialog should not be triggered if the button click event is being suppressed as expected.",
+        );
+        dialog.accept();
+    });
+    await page.mouse.up();
+    const newBoundingBox = await button.boundingBox();
+    if (!newBoundingBox) {
+        throw new Error("New bounding box is null");
+    }
+    expect(Math.round(newBoundingBox.x * 100) / 100).toEqual(
+        Math.round(boundingBox.x * 100) / 100 + 50,
+    );
+});
