@@ -1,6 +1,6 @@
 # Remarklet - JavaScript web page editor
 
-**Remarklet adds visual editing capabilities to any web page. This makes modifying and commenting on them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
+**Remarklet adds visual editing tools to almost any web page. This makes modifying them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
 
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Npm package version](https://flat.badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
@@ -18,12 +18,13 @@
 
 ## Features
 
-This library lets you add the following features to any web page with no keyboard shortcuts or UI overlays:
+This library lets you add the following features to any web page:
 
-- Drag elements around the page
-- Resize elements
+- Drag and resize elements
+- Hide anything
 - Edit text
-- Option to save your changes to local storage
+- Optionally save your changes to local storage using `remarklet.options({persist:true});`
+- Restore persisted changes without loading editing controls using `remarklet.restore();`
 
 ## Installation
 
