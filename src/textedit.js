@@ -70,7 +70,6 @@ function handleInput(event) {
  * @returns {void}
  */
 function handleFocus(event) {
-    console.log("focus");
     state.set("mode", "textediting");
 }
 
@@ -80,11 +79,6 @@ function handleFocus(event) {
  * @returns {void}
  */
 function handleBlur(event) {
-    console.log("blur");
-    window.requestAnimationFrame(() => {
-        // console.log("removing", "textedit");
-        // preventEvents.off();
-    });
     state.set("mode", "editing");
 }
 
