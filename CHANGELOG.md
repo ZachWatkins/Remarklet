@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Added
+
+- Added `remarklet.config` function to replace `remarklet.options`, which is now deprecated and will be replaced in a future version.
+
+### Changed
+
+- Marked `remarklet.options` as deprecated. Will be removed in Remarklet v2.0.0.
+- Moved config/option values from `src/state.js` to dedicated module at `src/config.js`.
+- Updated documentation.
 
 ## [1.2.2] - 2025-04-27
 
