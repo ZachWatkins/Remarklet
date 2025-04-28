@@ -14,7 +14,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
-[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Known Issues](#known-issues) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
+[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
 
 ## Features
 
@@ -103,6 +103,6 @@ If you would like to participate in discussions, you can post in the [GitHub Dis
 
 Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://zacharywatkins.com
 
-## Known Issues
+## Report an Issue
 
-We use GitHub to track [issues](https://github.com/ZachWatkins/Remarklet/issues), but some issues may be beyond the scope of this library to resolve. Those issues are listed in a GitHub Discussion here: https://github.com/ZachWatkins/Remarklet/discussions/100.
+We use GitHub to track [issues](https://github.com/ZachWatkins/Remarklet/issues) so if you find one please report it there. Some issues may be beyond the scope of this library to resolve and are documented in a GitHub Discussion here: https://github.com/ZachWatkins/Remarklet/discussions/100.
