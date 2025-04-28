@@ -12,6 +12,7 @@ import styles from "./src/styles.js";
 import textedit from "./src/textedit.js";
 import changeMap from "./src/changeMap.js";
 import hide from "./src/hide.js";
+import config from "./src/config.js";
 
 /**
  * @module remarklet
@@ -39,7 +40,6 @@ import hide from "./src/hide.js";
  */
 function remarklet() {}
 const app = {
-    optionsSet: false,
     using: [],
     use: function (callback) {
         if (typeof callback === "function") {
@@ -55,28 +55,30 @@ const app = {
 };
 
 /**
- * Configures the Remarklet library with the provided options.
+ * Configures the library.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
  * @param {boolean} options.hide - Whether to hide certain elements.
+ * @return {void}
  */
-remarklet.options = function (options) {
-    if (app.optionsSet) {
-        console.error("Options are already set.");
-        return;
-    }
-    if (typeof options !== "object") {
-        console.error("Options must be an object");
-        return;
-    }
+remarklet.config = function (options) {
     if (options.persist === true) {
-        state.set("persist", true);
+        config.persist = true;
     }
     if (options.hide === true) {
-        state.set("hide", true);
+        config.hide = true;
     }
-    app.optionsSet = true;
 };
+
+/**
+ * Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
+ * @deprecated
+ * @param {Object} options - The configuration options.
+ * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} options.hide - Whether to hide certain elements.
+ * @return {void}
+ */
+remarklet.options = remarklet.config;
 
 /**
  * Restores the persisted changes, if any.
@@ -89,8 +91,8 @@ remarklet.restore = function () {
         return;
     }
     state.set("loading", true);
-    if (!state.get("persist")) {
-        state.set("persist", true);
+    if (config.persist !== true) {
+        config.persist = true;
     }
     app.use(changeMap);
     app.use(styles);
@@ -110,7 +112,9 @@ remarklet.activate = function () {
         app.use(drag);
         app.use(target);
         app.use(textedit);
-        app.use(hide);
+        if (config.hide === true) {
+            app.use(hide);
+        }
         state.set("initialized", true);
         state.set("loading", false);
     }

@@ -1,3 +1,4 @@
+import config from "./config.js";
 import state from "./state.js";
 import changeMap from "./changeMap.js";
 import preventDefaultEvents from "./utils/preventDefaultEvents.js";
@@ -37,7 +38,7 @@ export default function main() {
     });
 
     // Restore edited content if persist is true.
-    if (state.get("persist") === true) {
+    if (config.persist) {
         changeMap.each((elementState) => {
             if (typeof elementState.content === "string") {
                 const selector = elementState.selector;
@@ -57,7 +58,7 @@ export default function main() {
  */
 function handleInput(event) {
     changeMap.init(event.target, "edited");
-    if (!state.get("persist")) {
+    if (!config.persist) {
         return;
     }
     changeMap.get(event.target).content = event.target.innerHTML;
