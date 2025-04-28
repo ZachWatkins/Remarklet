@@ -40,7 +40,6 @@ import hide from "./src/hide.js";
 function remarklet() {}
 const app = {
     optionsSet: false,
-    loading: false,
     using: [],
     use: function (callback) {
         if (typeof callback === "function") {
@@ -85,17 +84,17 @@ remarklet.options = function (options) {
  * @returns {void}
  */
 remarklet.restore = function () {
-    if (app.loading) {
+    if (state.get("loading") === true) {
         console.warn("Loading is already in progress.");
         return;
     }
-    app.loading = true;
+    state.set("loading", true);
     if (!state.get("persist")) {
         state.set("persist", true);
     }
     app.use(changeMap);
     app.use(styles);
-    app.loading = false;
+    state.set("loading", false);
 };
 
 /**
@@ -104,8 +103,8 @@ remarklet.restore = function () {
  * remarklet.activate();
  */
 remarklet.activate = function () {
-    if (!state.get("initialized") && !app.loading) {
-        app.loading = true;
+    if (!state.get("initialized") && !state.get("loading")) {
+        state.set("loading", true);
         app.use(changeMap);
         app.use(styles);
         app.use(drag);
@@ -113,7 +112,7 @@ remarklet.activate = function () {
         app.use(textedit);
         app.use(hide);
         state.set("initialized", true);
-        app.loading = false;
+        state.set("loading", false);
     }
     state.set("active", true);
 };

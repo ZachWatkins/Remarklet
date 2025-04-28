@@ -9,6 +9,7 @@ const state = {
     persist: false,
     initialized: false,
     hide: false,
+    loading: false,
 };
 
 const subscribers = {
