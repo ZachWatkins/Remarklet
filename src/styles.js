@@ -2,6 +2,7 @@
  * @module styles
  * Add a stylesheet to the document containing the library's styles.
  */
+import config from "./config.js";
 import state from "./state.js";
 import Stylesheet from "./utils/stylesheet.js";
 import changeMap from "./changeMap.js";
@@ -24,7 +25,7 @@ export default function main() {
         "[data-remarklet-dragging], [data-remarklet-resizing]",
         "touch-action: none !important; user-select: none !important; transition: none !important; animation: none !important;",
     );
-    if (state.get("persist") === true) {
+    if (config.persist) {
         changeMap.each((elementState) => {
             sheet.setRule(elementState.selector, elementState.rule);
         });

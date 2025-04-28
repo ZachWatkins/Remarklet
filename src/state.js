@@ -6,9 +6,8 @@ const state = {
     target: null,
     active: false,
     modifying: false,
-    persist: false,
     initialized: false,
-    hide: false,
+    loading: false,
 };
 
 const subscribers = {

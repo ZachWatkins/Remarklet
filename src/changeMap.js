@@ -1,4 +1,4 @@
-import state from "./state.js";
+import config from "./config.js";
 import { getUniqueSelector } from "./utils/cssSelector.js";
 import LocalStorageItem from "./utils/LocalStorageItem.js";
 const elementChangeMap = new WeakMap();
@@ -141,7 +141,7 @@ transform: ${this.matrix3d ? "matrix3d" : "matrix"}(${this.transform.join(", ")}
 }
 
 export default function changeMap() {
-    if (state.get("persist") === true) {
+    if (config.persist) {
         store = new LocalStorageItem({
             key: "remarklet-changemap",
             type: "object",
