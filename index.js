@@ -20,7 +20,13 @@ import config from "./src/config.js";
  * @example
  * import remarklet from "@zw/remarklet";
  *
- * // Restore changes from localStorage.
+ * // Optional: configure the library.
+ * remarklet.configure({
+ *     persist: true, // default: false.
+ *     hide: true, // default: false.
+ * });
+ *
+ * // Restore changes from localStorage without activating the rest of the library.
  * remarklet.restore();
  *
  * // Initialize the library.
@@ -31,12 +37,6 @@ import config from "./src/config.js";
  *
  * // Get the version of the library.
  * console.log(remarklet.version);
- *
- * // Configure the library.
- * remarklet.configure({
- *     persist: true, // default: false.
- *     hide: true, // default: false.
- * });
  */
 function remarklet() {}
 const app = {

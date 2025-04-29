@@ -14,7 +14,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
-[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Known Issues](#known-issues) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
+[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
 
 ## Features
 
@@ -38,18 +38,19 @@ Then import the module in your JavaScript file:
 
 ```javascript
 import remarklet from "@zw/remarklet";
-// Override default options for the library.
-remarklet.options({
+// Optional: configure the library.
+remarklet.configure({
     persist: true, // default: false.
     hide: true, // default: false.
 });
-// Restore persisted changes without activating any other features.
+// Restore changes from localStorage without activating the rest of the library.
 remarklet.restore();
-// Activate the library.
+// Initialize the library.
 remarklet.activate();
-// Now users can drag, resize, and edit elements on the page.
+// Deactivate the library.
 remarklet.deactivate();
-// Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
+// Get the version of the library.
+console.log(remarklet.version);
 ```
 
 ## Installation from CDN
@@ -65,10 +66,10 @@ To run Remarklet in any webpage, visit the webpage and then paste this into your
 javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
 ```
 
-To persist the changes using local storage, use this bookmarklet URL:
+To activate all features, use this bookmarklet URL:
 
 ```
-javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true});remarklet.activate()}})();
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
 ```
 
 You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking it.
@@ -78,18 +79,19 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Override default options for the library.
-    remarklet.options({
+    // Optional: configure the library.
+    remarklet.configure({
         persist: true, // default: false.
-        hide: true,
+        hide: true, // default: false.
     });
-    // Restore persisted changes without activating any other features.
+    // Restore changes from localStorage without activating the rest of the library.
     remarklet.restore();
-    // Activate the library.
+    // Initialize the library.
     remarklet.activate();
-    // Now users can drag, resize, and edit elements on the page.
+    // Deactivate the library.
     remarklet.deactivate();
-    // Now event handlers are unregistered and will be re-registered the next time remarklet.activate() is called.
+    // Get the version of the library.
+    console.log(remarklet.version);
 </script>
 ```
 
@@ -101,6 +103,6 @@ If you would like to participate in discussions, you can post in the [GitHub Dis
 
 Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://zacharywatkins.com
 
-## Known Issues
+## Report an Issue
 
-We use GitHub to track [issues](https://github.com/ZachWatkins/Remarklet/issues), but some issues may be beyond the scope of this library to resolve. Those issues are listed in a GitHub Discussion here: https://github.com/ZachWatkins/Remarklet/discussions/100.
+We use GitHub to track [issues](https://github.com/ZachWatkins/Remarklet/issues) so if you find one please report it there. Some issues may be beyond the scope of this library to resolve and are documented in a GitHub Discussion here: https://github.com/ZachWatkins/Remarklet/discussions/100.
