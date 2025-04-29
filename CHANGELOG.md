@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added `remarklet.config` function to replace `remarklet.options`, which is now deprecated and will be replaced in a future version.
+- Added `remarklet.unstore()` to delete all Remarklet data from localStorage.
 
 ### Changed
 

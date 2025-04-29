@@ -29,6 +29,9 @@ import config from "./src/config.js";
  * // Restore changes from localStorage without activating the rest of the library.
  * remarklet.restore();
  *
+ * // Delete all Remarklet data from localStorage (cannot be undone).
+ * remarklet.unstore();
+ *
  * // Initialize the library.
  * remarklet.activate();
  *
@@ -97,6 +100,14 @@ remarklet.restore = function () {
     app.use(changeMap);
     app.use(styles);
     state.set("loading", false);
+};
+
+/**
+ * Deletes all Remarklet data from localStorage.
+ * @returns {void}
+ */
+remarklet.unstore = function () {
+    changeMap.unstore();
 };
 
 /**
