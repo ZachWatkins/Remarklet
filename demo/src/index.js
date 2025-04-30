@@ -1,4 +1,5 @@
 import remarklet from "@zw/remarklet";
+window.remarklet = remarklet;
 const params = new URLSearchParams(window.location.search);
 const options = {
     persist: false,
