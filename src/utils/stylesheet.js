@@ -1,14 +1,10 @@
 /**
- * Remarklet - Stylesheet Module.
- *
- * @package     ZachWatkins\Remarklet
- * @subpackage  Stylesheet
- * @description Module for creating and manipulating a stylesheet programmatically.
- * @author      Zachary Kendall Watkins <zwatkins.it@gmail.com> (https://github.com/zachwatkins)
- * @copyright   Zachary Kendall Watkins Copyright (c) 2014-2025 All Rights Reserved.
- * @link        https://github.com/zachwatkins/remarklet
- * @license     https://spdx.org/licenses/MIT.html MIT License
+ * Remarklet (c) 2014-present Zachary Kendall Watkins. All rights reserved.
+ * Licensed under the MIT License. See LICENSE.txt in the project root or go to
+ * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
+ * full license information.
  */
+// Stylesheet module for creating and manipulating a stylesheet programmatically.
 import LocalStorageItem from "./LocalStorageItem.js";
 import state from "../state.js";
 
