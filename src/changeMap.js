@@ -1,6 +1,13 @@
+/*-----------------------------------------------------------------------------
+ *  Copyright (c) Zachary Kendall Watkins. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for
+ *  license information.
+ *---------------------------------------------------------------------------*/
 import config from "./config.js";
 import { getUniqueSelector } from "./utils/cssSelector.js";
 import LocalStorageItem from "./utils/LocalStorageItem.js";
+
+export const changeMapStorageKey = "remarklet-changemap";
 const elementChangeMap = new WeakMap();
 let store = null;
 
@@ -143,7 +150,7 @@ transform: ${this.matrix3d ? "matrix3d" : "matrix"}(${this.transform.join(", ")}
 export default function changeMap() {
     if (config.persist) {
         store = new LocalStorageItem({
-            key: "remarklet-changemap",
+            key: changeMapStorageKey,
             type: "object",
             defaultValue: {},
         });
@@ -168,8 +175,8 @@ export default function changeMap() {
     }
 }
 
-changeMap.has = function (target) {
-    return elementChangeMap.has(target);
+changeMap.unstore = function () {
+    localStorage.removeItem(changeMapStorageKey);
 };
 
 changeMap.get = function (target) {

@@ -45,6 +45,8 @@ remarklet.configure({
 });
 // Restore changes from localStorage without activating the rest of the library.
 remarklet.restore();
+// Delete all Remarklet data from localStorage (cannot be undone).
+remarklet.unstore();
 // Initialize the library.
 remarklet.activate();
 // Deactivate the library.
@@ -86,6 +88,8 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
     });
     // Restore changes from localStorage without activating the rest of the library.
     remarklet.restore();
+    // Delete all Remarklet data from localStorage (cannot be undone).
+    remarklet.unstore();
     // Initialize the library.
     remarklet.activate();
     // Deactivate the library.
