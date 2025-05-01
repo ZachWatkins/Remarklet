@@ -1,13 +1,10 @@
 /**
- * @package Remarklet
- * @class LocalStorageItem
- * @description A class for safely interacting with localStorage items.
- * @author Zachary K. Watkins, <watkinza@gmail.com>
+ * Remarklet (c) 2014-present Zachary Kendall Watkins. All rights reserved.
+ * Licensed under the MIT License. See LICENSE.txt in the project root or go to
+ * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
+ * full license information.
  */
-
-/**
- * A class for safely interacting with localStorage items.
- */
+// A class for safely interacting with localStorage items.
 export default class LocalStorageItem {
     #state;
 

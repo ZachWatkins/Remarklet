@@ -1,8 +1,9 @@
-/*-----------------------------------------------------------------------------
- *  Copyright (c) Zachary Kendall Watkins. All rights reserved.
- *  Licensed under the MIT License. See LICENSE.txt in the project root for
- *  license information.
- *---------------------------------------------------------------------------*/
+/**
+ * Remarklet (c) 2014-present Zachary Kendall Watkins. All rights reserved.
+ * Licensed under the MIT License. See LICENSE.txt in the project root or go to
+ * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
+ * full license information.
+ */
 import config from "./config.js";
 import { getUniqueSelector } from "./utils/cssSelector.js";
 import LocalStorageItem from "./utils/LocalStorageItem.js";

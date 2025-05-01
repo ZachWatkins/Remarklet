@@ -1,7 +1,10 @@
 /**
- * @module styles
- * Add a stylesheet to the document containing the library's styles.
+ * Remarklet (c) 2014-present Zachary Kendall Watkins. All rights reserved.
+ * Licensed under the MIT License. See LICENSE.txt in the project root or go to
+ * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
+ * full license information.
  */
+// Add a stylesheet to the document containing the library's styles.
 import config from "./config.js";
 import state from "./state.js";
 import Stylesheet from "./utils/stylesheet.js";
