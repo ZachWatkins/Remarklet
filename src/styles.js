@@ -6,7 +6,6 @@
  */
 // Add a stylesheet to the document containing the library's styles.
 import config from "./config.js";
-import state from "./state.js";
 import Stylesheet from "./utils/stylesheet.js";
 import changeMap from "./changeMap.js";
 let sheet = null;
