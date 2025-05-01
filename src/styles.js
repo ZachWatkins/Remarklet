@@ -33,8 +33,5 @@ export default function main() {
             sheet.setRule(elementState.selector, elementState.rule);
         });
     }
-    state.subscribe("mode", (mode) => {
-        document.body.setAttribute("data-remarklet-mode", mode);
-    });
     return sheet;
 }
