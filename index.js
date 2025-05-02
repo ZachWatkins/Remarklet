@@ -1,28 +1,16 @@
 /**
- * Remarklet (c) 2014-present Zachary Kendall Watkins. All rights reserved.
+ * @module @zw/remarklet
+ * @description Remarklet is a library for visually manipulating web page content.
+ * @copyright 2014-present Zachary Kendall Watkins. All rights reserved.
+ * @license
  * Licensed under the MIT License. See LICENSE.txt in the project root or go to
  * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
  * full license information.
- */
-// Remarklet is a library for visually manipulating web page content.
-import pkg from "./package.json" with { type: "json" };
-import state from "./src/state.js";
-import drag from "./src/drag.js";
-import target from "./src/target.js";
-import styles from "./src/styles.js";
-import textedit from "./src/textedit.js";
-import changeMap from "./src/changeMap.js";
-import hide from "./src/hide.js";
-import config from "./src/config.js";
-
-/**
- * @module remarklet
- * @description The main module for the Remarklet library.
  * @example
  * import remarklet from "@zw/remarklet";
  *
  * // Optional: configure the library.
- * remarklet.configure({
+ * remarklet.config({
  *     persist: true, // default: false.
  *     hide: true, // default: false.
  * });
@@ -42,7 +30,18 @@ import config from "./src/config.js";
  * // Get the version of the library.
  * console.log(remarklet.version);
  */
-function remarklet() {}
+import pkg from "./package.json" with { type: "json" };
+import state from "./src/state.js";
+import drag from "./src/drag.js";
+import target from "./src/target.js";
+import styles from "./src/styles.js";
+import textedit from "./src/textedit.js";
+import changeMap from "./src/changeMap.js";
+import hide from "./src/hide.js";
+import config from "./src/config.js";
+/**
+ * @private
+ */
 const app = {
     using: [],
     use: function (callback) {
@@ -59,11 +58,19 @@ const app = {
 };
 
 /**
- * Configures the library.
+ * @alias module:@zw/remarklet
+ * @type {function}
+ * @returns {void}
+ */
+function remarklet() {}
+/**
+ * @alias module:@zw/remarklet.config
+ * @type {function}
+ * @description Configures the library.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
  * @param {boolean} options.hide - Whether to hide certain elements.
- * @return {void}
+ * @returns {void}
  */
 remarklet.config = function (options) {
     if (options.persist === true) {
@@ -75,18 +82,21 @@ remarklet.config = function (options) {
 };
 
 /**
- * Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
+ * @alias module:@zw/remarklet.options
+ * @type {function}
  * @deprecated
+ * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
  * @param {boolean} options.hide - Whether to hide certain elements.
- * @return {void}
+ * @returns {void}
  */
 remarklet.options = remarklet.config;
 
 /**
- * Restores the persisted changes, if any.
- * Runs before the interactive features are initialized.
+ * @alias module:@zw/remarklet.restore
+ * @type {function}
+ * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
  * @returns {void}
  */
 remarklet.restore = function () {
@@ -104,7 +114,9 @@ remarklet.restore = function () {
 };
 
 /**
- * Deletes all Remarklet data from localStorage.
+ * @alias module:@zw/remarklet.unstore
+ * @type {function}
+ * @description Deletes all Remarklet data from localStorage.
  * @returns {void}
  */
 remarklet.unstore = function () {
@@ -112,9 +124,10 @@ remarklet.unstore = function () {
 };
 
 /**
- * Activates the Remarklet library, initializing all necessary components.
- * @example
- * remarklet.activate();
+ * @alias module:@zw/remarklet.activate
+ * @type {function}
+ * @description Activates the Remarklet library, initializing all necessary components.
+ * @returns {void}
  */
 remarklet.activate = function () {
     if (!state.get("initialized") && !state.get("loading")) {
@@ -134,19 +147,19 @@ remarklet.activate = function () {
 };
 
 /**
- * Deactivates the Remarklet library, cleaning up any resources or event listeners.
- * @example
- * remarklet.deactivate();
+ * @alias module:@zw/remarklet.deactivate
+ * @type {function}
+ * @description Deactivates the Remarklet library, cleaning up any resources or event listeners.
+ * @returns {void}
  */
 remarklet.deactivate = function () {
     state.set("active", false);
 };
 
 /**
- * Get the current version of the Remarklet library.
- * @example
- * remarklet.version;
- * // "1.2.3"
+ * @alias module:@zw/remarklet.version
+ * @type {string}
+ * @description Get the current version of the Remarklet library.
  */
 remarklet.version = pkg.version;
 
