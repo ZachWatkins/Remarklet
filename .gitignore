@@ -48,6 +48,7 @@ remarklet.css.map
 sftp-config.json
 login.php
 
+out/
 dist/
 /test-results/
 /playwright-report/

@@ -14,7 +14,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
-[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
+[Features](#features) | [Installation](#installation) | [Bookmarklet](#bookmarklet) | [API](#api) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
 
 ## Features
 
@@ -28,7 +28,9 @@ This library lets you add the following features to any web page:
 
 ## Installation
 
-This package can be installed with:
+### Module
+
+Remarklet can be installed with:
 
 - npm: `npm install @zw/remarklet`
 - yarn: `yarn add @zw/remarklet`
@@ -55,33 +57,19 @@ remarklet.deactivate();
 console.log(remarklet.version);
 ```
 
-## Installation from CDN
+### CDN
 
-This library is available from:
+Remarklet is available from:
 
 - unpkg: `https://unpkg.com/@zw/remarklet/dist/remarklet.min.js`
 - jsdelivr: `https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js`
 
-To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar (it also works with jsdelivr):
-
-```
-javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
-```
-
-To activate all features, use this bookmarklet URL:
-
-```
-javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
-```
-
-You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking it.
-
-To use Remarklet in your own webpage, add the following code to your HTML file:
+Add the following code to your HTML file:
 
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Optional: configure the library.
+    // Configure the library.
     remarklet.configure({
         persist: true, // default: false.
         hide: true, // default: false.
@@ -98,6 +86,42 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
     console.log(remarklet.version);
 </script>
 ```
+
+## Bookmarklet
+
+To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar:
+
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
+```
+
+You can use any public methods. For example, this version persists changes and allows elements to be hidden:
+
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
+```
+
+You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking the bookmark.
+
+## API
+
+This is the public API for the Remarklet library.
+
+**remarklet** (function) - The interface which provides all public functionality for the library. Invoking `remarklet()` does nothing.
+
+**remarklet.config** (function) - Configures library features.
+
+- 
+
+**remarklet.options** (deprecated, function) - Configures library features. Use `remarklet.config` instead.
+
+**remarklet.activate** (function) - Activates the library for use.
+
+**remarklet.deactivate** (function) - Deactivates the library and stops all functionalities.
+
+**remarklet.restore** (function) - Restores persisted changes from local storage without activating other library features.
+
+**remarklet.version** (function) - Returns the current version of the library.
 
 ## Contributing
 
