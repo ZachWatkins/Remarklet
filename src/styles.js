@@ -6,7 +6,6 @@
  */
 // Add a stylesheet to the document containing the library's styles.
 import config from "./config.js";
-import state from "./state.js";
 import Stylesheet from "./utils/stylesheet.js";
 import changeMap from "./changeMap.js";
 let sheet = null;
@@ -33,8 +32,5 @@ export default function main() {
             sheet.setRule(elementState.selector, elementState.rule);
         });
     }
-    state.subscribe("mode", (mode) => {
-        document.body.setAttribute("data-remarklet-mode", mode);
-    });
     return sheet;
 }
