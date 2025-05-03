@@ -1,6 +1,6 @@
-# Remarklet - JavaScript web page editor
+# Remarklet
 
-**Remarklet adds visual editing tools to almost any web page. This makes modifying them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
+**Remarklet adds visual editing tools to your web pages. This makes modifying them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
 
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Npm package version](https://flat.badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
@@ -14,7 +14,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
-[Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
+[Features](#features) | [Installation](#installation) | [Bookmarklet](#bookmarklet) | [API](#api) | [Contributing](#contributing) | [Report an Issue](#report-an-issue) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
 
 ## Features
 
@@ -28,7 +28,9 @@ This library lets you add the following features to any web page:
 
 ## Installation
 
-This package can be installed with:
+### Module
+
+Remarklet can be installed with:
 
 - npm: `npm install @zw/remarklet`
 - yarn: `yarn add @zw/remarklet`
@@ -39,7 +41,7 @@ Then import the module in your JavaScript file:
 ```javascript
 import remarklet from "@zw/remarklet";
 // Optional: configure the library.
-remarklet.configure({
+remarklet.config({
     persist: true, // default: false.
     hide: true, // default: false.
 });
@@ -55,34 +57,20 @@ remarklet.deactivate();
 console.log(remarklet.version);
 ```
 
-## Installation from CDN
+### CDN
 
-This library is available from:
+Remarklet is available from:
 
 - unpkg: `https://unpkg.com/@zw/remarklet/dist/remarklet.min.js`
 - jsdelivr: `https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js`
 
-To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar (it also works with jsdelivr):
-
-```
-javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
-```
-
-To activate all features, use this bookmarklet URL:
-
-```
-javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
-```
-
-You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking it.
-
-To use Remarklet in your own webpage, add the following code to your HTML file:
+Add the following code to your HTML file:
 
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Optional: configure the library.
-    remarklet.configure({
+    // Configure the library.
+    remarklet.config({
         persist: true, // default: false.
         hide: true, // default: false.
     });
@@ -98,6 +86,41 @@ To use Remarklet in your own webpage, add the following code to your HTML file:
     console.log(remarklet.version);
 </script>
 ```
+
+## Bookmarklet
+
+To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar:
+
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
+```
+
+You can use any public methods. For example, this version persists changes and allows elements to be hidden:
+
+```
+javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
+```
+
+You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking the bookmark.
+
+## API
+
+### Methods
+
+| Name                         | Type                                                | Description                                                               | Since |
+| ---------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ----- |
+| `remarklet.activate()`       | function(): void                                    | Activates the Remarklet library, initializing all necessary components.   | 1.0.0 |
+| `remarklet.deactivate()`     | function(): void                                    | Deactivates the Remarklet library, cleaning up resources/event listeners. | 1.0.0 |
+| `remarklet.config(options)`  | function({ persist: boolean, hide: boolean }): void | Configures the library's features.                                        | 1.3.0 |
+| `remarklet.restore()`        | function(): void                                    | Restores the persisted changes, if any.                                   | 1.2.0 |
+| `remarklet.unstore()`        | function(): void                                    | Deletes all Remarklet data from localStorage.                             | 1.3.0 |
+| `remarklet.options(options)` | function({ persist: boolean, hide: boolean }): void | Deprecated alias of `remarklet.config`. Will be removed in 2.0.0.         | 1.1.0 |
+
+### Properties
+
+| Name                | Type   | Description                                                  | Since |
+| ------------------- | ------ | ------------------------------------------------------------ | ----- |
+| `remarklet.version` | string | Get the current version of the Remarklet library. Read-only. | 1.0.2 |
 
 ## Contributing
 
