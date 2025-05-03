@@ -1,6 +1,6 @@
-# Remarklet - JavaScript web page editor
+# Remarklet
 
-**Remarklet adds visual editing tools to almost any web page. This makes modifying them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
+**Remarklet adds visual editing tools to your web pages. This makes modifying them remarkably easy, even on touchscreens! Check out the [CodePen demo.](https://codepen.io/zw/full/azbEBKp)**
 
 [![CI](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml/badge.svg)](https://github.com/zachwatkins/remarklet/actions/workflows/ci.yml)
 [![Npm package version](https://flat.badgen.net/npm/v/@zw/remarklet)](https://npmjs.com/package/@zw/remarklet)
@@ -105,21 +105,15 @@ You can save this as a custom bookmark in your browser, so you can activate the 
 
 ## API
 
-This is the public API for the Remarklet library.
-
-**remarklet** (function) - The interface which provides all public functionality for the library. Invoking `remarklet()` does nothing.
-
-**remarklet.config** (function) - Configures library features.
-
-**remarklet.options** (deprecated, function) - Configures library features. Use `remarklet.config` instead.
-
-**remarklet.activate** (function) - Activates the library for use.
-
-**remarklet.deactivate** (function) - Deactivates the library and stops all functionalities.
-
-**remarklet.restore** (function) - Restores persisted changes from local storage without activating other library features.
-
-**remarklet.version** (function) - Returns the current version of the library.
+| Method/Property              | Description                                                               | Since |
+| ---------------------------- | ------------------------------------------------------------------------- | ----- |
+| `remarklet.activate()`       | Activates the Remarklet library, initializing all necessary components.   | 1.0.0 |
+| `remarklet.deactivate()`     | Deactivates the Remarklet library, cleaning up resources/event listeners. | 1.0.0 |
+| `remarklet.config(options)`  | Configures the library's features (`persist`, `hide`).                    | 1.3.0 |
+| `remarklet.restore()`        | Restores the persisted changes, if any.                                   | 1.2.0 |
+| `remarklet.unstore()`        | Deletes all Remarklet data from localStorage.                             | 1.3.0 |
+| `remarklet.version`          | Get the current version of the Remarklet library. Read-only.              | 1.0.2 |
+| `remarklet.options(options)` | Deprecated alias of `remarklet.config`. Will be removed in 2.0.0.         | 1.1.0 |
 
 ## Contributing
 
