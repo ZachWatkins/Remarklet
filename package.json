@@ -33,7 +33,7 @@
         "build": "rollup -c",
         "lint": "prettier --check .",
         "lint:fix": "prettier --write .",
-        "doc": "npx jsdoc --package ./package.json index.js",
+        "doc": "npx jsdoc --package ./package.json --readme ./README.md index.js",
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
