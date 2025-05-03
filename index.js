@@ -17,6 +17,14 @@ import textedit from "./src/textedit.js";
 import changeMap from "./src/changeMap.js";
 import hide from "./src/hide.js";
 import config from "./src/config.js";
+
+/**
+ * @alias module:@zw/remarklet
+ * @function
+ * @returns {void}
+ */
+function remarklet() {}
+
 /**
  * @private
  */
@@ -36,11 +44,22 @@ const app = {
 };
 
 /**
- * @alias module:@zw/remarklet
- * @function
+ * @alias module:@zw/remarklet.config
+ * @since 1.3.0
+ * @description Configures the library's features.
+ * @param {Object} options - The configuration options.
+ * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} options.hide - Whether to hide certain elements.
  * @returns {void}
  */
-function remarklet() {}
+remarklet.config = function (options) {
+    if (options.persist === true) {
+        config.persist = true;
+    }
+    if (options.hide === true) {
+        config.hide = true;
+    }
+};
 
 /**
  * @alias module:@zw/remarklet.activate
@@ -118,24 +137,6 @@ remarklet.restore = function () {
     app.use(changeMap);
     app.use(styles);
     state.set("loading", false);
-};
-
-/**
- * @alias module:@zw/remarklet.config
- * @since 1.3.0
- * @description Configures the library's features.
- * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
- * @param {boolean} options.hide - Whether to hide certain elements.
- * @returns {void}
- */
-remarklet.config = function (options) {
-    if (options.persist === true) {
-        config.persist = true;
-    }
-    if (options.hide === true) {
-        config.hide = true;
-    }
 };
 
 /**
