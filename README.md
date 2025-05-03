@@ -41,7 +41,7 @@ Then import the module in your JavaScript file:
 ```javascript
 import remarklet from "@zw/remarklet";
 // Optional: configure the library.
-remarklet.configure({
+remarklet.config({
     persist: true, // default: false.
     hide: true, // default: false.
 });
@@ -70,7 +70,7 @@ Add the following code to your HTML file:
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
     // Configure the library.
-    remarklet.configure({
+    remarklet.config({
         persist: true, // default: false.
         hide: true, // default: false.
     });
@@ -110,8 +110,6 @@ This is the public API for the Remarklet library.
 **remarklet** (function) - The interface which provides all public functionality for the library. Invoking `remarklet()` does nothing.
 
 **remarklet.config** (function) - Configures library features.
-
-- 
 
 **remarklet.options** (deprecated, function) - Configures library features. Use `remarklet.config` instead.
 
