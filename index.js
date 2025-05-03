@@ -62,6 +62,19 @@ remarklet.config = function (options) {
 };
 
 /**
+ * @deprecated
+ * @alias module:@zw/remarklet.options
+ * @since 1.1.0
+ * @function
+ * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
+ * @param {Object} options - The configuration options.
+ * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} options.hide - Whether to hide certain elements.
+ * @returns {void}
+ */
+remarklet.options = remarklet.config;
+
+/**
  * @alias module:@zw/remarklet.activate
  * @since 1.0.0
  * @function
@@ -97,28 +110,6 @@ remarklet.deactivate = function () {
 };
 
 /**
- * @alias module:@zw/remarklet.version
- * @since 1.0.2
- * @type {string}
- * @readonly
- * @description Get the current version of the Remarklet library.
- */
-remarklet.version = pkg.version;
-
-/**
- * @deprecated
- * @alias module:@zw/remarklet.options
- * @since 1.1.0
- * @function
- * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
- * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
- * @param {boolean} options.hide - Whether to hide certain elements.
- * @returns {void}
- */
-remarklet.options = remarklet.config;
-
-/**
  * @alias module:@zw/remarklet.restore
  * @since 1.2.0
  * @function
@@ -149,5 +140,14 @@ remarklet.restore = function () {
 remarklet.unstore = function () {
     changeMap.unstore();
 };
+
+/**
+ * @alias module:@zw/remarklet.version
+ * @since 1.0.2
+ * @type {string}
+ * @readonly
+ * @description Get the current version of the Remarklet library.
+ */
+remarklet.version = pkg.version;
 
 export default remarklet;
