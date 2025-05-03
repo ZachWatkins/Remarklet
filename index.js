@@ -7,29 +7,6 @@
  * Licensed under the MIT License. See LICENSE.txt in the project root or go to
  * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
  * full license information.
- * @example
- * import remarklet from "@zw/remarklet";
- *
- * // Optional: configure the library.
- * remarklet.config({
- *     persist: true, // default: false.
- *     hide: true, // default: false.
- * });
- *
- * // Restore changes from localStorage without activating the rest of the library.
- * remarklet.restore();
- *
- * // Delete all Remarklet data from localStorage (cannot be undone).
- * remarklet.unstore();
- *
- * // Initialize the library.
- * remarklet.activate();
- *
- * // Deactivate the library.
- * remarklet.deactivate();
- *
- * // Get the version of the library.
- * console.log(remarklet.version);
  */
 import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
