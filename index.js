@@ -63,10 +63,20 @@ const app = {
  * @returns {void}
  */
 function remarklet() {}
+
+/**
+ * @alias module:@zw/remarklet.version
+ * @since 1.0.2
+ * @type {string}
+ * @description Get the current version of the Remarklet library.
+ */
+remarklet.version = pkg.version;
+
 /**
  * @alias module:@zw/remarklet.config
+ * @since 1.3.0
  * @type {function}
- * @description Configures the library.
+ * @description Configures the library's features.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
  * @param {boolean} options.hide - Whether to hide certain elements.
@@ -82,9 +92,11 @@ remarklet.config = function (options) {
 };
 
 /**
- * @alias module:@zw/remarklet.options
- * @type {function}
  * @deprecated
+ * @alias module:@zw/remarklet.options
+ * @since 1.1.0
+ * @type {function}
+ * @method
  * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
@@ -95,6 +107,7 @@ remarklet.options = remarklet.config;
 
 /**
  * @alias module:@zw/remarklet.restore
+ * @since 1.2.0
  * @type {function}
  * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
  * @returns {void}
@@ -115,6 +128,7 @@ remarklet.restore = function () {
 
 /**
  * @alias module:@zw/remarklet.unstore
+ * @since 1.3.0
  * @type {function}
  * @description Deletes all Remarklet data from localStorage.
  * @returns {void}
@@ -125,6 +139,7 @@ remarklet.unstore = function () {
 
 /**
  * @alias module:@zw/remarklet.activate
+ * @since 1.0.0
  * @type {function}
  * @description Activates the Remarklet library, initializing all necessary components.
  * @returns {void}
@@ -148,6 +163,7 @@ remarklet.activate = function () {
 
 /**
  * @alias module:@zw/remarklet.deactivate
+ * @since 1.0.0
  * @type {function}
  * @description Deactivates the Remarklet library, cleaning up any resources or event listeners.
  * @returns {void}
@@ -155,12 +171,5 @@ remarklet.activate = function () {
 remarklet.deactivate = function () {
     state.set("active", false);
 };
-
-/**
- * @alias module:@zw/remarklet.version
- * @type {string}
- * @description Get the current version of the Remarklet library.
- */
-remarklet.version = pkg.version;
 
 export default remarklet;
