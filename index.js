@@ -62,6 +62,27 @@ remarklet.config = function (options) {
 };
 
 /**
+ * @alias module:@zw/remarklet.restore
+ * @since 1.2.0
+ * @function
+ * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
+ * @returns {void}
+ */
+remarklet.restore = function () {
+    if (state.get("loading") === true) {
+        console.warn("Loading is already in progress.");
+        return;
+    }
+    state.set("loading", true);
+    if (config.persist !== true) {
+        config.persist = true;
+    }
+    app.use(changeMap);
+    app.use(styles);
+    state.set("loading", false);
+};
+
+/**
  * @deprecated
  * @alias module:@zw/remarklet.options
  * @since 1.1.0
@@ -107,27 +128,6 @@ remarklet.activate = function () {
  */
 remarklet.deactivate = function () {
     state.set("active", false);
-};
-
-/**
- * @alias module:@zw/remarklet.restore
- * @since 1.2.0
- * @function
- * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
- * @returns {void}
- */
-remarklet.restore = function () {
-    if (state.get("loading") === true) {
-        console.warn("Loading is already in progress.");
-        return;
-    }
-    state.set("loading", true);
-    if (config.persist !== true) {
-        config.persist = true;
-    }
-    app.use(changeMap);
-    app.use(styles);
-    state.set("loading", false);
 };
 
 /**
