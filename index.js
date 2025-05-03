@@ -96,6 +96,17 @@ remarklet.restore = function () {
 };
 
 /**
+ * @alias module:@zw/remarklet.unstore
+ * @since 1.3.0
+ * @function
+ * @description Deletes all Remarklet data from localStorage.
+ * @returns {void}
+ */
+remarklet.unstore = function () {
+    changeMap.unstore();
+};
+
+/**
  * @alias module:@zw/remarklet.activate
  * @since 1.0.0
  * @function
@@ -128,17 +139,6 @@ remarklet.activate = function () {
  */
 remarklet.deactivate = function () {
     state.set("active", false);
-};
-
-/**
- * @alias module:@zw/remarklet.unstore
- * @since 1.3.0
- * @function
- * @description Deletes all Remarklet data from localStorage.
- * @returns {void}
- */
-remarklet.unstore = function () {
-    changeMap.unstore();
 };
 
 /**
