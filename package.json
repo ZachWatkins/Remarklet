@@ -34,6 +34,7 @@
         "lint": "prettier --check .",
         "lint:fix": "prettier --write .",
         "doc": "npx jsdoc --package ./package.json --readme ./README.md index.js",
+        "docs:generate": "jsdoc2md index.js > website/docs/api.md",
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
@@ -50,6 +51,7 @@
         "@rollup/plugin-terser": "^0.4.4",
         "@testing-library/dom": "^10.4.0",
         "global-jsdom": "^26.0.0",
+        "jsdoc-to-markdown": "^9.1.1",
         "jsdom": "^26.0.0",
         "prettier": "^3.5.3",
         "rollup": "^4.35.0"
