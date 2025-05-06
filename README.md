@@ -11,7 +11,7 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/ZachWatkins/Remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/ZachWatkins/remarklet.svg)](https://GitHub.com/ZachWatkins/remarklet/pull/)
 
 [Features](#features) | [Installation](#installation) | [Installation from CDN](#installation-from-cdn) | [Contributing](#contributing) | [Known Issues](#known-issues) | [Feature Roadmap](https://github.com/ZachWatkins/Remarklet/discussions/98)
@@ -98,7 +98,7 @@ Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/z
 
 If you would like to participate in discussions, you can post in the [GitHub Discussions](https://github.com/ZachWatkins/Remarklet/discussions) section of the repository.
 
-Copyright 2014-2025 Zachary Kendall Watkins, <zwatkins.it@gmail.com>, https://zacharywatkins.com
+Copyright 2014-2025 Zachary Kendall Watkins, zwatkins.it@gmail.com, https://zacharywatkins.com
 
 ## Known Issues
 
