@@ -25,10 +25,29 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
-            id: "api", // Link to api.md
+            id: "installation",
+            label: "Installation",
+        },
+        {
+            type: "doc",
+            id: "bookmarklet",
+            label: "Bookmarklet",
+        },
+        {
+            type: "doc",
+            id: "api",
             label: "API Reference",
         },
-        // Add other docs here as needed
+        {
+            type: "doc",
+            id: "contributing",
+            label: "Contributing",
+        },
+        {
+            type: "doc",
+            id: "report-an-issue",
+            label: "Report an Issue",
+        },
     ],
 };
 
