@@ -15,6 +15,9 @@ jobs:
     # Build job
     build:
         runs-on: ubuntu-latest
+        permissions:
+            pages: write
+            contents: read
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -23,7 +26,7 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 18 # Or your preferred Node.js version
+                  node-version: 22
                   cache: "npm"
             - name: Install root dependencies
               run: npm install
