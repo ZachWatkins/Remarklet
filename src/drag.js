@@ -4,11 +4,11 @@
  * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
  * full license information.
  */
-import "@interactjs/auto-start/index.prod";
-import "@interactjs/actions/drag/index.prod";
-import "@interactjs/actions/resize/index.prod";
+import "@interactjs/auto-start/index.prod.js";
+import "@interactjs/actions/drag/index.prod.js";
+import "@interactjs/actions/resize/index.prod.js";
 // import '@interactjs/dev-tools'
-import interact from "@interactjs/interact/index.prod";
+import interact from "@interactjs/interact/index.prod.js";
 import state from "./state.js";
 import styles from "./styles.js";
 import changeMap from "./changeMap.js";
