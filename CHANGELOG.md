@@ -17,6 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Moved config/option values from `src/state.js` to dedicated module at `src/config.js`.
 - Updated documentation.
 
+## [1.2.3] - 2025-05-05
+
+### Fixed
+
+- Fixed module import error some users may encounter due to interactjs module imports not using fully qualified paths.
+
 ## [1.2.2] - 2025-04-27
 
 ### Changed
