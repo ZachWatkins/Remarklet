@@ -23,3 +23,5 @@ CHANGELOG.md
 package-lock.json
 docs/
 archived-library/
+website/.docusaurus/
+website/build/
