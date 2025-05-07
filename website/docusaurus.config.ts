@@ -6,7 +6,7 @@ const config: Config = {
     tagline: "Edit any web page.",
     // favicon: "img/favicon.ico",
     url: "https://remarklet.com",
-    baseUrl: "/",
+    baseUrl: "https://zacharywatkins.com/",
     organizationName: "zachwatkins",
     projectName: "remarklet",
     onBrokenLinks: "throw",
