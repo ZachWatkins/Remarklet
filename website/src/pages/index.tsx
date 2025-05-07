@@ -32,20 +32,33 @@ function HomepageHeader() {
                     >
                         {activated ? "Deactivate" : "Activate"}
                     </Link>
-                    <Link
-                        className="button button--secondary button--lg"
-                        onClick={() => {
-                            navigator.clipboard.writeText(
-                                "javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();",
-                            );
-                            setCopied(true);
-                            window.setTimeout(() => {
-                                setCopied(false);
-                            }, 1500);
-                        }}
-                    >
-                        {copied ? "Copied!" : "Copy the Bookmarklet"}
-                    </Link>
+                    <div className={styles.buttonWrapper}>
+                        <div
+                            aria-hidden={!copied}
+                            className={
+                                styles.copyNotification +
+                                (copied
+                                    ? ""
+                                    : ` ${styles.copyNotificationHidden}`)
+                            }
+                        >
+                            Copied!
+                        </div>
+                        <Link
+                            className="button button--secondary button--lg"
+                            onClick={() => {
+                                navigator.clipboard.writeText(
+                                    "javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();",
+                                );
+                                setCopied(true);
+                                window.setTimeout(() => {
+                                    setCopied(false);
+                                }, 1500);
+                            }}
+                        >
+                            Copy the Bookmarklet
+                        </Link>
+                    </div>
                 </div>
             </div>
         </header>

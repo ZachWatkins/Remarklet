@@ -70,7 +70,10 @@ const config: Config = {
                 {
                     title: "Community",
                     items: [
-                        // Add community links here if you have them
+                        {
+                            label: "GitHub Discussions",
+                            to: "https://github.com/zachwatkins/remarklet/discussions",
+                        },
                     ],
                 },
                 {
@@ -83,7 +86,7 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} Zachary Kendall Watkins. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Zach Watkins. Built with Docusaurus.`,
         },
         prism: {
             theme: prismThemes.github,
