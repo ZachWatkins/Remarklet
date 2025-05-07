@@ -1,0 +1,98 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+    --primary-color: hsl(53, 93%, 54%);
+    --primary-color-hue: 53;
+    --primary-color-lightness: 54%;
+    --primary-color-saturation: 93%;
+    --ifm-color-primary: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        var(--primary-color-lightness)
+    );
+    --ifm-color-primary-darker: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) - 10%)
+    );
+    --ifm-color-primary-darkest: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) - 20%)
+    );
+    --ifm-color-primary-light: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 50%)
+    );
+    --ifm-color-primary-lighter: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 60%)
+    );
+    --ifm-color-primary-lightest: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 70%)
+    );
+    --ifm-code-font-size: 95%;
+    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+    --primary-color-hue: 53;
+    --primary-color-saturation: 93%;
+    --primary-color-lightness: 20%;
+    --ifm-color-primary: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        var(--primary-color-lightness)
+    );
+    --ifm-color-primary-dark: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) - 20%)
+    );
+    --ifm-color-primary-darker: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) - 30%)
+    );
+    --ifm-color-primary-darkest: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) - 40%)
+    );
+    --ifm-color-primary-light: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 50%)
+    );
+    --ifm-color-primary-lighter: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 60%)
+    );
+    --ifm-color-primary-lightest: hsl(
+        var(--primary-color-hue),
+        var(--primary-color-saturation),
+        calc(var(--primary-color-lightness) + 70%)
+    );
+    --ifm-code-font-size: 95%;
+    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+    --ifm-heading-color: #fff;
+}
+
+.hero--primary {
+    --ifm-hero-text-color: #000;
+}
+
+[data-theme="dark"] .hero--primary {
+    --ifm-hero-text-color: #fff;
+}
