@@ -17,6 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Moved config/option values from `src/state.js` to dedicated module at `src/config.js`.
 - Updated documentation.
 
+## [1.2.4] - 2025-05-05
+
+### Fixed
+
+- Fixed image link and syntax error in readme.
+
 ## [1.2.3] - 2025-05-05
 
 ### Fixed
