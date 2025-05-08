@@ -12,7 +12,7 @@ const basePages = [
 // Function to discover additional pages from sitemap
 async function discoverPagesFromSitemap(page) {
     try {
-        await page.goto("https://zacharywatkins.com/remarklet/sitemap.xml");
+        await page.goto("remarklet/sitemap.xml");
         const content = await page.content();
         const matches = content.match(/<loc>(.*?)<\/loc>/g) || [];
         const urls = matches.map((match) => {

@@ -1,4 +1,4 @@
-name: Test Website for Accessibility
+name: Test Website
 
 on:
     pull_request:
@@ -31,7 +31,7 @@ jobs:
               working-directory: ./website
 
             - name: Run Playwright tests
-              run: npm run test:a11y
+              run: npm test
               working-directory: ./website
 
             - uses: actions/upload-artifact@v4
