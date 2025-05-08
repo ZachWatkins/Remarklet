@@ -37,9 +37,8 @@ export default defineConfig({
 
     /* Run your local dev server before starting the tests */
     webServer: {
-        cwd: "demo",
-        command: "npm run dev",
-        url: "http://localhost:3000",
+        command: "npm start",
+        url: "http://localhost:3000/Remarklet/",
         reuseExistingServer: !process.env.CI,
     },
 });
