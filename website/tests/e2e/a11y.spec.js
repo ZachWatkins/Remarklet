@@ -9,54 +9,12 @@ const basePages = [
     "/docs/api", // API Reference
 ];
 
-// Function to discover additional pages from sitemap
-async function discoverPagesFromSitemap(page) {
-    try {
-        await page.goto("remarklet/sitemap.xml");
-        const content = await page.content();
-        const matches = content.match(/<loc>(.*?)<\/loc>/g) || [];
-        const urls = matches.map((match) => {
-            const url = match.replace("<loc>", "").replace("</loc>", "");
-            return new URL(url).pathname;
-        });
-        return [...new Set([...basePages, ...urls])]; // Deduplicate
-    } catch (error) {
-        console.log("Sitemap not found or error parsing it:", error);
-        return basePages;
-    }
-}
-
 test.describe("Accessibility Tests", () => {
-    let pages = basePages;
-
-    test.beforeAll(async ({ browser }) => {
-        // Try to discover pages from sitemap
-        const context = await browser.newContext();
-        const page = await context.newPage();
-        pages = await discoverPagesFromSitemap(page);
-        await context.close();
-
-        // Log discovered pages
-        console.log(`Testing ${pages.length} pages for accessibility:`);
-        pages.forEach((page) => console.log(` - ${page}`));
-
-        // Create directory if it doesn't exist
-        if (!fs.existsSync("test-results")) {
-            fs.mkdirSync("test-results", { recursive: true });
-        }
-
-        // Write discovered pages to a file for reporting
-        fs.writeFileSync(
-            "test-results/discovered-pages.json",
-            JSON.stringify(pages, null, 2),
-        );
-    });
-
     // Run accessibility tests on each page
     for (const path of basePages) {
         test(`accessibility test for ${path}`, async ({ page }) => {
             // Navigate to the page
-            await page.goto(`https://zacharywatkins.com${path}`);
+            await page.goto(path);
 
             // Wait for page to be fully loaded
             await page.waitForLoadState("networkidle");
