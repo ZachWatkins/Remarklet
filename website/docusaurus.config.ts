@@ -86,7 +86,7 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} Zach Watkins. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} <a href="https://zacharywatkins.com">Zach Watkins</a>. Built with <a href="https://docusaurus.io/" nofollow>Docusaurus</a>.`,
         },
         prism: {
             theme: prismThemes.github,
