@@ -25,7 +25,7 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
-            id: "installation",
+            id: "install",
             label: "Installation",
         },
         {
@@ -40,7 +40,7 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
-            id: "contributing",
+            id: "contribute",
             label: "Contributing",
         },
         {
