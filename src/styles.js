@@ -15,7 +15,7 @@ export default function main() {
     if (sheet) {
         return sheet;
     }
-    sheet = new Stylesheet();                                  
+    sheet = new Stylesheet();
     sheet.setRule(
         "[data-remarklet-highlight]",
         "outline: 2px solid #00b3dd !important; touch-action: none !important; user-select: none !important;",
