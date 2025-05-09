@@ -25,3 +25,4 @@ docs/
 archived-library/
 website/.docusaurus/
 website/build/
+website/playwright-report/
