@@ -6,16 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-### Added
+No unreleased changes.
 
-- Added `remarklet.config` function to replace `remarklet.options`, which is now deprecated and will be replaced in a future version.
-- Added `remarklet.unstore()` to delete all Remarklet data from localStorage.
+## [1.2.5] - 2025-05-08
 
-### Changed
+### Fixed
 
-- Marked `remarklet.options` as deprecated. Will be removed in Remarklet v2.0.0.
-- Moved config/option values from `src/state.js` to dedicated module at `src/config.js`.
-- Updated documentation.
+- Fixed an issue where some websites would not show the outline style for the target element.
 
 ## [1.2.4] - 2025-05-05
 
