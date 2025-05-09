@@ -12,7 +12,6 @@ import styles from "./index.module.css";
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     const [copied, setCopied] = useState(false);
-    const [activated, setActivated] = useState(false);
     return (
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
@@ -22,15 +21,10 @@ function HomepageHeader() {
                     <Link
                         className="button button--secondary button--lg"
                         onClick={() => {
-                            if (activated) {
-                                remarklet.deactivate();
-                            } else {
-                                remarklet.activate();
-                            }
-                            setActivated(!activated);
+                            remarklet.activate();
                         }}
                     >
-                        {activated ? "Deactivate" : "Activate"}
+                        Activate
                     </Link>
                     <div className={styles.buttonWrapper}>
                         <div
