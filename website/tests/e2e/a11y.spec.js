@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import fs from "fs";
 
-// Define the base pages to test
-const basePages = [
-    "/", // Home page
-    "/docs/intro", // Documentation intro
-    "/docs/api", // API Reference
-];
+// Read the docs directory and generate the base pages list
+const basePages = fs.readdirSync("docs").map((file) => {
+    return `/docs/${file.replace(".md", "")}`;
+});
+basePages.push("/");
 
 test.describe("Accessibility Tests", () => {
     // Run accessibility tests on each page
