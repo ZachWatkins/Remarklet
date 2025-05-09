@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import fs from "fs";
 
 // Define the base pages to test
 const basePages = [
@@ -31,17 +30,7 @@ test.describe("Accessibility Tests", () => {
                     date: new Date().toISOString(),
                     violations: accessibilityScanResults.violations,
                 };
-
-                // Create directory if it doesn't exist
-                if (!fs.existsSync("test-results")) {
-                    fs.mkdirSync("test-results", { recursive: true });
-                }
-
-                const sanitizedPath = path.replace(/[^a-zA-Z0-9]/g, "_");
-                fs.writeFileSync(
-                    `test-results/a11y-violations-${sanitizedPath}.json`,
-                    JSON.stringify(testDetails, null, 2),
-                );
+                test.info({ testDetails });
             }
 
             // Assert no violations
