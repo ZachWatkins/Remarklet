@@ -14,6 +14,17 @@
     .heroBanner {
         padding: 2rem;
     }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons .button,
+    .buttonWrapper,
+    .buttonWrapperButton {
+        max-width: 100%;
+        white-space: normal;
+    }
 }
 
 .buttons {
