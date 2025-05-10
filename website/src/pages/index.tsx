@@ -12,7 +12,6 @@ import styles from "./index.module.css";
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     const [copied, setCopied] = useState(false);
-    const [activated, setActivated] = useState(false);
     return (
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
@@ -22,15 +21,10 @@ function HomepageHeader() {
                     <Link
                         className="button button--secondary button--lg"
                         onClick={() => {
-                            if (activated) {
-                                remarklet.deactivate();
-                            } else {
-                                remarklet.activate();
-                            }
-                            setActivated(!activated);
+                            remarklet.activate();
                         }}
                     >
-                        {activated ? "Deactivate" : "Activate"}
+                        Activate
                     </Link>
                     <div className={styles.buttonWrapper}>
                         <div
@@ -45,7 +39,10 @@ function HomepageHeader() {
                             Copied!
                         </div>
                         <Link
-                            className="button button--secondary button--lg"
+                            className={
+                                styles.buttonWrapperButton +
+                                " button button--secondary button--lg"
+                            }
                             onClick={() => {
                                 navigator.clipboard.writeText(
                                     "javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();",
@@ -56,7 +53,7 @@ function HomepageHeader() {
                                 }, 1500);
                             }}
                         >
-                            Copy the Bookmarklet
+                            Get the Bookmark
                         </Link>
                     </div>
                 </div>
