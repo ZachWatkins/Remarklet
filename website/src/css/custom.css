@@ -5,6 +5,10 @@
  */
 
 /* You can override the default Infima variables here. */
+:root {
+    --ifm-color-primary: #1c62d4;
+}
+
 footer a {
     color: #fff;
     text-decoration: underline;
