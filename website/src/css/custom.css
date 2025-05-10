@@ -9,7 +9,11 @@
     --ifm-color-primary: #1c62d4;
 }
 
+main a,
+footer a {
+    text-decoration: underline;
+}
+
 footer a {
     color: #fff;
-    text-decoration: underline;
 }
