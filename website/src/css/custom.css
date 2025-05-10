@@ -17,3 +17,11 @@ footer a {
 footer a {
     color: #fff;
 }
+
+.token-line .token.comment {
+    color: #767676 !important;
+}
+
+.theme-code-block pre.prism-code {
+    background-color: #fff !important;
+}
