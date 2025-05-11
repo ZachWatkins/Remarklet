@@ -25,10 +25,14 @@ I have adapted this site in accordance with WCAG 2.1 guidelines, and have made t
 
 ## Requests, issues, and suggestions
 
-If you find an accessibility issue on the site, or if you require further assistance, you are welcome to contact me:
+If you find an accessibility issue on the site, or if you require further assistance, you are welcome to
+submit a request for assistance here: [Report an Accessibility Issue for Remarklet.com](https://docs.google.com/forms/d/e/1FAIpQLSeGsbrKXqcp-f5tq-0nUnrgZATgGCt7CM2fedJAEUjfFlGeUg/viewform?usp=dialog)
+
+Current website accessibility issues are listed here: [Remarklet - Open Website Accessibility Issues](https://github.com/ZachWatkins/Remarklet/issues?q=is%3Aissue%20state%3Aopen%20is%3Awebsite-accessibility).
+
+If you have a GitHub account, you can notify me of an accessibility issue on our GitHub repository's issues page here: https://github.com/ZachWatkins/Remarklet/issues.
+
+You may also contact me at:
 
 Zachary Watkins
 [Email address of the accessibility coordinator]
-[Enter any additional contact details if relevant / available]
-
-If you have a GitHub account, you can notify me of an accessibility issue on our GitHub repository's issues page at https://github.com/ZachWatkins/Remarklet/issues.
