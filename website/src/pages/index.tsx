@@ -7,6 +7,10 @@ import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import remarklet from "@zw/remarklet";
 
+remarklet.options({
+    hide: true,
+});
+
 import styles from "./index.module.css";
 
 function HomepageHeader() {
