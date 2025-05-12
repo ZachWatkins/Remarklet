@@ -101,7 +101,7 @@ const config: Config = {
                     items: [
                         {
                             label: "Accessibility",
-                            to: "/accessibility/"
+                            to: "/accessibility/",
                         },
                         {
                             label: "GitHub",
