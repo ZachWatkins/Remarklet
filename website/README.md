@@ -2,6 +2,10 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a static website generator.
 
+It uses Playwright and Axe to run accessibility tests on the website. The tests are run in a GitHub Action workflow, and the results are reported in the GitHub Actions tab.
+
+The API documentation is generated using JSDoc and is hosted on GitHub Pages at https://remarklet.com.
+
 ## Local Development
 
 ```

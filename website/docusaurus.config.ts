@@ -62,8 +62,28 @@ const config: Config = {
                     title: "Docs",
                     items: [
                         {
-                            label: "API Reference",
+                            label: "Introduction",
                             to: "/docs/intro",
+                        },
+                        {
+                            label: "Installation",
+                            to: "/docs/install",
+                        },
+                        {
+                            label: "Bookmarklet",
+                            to: "/docs/bookmarklet",
+                        },
+                        {
+                            label: "API Reference",
+                            to: "/docs/api",
+                        },
+                        {
+                            label: "Contributing",
+                            to: "/docs/contributing",
+                        },
+                        {
+                            label: "Report an Issue",
+                            to: "/docs/report-an-issue",
                         },
                     ],
                 },
@@ -79,6 +99,10 @@ const config: Config = {
                 {
                     title: "More",
                     items: [
+                        {
+                            label: "Accessibility",
+                            to: "/accessibility/",
+                        },
                         {
                             label: "GitHub",
                             href: "https://github.com/zachwatkins/remarklet",
