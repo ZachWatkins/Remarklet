@@ -44,9 +44,21 @@ const config: Config = {
             items: [
                 {
                     type: "docSidebar",
-                    sidebarId: "tutorialSidebar",
+                    sidebarId: "docsSidebar",
                     position: "left",
                     label: "Docs",
+                },
+                {
+                    type: "docSidebar",
+                    sidebarId: "apiSidebar",
+                    position: "left",
+                    label: "API",
+                },
+                {
+                    type: "docSidebar",
+                    sidebarId: "communitySidebar",
+                    position: "left",
+                    label: "Community",
                 },
                 {
                     href: "https://github.com/ZachWatkins/Remarklet",
@@ -74,16 +86,21 @@ const config: Config = {
                             to: "/docs/bookmarklet",
                         },
                         {
-                            label: "API Reference",
-                            to: "/docs/api",
-                        },
-                        {
                             label: "Contributing",
                             to: "/docs/contributing",
                         },
                         {
                             label: "Report an Issue",
                             to: "/docs/report-an-issue",
+                        },
+                    ],
+                },
+                {
+                    title: "API",
+                    items: [
+                        {
+                            label: "API Reference",
+                            to: "/api",
                         },
                     ],
                 },

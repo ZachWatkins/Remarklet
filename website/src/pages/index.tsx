@@ -7,6 +7,10 @@ import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import remarklet from "@zw/remarklet";
 
+remarklet.options({
+    hide: true,
+});
+
 import styles from "./index.module.css";
 
 function HomepageHeader() {
@@ -66,7 +70,7 @@ export default function Home(): ReactNode {
     const { siteConfig } = useDocusaurusContext();
     return (
         <Layout
-            title={`Hello from ${siteConfig.title}`}
+            title="Edit any web page"
             description="Description will go into a meta tag in <head />"
         >
             <HomepageHeader />
