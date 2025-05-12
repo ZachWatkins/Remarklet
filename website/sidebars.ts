@@ -31,11 +31,6 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
-            id: "api",
-            label: "API Reference",
-        },
-        {
-            type: "doc",
             id: "contribute",
             label: "Contributing",
         },
@@ -43,6 +38,13 @@ const sidebars: SidebarsConfig = {
             type: "doc",
             id: "report-an-issue",
             label: "Report an Issue",
+        },
+    ],
+    apiSidebar: [
+        {
+            type: "doc",
+            id: "api",
+            label: "Client API",
         },
     ],
 };
