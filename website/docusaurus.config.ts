@@ -55,6 +55,12 @@ const config: Config = {
                     label: "API",
                 },
                 {
+                    type: "docSidebar",
+                    sidebarId: "communitySidebar",
+                    position: "left",
+                    label: "Community",
+                },
+                {
                     href: "https://github.com/ZachWatkins/Remarklet",
                     label: "GitHub",
                     position: "right",

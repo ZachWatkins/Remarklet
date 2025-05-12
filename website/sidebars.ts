@@ -31,7 +31,12 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
-            id: "contribute",
+            id: "changelog",
+            label: "Changelog",
+        },
+        {
+            type: "link",
+            href: "contribute",
             label: "Contributing",
         },
         {
@@ -45,6 +50,23 @@ const sidebars: SidebarsConfig = {
             type: "doc",
             id: "api",
             label: "Client API",
+        },
+    ],
+    communitySidebar: [
+        {
+            type: "doc",
+            id: "contribute",
+            label: "Contributing",
+        },
+        {
+            type: "doc",
+            id: "changelog",
+            label: "Changelog",
+        },
+        {
+            type: "doc",
+            id: "report-an-issue",
+            label: "Report an Issue",
         },
     ],
 };
