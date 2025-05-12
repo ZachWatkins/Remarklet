@@ -4,7 +4,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config: Config = {
     title: "Remarklet",
     tagline: "Edit any web page.",
-    // favicon: "img/favicon.ico",
+    favicon: "img/favicon.ico",
     url: "https://remarklet.com/",
     baseUrl: "/",
     organizationName: "zachwatkins",
