@@ -36,7 +36,7 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "link",
-            href: "contribute",
+            href: "contributing",
             label: "Contributing",
         },
         {
@@ -55,7 +55,7 @@ const sidebars: SidebarsConfig = {
     communitySidebar: [
         {
             type: "doc",
-            id: "contribute",
+            id: "contributing",
             label: "Contributing",
         },
         {
