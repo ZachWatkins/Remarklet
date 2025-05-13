@@ -100,7 +100,7 @@ const config: Config = {
                     items: [
                         {
                             label: "API Reference",
-                            to: "/api",
+                            to: "/docs/api",
                         },
                     ],
                 },
