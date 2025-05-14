@@ -108,6 +108,26 @@ const config: Config = {
                     title: "Community",
                     items: [
                         {
+                            label: "Support",
+                            to: "community/support",
+                        },
+                        {
+                            label: "Contributing",
+                            to: "community/contributing",
+                        },
+                        {
+                            label: "Code of Conduct",
+                            to: "community/code-of-conduct",
+                        },
+                        {
+                            label: "Changelog",
+                            to: "community/changelog",
+                        },
+                        {
+                            label: "Report an Issue",
+                            to: "community/report-an-issue",
+                        },
+                        {
                             label: "GitHub Discussions",
                             to: "https://github.com/zachwatkins/remarklet/discussions",
                         },
