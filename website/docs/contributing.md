@@ -13,28 +13,103 @@ At this time, I am accepting contributions to improve the following areas:
 - Tests
 - GitHub Actions
 
-Read our [Code of Conduct](contributing/code-of-conduct.md) to help this open-source project's community remain open and welcoming.
+Read our [Code of Conduct](code-of-conduct.md) to help this open-source project's community remain open and welcoming.
 
 If you would like to participate in discussions, you can post in the [GitHub Discussions](https://github.com/ZachWatkins/Remarklet/discussions) section of the repository.
 
 This guide will help you get started and explains the process for open source contributions.
 
-## Getting started
+## Types of contributions
 
-For resources to help you get started with creating your contribution, see here:
+You can contribute to the project in ways listed below. This repository may use automation to apply policies to publicly accessible areas like discussions, issues, and pull requests.
+
+## Discussions
+
+The [Discussions](https://github.com/zachwatkins/remarklet/discussions) area is for conversations related to the project, a pull request you are working on, a new idea, or to share your experience.
+
+## Issues
+
+The [Issues](https://github.com/zachwatkins/remarklet/issues) area is where we receive and process requests to fix a bug, modify a feature, or add a feature. Issues with a triage label are pending review and not ready for work.
+
+Before submitting a new issue, please see if there is one already open for it where you can add your comment. Issues that are out of scope are documented in a GitHub Discussion here: [Known issues not in scope](https://github.com/ZachWatkins/Remarklet/discussions/100).
+
+Create a new issue using one of our [templates](https://github.com/zachwatkins/remarklet/issues/new/choose) to help us understand and respond to it more quickly.
+
+## Pull requests
+
+A [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) allows you to submit changes you've written to the project's files.
+
+Pull requests will be accepted for changes related to:
+
+- Security of the project
+- Fixing a bug
+- Documentation
+- Tests
+- GitHub Actions
+
+### Code Contribution Guides
+
+For resources to help you get started with creating your code contribution, see here:
 
 - [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
 - [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 - [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
 - [GitHub Markdown reference](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/about-writing-and-formatting-on-github)
 
-Check to see what [types of contributions](contributing/types-of-contributions.md) we accept before making changes.
+Once you've installed Node.js (which includes the popular `npm` package manager), open your terminal and run the following to develop the project:
 
-## Issues
+```sh
+git clone https://github.com/zachwatkins/remarklet
+cd remarklet
+npm ci
+```
 
-### Create a new issue
+This will clone the repository and install the dependencies.
 
-If you encounter a problem while using the project and have determined there is something in the code that isn't working as intended, [search for an existing issue](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments) before creating a new one. If it doesn't exist then you may [open a new issue](https://github.com/zachwatkins/remarklet/issues/new/choose).
+To develop the website, run:
+
+```sh
+cd website
+npm ci
+npm start
+```
+
+If you want to see Remarklet in action, you can run the demo site locally:
+
+```sh
+cd demo
+npm ci
+npm run dev
+```
+
+This will start a local development server which runs at `http://localhost:3000` and imports the project root file at `./index.js`.
+
+To develop the documentation website, run:
+
+```sh
+cd website
+npm ci
+npm start
+```
+
+This will start a local development server which runs at `http://localhost:3000`.
+
+#### Cross Platform Development
+
+To maintain this project while allowing as many people as possible to contribute, it's important to keep in mind the different environments that people may be using to develop on.
+
+Line endings are a common source of problems when working on cross-platform projects. Windows uses `CRLF` line endings, while Unix-based systems (like Linux and macOS) use `LF` line endings.
+To avoid issues with line endings, we recommend using `LF` line endings in your code. Most modern text editors and IDEs can be configured to use `LF` line endings by default.
+To ensure that your code is using `LF` line endings, you can use the following command in your terminal:
+
+```sh
+git config --global core.autocrlf input
+```
+
+This will configure Git to automatically convert `CRLF` line endings to `LF` when you commit your code, and convert `LF` line endings to `CRLF` when you check out your code on Windows.
+This way, you can work on your code in a cross-platform environment without worrying about line endings causing issues.
+
+When writing JavaScript that will execute in a Node.js-like context, instead of a browser context, be mindful of Windows using `\r\n` for line endings unlike Unix-based systems which use `\n`.
 
 ### Solve an issue
 
@@ -50,7 +125,11 @@ You are welcome to find an [existing issue](https://github.com/zachwatkins/remar
 
 4. Commit the changes to the new branch on your forked version of the repository.
 
-5. Use the [self-review](contributing/self-review.md) checklist to help us review your pull request more quickly.
+5. Include the following markdown code in your pull request's description once you have worked through the build failures and tests are passing:
+
+```markdown
+- [x] I've worked through build failures and tests are passing.
+```
 
 #### Pull Request
 
@@ -68,15 +147,3 @@ When your changes are ready for review, create a pull request (also known as a "
 Congratulations! Thank you for your contribution!
 
 Once your pull request is merged, you will appear in our [list of contributors](https://github.com/zachwatkins/remarklet/graphs/contributors).
-
-## Windows
-
-This site can be developed on Windows, however a few potential gotchas need to be kept in mind:
-
-1. Regular Expressions: Windows uses `\r\n` for line endings, while Unix-based systems use `\n`. Therefore, when working on Regular Expressions, use `\r?\n` instead of `\n` in order to support both environments. The Node.js [`os.EOL`](https://nodejs.org/api/os.html#os_os_eol) property can be used to get an OS-specific end-of-line marker.
-2. Paths: Windows systems use `\` for the path separator, which would be returned by `path.join` and others. You could use `path.posix`, `path.posix.join` etc and the [slash](https://ghub.io/slash) module, if you need forward slashes - like for constructing URLs - or ensure your code works with either.
-3. Bash: Not every Windows developer has a terminal that fully supports Bash, so it's generally preferred to write [scripts](/script) in JavaScript instead of Bash.
-4. Filename too long error: There is a 260 character limit for a filename when Git is compiled with `msys`. While the suggestions below are not guaranteed to work and could cause other issues, a few workarounds include:
-    - Update Git configuration: `git config --system core.longpaths true`
-    - Consider using a different Git client on Windows
-
