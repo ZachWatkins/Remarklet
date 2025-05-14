@@ -127,10 +127,6 @@ const config: Config = {
                             label: "Report an Issue",
                             to: "community/report-an-issue",
                         },
-                        {
-                            label: "GitHub Discussions",
-                            to: "https://github.com/zachwatkins/remarklet/discussions",
-                        },
                     ],
                 },
                 {
