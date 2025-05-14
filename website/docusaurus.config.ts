@@ -109,23 +109,23 @@ const config: Config = {
                     items: [
                         {
                             label: "Support",
-                            to: "community/support",
+                            to: "docs/support",
                         },
                         {
                             label: "Contributing",
-                            to: "community/contributing",
+                            to: "docs/contributing",
                         },
                         {
                             label: "Code of Conduct",
-                            to: "community/code-of-conduct",
+                            to: "docs/code-of-conduct",
                         },
                         {
                             label: "Changelog",
-                            to: "community/changelog",
+                            to: "docs/changelog",
                         },
                         {
                             label: "Report an Issue",
-                            to: "community/report-an-issue",
+                            to: "docs/report-an-issue",
                         },
                     ],
                 },
