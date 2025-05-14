@@ -55,8 +55,18 @@ const sidebars: SidebarsConfig = {
     communitySidebar: [
         {
             type: "doc",
+            id: "support",
+            label: "Support",
+        },
+        {
+            type: "doc",
             id: "contributing",
             label: "Contributing",
+        },
+        {
+            type: "doc",
+            id: "code-of-conduct",
+            label: "Code of Conduct",
         },
         {
             type: "doc",
