@@ -15,13 +15,7 @@ At this time, I am accepting contributions to improve the following areas:
 
 Read our [Code of Conduct](code-of-conduct.md) to help this open-source project's community remain open and welcoming.
 
-If you would like to participate in discussions, you can post in the [GitHub Discussions](https://github.com/ZachWatkins/Remarklet/discussions) section of the repository.
-
 This guide will help you get started and explains the process for open source contributions.
-
-## Types of contributions
-
-You can contribute to the project in ways listed below. This repository may use automation to apply policies to publicly accessible areas like discussions, issues, and pull requests.
 
 ## Discussions
 
@@ -29,25 +23,55 @@ The [Discussions](https://github.com/zachwatkins/remarklet/discussions) area is 
 
 ## Issues
 
-The [Issues](https://github.com/zachwatkins/remarklet/issues) area is where we receive and process requests to fix a bug, modify a feature, or add a feature. Issues with a triage label are pending review and not ready for work.
-
-Before submitting a new issue, please see if there is one already open for it where you can add your comment. Issues that are out of scope are documented in a GitHub Discussion here: [Known issues not in scope](https://github.com/ZachWatkins/Remarklet/discussions/100).
+The [GitHub Issues](https://github.com/zachwatkins/remarklet/issues) area is where we receive and process requests to fix a bug, modify a feature, or add a feature. Issues with a **triage** label are pending review and not ready for work. Before submitting a new issue, please see if there is one already open for it where you can add your comment.
 
 Create a new issue using one of our [templates](https://github.com/zachwatkins/remarklet/issues/new/choose) to help us understand and respond to it more quickly.
+
+If you want to work on an issue, please comment on it to let me know and I can assign the issue to you. This helps us avoid duplicate work. If I do not receive your pull request within 2 weeks, I will assume that you are no longer working on it and will unassign the issue. For more information on submitting pull requests, see the [Pull Requests](#pull-requests) section below.
+
+### Bugs
+
+We use [GitHub Issues](https://github.com/zachwatkins/remarklet/issues) to receive and process requests to fix bugs. Before submitting a new bug report, please see if there is an issue already open for it where you can add your comment. If you have encountered a new, unreported bug then you can submit a [bug report](https://github.com/ZachWatkins/Remarklet/issues/new?template=bug-report.yml). This helps us keep track of the issues and makes it easier for you to follow up on them.
+
+Bug issues that are out of scope to fix are documented in a GitHub Discussion here: [Known issues not in scope](https://github.com/ZachWatkins/Remarklet/discussions/100).
+
+### Security Bugs
+
+To report a vulnerability with the project please send an email to zwatkins.it@gmail.com with [SECURITY] at the beginning of the subject line.
+
+When a vulnerability is found, I will notify users in [GitHub Discussions](https://github.com/zachwatkins/remarklet/discussions).
+
+For more information on our security policy, see here: [Security](https://github.com/ZachWatkins/Remarklet/security/policy).
+
+### Feature Requests
+
+Feature requests are welcome! You may want to open a discussion first (see [Discussions](https://github.com/zachwatkins/remarklet/discussions)) before submitting a feature request to see if others are interested in it. If you have a feature request that you would like to submit, please use the [feature request template](https://github.com/ZachWatkins/Remarklet/issues/new?template=feature-request.yml).
 
 ## Pull requests
 
 A [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) allows you to submit changes you've written to the project's files.
 
+When you submit a pull request, you are proposing that the changes be merged into the main branch of the project. This is a great way to contribute to open source projects and share your work with others.
+
+The software license is the [MIT License](https://opensource.org/licenses/MIT). In order to contribute code to this project you must agree to the terms of the license. You must also agree to the following:
+
+- You are the original author of the code you are submitting.
+- You have the right to submit the code under the terms of the MIT License.
+- You are granting permission for your code to be used, modified, and distributed by others under the same license.
+- You are not submitting code that is subject to any other license or agreement.
+
 Pull requests will be accepted for changes related to:
 
-- Security of the project
 - Fixing a bug
-- Documentation
-- Tests
+- Adding a new feature
+- Improving the documentation
+- Improving test coverage
 - GitHub Actions
+- Security of the project
 
 ### Code Contribution Guides
+
+To develop this project, you will need to install [Node.js](https://nodejs.org/en/) version 22 and [Git](https://git-scm.com/).
 
 For resources to help you get started with creating your code contribution, see here:
 
@@ -110,10 +134,6 @@ This will configure Git to automatically convert `CRLF` line endings to `LF` whe
 This way, you can work on your code in a cross-platform environment without worrying about line endings causing issues.
 
 When writing JavaScript that will execute in a Node.js-like context, instead of a browser context, be mindful of Windows using `\r\n` for line endings unlike Unix-based systems which use `\n`.
-
-### Solve an issue
-
-You are welcome to find an [existing issue](https://github.com/zachwatkins/remarklet/issues) that you want to help us with. You can use issue labels to help your search. If you find an issue that isn't assigned to someone then you are welcome to open a pull request to submit your solution.
 
 #### Make Changes locally
 
