@@ -15,6 +15,8 @@ The latest minor and major versions are supported with security updates.
 | Version | Supported |
 | ------- | --------- |
 | 1.0.x   | yes       |
+| 1.1.x   | yes       |
+| 1.2.x   | yes       |
 
 ## Reporting a Vulnerability
 
