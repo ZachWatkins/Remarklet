@@ -90,9 +90,16 @@ npm ci
 
 This will clone the repository and install the dependencies.
 
-To develop the website, run:
+To develop the Remarklet library, you can check out the specific version branch you want to modify. Example:
 
 ```sh
+git switch v1.2
+```
+
+To develop the website, you will need to check out the main branch and run the website server:
+
+```sh
+git switch main
 cd website
 npm ci
 npm start
