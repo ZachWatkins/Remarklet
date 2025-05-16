@@ -21,7 +21,8 @@ export default function main() {
         return;
     }
     if (!hideZone) {
-        hideZone = new HideZone();
+        hideZone = document.createElement("remarklet-hide-zone");
+        document.body.appendChild(hideZone);
     }
 
     // Show/hide the hide zone based on drag mode
@@ -57,136 +58,163 @@ export default function main() {
 }
 
 /**
- * Create the hide zone element.
+ * Web component for the HideZone overlay.
+ * Isolates styling using Shadow DOM.
  */
-function HideZone() {
-    const pcs = window.matchMedia
-        ? window.matchMedia("(prefers-color-scheme: dark)")
-        : null;
-    const themes = {
-        light: {
-            visible: {
-                borderColor: "rgba(0, 0, 0, 0.5)",
-                color: "rgba(0, 0, 0, 0.5)",
+class HideZoneElement extends HTMLElement {
+    constructor() {
+        super();
+        this.state = {
+            visible: false,
+            entered: false,
+        };
+        this.attachShadow({ mode: "open" });
+        this._initShadow();
+        this._setupTheme();
+    }
+
+    _initShadow() {
+        const container = document.createElement("div");
+        container.setAttribute("part", "container");
+        container.setAttribute("aria-label", __("Hide"));
+        container.innerHTML = __("Hide");
+        this._container = container;
+        const style = document.createElement("style");
+        style.textContent = `
+            :host {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100px;
+                height: 100px;
+                z-index: 2147483646;
+                box-sizing: border-box;
+                pointer-events: none;
+                padding: 2px;
+                border-width: 4px;
+                border-style: dashed;
+                transition: border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+                opacity: 0;
+                display: none;
+                background-color: rgba(0, 0, 0, 0.15);
+                text-align: center;
+                line-height: 88px;
+                color: rgba(0,0,0,0.5);
+                border-color: rgba(0,0,0,0.5);
+                user-select: none;
+            }
+        `;
+        this.shadowRoot.append(style, container);
+    }
+
+    _setupTheme() {
+        this.pcs = window.matchMedia
+            ? window.matchMedia("(prefers-color-scheme: dark)")
+            : null;
+        this.themes = {
+            light: {
+                visible: {
+                    borderColor: "rgba(0, 0, 0, 0.5)",
+                    color: "rgba(0, 0, 0, 0.5)",
+                },
+                entered: {
+                    borderColor: "rgba(0, 0, 0, 1)",
+                    color: "rgba(0, 0, 0, 1)",
+                },
             },
-            entered: {
-                borderColor: "rgba(0, 0, 0, 1)",
-                color: "rgba(0, 0, 0, 1)",
+            dark: {
+                visible: {
+                    borderColor: "rgba(255, 255, 255, 0.5)",
+                    color: "rgba(255, 255, 255, 0.5)",
+                },
+                entered: {
+                    borderColor: "rgba(255, 255, 255, 1)",
+                    color: "rgba(255, 255, 255, 1)",
+                },
             },
-        },
-        dark: {
-            visible: {
-                borderColor: "rgba(255, 255, 255, 0.5)",
-                color: "rgba(255, 255, 255, 0.5)",
-            },
-            entered: {
-                borderColor: "rgba(255, 255, 255, 1)",
-                color: "rgba(255, 255, 255, 1)",
-            },
-        },
-    };
-    this.getTheme = function () {
-        const state = this.state.entered ? "entered" : "visible";
-        return pcs?.matches ? themes.dark[state] : themes.light[state];
-    };
-    this.updateStyles = function () {
-        window.requestAnimationFrame(() => {
-            const theme = this.getTheme();
-            this.element.style.borderColor = theme.borderColor;
-            this.element.style.color = theme.color;
+        };
+        if (this.pcs) {
+            this.pcs.onchange = () => this._updateStyles();
+        }
+        __.subscribe(() => {
+            this._container.innerHTML = __("Hide");
         });
-    };
-    this.state = {
-        visible: false,
-        entered: false,
-    };
-    this.element = document.createElement("div");
-    this.element.setAttribute("data-remarklet-control", "");
-    this.element.setAttribute("data-remarklet-hide-zone", "");
-    this.element.setAttribute("aria-label", __("Hide"));
-    Object.assign(this.element.style, {
-        position: "fixed",
-        top: "0",
-        right: "0",
-        width: "100px",
-        height: "100px",
-        zIndex: "2147483646",
-        boxSizing: "border-box",
-        pointerEvents: "none",
-        padding: "2px",
-        borderWidth: "4px",
-        borderStyle: "dashed",
-        transition:
-            "border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1)",
-        opacity: "0",
-        display: "none",
-        backgroundColor: "rgba(0, 0, 0, 0.15)",
-        textAlign: "center",
-        lineHeight: "88px",
-    });
-    this.element.innerHTML = __("Hide");
-    __.subscribe(() => {
-        this.element.innerHTML = __("Hide");
-    });
-    this.updateStyles();
-    document.body.appendChild(this.element);
-    this.contains = function (x, y) {
-        const rect = this.element.getBoundingClientRect();
+        this._updateStyles();
+    }
+
+    _getTheme() {
+        const state = this.state.entered ? "entered" : "visible";
+        return this.pcs?.matches
+            ? this.themes.dark[state]
+            : this.themes.light[state];
+    }
+
+    _updateStyles() {
+        window.requestAnimationFrame(() => {
+            const theme = this._getTheme();
+            this.style.borderColor = theme.borderColor;
+            this.style.color = theme.color;
+        });
+    }
+
+    contains(x, y) {
+        const rect = this.getBoundingClientRect();
         return (
             x >= rect.left &&
             x <= rect.right &&
             y >= rect.top &&
             y <= rect.bottom
         );
-    };
-    pcs.onchange = (e) => {
-        this.updateStyles();
-    };
+    }
+
     /**
      * Show the hide zone with fade-in effect.
      */
-    this.show = function () {
+    show() {
         if (!this.state.visible) {
-            this.element.style.display = "block";
+            this.style.display = "block";
             // Force reflow to ensure transition
-            void this.element.offsetWidth;
-            this.element.style.opacity = "1";
+            void this.offsetWidth;
+            this.style.opacity = "1";
             this.state.visible = true;
         }
-    };
+    }
+
     /**
      * Hide the hide zone with fade-out effect.
      */
-    this.hide = function () {
+    hide() {
         if (this.state.visible) {
-            this.element.style.opacity = "0";
-            // After transition, set display to none
+            this.style.opacity = "0";
             const onTransitionEnd = (event) => {
                 if (event.propertyName === "opacity") {
-                    this.element.style.display = "none";
-                    this.element.removeEventListener(
-                        "transitionend",
-                        onTransitionEnd,
-                    );
+                    this.style.display = "none";
+                    this.removeEventListener("transitionend", onTransitionEnd);
                 }
             };
-            this.element.addEventListener("transitionend", onTransitionEnd);
+            this.addEventListener("transitionend", onTransitionEnd);
             this.state.visible = false;
             this.state.entered = false;
         }
-    };
-    this.handleEnter = function () {
+    }
+
+    handleEnter() {
         if (this.state.entered) {
             return;
         }
         this.state.entered = true;
-        this.updateStyles();
-    };
-    this.handleLeave = function () {
+        this._updateStyles();
+    }
+
+    handleLeave() {
         if (!this.state.entered) {
             return;
         }
         this.state.entered = false;
-        this.updateStyles();
-    };
+        this._updateStyles();
+    }
+}
+
+if (!window.customElements.get("remarklet-hide-zone")) {
+    window.customElements.define("remarklet-hide-zone", HideZoneElement);
 }
