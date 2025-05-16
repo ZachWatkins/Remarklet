@@ -94,13 +94,13 @@ class HideZoneElement extends HTMLElement {
                 border-width: 4px;
                 border-style: dashed;
                 transition: border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1);
-                opacity: 0;
+                opacity: var(--remarklet-hide-zone-opacity, 0);
                 display: none;
                 background-color: rgba(0, 0, 0, 0.15);
                 text-align: center;
                 line-height: 88px;
-                color: rgba(0,0,0,0.5);
-                border-color: rgba(0,0,0,0.5);
+                color: var(--remarklet-hide-zone-color, rgba(0,0,0,0.5));
+                border-color: var(--remarklet-hide-zone-border-color, rgba(0,0,0,0.5));
                 user-select: none;
             }
         `;
@@ -142,18 +142,17 @@ class HideZoneElement extends HTMLElement {
         this._updateStyles();
     }
 
-    _getTheme() {
-        const state = this.state.entered ? "entered" : "visible";
-        return this.pcs?.matches
-            ? this.themes.dark[state]
-            : this.themes.light[state];
-    }
-
     _updateStyles() {
         window.requestAnimationFrame(() => {
-            const theme = this._getTheme();
-            this.style.borderColor = theme.borderColor;
-            this.style.color = theme.color;
+            const state = this.state.entered ? "entered" : "visible";
+            const theme = this.pcs?.matches
+                ? this.themes.dark[state]
+                : this.themes.light[state];
+            this.style.setProperty(
+                "--remarklet-hide-zone-border-color",
+                theme.borderColor,
+            );
+            this.style.setProperty("--remarklet-hide-zone-color", theme.color);
         });
     }
 
@@ -175,7 +174,7 @@ class HideZoneElement extends HTMLElement {
             this.style.display = "block";
             // Force reflow to ensure transition
             void this.offsetWidth;
-            this.style.opacity = "1";
+            this.style.setProperty("--remarklet-hide-zone-opacity", "1");
             this.state.visible = true;
         }
     }
@@ -185,7 +184,7 @@ class HideZoneElement extends HTMLElement {
      */
     hide() {
         if (this.state.visible) {
-            this.style.opacity = "0";
+            this.style.setProperty("--remarklet-hide-zone-opacity", "0");
             const onTransitionEnd = (event) => {
                 if (event.propertyName === "opacity") {
                     this.style.display = "none";
