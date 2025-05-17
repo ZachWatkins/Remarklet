@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+- No unreleased changes.
+
+## [1.2.6] - 2025-05-17
+
 ### Added
 
-- Added the documentation website to this branch.
+- Added the documentation website to the v1.2 branch for testing the library on it.
 
 ### Fixed
 
