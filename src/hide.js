@@ -68,49 +68,6 @@ class HideZoneElement extends HTMLElement {
             visible: false,
             entered: false,
         };
-        this.attachShadow({ mode: "open" });
-        this._initShadow();
-        this._setupTheme();
-    }
-
-    _initShadow() {
-        const container = document.createElement("div");
-        container.setAttribute("part", "container");
-        container.setAttribute("aria-label", __("Hide"));
-        container.innerHTML = __("Hide");
-        this._container = container;
-        const style = document.createElement("style");
-        style.textContent = `
-            :host {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 100px;
-                height: 100px;
-                z-index: 2147483646;
-                box-sizing: border-box;
-                pointer-events: none;
-                padding: 2px;
-                border-width: 4px;
-                border-style: dashed;
-                transition: border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4,0,0.2,1);
-                opacity: var(--remarklet-hide-zone-opacity, 0);
-                display: none;
-                background-color: rgba(0, 0, 0, 0.15);
-                text-align: center;
-                line-height: 88px;
-                color: var(--remarklet-hide-zone-color, rgba(0,0,0,0.5));
-                border-color: var(--remarklet-hide-zone-border-color, rgba(0,0,0,0.5));
-                user-select: none;
-            }
-        `;
-        this.shadowRoot.append(style, container);
-    }
-
-    _setupTheme() {
-        this.pcs = window.matchMedia
-            ? window.matchMedia("(prefers-color-scheme: dark)")
-            : null;
         this.themes = {
             light: {
                 visible: {
@@ -133,7 +90,53 @@ class HideZoneElement extends HTMLElement {
                 },
             },
         };
-        if (this.pcs) {
+        this.attachShadow({ mode: "open" });
+        this._initShadow();
+        this._setupTheme();
+    }
+
+    _initShadow() {
+        const container = document.createElement("div");
+        container.classList.add("container");
+        container.setAttribute("aria-label", __("Hide"));
+        container.innerHTML = __("Hide");
+        this._container = container;
+        const style = document.createElement("style");
+        style.textContent = `
+            :host {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100px;
+                height: 100px;
+                z-index: 2147483646;
+                pointer-events: none;
+                display: none;
+                user-select: none;
+            }
+            .container {
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                padding: 2px;
+                border-width: 4px;
+                border-style: dashed;
+                transition: border-color 0.5s, color 0.5s, opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                background-color: rgba(0, 0, 0, 0.15);
+                text-align: center;
+                line-height: 88px;
+                color: rgba(0, 0, 0, 0.5);
+                border-color: rgba(0, 0, 0, 0.5);
+            }
+        `;
+        this.shadowRoot.append(style, container);
+    }
+
+    _setupTheme() {
+        this.pcs = null;
+        if (window.matchMedia) {
+            this.pcs = window.matchMedia("(prefers-color-scheme: dark)");
             this.pcs.onchange = () => this._updateStyles();
         }
         __.subscribe(() => {
@@ -148,11 +151,8 @@ class HideZoneElement extends HTMLElement {
             const theme = this.pcs?.matches
                 ? this.themes.dark[state]
                 : this.themes.light[state];
-            this.style.setProperty(
-                "--remarklet-hide-zone-border-color",
-                theme.borderColor,
-            );
-            this.style.setProperty("--remarklet-hide-zone-color", theme.color);
+            this._container.style.borderColor = theme.borderColor;
+            this._container.style.color = theme.color;
         });
     }
 
@@ -174,7 +174,7 @@ class HideZoneElement extends HTMLElement {
             this.style.display = "block";
             // Force reflow to ensure transition
             void this.offsetWidth;
-            this.style.setProperty("--remarklet-hide-zone-opacity", "1");
+            this._container.style.opacity = 1;
             this.state.visible = true;
         }
     }
@@ -184,14 +184,19 @@ class HideZoneElement extends HTMLElement {
      */
     hide() {
         if (this.state.visible) {
-            this.style.setProperty("--remarklet-hide-zone-opacity", "0");
+            this._container.style.opacity = 0;
             const onTransitionEnd = (event) => {
                 if (event.propertyName === "opacity") {
-                    this.style.display = "none";
-                    this.removeEventListener("transitionend", onTransitionEnd);
+                    if (0 === this._container.style.opacity) {
+                        this.style.display = "none";
+                    }
+                    this._container.removeEventListener(
+                        "transitionend",
+                        onTransitionEnd,
+                    );
                 }
             };
-            this.addEventListener("transitionend", onTransitionEnd);
+            this._container.addEventListener("transitionend", onTransitionEnd);
             this.state.visible = false;
             this.state.entered = false;
         }
