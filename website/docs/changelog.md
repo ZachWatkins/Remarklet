@@ -1,18 +1,11 @@
+---
+toc_max_heading_level: 2
+---
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-
-### Added
-
-- Added the documentation website to this branch.
-
-### Fixed
-
-- Fixed an issue on some websites where the hide zone would show but then hide immediately, even when an element was still being dragged.
 
 ## [1.2.5] - 2025-05-08
 

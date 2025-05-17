@@ -1,0 +1,36 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+    --ifm-color-primary: #1c62d4;
+}
+
+main a,
+footer a {
+    text-decoration: underline;
+}
+
+footer a {
+    color: #fff;
+}
+
+/** Accessibility changes **/
+.theme-code-block pre.prism-code {
+    background-color: #fff !important;
+}
+
+.theme-code-block span[style^="color: rgb(153, 153, 136);"] {
+    color: hsl(0, 0%, 46%) !important;
+}
+
+.theme-code-block span[style^="color: rgb(54, 172, 170);"] {
+    color: hsl(179, 52%, 33%) !important;
+}
+
+.theme-code-block span[style^="color: rgb(0, 164, 219);"] {
+    color: hsl(195, 100%, 33%) !important;
+}
