@@ -6,7 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Added
+
+- Added a new `remarklet.restore()` method to restore changes made by the library from localStorage without activating the rest of the library.
+- Added a new `remarklet.config` method to set options for the library. This method replaces the `remarklet.options` method and allows for more flexible configuration of the library.
+
+### Changed
+
+- Deprecated the `remarklet.options` method in favor of `remarklet.config` for setting options. The `remarklet.options` method will be removed in the next major release.
+
+## [1.2.6] - 2025-05-17
+
+### Added
+
+- Added the documentation website to the v1.2 branch for testing the library on it.
+
+### Fixed
+
+- Fixed an issue on some websites where the hide zone would show but then hide immediately, even when an element was still being dragged.
 
 ## [1.2.5] - 2025-05-08
 
