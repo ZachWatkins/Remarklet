@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Fixed
+
+- Fixed an issue on some websites where the hide zone would show but then hide immediately, even when an element was still being dragged.
 
 ## [1.2.5] - 2025-05-08
 
