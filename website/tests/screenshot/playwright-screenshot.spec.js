@@ -5,44 +5,88 @@
 import { test, expect } from "@playwright/test";
 import fs from "fs";
 
-test("screenshots for documentation pages", async ({ page }) => {
-    // Change the port if your Docusaurus site runs on a different port
+test("screenshot drag feature for documentation page", async ({ page }) => {
     await page.goto("/");
-    // Ensure the screenshots directory exists
-    if (!fs.existsSync("static/img")) {
-        fs.mkdirSync("static/img", { recursive: true });
-    }
     await page.waitForSelector("main");
-    const title = await page.getByRole("heading", { name: "Remarklet" });
+    let target = await page.getByText("Edit any web page.", {
+        exact: true,
+    });
     // Activate the library.
     const button = await page.getByText("Activate", { exact: true });
-    await expect(title).toBeVisible();
+    await expect(target).toBeVisible();
     await expect(button).toBeVisible();
     await button.click();
-    // Drag the "Remarklet" text by 50px to the top and right, then take a screenshot.
+    // Drag the target to the top and right, then take a screenshot.
     let screenshotPath = "static/img/example-drag.png";
-    const titleBox = await title.boundingBox();
-    if (!titleBox) {
-        throw new Error("Title bounding box not found");
+    let targetBox = await target.boundingBox();
+    if (!targetBox) {
+        throw new Error("target bounding box not found");
     }
     await page.mouse.move(
-        titleBox.x + titleBox.width / 2,
-        titleBox.y + titleBox.height / 2,
+        targetBox.x + targetBox.width / 2,
+        targetBox.y + targetBox.height / 2,
         {
             steps: 10,
         },
     );
     await page.mouse.down();
     await page.mouse.move(
-        titleBox.x + titleBox.width / 2 + 100,
-        titleBox.y + titleBox.height / 2 - 50,
+        targetBox.x + targetBox.width / 2 + 500,
+        targetBox.y + targetBox.height / 2 - 140,
         {
             steps: 10,
         },
     );
     await page.screenshot({
         path: screenshotPath,
-        fullPage: true,
+        clip: {
+            x: page.viewportSize().width - 280,
+            y: 0,
+            width: 280,
+            height: 150,
+        },
     });
-    expect(screenshotPath).toBeDefined();
+    expect(fs.existsSync(screenshotPath)).toBe(true);
+});
+
+test("screenshot edit feature for documentation page", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForSelector("main");
+    let target = await page.getByText("Edit any web page.", {
+        exact: true,
+    });
+    // Activate the library.
+    const button = await page.getByText("Activate", { exact: true });
+    await expect(target).toBeVisible();
+    await expect(button).toBeVisible();
+    await button.click();
+    let screenshotPath = "static/img/example-save.png";
+    let targetBox = await target.boundingBox();
+    if (!targetBox) {
+        throw new Error("target bounding box not found");
+    }
+    await page.mouse.move(
+        targetBox.x + targetBox.width / 2,
+        targetBox.y + targetBox.height / 2,
+        {
+            steps: 10,
+        },
+    );
+    await page.mouse.down();
+    await page.waitForTimeout(200);
+    await page.keyboard.press("End");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.type(", and save it.");
+    let width = 350;
+    let heightRatio = 150 / 280;
+    await page.screenshot({
+        path: screenshotPath,
+        clip: {
+            x: page.viewportSize().width / 2 - width / 2,
+            y: 150,
+            width: width,
+            height: width * heightRatio,
+        },
+    });
+    expect(fs.existsSync(screenshotPath)).toBe(true);
 });
