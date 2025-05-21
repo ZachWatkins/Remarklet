@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - No unreleased changes.
 
+## [1.2.7] - 2025-05-21
+
+### Fixed
+
+- Fixed an issue with bundlers preventing the library from being built due to the HTMLElement class not being defined during build time.
+
 ## [1.2.6] - 2025-05-17
 
 ### Added
