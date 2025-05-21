@@ -13,6 +13,11 @@ const FeatureList: FeatureItem[] = [
         title: "Easy to Use",
         description: (
             <>
+                <img
+                    src="/img/example-drag.png"
+                    alt="Screenshot of dragging the Remarklet text"
+                    width="280"
+                />
                 Remarklet was designed from the ground up to be easy to install
                 and use.
             </>
@@ -22,6 +27,11 @@ const FeatureList: FeatureItem[] = [
         title: "Save & Restore",
         description: (
             <>
+                <img
+                    src="/img/example-save.png"
+                    alt="Screenshot of editing the subtitle of the web page to say 'Edit any web page, and save it.'"
+                    width="280"
+                />
                 Remarklet lets you save and restore changes in your browser's
                 local storage.
             </>
@@ -31,6 +41,11 @@ const FeatureList: FeatureItem[] = [
         title: "Touchscreen Compatible",
         description: (
             <>
+                <img
+                    src="/img/example-mobile.png"
+                    alt="Screenshot of editing the subtitle of the web page to say 'Edit any web page. Even on your phone.'"
+                    width="280"
+                />
                 Powered by interact.js, Remarklet's features can be used on
                 touchscreen devices.
             </>
