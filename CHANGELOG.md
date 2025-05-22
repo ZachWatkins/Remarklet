@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-- No unreleased changes.
+### Changed
+
+- Updated Rollup from v4.40.2 to v4.41.0.
 
 ## [1.2.7] - 2025-05-21
 
