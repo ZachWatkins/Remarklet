@@ -8,26 +8,26 @@ The interface for the Remarklet library.
 ### remarklet.activate() ⇒ <code>void</code>
 Activates the Remarklet library, initializing all necessary components.
 
-**Kind**: static method of [<code>remarklet</code>](#exp_module_@zw/remarklet--remarklet)  
+**Kind**: static method of `remarklet`  
 **Since**: 1.0.0  
 
 ### remarklet.deactivate() ⇒ <code>void</code>
 Deactivates the Remarklet library, cleaning up any resources or event listeners.
 
-**Kind**: static method of [<code>remarklet</code>](#exp_module_@zw/remarklet--remarklet)  
+**Kind**: static method of `remarklet`  
 **Since**: 1.0.0  
 
 ### remarklet.version : <code>string</code>
 Get the current version of the Remarklet library.
 
-**Kind**: static property of [<code>remarklet</code>](#exp_module_@zw/remarklet--remarklet)  
+**Kind**: static property of `remarklet`  
 **Read only**: true  
 **Since**: 1.0.2  
 
 ### remarklet.options(options) ⇒ <code>void</code>
 Configures the library's features.
 
-**Kind**: static method of [<code>remarklet</code>](#exp_module_@zw/remarklet--remarklet)  
+**Kind**: static method of `remarklet`  
 **Since**: 1.1.0  
 
 | Param | Type | Description |
@@ -39,5 +39,5 @@ Configures the library's features.
 ### remarklet.restore() ⇒ <code>void</code>
 Restores the persisted changes, if any. Runs before the interactive features are initialized.
 
-**Kind**: static method of [<code>remarklet</code>](#exp_module_@zw/remarklet--remarklet)  
+**Kind**: static method of `remarklet`  
 **Since**: 1.2.0  

@@ -1,3 +1,8 @@
+/*-----------------------------------------------------------------------------
+ *  Copyright (c) Zachary Kendall Watkins. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE.txt in the project root for
+ *  license information.
+ *---------------------------------------------------------------------------*/
 export default function preventDefaultEvents(events) {
     this.preventing = {};
     this.events = [...events];

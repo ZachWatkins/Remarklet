@@ -16,6 +16,26 @@ import styles from "./index.module.css";
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     const [copied, setCopied] = useState(false);
+    const [active, setActive] = useState(false);
+
+    const handleToggle = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!active) {
+            document.body.addEventListener(
+                "click",
+                (e) => {
+                    remarklet.deactivate();
+                    setActive(false);
+                },
+                {
+                    once: true,
+                    capture: true,
+                },
+            );
+            remarklet.activate();
+            setActive(true);
+        }
+    };
+
     return (
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
@@ -24,11 +44,9 @@ function HomepageHeader() {
                 <div className={styles.buttons + " " + styles.gap4}>
                     <Link
                         className="button button--secondary button--lg"
-                        onClick={() => {
-                            remarklet.activate();
-                        }}
+                        onClick={handleToggle}
                     >
-                        Activate
+                        {active ? "Deactivate" : "Activate"}
                     </Link>
                     <div className={styles.buttonWrapper}>
                         <div
