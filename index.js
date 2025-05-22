@@ -125,6 +125,7 @@ remarklet.activate = function () {
  */
 remarklet.deactivate = function () {
     state.set("active", false);
+    state.set("target", null);
 };
 
 /**
