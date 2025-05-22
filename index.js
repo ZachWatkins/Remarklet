@@ -132,7 +132,7 @@ remarklet.deactivate = function () {
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.2.7"
+ * // "1.2.8"
  */
 remarklet.version = pkg.version;
 
