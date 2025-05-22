@@ -58,8 +58,8 @@ const app = {
 /**
  * Configures the Remarklet library with the provided options.
  * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
- * @param {boolean} options.hide - Whether to hide certain elements.
+ * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
+ * @param {boolean} [options.hide] - Whether to hide certain elements.
  */
 remarklet.options = function (options) {
     if (app.optionsSet) {
