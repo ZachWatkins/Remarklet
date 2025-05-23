@@ -78,12 +78,13 @@ remarklet.activate = function () {
  */
 remarklet.deactivate = function () {
     state.set("active", false);
+    state.set("target", null);
 };
 /**
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.0.4"
+ * // "1.1.2"
  */
 remarklet.version = pkg.version;
 

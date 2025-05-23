@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Fixed
+
+- Fixed an issue with the library where deactivating it did nothing. The library's features should be suppressed upon deactivation.
 
 ## [1.1.1] - 2025-04-13
 
