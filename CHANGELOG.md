@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
+## [1.1.2] - 2025-05-23
+
+### Fixed
+
+- Fixed an issue with the library where deactivating it did nothing. The library's features should be suppressed upon deactivation.
+
+### Changed
+
+- Updated rollup to 4.41.0.
+
 ## [1.1.1] - 2025-04-13
 
 ### Changed

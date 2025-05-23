@@ -1,6 +1,6 @@
 {
     "name": "@zw/remarklet",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
     "type": "module",
@@ -51,7 +51,7 @@
         "global-jsdom": "^26.0.0",
         "jsdom": "^26.0.0",
         "prettier": "^3.5.3",
-        "rollup": "^4.35.0"
+        "rollup": "^4.41.0"
     },
     "engines": {
         "node": ">=22.0.0"

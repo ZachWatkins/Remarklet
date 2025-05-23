@@ -37,7 +37,7 @@ let optionsSet = false;
 /**
  * Configures the Remarklet library with the provided options.
  * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
  */
 remarklet.options = function (options) {
     if (optionsSet) {
@@ -78,12 +78,13 @@ remarklet.activate = function () {
  */
 remarklet.deactivate = function () {
     state.set("active", false);
+    state.set("target", null);
 };
 /**
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.0.4"
+ * // "1.1.2"
  */
 remarklet.version = pkg.version;
 
