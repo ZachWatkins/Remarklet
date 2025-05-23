@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -10,12 +10,50 @@ import remarklet from "@zw/remarklet";
 remarklet.options({
     hide: true,
 });
+function activateRemarklet(e) {
+    if (e.target.id === "activate") {
+        remarklet.activate();
+    }
+}
+function deactivateRemarklet(e) {
+    if (e.target.id === "activate") {
+        remarklet.deactivate();
+    }
+}
 
 import styles from "./index.module.css";
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     const [copied, setCopied] = useState(false);
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {
+        if (!active) {
+            document.body.addEventListener("click", activateRemarklet, {
+                capture: true,
+            });
+            document.body.removeEventListener("click", deactivateRemarklet, {
+                capture: true,
+            });
+        } else {
+            document.body.addEventListener("click", deactivateRemarklet, {
+                capture: true,
+            });
+            document.body.removeEventListener("click", activateRemarklet, {
+                capture: true,
+            });
+        }
+        return () => {
+            document.body.removeEventListener("click", activateRemarklet, {
+                capture: true,
+            });
+            document.body.removeEventListener("click", deactivateRemarklet, {
+                capture: true,
+            });
+        };
+    }, [active]);
+
     return (
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
@@ -23,12 +61,13 @@ function HomepageHeader() {
                 <p className="hero__subtitle">{siteConfig.tagline}</p>
                 <div className={styles.buttons + " " + styles.gap4}>
                     <Link
+                        id="activate"
                         className="button button--secondary button--lg"
                         onClick={() => {
-                            remarklet.activate();
+                            setActive(!active);
                         }}
                     >
-                        Activate
+                        {active ? "Deactivate" : "Activate"}
                     </Link>
                     <div className={styles.buttonWrapper}>
                         <div
