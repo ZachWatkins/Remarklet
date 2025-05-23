@@ -37,7 +37,7 @@ let optionsSet = false;
 /**
  * Configures the Remarklet library with the provided options.
  * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
+ * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
  */
 remarklet.options = function (options) {
     if (optionsSet) {
