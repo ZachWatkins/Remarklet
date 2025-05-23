@@ -67,7 +67,7 @@ function HomepageHeader() {
                             setActive(!active);
                         }}
                     >
-                        Activate
+                        {active ? "Deactivate" : "Activate"}
                     </Link>
                     <div className={styles.buttonWrapper}>
                         <div
