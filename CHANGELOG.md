@@ -8,10 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
-## [1.2.9] - 2025-05-23
-
-No changes. Done to address an issue caused by publishing the 1.1.2 patch to the v1.1 branch.
-
 ## [1.2.8] - 2025-05-22
 
 ### Fixed
