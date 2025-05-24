@@ -15,6 +15,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Deprecated the `remarklet.options` method in favor of `remarklet.config` for setting options. The `remarklet.options` method will be removed in the next major release.
 
+## [1.2.8] - 2025-05-22
+
+### Fixed
+
+- Fixed an issue with the library where deactivating it did nothing. The library's features should be suppressed upon deactivation.
+
+### Changed
+
+- Updated Rollup from v4.40.2 to v4.41.0.
+
 ## [1.2.7] - 2025-05-21
 
 ### Fixed
