@@ -54,7 +54,7 @@
         "jsdoc-to-markdown": "^9.1.1",
         "jsdom": "^26.0.0",
         "prettier": "^3.5.3",
-        "rollup": "^4.35.0"
+        "rollup": "^4.41.0"
     },
     "engines": {
         "node": ">=22.0.0"
