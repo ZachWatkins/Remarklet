@@ -40,6 +40,7 @@ import hide from "./src/hide.js";
 function remarklet() {}
 const app = {
     optionsSet: false,
+    optionsWarned: false,
     loading: false,
     using: [],
     use: function (callback) {
@@ -60,10 +61,15 @@ const app = {
  * @param {Object} options - The configuration options.
  * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
  * @param {boolean} [options.hide] - Whether to hide certain elements.
+ * @returns {void}
  */
 remarklet.options = function (options) {
     if (app.optionsSet) {
-        console.error("Options are already set.");
+        if (app.optionsWarned) {
+            return;
+        }
+        console.warn("Remarklet options are already set.");
+        app.optionsWarned = true;
         return;
     }
     if (typeof options !== "object") {
@@ -132,7 +138,7 @@ remarklet.deactivate = function () {
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.2.8"
+ * // "1.2.10"
  */
 remarklet.version = pkg.version;
 

@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 No unreleased changes.
 
+## [1.2.10] - 2025-05-24
+
+### Fixed
+
+- Reduced the frequency of the console error emitted by the library when `remarklet.options` is called more than once. Now, the error is only emitted once per page load. This is to prevent excessive console noise when the library is used in a development environment.
+
 ## [1.2.8] - 2025-05-22
 
 ### Fixed
