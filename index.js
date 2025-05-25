@@ -19,8 +19,7 @@ import hide from "./src/hide.js";
 import config from "./src/config.js";
 
 /**
- * @alias module:@zw/remarklet
- * @function
+ * @type {function}
  * @returns {void}
  */
 function remarklet() {}
@@ -44,7 +43,6 @@ const app = {
 };
 
 /**
- * @alias module:@zw/remarklet.config
  * @since 1.3.0
  * @description Configures the library's features.
  * @param {Object} options - The configuration options.
@@ -63,9 +61,7 @@ remarklet.config = function (options) {
 
 /**
  * @deprecated
- * @alias module:@zw/remarklet.options
  * @since 1.1.0
- * @function
  * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
  * @param {Object} options - The configuration options.
  * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
@@ -77,9 +73,7 @@ remarklet.options = function (options) {
 };
 
 /**
- * @alias module:@zw/remarklet.restore
  * @since 1.2.0
- * @function
  * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
  * @returns {void}
  */
@@ -98,7 +92,6 @@ remarklet.restore = function () {
 };
 
 /**
- * @alias module:@zw/remarklet.unstore
  * @since 1.3.0
  * @function
  * @description Deletes all Remarklet data from localStorage.
@@ -109,7 +102,6 @@ remarklet.unstore = function () {
 };
 
 /**
- * @alias module:@zw/remarklet.activate
  * @since 1.0.0
  * @function
  * @description Activates the Remarklet library, initializing all necessary components.
@@ -133,7 +125,6 @@ remarklet.activate = function () {
 };
 
 /**
- * @alias module:@zw/remarklet.deactivate
  * @since 1.0.0
  * @function
  * @description Deactivates the Remarklet library, cleaning up any resources or event listeners.
@@ -145,10 +136,10 @@ remarklet.deactivate = function () {
 };
 
 /**
- * @alias module:@zw/remarklet.version
  * @since 1.0.2
- * @type {string}
+ * @type {readonly string}
  * @readonly
+ * @const {string}
  * @description Get the current version of the Remarklet library.
  */
 remarklet.version = pkg.version;
