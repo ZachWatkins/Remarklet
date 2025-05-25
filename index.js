@@ -72,7 +72,9 @@ remarklet.config = function (options) {
  * @param {boolean} options.hide - Whether to hide certain elements.
  * @returns {void}
  */
-remarklet.options = remarklet.config;
+remarklet.options = function (options) {
+    remarklet.config(options);
+};
 
 /**
  * @alias module:@zw/remarklet.restore
