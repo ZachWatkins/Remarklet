@@ -8,10 +8,15 @@ export default {
     input: pkg.main,
     output: [
         {
-            file: "dist/remarklet.min.js",
+            file: pkg.module,
             format: "iife",
             name: "remarklet",
             plugins: [terser()],
+        },
+        {
+            file: pkg.main,
+            format: "es",
+            sourcemap: true,
         },
     ],
     plugins: [
