@@ -28,6 +28,7 @@ function remarklet() {}
  * @private
  */
 const app = {
+    version: String(pkg.version),
     using: [],
     use: function (callback) {
         if (typeof callback === "function") {
@@ -142,6 +143,14 @@ remarklet.deactivate = function () {
  * @const {string}
  * @description Get the current version of the Remarklet library.
  */
-remarklet.version = pkg.version;
+Object.defineProperty(remarklet, "version", {
+    get: function () {
+        return app.version;
+    },
+    enumerable: true,
+    configurable: false,
+});
+
+Object.freeze(remarklet);
 
 export default remarklet;
