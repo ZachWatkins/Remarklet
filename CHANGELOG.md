@@ -10,9 +10,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Added a new `remarklet.restore()` method to restore changes made by the library from localStorage without activating the rest of the library.
 - Added a new `remarklet.config` method to set options for the library. This method replaces the `remarklet.options` method and allows for more flexible configuration of the library.
+- Added TypeScript type definitions for the library.
+- Added a ESM module entry point to `dist/esm/remarklet.js` for the library, allowing it to be imported as an ES module.
+- Added a new `remarklet.unstore()` method to delete all Remarklet data from localStorage. This action cannot be undone.
 
 ### Changed
 
+- Moved the CJS module entry point to `dist/cjs/remarklet.js` to better align with the ESM module entry point.
 - Deprecated the `remarklet.options` method in favor of `remarklet.config` for setting options. The `remarklet.options` method will be removed in the next major release.
 - Updated Rollup from v4.40.2 to v4.41.0.
 
