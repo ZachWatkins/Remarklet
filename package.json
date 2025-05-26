@@ -69,7 +69,10 @@
         "LICENSE.txt",
         "README.md",
         "SECURITY.md",
-        "dist/remarklet.min.js"
+        "dist/remarklet.min.js",
+        "dist/cjs/remarklet.js",
+        "dist/esm/remarklet.js",
+        "dist/index.d.ts"
     ],
     "publishConfig": {
         "access": "public"
