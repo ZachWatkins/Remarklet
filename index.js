@@ -8,7 +8,6 @@
  * https://github.com/ZachWatkins/Remarklet/blob/main/LICENSE.txt for
  * full license information.
  */
-import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
 import drag from "./src/drag.js";
 import target from "./src/target.js";
@@ -28,7 +27,6 @@ function remarklet() {}
  * @private
  */
 const app = {
-    version: String(pkg.version),
     using: [],
     use: function (callback) {
         if (typeof callback === "function") {
@@ -138,18 +136,11 @@ remarklet.deactivate = function () {
 
 /**
  * @since 1.0.2
- * @type {readonly string}
+ * @type {"1.3.0"}
  * @readonly
- * @const {string}
  * @description Get the current version of the Remarklet library.
  */
-Object.defineProperty(remarklet, "version", {
-    get: function () {
-        return app.version;
-    },
-    enumerable: true,
-    configurable: false,
-});
+remarklet.version = "1.3.0";
 
 Object.freeze(remarklet);
 
