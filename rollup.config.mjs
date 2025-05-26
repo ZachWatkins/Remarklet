@@ -5,18 +5,23 @@ import commonjs from "@rollup/plugin-commonjs";
 import pkg from "./package.json" with { type: "json" };
 
 export default {
-    input: pkg.main,
+    input: "index.js",
     output: [
         {
+            file: pkg.main,
+            format: "cjs",
+            sourcemap: true,
+        },
+        {
             file: pkg.module,
+            format: "esm",
+            sourcemap: true,
+        },
+        {
+            file: "dist/remarklet.min.js",
             format: "iife",
             name: "remarklet",
             plugins: [terser()],
-        },
-        {
-            file: pkg.main,
-            format: "es",
-            sourcemap: true,
         },
     ],
     plugins: [
