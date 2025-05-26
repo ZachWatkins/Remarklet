@@ -10,19 +10,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Added a new `remarklet.restore()` method to restore changes made by the library from localStorage without activating the rest of the library.
 - Added a new `remarklet.config` method to set options for the library. This method replaces the `remarklet.options` method and allows for more flexible configuration of the library.
+- Added a new `remarklet.unstore()` method to delete all Remarklet data from localStorage. This action cannot be undone.
 
 ### Changed
 
 - Deprecated the `remarklet.options` method in favor of `remarklet.config` for setting options. The `remarklet.options` method will be removed in the next major release.
 - Updated Rollup from v4.40.2 to v4.41.0.
 
-### Fixed
-
-- Fixed an issue with the library where deactivating it did nothing. The library's features should be suppressed upon deactivation.
-
 ### Removed
 
 - Removed the console message when the library's `remarklet.options` method is called more than once. The library now allows multiple calls to `remarklet.options` without any warnings.
+
+## [1.2.12] - 2025-05-26
+
+### Fixed
+
+- Fixed TypeScript feature by ensuring the type definitions are included in the published NPM module files.
+
+## [1.2.11] - 2025-05-25
+
+### Added
+
+- Added TypeScript type definitions for the library to improve developer experience and enable better type checking in TypeScript projects.
+
+## [1.2.10] - 2025-05-24
+
+### Fixed
+
+- Reduced the frequency of the console error emitted by the library when `remarklet.options` is called more than once. Now, the error is only emitted once per page load. This is to prevent excessive console noise when the library is used in a development environment.
 
 ## [1.2.8] - 2025-05-22
 
