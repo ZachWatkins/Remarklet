@@ -3,7 +3,7 @@
         "allowJs": true,
         "declaration": true,
         "emitDeclarationOnly": true,
-        "outDir": "dist/types",
+        "outDir": "dist",
         "declarationMap": true,
         "target": "ES2020",
         "moduleResolution": "node",
