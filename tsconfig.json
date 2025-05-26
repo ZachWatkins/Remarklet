@@ -11,5 +11,12 @@
         "skipLibCheck": true
     },
     "include": ["src/**/*.js", "index.js"],
-    "exclude": ["node_modules", "dist", "tests", "demo", "archived-library"]
+    "exclude": [
+        "node_modules",
+        "website",
+        "dist",
+        "tests",
+        "demo",
+        "archived-library"
+    ]
 }
