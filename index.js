@@ -4,7 +4,6 @@
  *  license information.
  *---------------------------------------------------------------------------*/
 // Remarklet is a library for visually manipulating web page content.
-import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
 import drag from "./src/drag.js";
 import target from "./src/target.js";
@@ -38,6 +37,10 @@ import hide from "./src/hide.js";
  * });
  */
 function remarklet() {}
+
+/**
+ * @private
+ */
 const app = {
     optionsSet: false,
     optionsWarned: false,
@@ -62,6 +65,7 @@ const app = {
  * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
  * @param {boolean} [options.hide] - Whether to hide certain elements.
  * @returns {void}
+ * @since 1.1.0
  */
 remarklet.options = function (options) {
     if (app.optionsSet) {
@@ -86,9 +90,9 @@ remarklet.options = function (options) {
 };
 
 /**
- * Restores the persisted changes, if any.
- * Runs before the interactive features are initialized.
+ * Restores the persisted changes, if any. Runs before the interactive features are initialized.
  * @returns {void}
+ * @since 1.2.0
  */
 remarklet.restore = function () {
     if (app.loading) {
@@ -106,8 +110,8 @@ remarklet.restore = function () {
 
 /**
  * Activates the Remarklet library, initializing all necessary components.
- * @example
- * remarklet.activate();
+ * @returns {void}
+ * @since 1.0.0
  */
 remarklet.activate = function () {
     if (!state.get("initialized") && !app.loading) {
@@ -126,8 +130,8 @@ remarklet.activate = function () {
 
 /**
  * Deactivates the Remarklet library, cleaning up any resources or event listeners.
- * @example
- * remarklet.deactivate();
+ * @returns {void}
+ * @since 1.0.0
  */
 remarklet.deactivate = function () {
     state.set("active", false);
@@ -135,11 +139,11 @@ remarklet.deactivate = function () {
 };
 
 /**
- * Get the current version of the Remarklet library.
- * @example
- * remarklet.version;
- * // "1.2.10"
+ * Get the version number of the Remarklet library in use.
+ * @type {"1.2.10"}
+ * @readonly
+ * @since 1.0.2
  */
-remarklet.version = pkg.version;
+remarklet.version = "1.2.10";
 
 export default remarklet;
