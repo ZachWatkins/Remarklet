@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-No unreleased changes.
+### Added
+
+- Added TypeScript type definitions for the library to improve developer experience and enable better type checking in TypeScript projects.
 
 ## [1.2.10] - 2025-05-24
 
