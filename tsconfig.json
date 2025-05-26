@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "dist",
+        "declarationMap": true,
+        "target": "ES2020",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "include": ["src/**/*.js", "index.js"],
+    "exclude": [
+        "node_modules",
+        "website",
+        "dist",
+        "tests",
+        "demo",
+        "archived-library"
+    ]
+}
