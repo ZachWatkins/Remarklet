@@ -18,7 +18,7 @@ import hide from "./src/hide.js";
 import config from "./src/config.js";
 
 /**
- * @type {function}
+ * The main interface of the Remarklet library. Does nothing if called.
  * @returns {void}
  */
 function remarklet() {}
@@ -42,12 +42,12 @@ const app = {
 };
 
 /**
- * @since 1.3.0
- * @description Configures the library's features.
+ * Configures the library's features.
  * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
- * @param {boolean} options.hide - Whether to hide certain elements.
+ * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
+ * @param {boolean} [options.hide] - Whether to hide certain elements.
  * @returns {void}
+ * @since 1.3.0
  */
 remarklet.config = function (options) {
     if (options.persist === true) {
@@ -59,22 +59,22 @@ remarklet.config = function (options) {
 };
 
 /**
- * @deprecated
- * @since 1.1.0
- * @description Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
+ * Deprecated. An alias of remarklet.config. Will be removed in v2.0.0.
  * @param {Object} options - The configuration options.
- * @param {boolean} options.persist - Whether to persist the state of the page between sessions.
- * @param {boolean} options.hide - Whether to hide certain elements.
+ * @param {boolean} [options.persist] - Whether to persist the state of the page between sessions.
+ * @param {boolean} [options.hide] - Whether to hide certain elements.
  * @returns {void}
+ * @since 1.1.0
+ * @deprecated
  */
 remarklet.options = function (options) {
     remarklet.config(options);
 };
 
 /**
- * @since 1.2.0
- * @description Restores the persisted changes, if any. Runs before the interactive features are initialized.
+ * Restores the persisted changes, if any. Runs before the interactive features are initialized.
  * @returns {void}
+ * @since 1.2.0
  */
 remarklet.restore = function () {
     if (state.get("loading") === true) {
@@ -91,20 +91,18 @@ remarklet.restore = function () {
 };
 
 /**
- * @since 1.3.0
- * @function
- * @description Deletes all Remarklet data from localStorage.
+ * Deletes all Remarklet data from localStorage.
  * @returns {void}
+ * @since 1.3.0
  */
 remarklet.unstore = function () {
     changeMap.unstore();
 };
 
 /**
- * @since 1.0.0
- * @function
- * @description Activates the Remarklet library, initializing all necessary components.
+ * Activates the Remarklet library, initializing all necessary components.
  * @returns {void}
+ * @since 1.0.0
  */
 remarklet.activate = function () {
     if (!state.get("initialized") && !state.get("loading")) {
@@ -124,10 +122,9 @@ remarklet.activate = function () {
 };
 
 /**
- * @since 1.0.0
- * @function
- * @description Deactivates the Remarklet library, cleaning up any resources or event listeners.
+ * Deactivates the Remarklet library, cleaning up any resources or event listeners.
  * @returns {void}
+ * @since 1.0.0
  */
 remarklet.deactivate = function () {
     state.set("active", false);
@@ -135,10 +132,10 @@ remarklet.deactivate = function () {
 };
 
 /**
- * @since 1.0.2
+ * Get the version number of the Remarklet library in use.
  * @type {"1.3.0"}
  * @readonly
- * @description Get the current version of the Remarklet library.
+ * @since 1.0.2
  */
 remarklet.version = "1.3.0";
 
