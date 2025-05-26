@@ -4,6 +4,7 @@
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
     "type": "module",
+    "types": "dist/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/zachwatkins/remarklet.git"
@@ -30,7 +31,8 @@
         "test:debug": "playwright test --debug",
         "test:node": "node --test src/**/*.spec.js",
         "test:node:win": "node --test './src/**/*.spec.js'",
-        "build": "rollup -c",
+        "build": "rollup -c && npm run build:types",
+        "build:types": "tsc",
         "lint": "prettier --check .",
         "lint:fix": "prettier --write .",
         "prepublishOnly": "npm run build"
@@ -51,7 +53,8 @@
         "global-jsdom": "^26.0.0",
         "jsdom": "^26.0.0",
         "prettier": "^3.5.3",
-        "rollup": "^4.41.0"
+        "rollup": "^4.41.0",
+        "typescript": "^5.8.3"
     },
     "engines": {
         "node": ">=22.0.0"
