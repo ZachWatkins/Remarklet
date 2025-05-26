@@ -1,6 +1,6 @@
 {
     "name": "@zw/remarklet",
-    "version": "1.2.11",
+    "version": "1.2.12",
     "description": "Remarklet adds visual editing capabilities to any web page.",
     "main": "index.js",
     "type": "module",
@@ -65,7 +65,9 @@
         "LICENSE.txt",
         "README.md",
         "SECURITY.md",
-        "dist/remarklet.min.js"
+        "dist/remarklet.min.js",
+        "dist/index.d.ts",
+        "dist/index.d.ts.map"
     ],
     "publishConfig": {
         "access": "public"
