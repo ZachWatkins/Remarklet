@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - No unreleased changes.
 
+## [1.2.12] - 2025-05-26
+
+### Fixed
+
+- Fixed TypeScript feature by ensuring the type definitions are included in the published NPM module files.
+
 ## [1.2.11] - 2025-05-25
 
 ### Added
