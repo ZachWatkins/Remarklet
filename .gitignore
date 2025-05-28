@@ -53,3 +53,4 @@ dist/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+demo/public/remarklet.min.js
