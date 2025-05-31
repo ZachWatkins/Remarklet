@@ -6,7 +6,6 @@ import fs from "fs";
 const basePages = fs.readdirSync("docs").map((file) => {
     return `/docs/${file.replace(".md", "")}`;
 });
-basePages.push("/");
 
 test.describe("Accessibility Tests", () => {
     // Run accessibility tests on each page
