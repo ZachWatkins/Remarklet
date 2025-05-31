@@ -70,7 +70,7 @@ function HomepageHeader() {
                     <Link
                         id="activate"
                         className="button button--secondary button--lg"
-                        onClick={() => {
+                        onMouseDown={() => {
                             setActive(!active);
                         }}
                     >
