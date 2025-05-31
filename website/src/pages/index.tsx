@@ -70,6 +70,7 @@ function HomepageHeader() {
                     <Link
                         id="activate"
                         className="button button--secondary button--lg"
+                        style={{ marginLeft: 16 }}
                         onMouseDown={() => {
                             setActive(!active);
                         }}
@@ -89,6 +90,9 @@ function HomepageHeader() {
                         {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();`}
                     </CodeBlock>
                 </div>
+                <p>
+                    Install the npm package to use it in your own applications:
+                </p>
                 <div
                     style={{
                         display: "flex",
