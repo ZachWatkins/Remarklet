@@ -6,7 +6,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import remarklet from "@zw/remarklet";
-import { Icon } from "@iconify/react"; // Added import
+import CodeBlock from "@theme/CodeBlock";
 
 remarklet.options({
     hide: true,
@@ -28,8 +28,6 @@ function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
-    // State for NPM copy notification
-    const [npmCopied, setNpmCopied] = useState(false);
 
     useEffect(() => {
         if (!active) {
@@ -112,55 +110,15 @@ function HomepageHeader() {
                         marginTop: 16,
                     }}
                 >
-                    <code
-                        id="npm-install-command"
-                        style={{
-                            background: "#f5f5f5",
-                            padding: "8px 16px",
-                            borderRadius: "4px",
-                            fontSize: 16,
-                            display: "flex", // Added for button alignment
-                            alignItems: "center", // Added for button alignment
-                            justifyContent: "space-between", // Added for button alignment
-                        }}
-                    >
-                        $ npm install remarklet
-                        <button
-                            onClick={() => {
-                                navigator.clipboard.writeText(
-                                    "npm install remarklet",
-                                );
-                                setNpmCopied(true);
-                                window.setTimeout(
-                                    () => setNpmCopied(false),
-                                    1500,
-                                );
-                            }}
-                            style={{
-                                padding: "6.4px",
-                                marginLeft: "16px",
-                                backgroundColor: "transparent",
-                                borderWidth: "1.5px",
-                                borderStyle: "solid",
-                                boxSizing: "border-box",
-                                color: "#fff",
-                                borderRadius: "6.4px",
-                                cursor: "pointer",
-                                fontSize: 16,
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                opacity: 0.7,
-                            }}
-                            aria-label="Copy NPM install command"
-                        >
-                            {npmCopied ? (
-                                "Copied!"
-                            ) : (
-                                <Icon icon="mdi:content-copy" width="18" />
-                            )}
-                        </button>
-                    </code>
+                    <CodeBlock language="shell">
+                        {`$ npm install @zw/remarklet`}
+                    </CodeBlock>
+                    <CodeBlock language="shell">
+                        {`$ yarn add @zw/remarklet`}
+                    </CodeBlock>
+                    <CodeBlock language="shell">
+                        {`$ pnpm add @zw/remarklet`}
+                    </CodeBlock>
                 </div>
             </div>
         </header>
