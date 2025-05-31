@@ -1,0 +1,78 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Installation
+
+Remarklet can be installed as an NPM package or used via a CDN.
+
+## Module
+
+To install Remarklet as a module, choose one of the following package managers:
+
+<Tabs>
+<TabItem value="npm" label="npm">
+
+```bash
+npm install @zw/remarklet
+```
+
+</TabItem>
+<TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm add @zw/remarklet
+```
+
+</TabItem>
+<TabItem value="yarn" label="yarn">
+
+```bash
+yarn add @zw/remarklet
+```
+</TabItem>
+</Tabs>
+
+Then import the module in your JavaScript file:
+
+```javascript
+import remarklet from "@zw/remarklet";
+// Optional: configure the library.
+remarklet.options({
+    persist: true, // default: false.
+    hide: true, // default: false.
+});
+// Optional: use a button to deactivate the library.
+document.body.addEventListener("click", function(e) {
+    if ("deactivate" === e.target.id) {
+        remarklet.deactivate();
+    }
+}, { capture: true });
+remarklet.activate();
+```
+
+## CDN
+
+Remarklet is available from:
+
+- unpkg: `https://unpkg.com/@zw/remarklet/dist/remarklet.min.js`
+- jsdelivr: `https://cdn.jsdelivr.net/npm/@zw/remarklet/dist/remarklet.min.js`
+
+Add the following code to your HTML file:
+
+```html
+<script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
+<script>
+    // Optional: configure the library.
+    remarklet.options({
+        persist: true, // default: false.
+        hide: true, // default: false.
+    });
+    // Optional: use a button to deactivate the library.
+    document.body.addEventListener("click", function(e) {
+        if ("deactivate" === e.target.id) {
+            remarklet.deactivate();
+        }
+    }, { capture: true });
+    remarklet.activate();
+</script>
+```

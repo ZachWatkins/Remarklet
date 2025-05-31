@@ -89,25 +89,6 @@ function HomepageHeader() {
                         {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                 </div>
-                <div className="mb-1">Install the NPM package:</div>
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 8,
-                    }}
-                >
-                    <CodeBlock language="shell">
-                        {`$ npm install @zw/remarklet`}
-                    </CodeBlock>
-                    <CodeBlock language="shell">
-                        {`$ yarn add @zw/remarklet`}
-                    </CodeBlock>
-                    <CodeBlock language="shell">
-                        {`$ pnpm add @zw/remarklet`}
-                    </CodeBlock>
-                </div>
             </div>
         </header>
     );
