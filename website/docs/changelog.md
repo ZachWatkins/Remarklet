@@ -101,7 +101,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own webpage from the CDN.
+- Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own web page from the CDN.
 - Moved source code specific to CSS transforms from drag.js to utils/cssTransforms.js.
 
 ### Removed
