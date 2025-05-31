@@ -60,3 +60,11 @@
     position: relative;
     display: inline-block;
 }
+
+.bookmarkletCode {
+    max-width: 500px;
+    white-space: pre-wrap;
+    text-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+}
