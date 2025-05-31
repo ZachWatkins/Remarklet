@@ -65,8 +65,8 @@ function HomepageHeader() {
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
                 <h1 className="hero__title">{siteConfig.title}</h1>
-                <p className="hero__subtitle">
-                    {siteConfig.tagline}
+                <div className="flex flex-row flex-center mb-2">
+                    <div className="hero__subtitle">{siteConfig.tagline}</div>
                     <Link
                         id="activate"
                         className="button button--secondary button--lg"
@@ -77,29 +77,25 @@ function HomepageHeader() {
                     >
                         {active ? "Deactivate Demo" : "Activate Demo"}
                     </Link>
-                </p>
+                </div>
                 <div>
-                    <p>
-                        To use it like an extension, paste the code below into
-                        your browser's address bar:
-                    </p>
+                    <div className="mb-1">
+                        Just paste this into your browser's address bar:
+                    </div>
                     <CodeBlock
                         language="html"
                         className={styles.bookmarkletCode}
                     >
-                        {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();`}
+                        {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                 </div>
-                <p>
-                    Install the npm package to use it in your own applications:
-                </p>
+                <div className="mb-1">Install the NPM package:</div>
                 <div
                     style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 8,
-                        marginTop: 16,
                     }}
                 >
                     <CodeBlock language="shell">
