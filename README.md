@@ -100,32 +100,13 @@ To run Remarklet in any webpage, visit the webpage and then paste this into your
 javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
 ```
 
-You can use any public methods. For example, this version persists changes and allows elements to be hidden:
+You can use any public methods. For example, this configuration persists changes and allows elements to be hidden:
 
 ```
 javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
 ```
 
 You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking the bookmark.
-
-## API
-
-### Methods
-
-| Name                         | Type                                                | Description                                                               | Since |
-| ---------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ----- |
-| `remarklet.activate()`       | function(): void                                    | Activates the Remarklet library, initializing all necessary components.   | 1.0.0 |
-| `remarklet.deactivate()`     | function(): void                                    | Deactivates the Remarklet library, cleaning up resources/event listeners. | 1.0.0 |
-| `remarklet.config(options)`  | function({ persist: boolean, hide: boolean }): void | Configures the library's features.                                        | 1.3.0 |
-| `remarklet.restore()`        | function(): void                                    | Restores the persisted changes, if any.                                   | 1.2.0 |
-| `remarklet.unstore()`        | function(): void                                    | Deletes all Remarklet data from localStorage.                             | 1.3.0 |
-| `remarklet.options(options)` | function({ persist: boolean, hide: boolean }): void | Deprecated alias of `remarklet.config`. Will be removed in 2.0.0.         | 1.1.0 |
-
-### Properties
-
-| Name                | Type   | Description                                                  | Since |
-| ------------------- | ------ | ------------------------------------------------------------ | ----- |
-| `remarklet.version` | string | Get the current version of the Remarklet library. Read-only. | 1.0.2 |
 
 ## Contributing
 
