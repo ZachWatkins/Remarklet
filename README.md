@@ -41,19 +41,21 @@ Then import the module in your JavaScript file:
 ```javascript
 import remarklet from "@zw/remarklet";
 // Optional: configure the library.
-remarklet.config({
+remarklet.options({
     persist: true, // default: false.
     hide: true, // default: false.
 });
-// Restore changes from localStorage without activating the rest of the library.
-remarklet.restore();
-// Delete all Remarklet data from localStorage (cannot be undone).
-remarklet.unstore();
-// Initialize the library.
+// Optional: use a button to deactivate the library.
+document.body.addEventListener(
+    "click",
+    function (e) {
+        if ("deactivate" === e.target.id) {
+            remarklet.deactivate();
+        }
+    },
+    { capture: true },
+);
 remarklet.activate();
-// Deactivate the library.
-remarklet.deactivate();
-// Get the version of the library.
 console.log(remarklet.version);
 ```
 
@@ -69,19 +71,22 @@ Add the following code to your HTML file:
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Configure the library.
-    remarklet.config({
+    // Optional: configure the library.
+    remarklet.options({
         persist: true, // default: false.
         hide: true, // default: false.
     });
-    // Restore changes from localStorage without activating the rest of the library.
-    remarklet.restore();
-    // Delete all Remarklet data from localStorage (cannot be undone).
-    remarklet.unstore();
-    // Initialize the library.
+    // Optional: use a button to deactivate the library.
+    document.body.addEventListener(
+        "click",
+        function (e) {
+            if ("deactivate" === e.target.id) {
+                remarklet.deactivate();
+            }
+        },
+        { capture: true },
+    );
     remarklet.activate();
-    // Deactivate the library.
-    remarklet.deactivate();
     // Get the version of the library.
     console.log(remarklet.version);
 </script>
