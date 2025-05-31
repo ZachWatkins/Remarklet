@@ -62,13 +62,15 @@ const config: Config = {
                 },
                 {
                     href: "https://npmjs.com/package/@zw/remarklet",
-                    label: "npm v1.2.12",
                     position: "right",
+                    className: "header-npm-link",
+                    "aria-label": "NPM package",
                 },
                 {
                     href: "https://github.com/ZachWatkins/Remarklet",
-                    label: "GitHub",
                     position: "right",
+                    className: "header-github-link",
+                    "aria-label": "GitHub repository",
                 },
             ],
         },
