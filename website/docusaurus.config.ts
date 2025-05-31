@@ -61,6 +61,11 @@ const config: Config = {
                     label: "Community",
                 },
                 {
+                    href: "https://npmjs.com/package/@zw/remarklet",
+                    label: "npm v1.2.12",
+                    position: "right",
+                },
+                {
                     href: "https://github.com/ZachWatkins/Remarklet",
                     label: "GitHub",
                     position: "right",
