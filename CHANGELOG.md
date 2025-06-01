@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Added a test for the bookmarklet version of the library to ensure it works correctly.
 
+### Removed
+
+- Removed the NPM package `@rollup/plugin-json` from the project dependencies, as it is no longer needed.
+
 ## [1.2.12] - 2025-05-26
 
 ### Fixed
