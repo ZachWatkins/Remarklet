@@ -7,13 +7,14 @@ import fs from "fs";
 
 test("screenshot drag feature for documentation page", async ({ page }) => {
     await page.goto("/");
+    await page.waitForLoadState("networkidle");
     await page.waitForSelector("main");
     let target = await page.getByText("Edit any web page.", {
         exact: true,
     });
-    // Activate the library.
-    const button = await page.getByText("Activate", { exact: true });
     await expect(target).toBeVisible();
+    // Activate the library.
+    const button = await page.getByText("Activate Demo", { exact: true });
     await expect(button).toBeVisible();
     await button.click();
     // Drag the target to the top and right, then take a screenshot.
@@ -55,9 +56,9 @@ test("screenshot edit feature for documentation page", async ({ page }) => {
     let target = await page.getByText("Edit any web page.", {
         exact: true,
     });
-    // Activate the library.
-    const button = await page.getByText("Activate", { exact: true });
     await expect(target).toBeVisible();
+    // Activate the library.
+    const button = await page.getByText("Activate Demo", { exact: true });
     await expect(button).toBeVisible();
     await button.click();
     let screenshotPath = "static/img/example-save.png";
