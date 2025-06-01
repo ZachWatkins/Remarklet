@@ -94,3 +94,8 @@ footer a {
 .mb-4 {
     margin-bottom: 2rem;
 }
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
