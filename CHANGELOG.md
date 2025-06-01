@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+- No unreleased changes.
+
+## [1.2.13] - 2025-06-01
+
 ### Added
 
 - Added a test for the bookmarklet version of the library to ensure it works correctly.
