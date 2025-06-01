@@ -17,21 +17,11 @@ import hide from "./src/hide.js";
  * @description The main module for the Remarklet library.
  * @example
  * import remarklet from "@zw/remarklet";
- *
- * // Restore changes from localStorage.
  * remarklet.restore();
- *
- * // Initialize the library.
  * remarklet.activate();
- *
- * // Deactivate the library.
  * remarklet.deactivate();
- *
- * // Get the version of the library.
  * console.log(remarklet.version);
- *
- * // Configure the library.
- * remarklet.configure({
+ * remarklet.options({
  *     persist: true, // default: false.
  *     hide: true, // default: false.
  * });
@@ -90,7 +80,7 @@ remarklet.options = function (options) {
 };
 
 /**
- * Restores the persisted changes, if any. Runs before the interactive features are initialized.
+ * Restores the persisted changes, if any. Can be used before calling `remarklet.activate()`.
  * @returns {void}
  * @since 1.2.0
  */

@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Added a test for the bookmarklet version of the library to ensure it works correctly.
 
+### Changed
+
+- Corrected `remarklet.configure` as `remarklet.options` in the example description for the remarklet export.
+- Updated the documentation for the `remarklet.restore()` method to clarify its usage.
+
 ### Removed
 
 - Removed the NPM package `@rollup/plugin-json` from the project dependencies, as it is no longer needed.
