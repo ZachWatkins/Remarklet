@@ -46,7 +46,6 @@
     "devDependencies": {
         "@playwright/test": "^1.51.0",
         "@rollup/plugin-commonjs": "^28.0.3",
-        "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-node-resolve": "^16.0.1",
         "@rollup/plugin-terser": "^0.4.4",
         "@testing-library/dom": "^10.4.0",
