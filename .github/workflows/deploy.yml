@@ -30,8 +30,6 @@ jobs:
                   cache: "npm"
             - name: Install root dependencies
               run: npm install
-            - name: Generate API Docs
-              run: npm run docs:generate
             - name: Install website dependencies
               run: npm install
               working-directory: ./website
