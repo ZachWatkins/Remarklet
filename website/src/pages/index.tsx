@@ -6,6 +6,8 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import remarklet from "@zw/remarklet";
+import CodeBlock from "@theme/CodeBlock";
+import styles from "./index.module.css";
 
 remarklet.options({
     hide: true,
@@ -21,36 +23,41 @@ function deactivateRemarklet(e) {
     }
 }
 
-import styles from "./index.module.css";
-
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
-    const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
 
     useEffect(() => {
         if (!active) {
-            document.body.addEventListener("click", activateRemarklet, {
+            document.body.addEventListener("mousedown", activateRemarklet, {
                 capture: true,
             });
-            document.body.removeEventListener("click", deactivateRemarklet, {
-                capture: true,
-            });
+            document.body.removeEventListener(
+                "mousedown",
+                deactivateRemarklet,
+                {
+                    capture: true,
+                },
+            );
         } else {
-            document.body.addEventListener("click", deactivateRemarklet, {
+            document.body.addEventListener("mousedown", deactivateRemarklet, {
                 capture: true,
             });
-            document.body.removeEventListener("click", activateRemarklet, {
+            document.body.removeEventListener("mousedown", activateRemarklet, {
                 capture: true,
             });
         }
         return () => {
-            document.body.removeEventListener("click", activateRemarklet, {
+            document.body.removeEventListener("mousedown", activateRemarklet, {
                 capture: true,
             });
-            document.body.removeEventListener("click", deactivateRemarklet, {
-                capture: true,
-            });
+            document.body.removeEventListener(
+                "mousedown",
+                deactivateRemarklet,
+                {
+                    capture: true,
+                },
+            );
         };
     }, [active]);
 
@@ -58,47 +65,29 @@ function HomepageHeader() {
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
                 <h1 className="hero__title">{siteConfig.title}</h1>
-                <p className="hero__subtitle">{siteConfig.tagline}</p>
-                <div className={styles.buttons + " " + styles.gap4}>
+                <div className="flex flex-row flex-center mb-2">
+                    <div className="hero__subtitle">{siteConfig.tagline}</div>
                     <Link
                         id="activate"
                         className="button button--secondary button--lg"
-                        onClick={() => {
+                        style={{ marginLeft: 16 }}
+                        onMouseDown={() => {
                             setActive(!active);
                         }}
                     >
-                        {active ? "Deactivate" : "Activate"}
+                        {active ? "Deactivate Demo" : "Activate Demo"}
                     </Link>
-                    <div className={styles.buttonWrapper}>
-                        <div
-                            aria-hidden={!copied}
-                            className={
-                                styles.copyNotification +
-                                (copied
-                                    ? ""
-                                    : ` ${styles.copyNotificationHidden}`)
-                            }
-                        >
-                            Copied!
-                        </div>
-                        <Link
-                            className={
-                                styles.buttonWrapperButton +
-                                " button button--secondary button--lg"
-                            }
-                            onClick={() => {
-                                navigator.clipboard.writeText(
-                                    "javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();",
-                                );
-                                setCopied(true);
-                                window.setTimeout(() => {
-                                    setCopied(false);
-                                }, 1500);
-                            }}
-                        >
-                            Get the Bookmark
-                        </Link>
+                </div>
+                <div>
+                    <div className="mb-1">
+                        Just paste this into your browser's address bar:
                     </div>
+                    <CodeBlock
+                        language="html"
+                        className={styles.bookmarkletCode}
+                    >
+                        {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
+                    </CodeBlock>
                 </div>
             </div>
         </header>

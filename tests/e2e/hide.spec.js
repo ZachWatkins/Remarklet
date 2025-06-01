@@ -5,7 +5,7 @@
  * full license information.
  */
 // @ts-check
-// This file tests whether an element can be hidden by being dragged to the top right corner of the webpage and then released.
+// This file tests whether an element can be hidden by being dragged to the top right corner of the web page and then released.
 import { test, expect } from "@playwright/test";
 
 test("can hide elements", async ({ page }) => {

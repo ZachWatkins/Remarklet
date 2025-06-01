@@ -41,19 +41,21 @@ Then import the module in your JavaScript file:
 ```javascript
 import remarklet from "@zw/remarklet";
 // Optional: configure the library.
-remarklet.config({
+remarklet.options({
     persist: true, // default: false.
     hide: true, // default: false.
 });
-// Restore changes from localStorage without activating the rest of the library.
-remarklet.restore();
-// Delete all Remarklet data from localStorage (cannot be undone).
-remarklet.unstore();
-// Initialize the library.
+// Optional: use a button to deactivate the library.
+document.body.addEventListener(
+    "click",
+    function (e) {
+        if ("deactivate" === e.target.id) {
+            remarklet.deactivate();
+        }
+    },
+    { capture: true },
+);
 remarklet.activate();
-// Deactivate the library.
-remarklet.deactivate();
-// Get the version of the library.
 console.log(remarklet.version);
 ```
 
@@ -69,19 +71,22 @@ Add the following code to your HTML file:
 ```html
 <script src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js"></script>
 <script>
-    // Configure the library.
-    remarklet.config({
+    // Optional: configure the library.
+    remarklet.options({
         persist: true, // default: false.
         hide: true, // default: false.
     });
-    // Restore changes from localStorage without activating the rest of the library.
-    remarklet.restore();
-    // Delete all Remarklet data from localStorage (cannot be undone).
-    remarklet.unstore();
-    // Initialize the library.
+    // Optional: use a button to deactivate the library.
+    document.body.addEventListener(
+        "click",
+        function (e) {
+            if ("deactivate" === e.target.id) {
+                remarklet.deactivate();
+            }
+        },
+        { capture: true },
+    );
     remarklet.activate();
-    // Deactivate the library.
-    remarklet.deactivate();
     // Get the version of the library.
     console.log(remarklet.version);
 </script>
@@ -89,42 +94,23 @@ Add the following code to your HTML file:
 
 ## Bookmarklet
 
-To run Remarklet in any webpage, visit the webpage and then paste this into your browser's address bar:
+To run Remarklet in any web page, visit the web page and then paste this into your browser's address bar:
 
 ```
 javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.activate()}})();
 ```
 
-You can use any public methods. For example, this version persists changes and allows elements to be hidden:
+You can use any public methods. For example, this configuration persists changes and allows elements to be hidden:
 
 ```
 javascript:(function(){const script=document.createElement("script");script.src="https://unpkg.com/@zw/remarklet/dist/remarklet.min.js";document.head.appendChild(script);script.onload=()=>{remarklet.options({persist:true,hide:true});remarklet.activate()}})();
 ```
 
-You can save this as a custom bookmark in your browser, so you can activate the library on any webpage just by clicking the bookmark.
-
-## API
-
-### Methods
-
-| Name                         | Type                                                | Description                                                               | Since |
-| ---------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ----- |
-| `remarklet.activate()`       | function(): void                                    | Activates the Remarklet library, initializing all necessary components.   | 1.0.0 |
-| `remarklet.deactivate()`     | function(): void                                    | Deactivates the Remarklet library, cleaning up resources/event listeners. | 1.0.0 |
-| `remarklet.config(options)`  | function({ persist: boolean, hide: boolean }): void | Configures the library's features.                                        | 1.3.0 |
-| `remarklet.restore()`        | function(): void                                    | Restores the persisted changes, if any.                                   | 1.2.0 |
-| `remarklet.unstore()`        | function(): void                                    | Deletes all Remarklet data from localStorage.                             | 1.3.0 |
-| `remarklet.options(options)` | function({ persist: boolean, hide: boolean }): void | Deprecated alias of `remarklet.config`. Will be removed in 2.0.0.         | 1.1.0 |
-
-### Properties
-
-| Name                | Type   | Description                                                  | Since |
-| ------------------- | ------ | ------------------------------------------------------------ | ----- |
-| `remarklet.version` | string | Get the current version of the Remarklet library. Read-only. | 1.0.2 |
+You can save this as a custom bookmark in your browser, so you can activate the library on any web page just by clicking the bookmark.
 
 ## Contributing
 
-Interested in contributing? Check out the [CONTRIBUTING.md](https://github.com/zachwatkins/remarklet/blob/main/CONTRIBUTING.md) file for guidelines.
+Interested in contributing? Check out the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
 
 If you would like to participate in discussions, you can post in the [GitHub Discussions](https://github.com/ZachWatkins/Remarklet/discussions) section of the repository.
 

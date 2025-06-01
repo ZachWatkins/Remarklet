@@ -4,7 +4,7 @@
  */
 
 .heroBanner {
-    padding: 4rem 0;
+    padding: 3rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -59,4 +59,12 @@
 .buttonWrapper {
     position: relative;
     display: inline-block;
+}
+
+.bookmarkletCode {
+    max-width: 500px;
+    white-space: pre-wrap;
+    text-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
 }
