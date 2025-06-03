@@ -13,43 +13,33 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  * Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-    docsSidebar: [
+    "v1.2.x": [
         {
             type: "doc",
-            id: "intro", // Link to intro.md (or the first doc)
+            id: "1.2.x/index",
             label: "Introduction",
         },
         {
             type: "doc",
-            id: "install",
+            id: "1.2.x/install",
             label: "Installation",
         },
         {
             type: "doc",
-            id: "bookmarklet",
+            id: "1.2.x/bookmarklet",
             label: "Bookmarklet",
         },
         {
             type: "doc",
-            id: "changelog",
-            label: "Changelog",
-        },
-        {
-            type: "link",
-            href: "contributing",
-            label: "Contributing",
-        },
-        {
-            type: "doc",
-            id: "report-an-issue",
-            label: "Report an Issue",
+            id: "1.2.x/api",
+            label: "Client API",
         },
     ],
-    apiSidebar: [
+    docsSidebar: [
         {
             type: "doc",
-            id: "api",
-            label: "Client API",
+            id: "changelog",
+            label: "Changelog",
         },
     ],
     communitySidebar: [

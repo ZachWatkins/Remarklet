@@ -44,15 +44,9 @@ const config: Config = {
             items: [
                 {
                     type: "docSidebar",
-                    sidebarId: "docsSidebar",
+                    sidebarId: "v1.2.x",
                     position: "left",
-                    label: "Docs",
-                },
-                {
-                    type: "docSidebar",
-                    sidebarId: "apiSidebar",
-                    position: "left",
-                    label: "API",
+                    label: "Documentation",
                 },
                 {
                     type: "docSidebar",
@@ -78,36 +72,27 @@ const config: Config = {
             style: "dark",
             links: [
                 {
-                    title: "Docs",
+                    title: "Documentation",
                     items: [
                         {
                             label: "Introduction",
-                            to: "/docs/intro",
+                            to: "/docs/1.2.x/",
                         },
                         {
                             label: "Installation",
-                            to: "/docs/install",
+                            to: "/docs/1.2.x/install",
                         },
                         {
                             label: "Bookmarklet",
-                            to: "/docs/bookmarklet",
+                            to: "/docs/1.2.x/bookmarklet",
                         },
-                        {
-                            label: "Contributing",
-                            to: "/docs/contributing",
-                        },
-                        {
-                            label: "Report an Issue",
-                            to: "/docs/report-an-issue",
-                        },
-                    ],
-                },
-                {
-                    title: "API",
-                    items: [
                         {
                             label: "API Reference",
-                            to: "/docs/api",
+                            to: "/docs/1.2.x/api",
+                        },
+                        {
+                            label: "Changelog",
+                            to: "docs/changelog",
                         },
                     ],
                 },
@@ -125,10 +110,6 @@ const config: Config = {
                         {
                             label: "Code of Conduct",
                             to: "docs/code-of-conduct",
-                        },
-                        {
-                            label: "Changelog",
-                            to: "docs/changelog",
                         },
                         {
                             label: "Report an Issue",
