@@ -7,6 +7,65 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.13] - 2025-06-01
+
+### Added
+
+- Added a test for the bookmarklet version of the library to ensure it works correctly.
+
+### Changed
+
+- Corrected `remarklet.configure` as `remarklet.options` in the example description for the remarklet export.
+- Updated the documentation for the `remarklet.restore()` method to clarify its usage.
+
+### Removed
+
+- Removed the NPM package `@rollup/plugin-json` from the project dependencies, as it is no longer needed.
+
+## [1.2.12] - 2025-05-26
+
+### Fixed
+
+- Fixed TypeScript feature by ensuring the type definitions are included in the published NPM module files.
+
+## [1.2.11] - 2025-05-25
+
+### Added
+
+- Added TypeScript type definitions for the library to improve developer experience and enable better type checking in TypeScript projects.
+
+## [1.2.10] - 2025-05-24
+
+### Fixed
+
+- Reduced the frequency of the console error emitted by the library when `remarklet.options` is called more than once. Now, the error is only emitted once per page load. This is to prevent excessive console noise when the library is used in a development environment.
+
+## [1.2.8] - 2025-05-22
+
+### Fixed
+
+- Fixed an issue with the library where deactivating it did nothing. The library's features should be suppressed upon deactivation.
+
+### Changed
+
+- Updated Rollup from v4.40.2 to v4.41.0.
+
+## [1.2.7] - 2025-05-21
+
+### Fixed
+
+- Fixed an issue with bundlers preventing the library from being built due to the HTMLElement class not being defined during build time.
+
+## [1.2.6] - 2025-05-17
+
+### Added
+
+- Added the documentation website to the v1.2 branch for testing the library on it.
+
+### Fixed
+
+- Fixed an issue on some websites where the hide zone would show but then hide immediately, even when an element was still being dragged.
+
 ## [1.2.5] - 2025-05-08
 
 ### Fixed
@@ -101,7 +160,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own web page from the CDN.
+- Reorganized the installation instructions in README.md to clarify the difference between using the library as a module, a bookmarklet, and using it in your own webpage from the CDN.
 - Moved source code specific to CSS transforms from drag.js to utils/cssTransforms.js.
 
 ### Removed
