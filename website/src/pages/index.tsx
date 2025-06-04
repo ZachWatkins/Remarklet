@@ -80,7 +80,8 @@ function HomepageHeader() {
                 </div>
                 <div>
                     <div className="mb-1">
-                        Just paste this into your browser's address bar:
+                        Just run this in your browser's address bar (and
+                        double-check that "javascript:" is at the start):
                     </div>
                     <CodeBlock
                         language="html"
