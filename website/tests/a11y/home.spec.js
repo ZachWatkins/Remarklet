@@ -9,7 +9,7 @@ test("accessibility test for home page", async ({ page }) => {
         .analyze();
     if (accessibilityScanResults.violations.length > 0) {
         const testDetails = {
-            page: path,
+            page: "/",
             date: new Date().toISOString(),
             violations: accessibilityScanResults.violations,
         };
