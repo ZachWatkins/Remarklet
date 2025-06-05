@@ -80,21 +80,7 @@ function HomepageHeader() {
                 </div>
                 <div>
                     <div className="mb-1">
-                        Just copy this link to your bookmarks and then click to
-                        activate it:{" "}
-                        <a
-                            style={{
-                                color: "#FFF",
-                                textDecoration: "underline",
-                                fontWeight: "bold",
-                            }}
-                            href="javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();"
-                        >
-                            Remarklet
-                        </a>
-                    </div>
-                    <div className="mb-1">
-                        Or run this in your browser's address bar (and
+                        Just run this in your browser's address bar (and
                         double-check that "javascript:" is at the start):
                     </div>
                     <CodeBlock
@@ -104,15 +90,17 @@ function HomepageHeader() {
                         {`javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                     <div style={{ marginTop: "-12px" }}>
+                        Or save it as a bookmark URL and then click to
+                        activate it. Example:{" "}
                         <a
                             style={{
                                 color: "#FFF",
                                 textDecoration: "underline",
                                 fontWeight: "bold",
                             }}
-                            href="/docs/1.2.x/bookmarklet"
+                            href="javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();"
                         >
-                            Read more about bookmarklets here.
+                            Remarklet
                         </a>
                         .
                     </div>
@@ -136,24 +124,26 @@ export default function Home(): ReactNode {
                     <div className="row">
                         <div className="col">
                             <p className="padding-horiz--md">
-                                Remarklet is the fastest way for product managers and
-                                UI/UX designers to communicate and test ideas directly
-                                on live web pages - without waiting on dev cycles or
-                                digging into code. Whether you're suggesting a new
-                                layout, tweaking copy for clarity, or reviewing a user
-                                flow, Remarklet lets you visually edit, rearrange, and
-                                annotate any website in seconds. It’s perfect for
-                                stakeholder reviews, prototyping in context, and
-                                bridging the gap between vision and implementation.
+                                Remarklet is the fastest way for product
+                                managers and UI/UX designers to communicate and
+                                test ideas directly on live web pages - without
+                                waiting on dev cycles or digging into code.
+                                Whether you're suggesting a new layout, tweaking
+                                copy for clarity, or reviewing a user flow,
+                                Remarklet lets you visually edit, rearrange, and
+                                annotate any website in seconds. It’s perfect
+                                for stakeholder reviews, prototyping in context,
+                                and bridging the gap between vision and
+                                implementation.
                             </p>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col">
                             <p className="padding-horiz--md">
-                                It was created by a web developer with an art degree to
-                                be the easiest way to mock up changes to your existing
-                                website.
+                                It was created by a web developer with an art
+                                degree to be the easiest way to mock up changes
+                                to your existing website.
                             </p>
                         </div>
                     </div>
