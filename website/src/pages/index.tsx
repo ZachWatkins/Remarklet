@@ -132,6 +132,12 @@ export default function Home(): ReactNode {
             <HomepageHeader />
             <main>
                 <HomepageFeatures />
+                <p>
+                    Remarklet is the fastest way for product managers and UI/UX designers to communicate and test ideas directly on live web pages—without waiting on dev cycles or digging into code. Whether you're suggesting a new layout, tweaking copy for clarity, or reviewing a user flow, Remarklet lets you visually edit, rearrange, and annotate any website in seconds. It’s perfect for stakeholder reviews, prototyping in context, and bridging the gap between vision and implementation.
+                </p>
+                <p>
+                    It was created by a web developer with an art degree to be the easiest way to mock up changes to your existing website.
+                </p>
             </main>
         </Layout>
     );
