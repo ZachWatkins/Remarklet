@@ -80,28 +80,41 @@ function HomepageHeader() {
                 </div>
                 <div>
                     <div className="mb-1">
-                        Just run this in your browser's address bar (and
+                        Just copy this link to your bookmarks and then click to
+                        activate it:{" "}
+                        <a
+                            style={{
+                                color: "#FFF",
+                                textDecoration: "underline",
+                                fontWeight: "bold",
+                            }}
+                            href="javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();"
+                        >
+                            Remarklet
+                        </a>
+                    </div>
+                    <div className="mb-1">
+                        Or run this in your browser's address bar (and
                         double-check that "javascript:" is at the start):
                     </div>
                     <CodeBlock
                         language="html"
                         className={styles.bookmarkletCode}
                     >
-                        {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
+                        {`javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                     <div style={{ marginTop: "-12px" }}>
-                    When you add this code to a bookmark, it's called a{" "}
-                    <a
-                        style={{
-                            color: "#FFF",
-                            textDecoration: "underline",
-                            fontWeight: "bold",
-                        }}
-                        href="/docs/1.2.x/bookmarklet"
-                    >
-                        bookmarklet
-                    </a>
-                    .
+                        <a
+                            style={{
+                                color: "#FFF",
+                                textDecoration: "underline",
+                                fontWeight: "bold",
+                            }}
+                            href="/docs/1.2.x/bookmarklet"
+                        >
+                            Read more about bookmarklets here.
+                        </a>
+                        .
                     </div>
                 </div>
             </div>
