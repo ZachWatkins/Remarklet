@@ -87,21 +87,22 @@ function HomepageHeader() {
                         language="html"
                         className={styles.bookmarkletCode}
                     >
-                        {`javascript:(function(){const script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
+                        {`javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                     <div style={{ marginTop: "-12px" }}>
-                    When you add this code to a bookmark, it's called a{" "}
-                    <a
-                        style={{
-                            color: "#FFF",
-                            textDecoration: "underline",
-                            fontWeight: "bold",
-                        }}
-                        href="/docs/1.2.x/bookmarklet"
-                    >
-                        bookmarklet
-                    </a>
-                    .
+                        Or save it as a bookmark URL and then click to
+                        activate it. Example:{" "}
+                        <a
+                            style={{
+                                color: "#FFF",
+                                textDecoration: "underline",
+                                fontWeight: "bold",
+                            }}
+                            href="javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();"
+                        >
+                            Remarklet
+                        </a>
+                        .
                     </div>
                 </div>
             </div>
@@ -119,12 +120,34 @@ export default function Home(): ReactNode {
             <HomepageHeader />
             <main>
                 <HomepageFeatures />
-                <p>
-                    Remarklet is the fastest way for product managers and UI/UX designers to communicate and test ideas directly on live web pages—without waiting on dev cycles or digging into code. Whether you're suggesting a new layout, tweaking copy for clarity, or reviewing a user flow, Remarklet lets you visually edit, rearrange, and annotate any website in seconds. It’s perfect for stakeholder reviews, prototyping in context, and bridging the gap between vision and implementation.
-                </p>
-                <p>
-                    It was created by a web developer with an art degree to be the easiest way to mock up changes to your existing website.
-                </p>
+                <section className="container">
+                    <div className="row">
+                        <div className="col">
+                            <p className="padding-horiz--md">
+                                Remarklet is the fastest way for product
+                                managers and UI/UX designers to communicate and
+                                test ideas directly on live web pages - without
+                                waiting on dev cycles or digging into code.
+                                Whether you're suggesting a new layout, tweaking
+                                copy for clarity, or reviewing a user flow,
+                                Remarklet lets you visually edit, rearrange, and
+                                annotate any website in seconds. It’s perfect
+                                for stakeholder reviews, prototyping in context,
+                                and bridging the gap between vision and
+                                implementation.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <p className="padding-horiz--md">
+                                It was created by a web developer with an art
+                                degree to be the easiest way to mock up changes
+                                to your existing website.
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </main>
         </Layout>
     );
