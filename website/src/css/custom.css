@@ -83,19 +83,55 @@ footer a {
     flex-direction: row;
 }
 
-.mb-2 {
-    margin-bottom: 1rem;
+.flex-column {
+    flex-direction: column;
 }
 
 .mb-1 {
     margin-bottom: 0.5rem;
 }
 
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
 .mb-4 {
     margin-bottom: 2rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
 }
 
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
+}
+
+@media (min-width: 640px) {
+    .sm\:flex {
+        display: flex;
+    }
+    .sm\:flex-center {
+        justify-items: center;
+        justify-content: center;
+        align-items: center;
+    }
+    .sm\:flex-row {
+        flex-direction: row;
+    }
+    .sm\:ml-2 {
+        margin-left: 1rem;
+    }
+    .sm\:mt-0 {
+        margin-top: 0;
+    }
 }

@@ -65,12 +65,11 @@ function HomepageHeader() {
         <header className={clsx("hero hero--primary", styles.heroBanner)}>
             <div className="container">
                 <h1 className="hero__title mx-auto">{siteConfig.title}</h1>
-                <div className="flex flex-row flex-center mb-2">
+                <div className="flex flex-column sm:flex-row flex-center mb-2">
                     <div className="hero__subtitle">{siteConfig.tagline}</div>
                     <Link
                         id="activate"
-                        className="button button--secondary button--lg"
-                        style={{ marginLeft: 16 }}
+                        className="sm:ml-2 mt-2 sm:mt-0 button button--secondary button--lg"
                         onMouseDown={() => {
                             setActive(!active);
                         }}
