@@ -15,6 +15,12 @@ export default function main() {
     state.subscribe("target", (target, oldTarget) => {
         if (!state.get("active")) {
             cleanupEditableElement(currentEditableElement);
+            // TODO: make this only target elements whose contenteditable attribute was set by this library and changed from an initial value of undefined/false (i.e. not set on the element when the library was loaded).
+            // For now we unset all elements' contenteditable attribute.
+            const elements = document.querySelectorAll("[contenteditable]");
+            elements.forEach((element) => {
+                element.removeAttribute("contenteditable");
+            });
             currentEditableElement = null;
             preventEvents.off();
             return;
@@ -101,7 +107,6 @@ function cleanupEditableElement(element) {
     if (!element) {
         return;
     }
-    element.removeAttribute("contenteditable");
     element.removeEventListener("input", handleInput);
     element.removeEventListener("focus", handleFocus);
     element.removeEventListener("blur", handleBlur);
