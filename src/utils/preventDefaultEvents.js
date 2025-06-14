@@ -6,6 +6,7 @@
 export default function preventDefaultEvents(events) {
     this.preventing = {};
     this.events = [...events];
+    this.isOn = false;
 
     this.preventDefaultEvent = function (event) {
         event.preventDefault();
@@ -18,6 +19,10 @@ export default function preventDefaultEvents(events) {
      * @return {void}
      */
     this.on = function () {
+        if (this.isOn) {
+            return;
+        }
+        this.isOn = true;
         for (let i = 0; i < this.events.length; i++) {
             if (!this.preventing[this.events[i]]) {
                 this.preventing[this.events[i]] = true;
@@ -37,6 +42,10 @@ export default function preventDefaultEvents(events) {
      * @return {void}
      */
     this.off = function () {
+        if (!this.isOn) {
+            return;
+        }
+        this.isOn = false;
         for (let i = 0; i < this.events.length; i++) {
             if (this.preventing[this.events[i]]) {
                 this.preventing[this.events[i]] = false;
