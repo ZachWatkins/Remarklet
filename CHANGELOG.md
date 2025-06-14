@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - No unreleased changes.
 
+## [1.2.14] - 2025-06-14
+
+### Fixed
+
+- Fixed an issue where moving the mouse cursor away from an element during text editing would remove the contenteditable attribute. Elements now maintain their editable state until the user presses Escape or focuses on a different element.
+
 ## [1.2.13] - 2025-06-01
 
 ### Added
