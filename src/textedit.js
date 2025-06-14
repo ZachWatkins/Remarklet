@@ -2,8 +2,18 @@ import state from "./state.js";
 import changeMap from "./changeMap.js";
 import preventDefaultEvents from "./utils/preventDefaultEvents.js";
 
-let currentEditableElement = null;
 let preventEvents = null;
+const enabledModes = { editing: true, textediting: true };
+/**
+ * The active edit target. Changes on focus.
+ * @type {HTMLElement|null}
+ */
+let editTarget = null;
+/**
+ * The next edit target. Changes on target change.
+ * @type {HTMLElement|null}
+ */
+let nextEditTarget = null;
 
 /**
  * Initialize text editing functionality for the library.
@@ -12,26 +22,36 @@ let preventEvents = null;
 export default function main() {
     preventEvents = new preventDefaultEvents(["click"]);
 
+    // Target changes on mouse enter.
     state.subscribe("target", (target, oldTarget) => {
-        if (!state.get("active")) {
-            cleanupEditableElement(currentEditableElement);
-            currentEditableElement = null;
-            preventEvents.off();
-            return;
-        }
-        const mode = state.get("mode");
-        if (mode === "editing" || mode === "textediting") {
-            cleanupEditableElement(currentEditableElement);
-            currentEditableElement = null;
-            preventEvents.off();
+        if (state.get("active") && enabledModes[state.get("mode")]) {
             if (target) {
-                currentEditableElement = target;
-                setupEditableElement(currentEditableElement);
-                preventEvents.on();
+                if (!preventEvents.isOn) {
+                    preventEvents.on();
+                }
+                if (nextEditTarget) {
+                    removeEvents(nextEditTarget);
+                    nextEditTarget.removeAttribute("contenteditable");
+                }
+                nextEditTarget = target;
+                addEvents(nextEditTarget);
+                nextEditTarget.setAttribute("contenteditable", "true");
+            } else if (nextEditTarget) {
+                removeEvents(nextEditTarget);
+                nextEditTarget.removeAttribute("contenteditable");
+                nextEditTarget = null;
             }
         } else {
-            cleanupEditableElement(currentEditableElement);
-            currentEditableElement = null;
+            if (editTarget) {
+                removeEvents(editTarget);
+                editTarget.removeAttribute("contenteditable");
+                editTarget = null;
+            }
+            if (nextEditTarget) {
+                removeEvents(nextEditTarget);
+                nextEditTarget.removeAttribute("contenteditable");
+                nextEditTarget = null;
+            }
             preventEvents.off();
         }
     });
@@ -71,6 +91,16 @@ function handleInput(event) {
  */
 function handleFocus(event) {
     state.set("mode", "textediting");
+    if (event.target !== editTarget) {
+        if (editTarget) {
+            removeEvents(editTarget);
+            editTarget.removeAttribute("contenteditable");
+        }
+        editTarget = event.target;
+        if (nextEditTarget) {
+            nextEditTarget = null;
+        }
+    }
 }
 
 /**
@@ -82,14 +112,50 @@ function handleBlur(event) {
     state.set("mode", "editing");
 }
 
-function setupEditableElement(element) {
+/**
+ * Handle keydown events on contenteditable elements
+ * @param {Event} event - The keydown event object
+ * @returns {void}
+ */
+function handleKeydown(event) {
+    if (event.key === "Escape" && editTarget === event.target) {
+        event.preventDefault();
+        event.stopPropagation();
+        editTarget.removeAttribute("contenteditable");
+        state.set("mode", "editing");
+    }
+}
+
+/**
+ * Handle mousedown events to set the contenteditable attribute.
+ * @param {Event} event - The mousedown event object
+ * @returns {void}
+ */
+function handleMousedown(event) {
+    const target = event.target;
+    if (
+        target &&
+        target instanceof HTMLElement &&
+        !target.hasAttribute("contenteditable")
+    ) {
+        target.setAttribute("contenteditable", "true");
+    }
+}
+
+/**
+ * Attach contenteditable attribute and event handlers to an element.
+ * @param {Element|null} element - The element to attach events to
+ * @returns {void}
+ */
+function addEvents(element) {
     if (!element) {
         return;
     }
-    element.setAttribute("contenteditable", "true");
     element.addEventListener("input", handleInput);
     element.addEventListener("focus", handleFocus);
     element.addEventListener("blur", handleBlur);
+    element.addEventListener("keydown", handleKeydown);
+    element.addEventListener("mousedown", handleMousedown);
 }
 
 /**
@@ -97,12 +163,13 @@ function setupEditableElement(element) {
  * @param {Element|null} element - The element to clean up
  * @returns {void}
  */
-function cleanupEditableElement(element) {
+function removeEvents(element) {
     if (!element) {
         return;
     }
-    element.removeAttribute("contenteditable");
     element.removeEventListener("input", handleInput);
     element.removeEventListener("focus", handleFocus);
     element.removeEventListener("blur", handleBlur);
+    element.removeEventListener("keydown", handleKeydown);
+    element.removeEventListener("mousedown", handleMousedown);
 }
