@@ -39,7 +39,10 @@ export default function main() {
  * @param {MouseEvent} event The mouseenter event
  */
 function handleMouseEnter(event) {
-    if (event.target === document.documentElement || event.target === document.body) {
+    if (
+        event.target === document.documentElement ||
+        event.target === document.body
+    ) {
         return;
     }
     event.stopPropagation();
@@ -54,7 +57,10 @@ function handleMouseEnter(event) {
  * @param {MouseEvent} event The mouseleave event
  */
 function handleMouseLeave(event) {
-    if (event.target === document.documentElement || event.target === document.body) {
+    if (
+        event.target === document.documentElement ||
+        event.target === document.body
+    ) {
         return;
     }
     event.stopPropagation();

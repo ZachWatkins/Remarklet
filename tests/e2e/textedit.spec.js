@@ -107,7 +107,10 @@ test("contenteditable attribute should remain when mouse cursor moves away from 
     expect(isFocusedAfterEscape).toBe(true);
 
     // Move the mouse cursor back to the middle of the button.
-    await page.mouse.move(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
+    await page.mouse.move(
+        boundingBox.x + boundingBox.width / 2,
+        boundingBox.y + boundingBox.height / 2,
+    );
 
     // Verify the contenteditable attribute is present again.
     const isContentEditableAfterMouseReturn = await button.evaluate(
