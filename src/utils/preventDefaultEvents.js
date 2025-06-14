@@ -16,7 +16,8 @@ export default function preventDefaultEvents(events) {
 
     /**
      * Prevents default events for the specified actions.
-     * @return {void}
+     * @type {function}
+     * @returns {void}
      */
     this.on = function () {
         if (this.isOn) {
@@ -39,7 +40,8 @@ export default function preventDefaultEvents(events) {
 
     /**
      * Stops preventing default events for the specified actions.
-     * @return {void}
+     * @type {function}
+     * @returns {void}
      */
     this.off = function () {
         if (!this.isOn) {
