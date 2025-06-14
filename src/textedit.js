@@ -92,8 +92,10 @@ function handleInput(event) {
 function handleFocus(event) {
     state.set("mode", "textediting");
     if (event.target !== editTarget) {
-        removeEvents(editTarget);
-        editTarget.removeAttribute("contenteditable");
+        if (editTarget) {
+            removeEvents(editTarget);
+            editTarget.removeAttribute("contenteditable");
+        }
         editTarget = event.target;
         if (nextEditTarget) {
             nextEditTarget = null;
