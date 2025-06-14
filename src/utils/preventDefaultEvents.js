@@ -4,10 +4,33 @@
  *  license information.
  *---------------------------------------------------------------------------*/
 export default function preventDefaultEvents(events) {
+    /**
+     * An object to track which events are currently being prevented.
+     * @type {Object.<string, boolean>}
+     * @default {}
+     */
     this.preventing = {};
+
+    /**
+     * An array of event types to prevent.
+     * @type {Array<string>}
+     * @default []
+     */
     this.events = [...events];
+
+    /**
+     * Indicates whether the default event prevention is currently active.
+     * @type {boolean}
+     * @default false
+     */
     this.isOn = false;
 
+    /**
+     * Prevents the default action of an event and stops its propagation.
+     * @type {function}
+     * @param {Event} event - The event to prevent.
+     * @returns {void}
+     */
     this.preventDefaultEvent = function (event) {
         event.preventDefault();
         event.stopPropagation();
