@@ -130,10 +130,10 @@ remarklet.deactivate = function () {
 
 /**
  * Get the version number of the Remarklet library in use.
- * @type {"1.2.13"}
+ * @type {"1.2.14"}
  * @readonly
  * @since 1.0.2
  */
-remarklet.version = "1.2.13";
+remarklet.version = "1.2.14";
 
 export default remarklet;
