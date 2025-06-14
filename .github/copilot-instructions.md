@@ -4,6 +4,10 @@
 
 These are Remarklet coding guidelines.
 
+The repository is located at https://github.com/zachwatkins/remarklet.
+
+Issues are listed at https://github.com/ZachWatkins/Remarklet/issues/. Example: https://github.com/ZachWatkins/Remarklet/issues/1
+
 ## Source Code Organization
 
 The source code is organized for a JavaScript library.
