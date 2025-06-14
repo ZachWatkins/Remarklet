@@ -121,18 +121,24 @@ function handleKeydown(event) {
     if (event.key === "Escape" && editTarget === event.target) {
         event.preventDefault();
         event.stopPropagation();
-
-        // Remove contenteditable attribute but keep focus
         editTarget.removeAttribute("contenteditable");
-
-        // Remove event listeners from the current edit target
-        removeEvents(editTarget);
-
-        // Reset edit target
-        editTarget = null;
-
-        // Switch back to editing mode
         state.set("mode", "editing");
+    }
+}
+
+/**
+ * Handle mousedown events to set the contenteditable attribute.
+ * @param {Event} event - The mousedown event object
+ * @returns {void}
+ */
+function handleMousedown(event) {
+    const target = event.target;
+    if (
+        target &&
+        target instanceof HTMLElement &&
+        !target.hasAttribute("contenteditable")
+    ) {
+        target.setAttribute("contenteditable", "true");
     }
 }
 
@@ -149,6 +155,7 @@ function addEvents(element) {
     element.addEventListener("focus", handleFocus);
     element.addEventListener("blur", handleBlur);
     element.addEventListener("keydown", handleKeydown);
+    element.addEventListener("mousedown", handleMousedown);
 }
 
 /**
@@ -164,4 +171,5 @@ function removeEvents(element) {
     element.removeEventListener("focus", handleFocus);
     element.removeEventListener("blur", handleBlur);
     element.removeEventListener("keydown", handleKeydown);
+    element.removeEventListener("mousedown", handleMousedown);
 }
