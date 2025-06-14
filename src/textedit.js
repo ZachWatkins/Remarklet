@@ -113,6 +113,30 @@ function handleBlur(event) {
 }
 
 /**
+ * Handle keydown events on contenteditable elements
+ * @param {Event} event - The keydown event object
+ * @returns {void}
+ */
+function handleKeydown(event) {
+    if (event.key === "Escape" && editTarget === event.target) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Remove contenteditable attribute but keep focus
+        editTarget.removeAttribute("contenteditable");
+
+        // Remove event listeners from the current edit target
+        removeEvents(editTarget);
+
+        // Reset edit target
+        editTarget = null;
+
+        // Switch back to editing mode
+        state.set("mode", "editing");
+    }
+}
+
+/**
  * Attach contenteditable attribute and event handlers to an element.
  * @param {Element|null} element - The element to attach events to
  * @returns {void}
@@ -124,6 +148,7 @@ function addEvents(element) {
     element.addEventListener("input", handleInput);
     element.addEventListener("focus", handleFocus);
     element.addEventListener("blur", handleBlur);
+    element.addEventListener("keydown", handleKeydown);
 }
 
 /**
@@ -138,4 +163,5 @@ function removeEvents(element) {
     element.removeEventListener("input", handleInput);
     element.removeEventListener("focus", handleFocus);
     element.removeEventListener("blur", handleBlur);
+    element.removeEventListener("keydown", handleKeydown);
 }
