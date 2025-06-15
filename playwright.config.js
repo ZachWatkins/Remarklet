@@ -7,41 +7,6 @@ import { defineConfig, devices } from "@playwright/test";
  */
 // require('dotenv').config();
 
-const projects = [
-    {
-        name: "chromium",
-        use: { ...devices["Desktop Chrome"] },
-    },
-];
-
-if (!process.env.CI) {
-    projects.push({
-        name: "firefox",
-        use: { ...devices["Desktop Firefox"] },
-    });
-    projects.push({
-        name: "webkit",
-        use: { ...devices["Desktop Safari"] },
-    });
-    projects.push({
-        name: "Microsoft Edge",
-        use: { ...devices["Desktop Edge"], channel: "msedge" },
-    });
-    projects.push({
-        name: "Google Chrome",
-        use: { ...devices["Desktop Chrome"], channel: "chrome" },
-    });
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-}
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -57,6 +22,13 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: "html",
+    /* Each test is given 30 seconds. */
+    timeout: 30000,
+    /* Configuration for the expect assertion library. */
+    expect: {
+        /* Maximum time expect() should wait for the condition to be met. */
+        timeout: 6000,
+    },
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
@@ -70,7 +42,46 @@ export default defineConfig({
     },
 
     /* Configure projects for major browsers */
-    projects,
+    projects: [
+        {
+            name: "setup",
+            testMatch: /global\.setup\.js/,
+        },
+        {
+            name: "chromium",
+            use: { ...devices["Desktop Chrome"] },
+            dependencies: ["setup"],
+        },
+        {
+            name: "firefox",
+            use: { ...devices["Desktop Firefox"] },
+            dependencies: ["setup"],
+        },
+        {
+            name: "webkit",
+            use: { ...devices["Desktop Safari"] },
+            dependencies: ["setup"],
+        },
+        {
+            name: "Microsoft Edge",
+            use: { ...devices["Desktop Edge"] },
+            dependencies: ["setup"],
+        },
+        {
+            name: "Google Chrome",
+            use: { ...devices["Desktop Chrome"] },
+            dependencies: ["setup"],
+        },
+        /* Test against mobile viewports. */
+        // {
+        //   name: 'Mobile Chrome',
+        //   use: { ...devices['Pixel 5'] },
+        // },
+        // {
+        //   name: 'Mobile Safari',
+        //   use: { ...devices['iPhone 12'] },
+        // },
+    ],
 
     /* Run your local dev server before starting the tests */
     webServer: {
