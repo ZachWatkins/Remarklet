@@ -4,7 +4,6 @@
  * @copyright 2014-2025 Zachary Kendall Watkins, All Rights Reserved
  * @license MIT
  */
-import pkg from "./package.json" with { type: "json" };
 import state from "./src/state.js";
 import drag from "./src/drag.js";
 import target from "./src/target.js";
@@ -84,8 +83,8 @@ remarklet.deactivate = function () {
  * Get the current version of the Remarklet library.
  * @example
  * remarklet.version;
- * // "1.1.2"
+ * // "1.1.3"
  */
-remarklet.version = pkg.version;
+remarklet.version = "1.1.3";
 
 export default remarklet;
