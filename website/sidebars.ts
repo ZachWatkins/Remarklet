@@ -31,6 +31,11 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
+            id: "1.2.x/text-editing",
+            label: "Text Editing",
+        },
+        {
+            type: "doc",
             id: "1.2.x/api",
             label: "Client API",
         },
