@@ -114,7 +114,7 @@ export default function Home(): ReactNode {
     return (
         <Layout
             title="Edit any web page"
-            description="Description will go into a meta tag in <head />"
+            description="The fastest way for product managers and UI/UX designers to communicate and test ideas directly on live web pages - without waiting on dev cycles or digging into code. Visually edit, rearrange, and annotate any website in seconds."
         >
             <HomepageHeader />
             <main>
