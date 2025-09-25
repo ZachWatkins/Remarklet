@@ -89,8 +89,8 @@ function HomepageHeader() {
                         {`javascript:(function(){let script=document.createElement('script');script.src='https://unpkg.com/@zw/remarklet/dist/remarklet.min.js';document.head.appendChild(script);script.onload=()=>{remarklet.options({hide:true});remarklet.activate()}})();`}
                     </CodeBlock>
                     <div style={{ marginTop: "-12px" }}>
-                        Or save it as a bookmark URL and then click to
-                        activate it. Example:{" "}
+                        Or save it as a bookmark URL and then click to activate
+                        it. Example:{" "}
                         <a
                             style={{
                                 color: "#FFF",
